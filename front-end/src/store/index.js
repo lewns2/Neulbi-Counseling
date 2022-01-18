@@ -1,10 +1,6 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-import createPersistedState from 'vuex-persistedstate'
+import { createStore } from 'vuex'
 
-
-export default Vuex.Store({
-  plugin: [createPersistedState(),],
+export default createStore({
   state: {
   },
   mutations: {
