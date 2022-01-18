@@ -1,0 +1,11 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://lab.ssafy.com/s06-webmobile1-sub1/S06P11E202.git
+	fetch = +refs/*:refs/*
+	mirror = true
+	pushurl = https://lab.ssafy.com/s06-webmobile1-sub2/S06P12E202.git
