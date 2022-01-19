@@ -1,73 +1,89 @@
 <template>
-  <h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
-  <div class="container" id="container">
-    <div class="form-container sign-up-container">
-      <form action="#">
-        <h1>Create Account</h1>
-        <div class="social-container">
-          <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-          <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-        <span>or use your email for registration</span>
-        <input type="text" placeholder="Name" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button>Sign Up</button>
-      </form>
-    </div>
-    <div class="form-container sign-in-container">
-      <form action="#">
-        <h1>Sign in</h1>
-        <div class="social-container">
-          <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-          <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-        <span>or use your account</span>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <a href="#">Forgot your password?</a>
-        <button>Sign In</button>
-      </form>
-    </div>
-    <div class="overlay-container">
-      <div class="overlay">
-        <div class="overlay-panel overlay-left">
-          <h1>Welcome Back!</h1>
-          <p>To keep connected with us please login with your personal info</p>
-          <button class="ghost" id="signIn">Sign In</button>
-        </div>
-        <div class="overlay-panel overlay-right">
-          <h1>Hello, Friend!</h1>
-          <p>Enter your personal details and start journey with us</p>
-          <button class="ghost" id="signUp">Sign Up</button>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div>
+		<h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
+		<div class="container" id="container">
+			<div class="form-container sign-up-container">
+				<form :model="credentials">
+					<h1>Create Account</h1>
+					<div class="social-container">
+						<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+						<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+					</div>
+					<span>or use your email for registration</span>
+					<input type="text" placeholder="사용자 닉네임" id="username"
+						v-model="credentials.username" />
+					<input type="email" placeholder="이메일" id="email"
+						v-model="credentials.email" />
+					<input type="password" placeholder="비밀번호" id="password"
+						v-model="credentials.password" />
+					<input type="password" placeholder="비밀번호 확인" id="passwordConfirmation"
+						v-model="credentials.passwordConfirmation" />
+					<button @click="clickSignUp">Sign Up</button>
+				</form>
+			</div>
+			<div class="form-container sign-in-container">
+				<form action="#">
+					<h1>Sign in</h1>
+					<div class="social-container">
+						<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+						<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+					</div>
+					<span>or use your account</span>
+					<input type="email" placeholder="Email" />
+					<input type="password" placeholder="Password" />
+					<a href="#">Forgot your password?</a>
+					<button>Sign In</button>
+				</form>
+			</div>
+			<div class="overlay-container">
+				<div class="overlay">
+					<div class="overlay-panel overlay-left">
+						<h1>Welcome Back!</h1>
+						<p>To keep connected with us please login with your personal info</p>
+						<button class="ghost" id="signIn">Sign In</button>
+					</div>
+					<div class="overlay-panel overlay-right">
+						<h1>Hello, Friend!</h1>
+						<p>Enter your personal details and start journey with us</p>
+						<button class="ghost" id="signUp">Sign Up</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <footer>
-    <p>
-      Created with <i class="fa fa-heart"></i> by
-      <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-      - Read how I created this and how you can join the challenge
-      <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-    </p>
-  </footer>
+		<!-- <footer>
+			<p>
+				Created with <i class="fa fa-heart"></i> by
+				<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
+				- Read how I created this and how you can join the challenge
+				<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+			</p>
+		</footer> -->
+	</div>
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Login',
   setup() {
+		const credentials = reactive({
+			username: null,
+			email: null,
+			password: null,
+			passwordConfirmation: null
+		})
+
+		const store = useStore()
+
 		onMounted(() => {
 			const signUpButton = document.getElementById('signUp');
 			const signInButton = document.getElementById('signIn');
 			const container = document.getElementById('container');
-			console.log(document)
 
 			signUpButton.addEventListener('click', () => {
 				container.classList.add("right-panel-active");
@@ -77,8 +93,22 @@ export default {
 				container.classList.remove("right-panel-active");
 			});
 		})
-    
-    return { onMounted }
+
+		const clickSignUp = function () {
+			console.log(credentials)
+			store.dispatch('root/singUp', credentials)
+			.then(res => {
+				console.log('success')
+				console.log(res)
+				// 보내는데 성공하면 로그인창으로 이동
+			})
+			.catch(err => {
+				console.log('fail')
+				console.log(err)
+			})
+		}
+		    
+    return { onMounted, credentials, clickSignUp }
   }
 }
 </script>
