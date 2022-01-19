@@ -1,15 +1,15 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <p>homepage</p>
+    <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 
 export default {
   name: 'Home',
-  components: {
+  setup() {
   }
 }
 </script>
