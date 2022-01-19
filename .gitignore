@@ -166,13 +166,13 @@ fabric.properties
 # Ignores the whole .idea folder and all .iml files
 # See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
 
-/back-end/.idea/*
+.idea/*
 
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
 *.iml
 modules.xml
-/back-end/.idea/misc.xml
+.idea/misc.xml
 *.ipr
 
 # Sonarlint plugin
