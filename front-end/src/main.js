@@ -1,13 +1,20 @@
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
-// import axios from 'axios'
+import store from './common/lib/store'
+import VueAxios from './common/lib/axios'
+import axios from './common/lib/axios'
+
 
 // global styles
 import './assets/main.css'
 
+const app = createApp({
+  render: ()=>h(App)
+})
+app.use(VueAxios, axios)
+app.use(store)
+app.use(router)
 
 
-
-createApp(App).use(store).use(router).mount('#app')
+app.mount('#app')

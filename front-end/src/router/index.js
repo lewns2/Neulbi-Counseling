@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/home/Home.vue'
 import SignIn from '../views/main/components/SignIn.vue'
-import Community from '../views/community/Community.vue'
 
 const routes = [
   {
@@ -14,11 +13,6 @@ const routes = [
     name: 'Login',
     component: SignIn,
   },
-  {
-    path: '/community',
-    name: 'Community',
-    component: Community,
-  }
 ]
 
 const router = createRouter({
