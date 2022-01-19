@@ -23,7 +23,7 @@
 				</form>
 			</div>
 			<div class="form-container sign-in-container">
-				<form action="#">
+				<form :model="credentialsIn">
 					<h1>Sign in</h1>
 					<div class="social-container">
 						<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -31,10 +31,12 @@
 						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 					</div>
 					<span>or use your account</span>
-					<input type="email" placeholder="Email" />
-					<input type="password" placeholder="Password" />
+					<input type="text" placeholder="이메일" id="email"
+						v-model="credentialsIn.email" />
+					<input type="password" placeholder="비밀번호" id="password"
+						v-model="credentialsIn.password" />
 					<a href="#">Forgot your password?</a>
-					<button>Sign In</button>
+					<button @click="clickSignIn">Sign In</button>
 				</form>
 			</div>
 			<div class="overlay-container">
@@ -53,14 +55,6 @@
 			</div>
 		</div>
 
-		<!-- <footer>
-			<p>
-				Created with <i class="fa fa-heart"></i> by
-				<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-				- Read how I created this and how you can join the challenge
-				<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-			</p>
-		</footer> -->
 	</div>
 </template>
 
@@ -76,6 +70,11 @@ export default {
 			email: null,
 			password: null,
 			passwordConfirmation: null
+		})
+
+		const credentialsIn = reactive({
+			email: null,
+			password: null,
 		})
 
 		const store = useStore()
@@ -96,7 +95,7 @@ export default {
 
 		const clickSignUp = function () {
 			console.log(credentials)
-			store.dispatch('root/singUp', credentials)
+			store.dispatch('root/signUp', credentials)
 			.then(res => {
 				console.log('success')
 				console.log(res)
@@ -107,8 +106,21 @@ export default {
 				console.log(err)
 			})
 		}
+
+		const clickSignIn = function () {
+			console.log(credentialsIn)
+			store.dispatch('root/signIn', credentialsIn)
+			.then(res => {
+				console.log('success')
+				console.log(res)
+			})
+			.catch(err => {
+				console.log('fail')
+				console.log(err)
+			})
+		}
 		    
-    return { onMounted, credentials, clickSignUp }
+    return { onMounted, credentials, credentialsIn, clickSignUp, clickSignIn }
   }
 }
 </script>
