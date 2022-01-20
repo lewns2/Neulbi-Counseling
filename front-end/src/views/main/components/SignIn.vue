@@ -17,9 +17,9 @@
 						v-model="credentials.email" />
 					<input type="password" placeholder="비밀번호" id="password"
 						v-model="credentials.password" />
-					<input type="password" placeholder="비밀번호 확인" id="passwordConfirmation"
-						v-model="credentials.passwordConfirmation" />
-					<button @click="clickSignUp">Sign Up</button>
+					<!-- <input type="password" placeholder="비밀번호 확인" id="passwordConfirmation"
+						v-model="credentials.passwordConfirmation" /> -->
+					<button type="button" @click="clickSignUp">Sign Up</button>
 				</form>
 			</div>
 			<div class="form-container sign-in-container">
@@ -35,8 +35,8 @@
 						v-model="credentialsIn.email" />
 					<input type="password" placeholder="비밀번호" id="password"
 						v-model="credentialsIn.password" />
-					<a href="#">Forgot your password?</a>
-					<button @click="clickSignIn">Sign In</button>
+					<!-- <a href="#">Forgot your password?</a> -->
+					<button type="button" @click="clickSignIn">Sign In</button>
 				</form>
 			</div>
 			<div class="overlay-container">
@@ -63,13 +63,13 @@ import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  name: 'Login',
+  name: 'SignIn',
   setup() {
 		const credentials = reactive({
 			username: null,
 			email: null,
 			password: null,
-			passwordConfirmation: null
+			// passwordConfirmation: null
 		})
 
 		const credentialsIn = reactive({
@@ -79,7 +79,7 @@ export default {
 
 		const store = useStore()
 
-		onMounted(() => {
+		onMounted (() => {
 			const signUpButton = document.getElementById('signUp');
 			const signInButton = document.getElementById('signIn');
 			const container = document.getElementById('container');
@@ -111,8 +111,18 @@ export default {
 			console.log(credentialsIn)
 			store.dispatch('root/signIn', credentialsIn)
 			.then(res => {
-				console.log('success')
-				console.log(res)
+				if (res.data.accessToken) {
+					console.log('success')
+					let token = res.data.accessToken
+					store.commit("SET_IS_LOGIN", true)
+					store.commit("SET_IS_LOGIN_ERROR", false)
+					localStorage.setItem('jwt', token);
+					// $emit('login')
+				} else {
+					store.commit("SET_IS_LOGIN", false);
+          store.commit("SET_IS_LOGIN_ERROR", true);
+				}
+				return res.data
 			})
 			.catch(err => {
 				console.log('fail')
