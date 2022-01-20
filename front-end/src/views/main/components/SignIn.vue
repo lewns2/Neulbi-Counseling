@@ -112,7 +112,11 @@ export default {
 			store.dispatch('root/signIn', credentialsIn)
 			.then(res => {
 				console.log('success')
-				console.log(res)
+				if (res.data.accessToken) {
+					localStorage.setItem('jwt', JSON.stringify(res.data));
+					// $emit('login')
+				}
+				return res.data
 			})
 			.catch(err => {
 				console.log('fail')

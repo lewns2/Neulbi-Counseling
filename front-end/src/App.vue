@@ -10,6 +10,11 @@ import MainHeader from './views/main/components/MainHeader.vue'
 
 export default ({
   components: { MainHeader },
+  setup() {
+    
+
+
+  }
 })
 </script>
 
