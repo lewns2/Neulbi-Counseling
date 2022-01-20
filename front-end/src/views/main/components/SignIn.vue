@@ -63,7 +63,7 @@ import { onMounted, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  name: 'Login',
+  name: 'SignIn',
   setup() {
 		const credentials = reactive({
 			username: null,
@@ -79,7 +79,7 @@ export default {
 
 		const store = useStore()
 
-		onMounted(() => {
+		onMounted (() => {
 			const signUpButton = document.getElementById('signUp');
 			const signInButton = document.getElementById('signIn');
 			const container = document.getElementById('container');
@@ -112,7 +112,17 @@ export default {
 			store.dispatch('root/signIn', credentialsIn)
 			.then(res => {
 				console.log('success')
-				console.log(res)
+				if (res.data.accessToken) {
+					let token = res.data.accessToken
+					store.commit("SET_IS_LOGIN", true)
+					store.commit("SET_IS_LOGIN_ERROR", false)
+					localStorage.setItem('jwt', token);
+					// $emit('login')
+				} else {
+					store.commit("SET_IS_LOGIN", false);
+          store.commit("SET_IS_LOGIN_ERROR", true);
+				}
+				return res.data
 			})
 			.catch(err => {
 				console.log('fail')
