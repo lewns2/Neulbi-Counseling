@@ -18,9 +18,19 @@ public class UserRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QUser qUser = QUser.user;
 
-    public Optional<User> findUserByUserId(String userId) {
+    public Optional<User> findByEmail(String userEmail) {
+        // Querydsl
+        // JPQL과 Querydsl에서 동일한 작업(특정 회원 1명 조회)를 하는 코드이다.
+        // 두 개의 큰 차이점으로 쿼리 문법 오류를 JPQL은 실행 시점에 발견할 수 있으며, Querydsl은 컴파일 시점에 발견 가능
         User user = jpaQueryFactory.select(qUser).from(qUser)
-                .where(qUser.userId.eq(userId)).fetchOne();
+                .where(qUser.email.eq(userEmail)).fetchOne(); // fetchOne() : 단건 조회시 사용
+        if(user == null) return Optional.empty(); // user 비어있음
+        return Optional.ofNullable(user); // 비어있지 않음
+    }
+
+    public Optional<User> findByNickname(String userNickname) {
+        User user = jpaQueryFactory.select(qUser).from(qUser)
+                .where(qUser.nickname.eq(userNickname)).fetchOne();
         if(user == null) return Optional.empty();
         return Optional.ofNullable(user);
     }
