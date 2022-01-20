@@ -1,6 +1,8 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserCheckPostReq;
+import com.ssafy.db.entity.Mask;
+import com.ssafy.db.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,12 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setEmail(userRegisterInfo.getEmail());
 		user.setNickname(userRegisterInfo.getNickname());
+		Mask mask = new Mask();
+		Role role = new Role();
+		mask.setId(1L);
+		role.setId(1L);
+		user.setMask(mask);
+		user.setRole(role);
 
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
