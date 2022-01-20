@@ -11,8 +11,8 @@
 						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 					</div>
 					<span>or use your email for registration</span>
-					<input type="text" placeholder="사용자 닉네임" id="username"
-						v-model="credentials.username" />
+					<input type="text" placeholder="사용자 닉네임" id="nickname"
+						v-model="credentials.nickname" />
 					<input type="email" placeholder="이메일" id="email"
 						v-model="credentials.email" />
 					<input type="password" placeholder="비밀번호" id="password"
@@ -66,7 +66,7 @@ export default {
   name: 'SignIn',
   setup() {
 		const credentials = reactive({
-			username: null,
+			nickname: null,
 			email: null,
 			password: null,
 			// passwordConfirmation: null
@@ -114,13 +114,12 @@ export default {
 				if (res.data.accessToken) {
 					console.log('success')
 					let token = res.data.accessToken
-					store.commit("SET_IS_LOGIN", true)
-					store.commit("SET_IS_LOGIN_ERROR", false)
+					store.commit("root/SET_IS_LOGIN", true)
+					store.commit("root/SET_IS_LOGIN_ERROR", false)
 					localStorage.setItem('jwt', token);
-					// $emit('login')
 				} else {
-					store.commit("SET_IS_LOGIN", false);
-          store.commit("SET_IS_LOGIN_ERROR", true);
+					store.commit("root/SET_IS_LOGIN", false)
+          store.commit("root/SET_IS_LOGIN_ERROR", true)
 				}
 				return res.data
 			})
@@ -128,8 +127,7 @@ export default {
 				console.log('fail')
 				console.log(err)
 			})
-		}
-		    
+		}	    
     return { onMounted, credentials, credentialsIn, clickSignUp, clickSignIn }
   }
 }

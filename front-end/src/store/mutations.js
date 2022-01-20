@@ -7,6 +7,6 @@ export function SET_IS_LOGIN_ERROR (state, isLoginError) {
 }
 
 export function SET_USER_INFO (state, userInfo) {
-  state.isLogin = true
+  state.isLogin = false
   state.userInfo = userInfo
 }
