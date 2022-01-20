@@ -18,12 +18,12 @@ public class UserLoginPostRes extends BaseResponseBody{
 	String accessToken;
 
 
-	public static UserLoginPostRes of(Integer statusCode, String message) {
+	public static UserLoginPostRes of(Integer statusCode, String message, String accessToken) {
 		UserLoginPostRes res = new UserLoginPostRes();
 		res.setStatusCode(statusCode);
 		res.setMessage(message);
 		// JWT토큰 인증부분을 현재 삭제한 상태.
-		//res.setAccessToken(accessToken);
+		res.setAccessToken(accessToken);
 		return res;
 	}
 }
