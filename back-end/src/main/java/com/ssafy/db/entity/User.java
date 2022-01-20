@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,7 @@ import javax.persistence.OneToOne;
 @Entity
 @Getter
 @Setter
+@ToString
 public class User extends BaseEntity{
     String nickname; // 별명
     String email; // 이메일 == 아이디
