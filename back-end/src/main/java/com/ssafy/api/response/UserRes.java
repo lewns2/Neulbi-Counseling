@@ -1,6 +1,7 @@
 package com.ssafy.api.response;
 
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.Mask;
 import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.ApiModel;
@@ -15,12 +16,35 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserResponse")
 public class UserRes{
-	@ApiModelProperty(name="User Email")
-	String userEmail;
-	
+	@ApiModelProperty(name="User email")
+	String email;
+	@ApiModelProperty(name="User nickname")
+	String nickname;
+	@ApiModelProperty(name="User ProfileImg")
+	String profileImg;
+	@ApiModelProperty(name="User pointTot")
+	double pointTot;
+	@ApiModelProperty(name="User ReportCnt")
+	int reportCnt;
+
+	@ApiModelProperty(name="User mask")
+	Mask mask;
+
+	@ApiModelProperty(name="User isPenalty")
+	boolean isPenalty;
+	@ApiModelProperty(name="User isConsultant")
+	boolean isConsultant;
+
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
-		res.setUserEmail(user.getEmail());
+		res.setEmail(user.getEmail());
+		res.setNickname(user.getNickname());
+		res.setProfileImg(user.getProfileImg());
+		res.setPointTot(user.getPointTot());
+		res.setReportCnt(user.getReportCnt());
+		res.setPenalty(user.isPenalty());
+		res.setConsultant(user.isConsultant());
+
 		return res;
 	}
 }

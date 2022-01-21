@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<p>{{ state.userInfo }}</p>
 		<h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
 		<div class="container" id="container">
 			<div class="form-container sign-up-container">
@@ -59,7 +60,7 @@
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -80,7 +81,7 @@ export default {
 		})
 
 		const state = reactive({
-			isLogin: store.getters['root/isLogin']
+			userInfo: computed(() => store.getters['root/userInfo'])
 		})
 
 		onMounted (() => {
@@ -100,6 +101,13 @@ export default {
 		const clickSignUp = function () {
 			console.log(credentials)
 			store.dispatch('root/signUp', credentials)
+			.then((res) => {
+				console.log(res);
+				// 보내는데 성공하면 로그인창으로 이동
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 		}
 
 		const clickSignIn = function () {
