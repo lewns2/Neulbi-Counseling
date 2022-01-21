@@ -65,6 +65,8 @@ import { useStore } from 'vuex'
 export default {
   name: 'SignIn',
   setup() {
+		const store = useStore()
+
 		const credentials = reactive({
 			nickname: null,
 			email: null,
@@ -77,7 +79,6 @@ export default {
 			password: null,
 		})
 
-		const store = useStore()
 		const state = reactive({
 			isLogin: store.getters['root/isLogin']
 		})
@@ -99,39 +100,13 @@ export default {
 		const clickSignUp = function () {
 			console.log(credentials)
 			store.dispatch('root/signUp', credentials)
-			.then(res => {
-				console.log(res)
-				// 보내는데 성공하면 로그인창으로 이동
-			})
-			.catch(err => {
-				console.log(err)
-			})
 		}
 
 		const clickSignIn = function () {
 			console.log(credentialsIn)
 			store.dispatch('root/signIn', credentialsIn)
-			.then(res => {
-				if (res.data.accessToken) {
-					console.log(res.data)
-					let token = res.data.accessToken
-					store.commit("root/SET_IS_LOGIN", true)
-					store.commit("root/SET_IS_LOGIN_ERROR", false)
-					localStorage.setItem('jwt', token);
-					if (state.isLogin) {
-						store.dispatch('root/getUserInfo', token)
-					}
-				} else {
-					store.commit("root/SET_IS_LOGIN", false)
-          store.commit("root/SET_IS_LOGIN_ERROR", true)
-				}
-				return res.data
-			})
-			.catch(err => {
-				console.log('fail')
-				console.log(err)
-			})
-		}	    
+		}
+
     return { onMounted, credentials, credentialsIn, state, clickSignUp, clickSignIn }
   }
 }
