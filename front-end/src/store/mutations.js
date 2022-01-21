@@ -10,3 +10,4 @@ export function SET_USER_INFO (state, userInfo) {
   state.isLogin = false
   state.userInfo = userInfo
 }
+
