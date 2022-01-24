@@ -30,6 +30,7 @@ public class UserRepositorySupport {
         // 두 개의 큰 차이점으로 쿼리 문법 오류를 JPQL은 실행 시점에 발견할 수 있으며, Querydsl은 컴파일 시점에 발견 가능
         User user = jpaQueryFactory.select(qUser).from(qUser)   // 2차 오류 원인 가능
                 .where(qUser.email.eq(userEmail)).fetchOne(); // fetchOne() : 단건 조회시 사용
+
         if(user == null) return Optional.empty(); // user 비어있음
         return Optional.ofNullable(user); // 비어있지 않음
     }

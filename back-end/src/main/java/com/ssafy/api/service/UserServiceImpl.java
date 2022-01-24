@@ -2,8 +2,6 @@ package com.ssafy.api.service;
 
 
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.db.entity.Mask;
-import com.ssafy.db.entity.Role;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
@@ -23,7 +21,7 @@ import java.util.Date;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
     JavaMailSender javaMailSender;
 
     @Autowired
@@ -45,15 +43,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String userEmail) {
-        // 디비에 유저 정보 조회 (userId 를 통한 조회).
-        User user = userRepositorySupport.findByEmail(userEmail).get();
+        // 디비에 유저 정보 조회 (userEmail 를 통한 조회).
+        User user = userRepositorySupport.findByEmail(userEmail).orElse(null);
+
+        System.out.println(user); // 추가
         return user;
     }
 
     @Override
     public User getUserByNickname(String userNickname) {
 
-        User user = userRepositorySupport.findByNickname(userNickname).get();
+        User user = userRepositorySupport.findByNickname(userNickname).orElse(null);
         return user;
     }
 
@@ -92,8 +92,11 @@ public class UserServiceImpl implements UserService {
         // 아이디로 메일, 비밀번호 가져오기
         User user = this.getUserByEmail(email);
 
+        System.out.println(user);
+
         // 메일 보내기
         if (user != null) {
+            // 메세지 내용이 너무 심플함. 좀 더 제목이랑 내용 추가 시키면 좋을 듯
             SimpleMailMessage simpleMessage = new SimpleMailMessage();
             simpleMessage.setTo(user.getEmail());
             simpleMessage.setSubject(user.getNickname() + "님의 임시 비밀번호");
@@ -101,7 +104,6 @@ public class UserServiceImpl implements UserService {
             // password update 구문
             user.resetPassword(password);
             userRepository.save(user);
-            //
             simpleMessage.setText(user.getNickname() + "님의 임시비밀번호는 " + password + " 입니다.");
             javaMailSender.send(simpleMessage);
             return true;

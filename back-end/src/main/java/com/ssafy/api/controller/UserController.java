@@ -104,13 +104,15 @@ public class UserController {
         //임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
         if (key.equals("email")) {
             user = userService.getUserByEmail(value);
-            if(user != null) return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Duplicated Email"));
+            if(user != null) return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Duplicated Email"));
+            else return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success Email"));
         } else if (key.equals("nickname")) {
             user = userService.getUserByNickname(value);
-            if(user != null) return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Duplicated Nickname"));
+            if (user != null) return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Duplicated Nickname"));
+            else return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success Nickname"));
         }
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Success"));
     }
 
     @GetMapping("/info")
@@ -148,7 +150,7 @@ public class UserController {
     public ResponseEntity<BaseResponseBody> resetPassword(@RequestBody @ApiParam(value = "이메일 정보", required = true) UserLoginPostReq email) {
         String tempEmail = email.getEmail();
 
-        //System.out.println(userId);
+        System.out.println(tempEmail);
         if (userService.sendMail(tempEmail)) {
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
         } else {
