@@ -11,6 +11,7 @@ public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByEmail(String userEmail);
 	User getUserByNickname(String userCheckInfo);
-	User consultantRegister(Long userId);
-
+	User getUserById(Long userId);
+	String getRandomPassword();
+	public boolean sendMail(String id);
 }

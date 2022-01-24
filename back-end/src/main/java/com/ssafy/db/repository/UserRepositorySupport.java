@@ -24,8 +24,6 @@ public class UserRepositorySupport {
     QUser qUser = QUser.user;
     QConsultantProfile qConsultantProfile = QConsultantProfile.consultantProfile;
 
-
-
     public Optional<User> findByEmail(String userEmail) {
         // Querydsl
         // JPQL과 Querydsl에서 동일한 작업(특정 회원 1명 조회)를 하는 코드이다.
@@ -42,7 +40,8 @@ public class UserRepositorySupport {
         if(user == null) return Optional.empty();
         return Optional.ofNullable(user);
     }
-    public Optional<User> findById(Long userId) {
+
+    public Optional<User> findUserById(Long userId) {
         User user = jpaQueryFactory.select(qUser).from(qUser)
                 .where(qUser.id.eq(userId)).fetchOne();
 
@@ -57,21 +56,16 @@ public class UserRepositorySupport {
                 .orderBy(qUser.pointTot.desc()).limit(10).where(qUser.isConsultant.eq(true)).fetch();
 
         if(users==null) return Collections.emptyList();
-
         return users;
-
     }
 
-
     public List<ConsultantListRes> findAllByNicknameContains(String nickname){
-
 
         List<Tuple> temp = jpaQueryFactory
                 .select(qUser.id, qUser.nickname, qUser.pointTot, qConsultantProfile.consultingCnt, qConsultantProfile.topicCategory.id, qConsultantProfile.description)
                 .from(qUser)
                 .join(qConsultantProfile).on(qUser.id.eq(qConsultantProfile.user.id))
                 .where(qUser.nickname.contains(nickname)).fetch();
-
 
         if (temp == null) return Collections.emptyList();
 
@@ -88,8 +82,6 @@ public class UserRepositorySupport {
 
             cons.add(con);
         }
-
         return cons;
     }
-
 }

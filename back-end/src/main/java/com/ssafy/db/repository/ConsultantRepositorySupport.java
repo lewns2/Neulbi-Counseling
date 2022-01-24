@@ -8,6 +8,8 @@ import com.ssafy.db.entity.QConsultantProfile;
 import com.ssafy.db.entity.QUser;
 import com.ssafy.db.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -27,14 +29,20 @@ public class ConsultantRepositorySupport {
 
     // 고민상담 - 상담가 목록 불러오기
     // is_consultant = true인 user를 가져온다.
-    public List<ConsultantListRes> findByConsultant(boolean flag) {
+    public Page<ConsultantListRes> findByConsultant(boolean flag, Pageable pageable) {
         List<Tuple> temp = jpaQueryFactory
                 .select(qUser.id, qUser.nickname, qUser.pointTot, qConsultantProfile.consultingCnt, qConsultantProfile.topicCategory.id, qConsultantProfile.description)
                 .from(qUser)
                 .join(qConsultantProfile).on(qUser.id.eq(qConsultantProfile.user.id))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
                 .fetch();
 
-        return getConsultantListRes(temp);
+
+        Page<ConsultantListRes> cons = getConsultantListRes(temp);
+
+
+        return cons;
 
     }
 
@@ -56,6 +64,8 @@ public class ConsultantRepositorySupport {
             cons.add(con);
         }
 
+
+
         return cons;
     }
 
@@ -69,8 +79,5 @@ public class ConsultantRepositorySupport {
 
         return getConsultantListRes(temp);
     }
-
-
-
 
 }

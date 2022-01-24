@@ -5,6 +5,8 @@ import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.ConsultantListRes;
 import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public interface ConsultantService {
 	ConsultantProfile createConsultantProfile(ConsultantRegisterPostReq consultantInfo);
-	List<ConsultantListRes> getUsersByConsultant();
+	Page<ConsultantListRes> getUsersByConsultant(Pageable pageable);
 	List<ConsultantListRes> getConsultantByValue(String key, String value);
 	List<ConsultantListRes> getUserByTopicCategory(Long topicCategoryId);
 

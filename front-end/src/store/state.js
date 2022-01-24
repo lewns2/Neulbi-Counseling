@@ -5,7 +5,7 @@ export default {
   user_id: null,
   email_bool: false,
   nickname_bool: false,
-  pro_nickname_bool: '',
+  pro_nickname_bool: false,
   profileConsultant: [],
   adviceRank: [],
   adviceViewTotal: [],
