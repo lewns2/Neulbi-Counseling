@@ -22,7 +22,7 @@ import javax.persistence.OneToOne;
 public class User extends BaseEntity{
     String nickname; // 별명
     String email; // 이메일 == 아이디
-    String profile_img; // 프로필 이미지 주소
+    String profileImg; // 프로필 이미지 주소
     boolean isConsultant; // 상담가 신청 여부
     boolean isPenalty; // 현재 패널티 여부
     double pointTot; // 등급 포인트

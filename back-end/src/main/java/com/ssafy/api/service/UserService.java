@@ -11,4 +11,6 @@ public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByEmail(String userEmail);
 	User getUserByNickname(String userCheckInfo);
+	User consultantRegister(Long userId);
+
 }

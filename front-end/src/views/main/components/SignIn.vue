@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<p>{{ state.userInfo }}</p>
 		<h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
 		<div class="container" id="container">
 			<div class="form-container sign-up-container">
@@ -11,8 +12,8 @@
 						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 					</div>
 					<span>or use your email for registration</span>
-					<input type="text" placeholder="사용자 닉네임" id="username"
-						v-model="credentials.username" />
+					<input type="text" placeholder="사용자 닉네임" id="nickname"
+						v-model="credentials.nickname" />
 					<input type="email" placeholder="이메일" id="email"
 						v-model="credentials.email" />
 					<input type="password" placeholder="비밀번호" id="password"
@@ -59,14 +60,16 @@
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'SignIn',
   setup() {
+		const store = useStore()
+
 		const credentials = reactive({
-			username: null,
+			nickname: null,
 			email: null,
 			password: null,
 			// passwordConfirmation: null
@@ -77,7 +80,9 @@ export default {
 			password: null,
 		})
 
-		const store = useStore()
+		const state = reactive({
+			userInfo: computed(() => store.getters['root/userInfo'])
+		})
 
 		onMounted (() => {
 			const signUpButton = document.getElementById('signUp');
@@ -96,41 +101,21 @@ export default {
 		const clickSignUp = function () {
 			console.log(credentials)
 			store.dispatch('root/signUp', credentials)
-			.then(res => {
-				console.log('success')
-				console.log(res)
+			.then((res) => {
+				console.log(res);
 				// 보내는데 성공하면 로그인창으로 이동
 			})
-			.catch(err => {
-				console.log('fail')
-				console.log(err)
-			})
+			.catch((err) => {
+				console.log(err);
+			});
 		}
 
 		const clickSignIn = function () {
 			console.log(credentialsIn)
 			store.dispatch('root/signIn', credentialsIn)
-			.then(res => {
-				if (res.data.accessToken) {
-					console.log('success')
-					let token = res.data.accessToken
-					store.commit("SET_IS_LOGIN", true)
-					store.commit("SET_IS_LOGIN_ERROR", false)
-					localStorage.setItem('jwt', token);
-					// $emit('login')
-				} else {
-					store.commit("SET_IS_LOGIN", false);
-          store.commit("SET_IS_LOGIN_ERROR", true);
-				}
-				return res.data
-			})
-			.catch(err => {
-				console.log('fail')
-				console.log(err)
-			})
 		}
-		    
-    return { onMounted, credentials, credentialsIn, clickSignUp, clickSignIn }
+
+    return { onMounted, credentials, credentialsIn, state, clickSignUp, clickSignIn }
   }
 }
 </script>
