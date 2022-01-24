@@ -5,14 +5,15 @@
       <router-link :to="{ name: 'Home' }">Home</router-link>
       <button @click="clickLogout">Logout</button>
       <router-link :to="{ name: 'Advice' }">Advice</router-link>
+      <router-link :to="{ name: 'Confession' }">Confession</router-link>
+      <router-link :to="{ name: 'Community' }">Community</router-link>
     </span>
     <span v-else>
       <router-link :to="{ name: 'SignUp' }">SignUp</router-link>
       <router-link :to="{ name: 'SignIn' }">SignIn</router-link>
     </span>
 
-    <!-- 고해성사로 이동 -->
-    <router-link :to="{ name: 'Confession' }">Confession</router-link>
+
     
 
   </div>

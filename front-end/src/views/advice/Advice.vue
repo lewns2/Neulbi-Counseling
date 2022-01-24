@@ -8,7 +8,7 @@
       <advice-pagination></advice-pagination>
     </div>
     <div class="col-sm-4">
-      <advice-user></advice-user>
+      <!-- <advice-user></advice-user> -->
       <advice-rank></advice-rank>
     </div>
   </div>
