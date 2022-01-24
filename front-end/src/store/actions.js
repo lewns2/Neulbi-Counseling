@@ -9,11 +9,40 @@ export function signUp({ state }, payload) {
   $axios.post(url, body);
 }
 
+export function userOverlapping({ commit }, payload) {
+  console.log('Overlapping')
+  const url = "/user/check"
+  let body  = payload
+  console.log(url, body)
+  $axios.post(url, body)
+    .then((res) => {
+      if (res.data.message === "Success") {
+        console.log('email')
+        commit("SET_USER_EMAIL", true)
+      }
+      else if (res.data.message === "Success") {
+        console.log('nickname')
+        commit("SET_USER_NICKNAME", true)
+      }
+    })
+    .catch((err) => {
+      if (err.data.message === "Fail") {
+        console.log('email')
+        commit("SET_USER_EMAIL", false)
+      }
+      else if (err.data.message === "Fail") {
+        console.log('nickname')
+        commit("SET_USER_NICKNAME", false)
+      }
+    })
+}
+
 export function signIn({ state, commit, dispatch }, payload) {
   console.log("signIn", state, payload);
   const url = "/user/signin";
   let body = payload;
-  $axios.post(url, body)
+  $axios
+    .post(url, body)
     .then((res) => {
       if (res.data.accessToken) {
         let token = res.data.accessToken;
@@ -36,7 +65,19 @@ export function signIn({ state, commit, dispatch }, payload) {
     });
 }
 
-export function getUserInfo({ commit }, token) {
+export function userFindPassword({ state }, payload) {
+  const url = '/user/resetPassword'
+  let body = payload
+  $axios.post(url, body)
+  .then((res) => {
+    console.log('성공')
+  })
+  .catch((err) => {
+    console.log('실패')
+  })
+}
+
+export function userGetInfo({ commit }, token) {
   const url = `/user/info`;
   $axios
     .get(url, {
@@ -46,7 +87,7 @@ export function getUserInfo({ commit }, token) {
     })
     .then((res) => {
       if (res.status === 200) {
-        commit("SET_USER_INFO", res.data);
+        commit("USER_GET_INFO", res.data);
         // const router = useRouter()
         // const user_id = state.user_id
         // console.log('router', router, user_id)
@@ -65,19 +106,19 @@ export function getUserInfo({ commit }, token) {
     });
 }
 
-export function profileCheckNickname({ state, commit }, payload) {
-  console.log("Nick", state, payload)
+export function profileGetNickname({ state, commit }, payload) {
+  console.log("getNick", state, payload)
   const url = "/profile/check/nickname"
   let body = payload
   $axios.post(url, body)
     .then((res) => {
       if (res.data.message === "SUCCESS") {
         console.log('교체 가능')
-        commit("PROFILE_CHECK_NICKNAME", true)
+        commit("SET_PROFILE_NICKNAME", true)
       } 
       else if(res.data.message === "FAIL") {
         console.log('교체 불가능')
-        commit("PROFILE_CHECK_NICKNAME", false)
+        commit("SET_PROFILE_NICKNAME", false)
       }
     })
     .catch((err) => {
@@ -85,8 +126,8 @@ export function profileCheckNickname({ state, commit }, payload) {
     })
 }
 
-export function profileChangeNickname({ state }, payload) {
-  console.log("ChangeNick", state, payload)
+export function profileModifyNickname({ state }, payload) {
+  console.log("modifyNick", state, payload)
   const user_id = payload.user_id
   const body = { nickname : payload.nickname }
   const url = `/profile/${user_id}/modify/nickname`
@@ -99,7 +140,7 @@ export function profileChangeNickname({ state }, payload) {
     })
 }
 
-export function profileChangeMask({ state }, payload) {
+export function profileModifyMask({ state }, payload) {
   const user_id = payload.user_id
   const body = { mask_id : payload.mask_id }
   console.log(body)
@@ -113,7 +154,7 @@ export function profileChangeMask({ state }, payload) {
     })
 }
 
-export function profileChangeProfileImg({ state }, payload) {
+export function profileModifyProfileImg({ state }, payload) {
   const user_id = payload.user_id
   const body = { profile_img: payload.profileImg }
   console.log(body)
@@ -133,39 +174,69 @@ export function profileResignUser({ state }, payload) {
   return $axios.delete(url)
 }
 
-export function createConfessionChatRoom({ state }, payload) {
+export function profileGetConsultantProfile({ state }, payload) {
+  const url = `/profile/${payload}/consultantProfile`;
+  $axios
+    .get(url)
+    .then((res) => {
+      console.log(res);
+      if (res.status == 200) {
+        // commit("SET_PROFILE_CONSULTANTPROFILE", res.data);
+      } else {
+        console.log("오류 발생");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function profileModifyConsultantProfile({ state }, payload) {
+  const url = `/profile/${payload.id}/consultantProfile`;
+  return $axios.post(url, payload);
+}
+
+export function confessionCreateChatRoom({ state }, payload) {
   console.log("confession", state, payload);
   const url = "/confession";
   let body = payload;
-  $axios.post(url, body)
+  $axios.post(url, body);
 }
 
-export function getConfessionView() {
+export function confessionGetView() {
   const url = "/confession";
-  $axios.get(url)
-  .then((res) => {
-    console.log(res);
-    return res;
-  })
-  .catch((err)=> {
-    console.log(err);
-  })
+  $axios
+    .get(url)
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-export function getTopicConfessionView({state}, topicId) {
+export function confessionGetTopicView({state}, topicId) {
   // console.log(topicId)
   const url = `/confession/${topicId}`;
-  $axios.get(url)
-  .then((res) => {
-    console.log(res);
-    return res;
-  })
-  .catch((err)=> {
-    console.log(err);
-  })
+  $axios
+    .get(url)
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-export function getAdviceRank({ commit }) {
+export function confessionSearch({state}, payload) {
+  console.log(state);
+  const url = `/confession/search/${payload.key}/${payload.value}/${payload.page}`;
+  return $axios.get(url);
+}
+
+export function adviceGetRank({ commit }) {
   const url = `/advice/rank`;
   $axios
     .get(url)
@@ -182,7 +253,7 @@ export function getAdviceRank({ commit }) {
     });
 }
 
-export function getAdviceView({ commit }) {
+export function adviceGetView({ commit }) {
   const url = `/advice`;
   $axios
     .get(url)
@@ -201,7 +272,7 @@ export function getAdviceView({ commit }) {
     });
 }
 
-export function getAdviceCategory({ commit }, payload) {
+export function adviceGetCategory({ commit }, payload) {
   const url = `/advice/${payload}`;
   $axios
     .get(url)
@@ -220,30 +291,13 @@ export function getAdviceCategory({ commit }, payload) {
     });
 }
 
-export function beConsultant({ state }, payload) {
+export function adviceCreateConsultant({ state }, payload) {
   console.log(state);
   const url = `/advice`;
   return $axios.post(url, payload);
 }
 
-export function modifyMask({ commit }, payload) {
-  const url = `/user/mask/${payload}`;
-  $axios
-    .put(url)
-    .then((res) => {
-      console.log(res);
-      if (res.status == 200) {
-        commit("SET_USER_INFO_MASK", res.data);
-      } else {
-        console.log("오류 발생");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-export function createChatRoom({ state }, payload) {
+export function adviceCreateChatRoom({ state }, payload) {
   console.log(state.userInfo.id);
   const url = `/chatroom/${state.userInfo.id}/${payload}`;
   return $axios.post(url);
@@ -253,5 +307,21 @@ export function adviceSearch({ state }, payload) {
   console.log(state);
   const url = `/advice/search/${payload.key}/${payload.value}`;
   return $axios.get(url);
+}
+
+export function CommunityGetView({ commit }) {
+  const url = `/community`;
+  $axios
+    .get(url)
+    .then((res) => {
+      if (res.status == 200) {
+        commit("SET_COMMUNITY_VIEW", res.data);
+      } else {
+        console.log("오류 발생");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 

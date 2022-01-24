@@ -55,19 +55,17 @@ export default {
       console.log(state.description);
       console.log(state.topic);
       store
-        .dispatch("root/beConsultant", {
+        .dispatch("root/adviceCreateConsultant", {
           description: state.description,
           topicCategoryId: state.topic,
-          // id: state.userInfo.id,
-          userId: 7,
-          // userInfo 받아올 때 id도 받아오면 잘 됨
+          id: state.userInfo.id,
         })
         .then((res) => {
           console.log(res);
           if (res.status == 200) {
             console.log("상담가 신청 완료");
-            store.dispatch("root/getAdviceView");
-            store.dispatch("root/getAdviceRank");
+            store.dispatch("root/adviceGetView");
+            store.dispatch("root/adviceGetRank");
           } else {
             console.log("오류 발생");
           }

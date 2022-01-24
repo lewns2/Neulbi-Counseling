@@ -68,16 +68,16 @@ export default {
       word: null,
     });
 
-    store.dispatch("root/getAdviceView");
+    store.dispatch("root/adviceGetView");
 
     const clickAdviceCategory = function (topic) {
       console.log(topic);
-      store.dispatch("root/getAdviceCategory", topic);
+      store.dispatch("root/adviceGetCategory", topic);
     };
 
     const clickCreateChatRoom = function (consultant_id) {
       store
-        .dispatch("root/createChatRoom", consultant_id)
+        .dispatch("root/adviceCreateChatRoom", consultant_id)
         .then((res) => {
           console.log(res);
           if (res.status == 200) {
