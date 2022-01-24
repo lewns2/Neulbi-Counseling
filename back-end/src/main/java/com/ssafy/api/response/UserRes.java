@@ -26,6 +26,8 @@ public class UserRes{
 	double pointTot;
 	@ApiModelProperty(name="User ReportCnt")
 	int reportCnt;
+	@ApiModelProperty(name="User userID 숫자 번호임")
+	long id;
 
 	@ApiModelProperty(name="User mask")
 	Mask mask;
@@ -37,6 +39,7 @@ public class UserRes{
 
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
+		res.setId(user.getId());
 		res.setEmail(user.getEmail());
 		res.setNickname(user.getNickname());
 		res.setProfileImg(user.getProfileImg());

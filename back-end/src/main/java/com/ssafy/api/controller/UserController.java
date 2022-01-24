@@ -39,7 +39,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	// 로그인파트 - 어서빈
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -64,7 +63,6 @@ public class UserController {
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
 	}
-	// 서빈 파트 끝
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
@@ -112,8 +110,6 @@ public class UserController {
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
-
-
 	
 	@GetMapping("/info")
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.") 
@@ -128,8 +124,12 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
+	//	System.out.println("가나다라");
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+
 		String userId = userDetails.getUsername();
+
+		//System.out.println(userId);
 		User user = userService.getUserByEmail(userId);
 		
 		return ResponseEntity.status(200).body(UserRes.of(user));
