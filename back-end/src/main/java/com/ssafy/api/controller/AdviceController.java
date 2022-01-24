@@ -9,6 +9,9 @@ import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +38,7 @@ public class AdviceController {
 
 
     @GetMapping()
+
     @ApiOperation(value = "상담가 정보", notes = "<strong>각 상담가의 유저 정보</strong>를 넘겨준다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
@@ -42,11 +46,10 @@ public class AdviceController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<List<ConsultantListRes>> consultantList() {
+    public ResponseEntity<Page<ConsultantListRes>> consultantList(@PageableDefault(page = 0, size = 10)Pageable pageable) {
         // user 테이블에서 is_consultant 가 true인 사람의 point_tot, user_id,
 
-
-        List<ConsultantListRes> cons = consultantService.getUsersByConsultant();
+        Page<ConsultantListRes> cons = consultantService.getUsersByConsultant(pageable);
 
         return ResponseEntity.status(200).body(cons);
 

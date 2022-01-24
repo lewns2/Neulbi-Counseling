@@ -4,12 +4,12 @@ import com.ssafy.api.request.ConsultantRegisterPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.ConsultantListRes;
 import com.ssafy.db.entity.*;
-import com.ssafy.db.repository.ConsultantRepository;
-import com.ssafy.db.repository.ConsultantRepositorySupport;
-import com.ssafy.db.repository.UserRepository;
-import com.ssafy.db.repository.UserRepositorySupport;
+import com.ssafy.db.repository.*;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,48 +33,52 @@ public class ConsultantServiceImpl implements ConsultantService {
     UserRepositorySupport userRepositorySupport;
 
     @Autowired
+    TopicCategoryRepository topicCategoryRepository;
+
+    @Autowired
+    TopicCategoryRepositorySupport topicCategoryRepositorySupport;
+
+    @Autowired
     UserService userService;
 
     @Override
     public ConsultantProfile createConsultantProfile(ConsultantRegisterPostReq consultantInfo) {
-        ConsultantProfile consultantProfile = new ConsultantProfile();
+
+        User user = userService.getUserById(consultantInfo.getUserId());
+        user.registerConsultant(true);
+
+        TopicCategory topicCategory = topicCategoryRepositorySupport.findByTopicCategoryId(consultantInfo.getTopicCategoryId()).get();
 
 
-        consultantProfile.setConsultingCnt(0);
-        consultantProfile.setDescription(consultantInfo.getDescription());
 
-        User user = new User();
-        TopicCategory topicCategory = new TopicCategory();
-
-        user.setId(consultantInfo.getUserId());
-        topicCategory.setId(consultantInfo.getTopicCategoryId());
-
-        consultantProfile.setUser(user);
-        consultantProfile.setTopicCategory(topicCategory);
+        ConsultantProfile consultantProfile = ConsultantProfile.builder()
+                .consultingCnt(0)
+                .description(consultantInfo.getDescription())
+                .user(user)
+                .topicCategory(topicCategory)
+                .build();
 
 
-        User consultant = userService.consultantRegister(consultantInfo.getUserId());
-        consultant.setConsultant(true);
-        userRepository.save(consultant);
+
+        userRepository.save(user);
 
         return consultantRepository.save(consultantProfile);
     }
 
 
     @Override
-    public List<ConsultantListRes> getUsersByConsultant() {
+    public Page<ConsultantListRes> getUsersByConsultant(Pageable pageable) {
 
-        List<ConsultantListRes> cons = consultantRepositorySupport.findByConsultant(true);
+        Page<ConsultantListRes> cons = consultantRepositorySupport.findByConsultant(true, pageable);
         return cons;
     }
 
     @Override
     public List<ConsultantListRes> getConsultantByValue(String key, String value) {
         List<ConsultantListRes> cons = null;
-        if(key.equals("nickname")){
-             cons = userRepositorySupport.findAllByNicknameContains(value);
+        if (key.equals("nickname")) {
+            cons = userRepositorySupport.findAllByNicknameContains(value);
         }
-
 
         return cons;
     }

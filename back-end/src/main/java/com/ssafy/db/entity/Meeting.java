@@ -2,9 +2,7 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 import javax.persistence.Entity;
@@ -14,8 +12,8 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Meeting extends BaseEntity{
     Date callStartTime;
     Date callEndTime;
