@@ -8,17 +8,32 @@
         <button type="button" @click="getConfessionView">모든 방 보기</button>
         
         <!-- 원하는 카테고리 보기 -->
-        <button type="button" id="study" @click="getTopicCategoryId($event)">학업</button>
-        <button type="button" id="course" @click="getTopicCategoryId($event)">진로</button>
-        <button type="button" id="employment" @click="getTopicCategoryId($event)">취업</button>
+        <button
+            type="button"
+            class="btn btn-light"
+            v-for="(category, index) in state.categories"
+            :key="index"
+            @click="clickConfessionCategory(category.number)"
+        >
+            {{ category.value }}
+        </button>
       </div>
     
       <!-- 검색 창 -->
-      <div>
-          <input class="room-search" type="text" v-model="search" placeholder="검색하는 곳"  
-          @input="handleSearchInput"  @keydown.tab="KeydownTab">
-      </div>
-      
+        <h3>검색</h3>
+            <select name="" id="" v-model="state.key">
+                <option
+                v-for="(searchCategory, index) in state.searchCategories"
+                :key="index"
+                :value="searchCategory.backValue"
+                >
+                {{ searchCategory.value }}
+                </option>
+            </select>
+        <input type="text" v-model="state.word" />
+        <button type="button" class="btn btn-light me-md-2" @click="clickSearch">
+              검색
+        </button>
 
       <!-- 방을 출력하는 곳 : 한 페이지에 보여줄 것 정해야한다.-->
       <div>
@@ -26,7 +41,9 @@
           {{state.rooms}}
       </div>
       
-
+        <button id="prev" @click="checkPage($event)">이전</button>
+        {{state.page}} 페이지
+        <button id="next" @click="checkPage($event)">다음</button>
 
   </div>
 </template>
@@ -41,13 +58,27 @@ export default {
         const store = useStore()
 
         const state = reactive({
-            rooms: ['a', 'b', 'c', 'd', 'e', 'aa', 'bb', 'abc', 'ef'],
+            rooms: [],
             topic_category_id : null,
+            categories: [
+                { value: "학습", number: 1 },
+                { value: "취업", number: 2 },
+                { value: "이직", number: 3 },
+            ],
+
+            searchCategories: [
+                { value: "닉네임", backValue: "nickname" },
+                { value: "방 제목", backValue: "title" },
+                { value: "설명", backValue: "description" },
+            ],
+            key: null,
+            word: null,
+            page: 1,
         })
 
         // 개설된 모든 방의 정보를 보여준다.
         const getConfessionView = function() {
-                store.dispatch('root/getConfessionView')
+                store.dispatch('root/confessionGetView')
                 .then((res)=> {
                     console.log(res)
                     state.rooms.push(res)
@@ -56,23 +87,9 @@ export default {
                     console.log(err);
                 })
         }
-
-        // 특정 카테고리 클릭 시, 해당 카테고리의 방 정보를 보여준다.
-        const getTopicCategoryId = function(event) {
-            // state.rooms.push("test")
-            let targetId = event.currentTarget.id;
-            // console.log(targetId)
-            if(targetId == 'study') {
-                state.topic_category_id = 1;
-            }
-            if(targetId == 'course') {
-                state.topic_category_id = 2;
-            }
-            if(targetId == 'employment') {
-                state.topic_category_id = 3;
-            }
-            // console.log(state.topic_category_id)
-            store.dispatch('root/getTopicConfessionView', state.topic_category_id)
+        const clickConfessionCategory = function(topic) {
+            console.log(topic);
+            store.dispatch('root/confessionGetTopicView', topic)
             .then((res) => {
                 console.log(res)
                 state.rooms = []
@@ -81,20 +98,41 @@ export default {
             .catch((err) => {
                 console.log(err)
             })
+
         }
 
-        // 검색 창 구현 : 디바운싱 사용이 필요해보임. -> lodash가 필요함. -> 일단 보류
-        // ! 지우면 돌아오지 않는 문제 해결해야함.
-        const handleSearchInput = function(event) {
-            let search = event.target.value;
-            console.log(search);
-
-            const filteredList = state.rooms.filter(item => item.includes(search));
-            console.log(filteredList)
-            state.rooms = filteredList
+        const clickSearch = function() {
+            console.log(state.key, state.word, state.page);
+            store.dispatch("root/confessionSearch", {
+                key: state.key,
+                value: state.word,
+                page: state.page,
+            })
+            .then((res) => {
+                console.log(res);
+                state.page = 1;
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            console.log(page)
         }
 
-        return {state, onMounted, getConfessionView, getTopicCategoryId, handleSearchInput}
+        const checkPage = function(event) {
+            let targetId = event.currentTarget.id;
+            
+            if(targetId == "prev") {
+                state.page -= 1;
+                if(state.page < 1) state.page = 1;
+
+            }
+            else if(targetId == "next") {
+                state.page += 1;
+            }
+            console.log(state.page)
+        }
+
+        return {state, onMounted, getConfessionView, clickSearch, checkPage, clickConfessionCategory }
     }
 }
 </script>

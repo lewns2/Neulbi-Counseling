@@ -40,7 +40,7 @@ export default {
 
         const createConfessionChatRoom = function() {
             console.log(confessionChatRoom)
-            store.dispatch('root/createConfessionChatRoom', confessionChatRoom)
+            store.dispatch('root/confessionCreateChatRoom', confessionChatRoom)
         }
 
         return { confessionChatRoom, createConfessionChatRoom }

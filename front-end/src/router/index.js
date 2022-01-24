@@ -5,6 +5,7 @@ import SignIn from '../views/main/components/SignIn.vue'
 import Profile from "../views/profile/Profile.vue";
 import Confession from "../views/confession/Confession.vue";
 import Advice from "../views/advice/Advice.vue";
+import Community from "../views/community/Community.vue";
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     name: "Advice",
     component: Advice,
   },
+  {
+    path: "/community",
+    name: "Community",
+    component: Community,
+  }
   // {
   //   path: "/chatroom",
   //   name: "ChatRoom",

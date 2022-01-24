@@ -457,4 +457,6 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
+generated
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,intellij+all,macos,node,vue,vuejs,visualstudiocode,java,gradle
