@@ -50,11 +50,17 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-
 	@Override
 	public User getUserByNickname(String userNickname) {
 
 		User user = userRepositorySupport.findByNickname(userNickname).get();
+		return user;
+	}
+
+	@Override
+	public User consultantRegister(Long userId) {
+
+		User user = userRepositorySupport.findById(userId).get();
 		return user;
 	}
 
