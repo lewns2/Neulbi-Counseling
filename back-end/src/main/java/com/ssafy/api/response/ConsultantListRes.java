@@ -5,6 +5,7 @@ import com.ssafy.db.entity.Mask;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +35,7 @@ public class ConsultantListRes {
 	String description;
 	@ApiModelProperty(name="ConsultantProfile consultingCnt")
 	int consultingCnt;
+
 
 
 

@@ -48,6 +48,8 @@ public class UserRes{
 		res.setPenalty(user.isPenalty());
 		res.setConsultant(user.isConsultant());
 
+		res.setMask(user.getMask());
+
 		return res;
 	}
 }

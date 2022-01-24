@@ -42,13 +42,13 @@ public class ConfessionController {
 
         List<Meeting> resList = new ArrayList<>();
 
-        for(int i = 1; i <= 3; i++) {
-            Meeting meeting = new Meeting();
-            meeting.setTitle("방" + i);
-            meeting.setDescription("방설명" + i);
-            meeting.setParticipants(i);
-            resList.add(meeting);
-        }
+//        for(int i = 1; i <= 3; i++) {
+//            Meeting meeting = new Meeting();
+//            meeting.setTitle("방" + i);
+//            meeting.setDescription("방설명" + i);
+//            meeting.setParticipants(i);
+//            resList.add(meeting);
+//        }
 
         // 일단 넘겨주는 값 없음
         return ResponseEntity.status(200).body( MeetingResList.of(200, "Success", resList) );
@@ -72,13 +72,13 @@ public class ConfessionController {
 
         List<Meeting> resList = new ArrayList<>();
 
-        for(int i = 1; i <= 3; i++) {
-            Meeting meeting = new Meeting();
-            meeting.setTitle("방" + i);
-            meeting.setDescription("방설명" + i);
-            meeting.setParticipants(i);
-            resList.add(meeting);
-        }
+//        for(int i = 1; i <= 3; i++) {
+//            Meeting meeting = new Meeting();
+//            meeting.setTitle("방" + i);
+//            meeting.setDescription("방설명" + i);
+//            meeting.setParticipants(i);
+//            resList.add(meeting);
+//        }
 
         // 일단 넘겨주는 값 없음
         return ResponseEntity.status(200).body( MeetingResList.of(200, "Success", resList) );

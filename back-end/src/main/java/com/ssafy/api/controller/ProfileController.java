@@ -65,7 +65,7 @@ public class ProfileController {
 		Optional<User> user = profileService.findByUserId(id);
 		String changeNick = nickname.getNickname();
 		user.ifPresent(user1 -> {
-			user1.setNickname(changeNick);
+			//user1.setNickname(changeNick);
 			userRepository.save(user1);
 		});
 

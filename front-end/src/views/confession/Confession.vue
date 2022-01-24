@@ -2,8 +2,19 @@
     <div>
         <h1>고해성사</h1>
 
-        <ConfessionCreate />
-        <ConfessionView />
+        <div class="row">
+          <div class="col-sm-8" align="left">
+            <ConfessionView />
+            <!-- 페이지네이션 -->
+            <!-- <advice-pagination></advice-pagination> -->
+          </div>
+          <div class="col-sm-4">
+            <!-- <advice-user></advice-user> -->
+            <ConfessionCreate />
+          </div>
+        </div>
+        
+        
         
     </div>
 </template>

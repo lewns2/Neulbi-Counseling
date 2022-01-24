@@ -21,7 +21,7 @@
   </button>
   <br />
   <button type="button" class="btn btn-outline-secondary">
-    <router-link :to="{ name: 'Profile' }">프로필로 이동</router-link>
+    <!-- <router-link :to="{ name: 'Profile' }">프로필로 이동</router-link> -->
   </button>
 </template>
 
@@ -37,7 +37,7 @@ export default {
     });
 
     const clickModifyMask = function () {
-      store.dispatch("root/modifyMask", state.userInfo.id);
+      // store.dispatch("root/modifyMask", state.userInfo.id);
     };
     return { state, clickModifyMask };
   },

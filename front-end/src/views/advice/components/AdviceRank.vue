@@ -18,7 +18,7 @@ export default {
       adviceRanks: computed(() => store.getters["root/adviceRank"]),
     });
 
-    store.dispatch("root/getAdviceRank");
+    store.dispatch("root/adviceGetRank");
 
     return { state, onMounted };
   },
