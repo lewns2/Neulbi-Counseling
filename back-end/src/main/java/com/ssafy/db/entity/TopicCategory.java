@@ -1,8 +1,6 @@
 package com.ssafy.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 
@@ -11,8 +9,10 @@ import javax.persistence.Entity;
  */
 @Entity
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class TopicCategory extends BaseEntity {
     String name; // 카테고리 이름
 }

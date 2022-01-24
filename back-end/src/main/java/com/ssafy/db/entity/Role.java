@@ -1,8 +1,6 @@
 package com.ssafy.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 
@@ -11,8 +9,13 @@ import javax.persistence.Entity;
  */
 @Entity
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Role extends BaseEntity{
     String authority; // 권한
+
+    @Builder
+    public Role(String authority) {
+        this.authority = authority;
+    }
 }

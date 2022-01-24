@@ -1,10 +1,6 @@
 package com.ssafy.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,8 +12,8 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ConsultantProfile extends BaseEntity{
     String description; // 한줄 소개(50자 제한)
     int consultingCnt; // 상담한 횟수
@@ -31,5 +27,11 @@ public class ConsultantProfile extends BaseEntity{
     @JoinColumn(name="user_id")
     User user;
 
-
+    @Builder
+    public ConsultantProfile(String description, int consultingCnt, TopicCategory topicCategory, User user) {
+        this.description = description;
+        this.consultingCnt = consultingCnt;
+        this.topicCategory = topicCategory;
+        this.user = user;
+    }
 }

@@ -3,9 +3,7 @@ package com.ssafy.db.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +15,10 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Getter
-@Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class User extends BaseEntity{
     String nickname; // 별명
     String email; // 이메일 == 아이디
@@ -41,4 +41,14 @@ public class User extends BaseEntity{
     @JsonIgnore // 직렬화 시 제외 필드
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // 쓰기 전용
             String password;
+
+    // 패스워드 랜덤 비밀번호로 초기화
+    public void resetPassword(String password) {
+        this.password = password;
+    }
+
+    // 컨설턴트로 등록
+    public void registerConsultant(boolean isConsultant){
+        this.isConsultant = isConsultant;
+    }
 }
