@@ -16,24 +16,34 @@ export function userOverlapping({ commit }, payload) {
   console.log(url, body)
   $axios.post(url, body)
     .then((res) => {
-      if (res.data.message === "Success") {
+      console.log('성공', res)
+      if (res.data.message === "Duplicated Email") {
         console.log('email')
+        commit("SET_USER_EMAIL", false)
+      }
+      else if (res.data.message === "Success Email") {
+        console.log('nickname')
         commit("SET_USER_EMAIL", true)
       }
-      else if (res.data.message === "Success") {
+      else if (res.data.message === "Duplicated Nickname") {
+        console.log('nickname')
+        commit("SET_USER_NICKNAME", false)
+      }
+      else if (res.data.message === "Success Nickname") {
         console.log('nickname')
         commit("SET_USER_NICKNAME", true)
       }
     })
     .catch((err) => {
-      if (err.data.message === "Fail") {
-        console.log('email')
-        commit("SET_USER_EMAIL", false)
-      }
-      else if (err.data.message === "Fail") {
-        console.log('nickname')
-        commit("SET_USER_NICKNAME", false)
-      }
+      console.log('나나')
+      // if (err.data.message === "Fail") {
+      //   console.log('email')
+      //   commit("SET_USER_EMAIL", false)
+      // }
+      // else if (err.data.message === "Fail") {
+      //   console.log('nickname')
+      //   commit("SET_USER_NICKNAME", false)
+      // }
     })
 }
 
@@ -50,7 +60,7 @@ export function signIn({ state, commit, dispatch }, payload) {
         commit("SET_IS_LOGIN_ERROR", false);
         localStorage.setItem("jwt", token);
         if (state.isLogin) {
-          dispatch("getUserInfo", token);
+          dispatch("userGetInfo", token);
         } else {
           console.log("유저 정보 없음");
         }
@@ -68,6 +78,7 @@ export function signIn({ state, commit, dispatch }, payload) {
 export function userFindPassword({ state }, payload) {
   const url = '/user/resetPassword'
   let body = payload
+  console.log(body)
   $axios.post(url, body)
   .then((res) => {
     console.log('성공')
@@ -87,16 +98,8 @@ export function userGetInfo({ commit }, token) {
     })
     .then((res) => {
       if (res.status === 200) {
-        commit("USER_GET_INFO", res.data);
-        // const router = useRouter()
-        // const user_id = state.user_id
-        // console.log('router', router, user_id)
-			  // router.push({
-        //   name: 'Profile',
-        //   params: {
-        //     user_id: user_id,
-        //   }
-        // })
+        console.log('유저정보', res.data)
+        commit("GET_USER_INFO", res.data);
       } else {
         console.log("유저 정보 없음");
       }
@@ -113,11 +116,11 @@ export function profileGetNickname({ state, commit }, payload) {
   $axios.post(url, body)
     .then((res) => {
       if (res.data.message === "SUCCESS") {
-        console.log('교체 가능')
+        console.log('교체 가능', res)
         commit("SET_PROFILE_NICKNAME", true)
       } 
       else if(res.data.message === "FAIL") {
-        console.log('교체 불가능')
+        console.log('교체 불가능', res)
         commit("SET_PROFILE_NICKNAME", false)
       }
     })
@@ -165,6 +168,24 @@ export function profileModifyProfileImg({ state }, payload) {
     })
     .catch((err) => {
       console.log('실패', err)
+    })
+}
+
+export function profileModifyPassword({ state }, payload) {
+  const url = `/profile/modify/password`
+  const token = payload.token
+  const body = { password: payload.password}
+  $axios
+    .body(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }, body
+    })
+    .then((res) => {
+      console.log('비번 변경 성공')
+    })
+    .catch((err) => {
+      console.log('비번 변경 실패')
     })
 }
 

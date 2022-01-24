@@ -1,6 +1,8 @@
 <template>
 	<div>
 		<p>{{ state.userInfo }}</p>
+		<p>{{ state.email_bool }}</p>
+		<p>{{ state.nickname_bool }}</p>
 		<div>
 			<form :model="credentialsIn">
 				<input type="text" placeholder="이메일" id="email"
@@ -57,6 +59,8 @@ export default {
 		const state = reactive({
 			userInfo: computed(() => store.getters['root/userInfo']),
 			isLogin: computed(() => store.getters["root/isLogin"]),
+			email_bool: computed(() => store.getters['root/userEmailBool']),
+			nickname_bool: computed(() => store.getters['root/userNicknameBool']),
 			email: null,
 		})
 

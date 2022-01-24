@@ -8,18 +8,21 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 export default {
   name: 'HomeMain',
-  setup() {
+  props: {
+    userInfo : Array,
+  },
+  setup(props) {
     const store = useStore()
 		const router = useRouter()
 
     const state = reactive({
-			userInfo: computed(() => store.getters['root/userInfo']),
+			userInfo: props.userInfo
     })
     
     const clickProfile = function(user_id)  {

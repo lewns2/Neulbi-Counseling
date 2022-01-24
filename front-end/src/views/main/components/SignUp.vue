@@ -9,6 +9,7 @@
           v-model="credentials.email"
         />
         <button type="button" @click="getEmail">getEmail</button>
+        <p>{{ state.email_bool }}</p>
         <input
           type="text"
           placeholder="사용자 닉네임"
@@ -17,6 +18,7 @@
         />
         <p></p>
         <button type="button" @click="getNickname">getNickname</button>
+        <p>{{ state.nickname_bool }}</p>
         <!-- <button type="button" @click="clickValidateNickname">
           닉네임 유효성 검사
         </button> -->
@@ -67,8 +69,8 @@ export default {
 			store.dispatch('root/signUp', credentials)
 			.then((res) => {
 				console.log(res)
-				store.commit("root/SET_USER_EMAIL", '')
-				store.commit("root/SET_USER_NICKNAME", '')
+				store.commit("root/SET_USER_EMAIL", false)
+				store.commit("root/SET_USER_NICKNAME", false)
 				router.push({
 					name: 'SignIn'
 				})
@@ -124,7 +126,7 @@ export default {
 		}
 
 		const getNickname = function () {
-			store.dispatch('root/userOverlapping', { nickname: credentials.nickname })
+			store.dispatch('root/userOverlapping', { key: 'nickname', value: credentials.nickname })
 		}
 
     return {
