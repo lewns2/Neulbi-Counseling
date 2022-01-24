@@ -2,23 +2,23 @@
   <div id="app">
     <MainHeader />
     <div class="content">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import MainHeader from './views/main/components/MainHeader.vue'
+import MainHeader from "./views/main/components/MainHeader.vue";
 
-export default ({
+export default {
+  name: "App",
   components: { MainHeader },
-  setup() {
-
-  }
-})
+  setup() {},
+};
 </script>
 
-<style>
+<style lang="scss">
+@import "bootstrap/scss/bootstrap";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
