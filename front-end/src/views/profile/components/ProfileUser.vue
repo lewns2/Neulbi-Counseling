@@ -99,7 +99,8 @@ export default {
     }
 
     const modifyPassword = function () {
-      console.log(state.password, state.newPassword, state.newPasswordConfirmation)
+      const token = localStorage.getItem('jwt')
+      store.dispatch('root/profileModifyPassword', { token: token, password: state.newPassword})
     }
 
     const resignUser = function () {
@@ -107,7 +108,7 @@ export default {
       .then((res) => {
         console.log('성공', res)
         store.commit("root/SET_IS_LOGIN", false)
-        store.commit("root/SET_USER_INFO", null)
+        store.commit("root/GET_USER_INFO", null)
         localStorage.removeItem("jwt")
         router.push({
           name: 'Home'
