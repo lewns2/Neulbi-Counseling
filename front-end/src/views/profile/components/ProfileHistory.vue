@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>ProfileConsultant</p>
+    <p>ProfileHistory</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ProfileConsultant',
+  name: 'ProfileHistory',
 }
 </script>
 
