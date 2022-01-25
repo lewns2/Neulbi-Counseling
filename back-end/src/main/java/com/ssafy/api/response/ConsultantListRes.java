@@ -1,13 +1,19 @@
 package com.ssafy.api.response;
 
 import com.querydsl.core.Tuple;
+import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.Mask;
+import com.ssafy.db.entity.TopicCategory;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +35,8 @@ public class ConsultantListRes {
 	String profileImg;
 	@ApiModelProperty(name="User pointTot")
 	double pointTot;
-	@ApiModelProperty(name="ConsultantProfile topicCategoryId")
-	Long topicCategoryId;
+	@ApiModelProperty(name="ConsultantProfile topicCategoryName")
+	String topicCategoryName;
 	@ApiModelProperty(name="ConsultantProfile description")
 	String description;
 	@ApiModelProperty(name="ConsultantProfile consultingCnt")
@@ -40,19 +46,32 @@ public class ConsultantListRes {
 
 
 
-	public static List<ConsultantListRes> of(List<User> users) {
-		List<ConsultantListRes> res = new ArrayList<ConsultantListRes>();
+	public static Page<ConsultantListRes> of(Page<ConsultantProfile> cons) {
+		List<ConsultantListRes> temp = new ArrayList<>();
 
+		Pageable pageable = cons.getPageable();
+		long total = cons.getTotalElements();
+		int totalPage= cons.getTotalPages();
 
-		for (User u: users) {
+		for (ConsultantProfile c: cons.getContent()) {
 			ConsultantListRes r = new ConsultantListRes();
-			r.setId(u.getId());
-			r.setNickname(u.getNickname());
-			r.setPointTot(u.getPointTot());
-			r.setProfileImg(u.getProfileImg());
+			User user = c.getUser();
+			TopicCategory topicCategory = c.getTopicCategory();
 
-			res.add(r);
+			r.setId(user.getId());
+			r.setProfileImg(user.getProfileImg());
+			r.setPointTot(user.getPointTot());
+			r.setNickname(user.getNickname());
+			r.setTopicCategoryName(topicCategory.getName());
+			r.setDescription(c.getDescription());
+			r.setConsultingCnt(c.getConsultingCnt());
+
+			temp.add(r);
+
+
 		}
+
+		Page<ConsultantListRes> res = new PageImpl<ConsultantListRes>(temp,pageable,total);
 
 		return res;
 	}

@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface ConsultantService {
 	ConsultantProfile createConsultantProfile(ConsultantRegisterPostReq consultantInfo);
-	Page<ConsultantListRes> getUsersByConsultant(Pageable pageable);
-	List<ConsultantListRes> getConsultantByValue(String key, String value);
-	List<ConsultantListRes> getUserByTopicCategory(Long topicCategoryId);
+	Page<ConsultantProfile> getAllConsultant(Pageable pageable);
+	Page<ConsultantProfile> getConsultantByValue(String key, String value, Pageable pageable);
+	Page<ConsultantProfile> getUserByTopicCategory(Long topicCategoryId, Pageable pageable);
 
 	List<User> getUserByRank();
 

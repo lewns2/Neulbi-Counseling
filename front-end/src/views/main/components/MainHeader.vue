@@ -32,6 +32,7 @@ export default {
     const clickLogout = function () {
       store.commit("root/SET_IS_LOGIN", false);
       store.commit("root/GET_USER_INFO", null);
+      store.commit("root/SET_PROFILE_NICKNAME", false);
       localStorage.removeItem("jwt");
     };
     return { state, clickLogout };

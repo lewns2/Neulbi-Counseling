@@ -1,6 +1,9 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.ProfileModifyPasswordPutReq;
+import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.User;
+import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
 
@@ -11,4 +14,6 @@ public interface ProfileService {
 	Integer getUserByNickname(String ProfileCheckInfo);
 	void modifyUserByNickname(String UserNickName);
 	Optional<User> findByUserId(Long UserId);
+	void modifyPasswordByUserId(ProfileModifyPasswordPutReq profileModifyPassword, Long id);
+	Optional<ConsultantProfile> getConsultantProfile(Long userId);
 }

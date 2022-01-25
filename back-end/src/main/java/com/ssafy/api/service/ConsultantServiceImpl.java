@@ -43,11 +43,10 @@ public class ConsultantServiceImpl implements ConsultantService {
 
     @Override
     public ConsultantProfile createConsultantProfile(ConsultantRegisterPostReq consultantInfo) {
-
         User user = userService.getUserById(consultantInfo.getUserId());
         user.registerConsultant(true);
 
-        TopicCategory topicCategory = topicCategoryRepositorySupport.findByTopicCategoryId(consultantInfo.getTopicCategoryId()).get();
+        TopicCategory topicCategory = topicCategoryRepositorySupport.findByTopicCategoryId(consultantInfo.getTopicCategoryId()).orElse(null);
 
 
 
@@ -67,30 +66,30 @@ public class ConsultantServiceImpl implements ConsultantService {
 
 
     @Override
-    public Page<ConsultantListRes> getUsersByConsultant(Pageable pageable) {
+    public Page<ConsultantProfile> getAllConsultant(Pageable pageable) {
 
-        Page<ConsultantListRes> cons = consultantRepositorySupport.findByConsultant(true, pageable);
+        Page<ConsultantProfile> cons = consultantRepositorySupport.findAll(pageable);
         return cons;
     }
 
     @Override
-    public List<ConsultantListRes> getConsultantByValue(String key, String value) {
-        List<ConsultantListRes> cons = null;
+    public Page<ConsultantProfile> getConsultantByValue(String key, String value, Pageable pageable) {
+        Page<ConsultantProfile> cons = null;
         if (key.equals("nickname")) {
-            cons = userRepositorySupport.findAllByNicknameContains(value);
+            cons = consultantRepositorySupport.findConsultantProfileByUserNicknameContains(value, pageable);
         }
 
         return cons;
     }
 
     @Override
-    public List<ConsultantListRes> getUserByTopicCategory(Long topicCategoryId) {
-        List<ConsultantListRes> cons = consultantRepositorySupport.findByTopicCategory(topicCategoryId);
+    public Page<ConsultantProfile> getUserByTopicCategory(Long topicCategoryId, Pageable pageable) {
+        Page<ConsultantProfile> cons = consultantRepositorySupport.findAllByTopicCategoryId(topicCategoryId, pageable);
         return cons;
     }
 
     @Override
-    public List<User> getUserByRank() {
+    public List<User> getUserByRank( ) {
         List<User> users = userRepositorySupport.findFirst10ByOrderByPointTotDesc();
         return users;
     }
