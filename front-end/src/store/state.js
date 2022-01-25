@@ -12,4 +12,7 @@ export default {
   adviceView: [],
   advicePageNum: 1,
   communityView: [],
-}
+  communityDetail: [],
+  communityLike: [],
+  communityComment: [],
+};

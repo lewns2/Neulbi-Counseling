@@ -39,11 +39,10 @@ public class ConsultantRepositorySupport {
                 .fetch();
 
 
-        Page<ConsultantListRes> cons = getConsultantListRes(temp);
+        // Page<ConsultantListRes> cons = getConsultantListRes(temp);
 
 
-        return cons;
-
+        return null;
     }
 
 

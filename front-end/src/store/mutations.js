@@ -18,11 +18,11 @@ export function SET_USER_NICKNAME(state, bool) {
   state.nickname_bool = bool;
 }
 
-export function SET_PROFILE_NICKNAME (state, bool) {
-  state.pro_nickname_bool = bool
+export function SET_PROFILE_NICKNAME(state, bool) {
+  state.pro_nickname_bool = bool;
 }
 
-export function SET_PROFILE_CONSULTANTPROFILE(state, profileConsultant) {
+export function SET_PROFILE_CONSULTANT_PROFILE(state, profileConsultant) {
   state.profileConsultant = profileConsultant;
 }
 
@@ -97,12 +97,24 @@ export function SET_ADVICE_PAGENUM(state, payload) {
 }
 
 export function SET_COMMUNITY_VIEW(state, communityView) {
-    let min = Math.min(6, communityView.length);
-    for (let i = 0; i < min; i++) {
+  let min = Math.min(6, communityView.length);
+  for (let i = 0; i < min; i++) {
     state.adviceView.push({
       id: communityView[i].id,
       title: communityView[i].title,
       author: communityView[i].author,
     });
   }
+}
+
+export function SET_COMMUNITY_DETAIL(state, payload) {
+  state.communityDetail = payload;
+}
+
+export function SET_COMMUNITY_LIKE(state, payload) {
+  state.communityLike = payload;
+}
+
+export function SET_COMMUNITY_COMMENT(state, payload) {
+  state.communityComment = payload;
 }

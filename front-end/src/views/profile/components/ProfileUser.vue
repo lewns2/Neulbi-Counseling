@@ -4,6 +4,7 @@
     <p>{{ userInfo }}</p>
     <input type="text" placeholder="사용자 닉네임" id="nickname" v-model="state.nickname" />
     <button @click="getNickname">getNickname</button>
+    <p>{{ state.nickname_bool }}</p>
     <button v-if="state.nickname_bool == true" @click="modifyNickname">
       modifyNickname
     </button>
@@ -99,8 +100,7 @@ export default {
     }
 
     const modifyPassword = function () {
-      const token = localStorage.getItem('jwt')
-      store.dispatch('root/profileModifyPassword', { token: token, password: state.newPassword})
+      store.dispatch('root/profileModifyPassword', { user_id: props.userInfo.id, password: state.newPassword})
     }
 
     const resignUser = function () {
