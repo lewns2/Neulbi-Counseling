@@ -6,7 +6,7 @@ export function SET_IS_LOGIN_ERROR(state, isLoginError) {
   state.isLoginError = isLoginError;
 }
 
-export function USER_GET_INFO(state, userInfo) {
+export function GET_USER_INFO(state, userInfo) {
   state.userInfo = userInfo;
 }
 
