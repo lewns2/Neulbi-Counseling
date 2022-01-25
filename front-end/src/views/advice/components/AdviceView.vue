@@ -19,10 +19,17 @@
       {{ searchCategory.value }}
     </option>
   </select>
+        
+
   <input type="text" v-model="state.word" />
   <button type="button" class="btn btn-light me-md-2" @click="clickSearch">
     검색
   </button>
+  
+  <button id="prev" @click="checkPage($event)">이전</button>
+    {{state.page}} 페이지
+  <button id="next" @click="checkPage($event)">다음</button>
+
   <h3>상담가들 주르륵</h3>
   <p v-for="(adviceView, index) in state.adviceView" :key="index">
     앞면 정보<br />
@@ -66,6 +73,7 @@ export default {
       ],
       key: null,
       word: null,
+      page: 1,
     });
 
     store.dispatch("root/adviceGetView");
@@ -115,7 +123,31 @@ export default {
         });
     };
 
-    return { state, clickAdviceCategory, clickCreateChatRoom, clickSearch };
+    const checkPage = function(event) {
+            let targetId = event.currentTarget.id;
+            
+            if(targetId == "prev") {
+                state.page -= 1;
+                if(state.page < 1) state.page = 1;
+
+            }
+            else if(targetId == "next") {
+                state.page += 1;
+                
+            }
+            store.dispatch("root/advicePageSearch",{
+                pageSize: 6,
+                page: state.page,
+            })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err)=> {
+                console.log(err)
+            })
+        }
+
+    return { state, clickAdviceCategory, clickCreateChatRoom, clickSearch, checkPage};
   },
 };
 </script>

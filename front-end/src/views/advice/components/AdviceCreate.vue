@@ -58,7 +58,7 @@ export default {
         .dispatch("root/adviceCreateConsultant", {
           description: state.description,
           topicCategoryId: state.topic,
-          id: state.userInfo.id,
+          userId: state.userInfo.id,
         })
         .then((res) => {
           console.log(res);

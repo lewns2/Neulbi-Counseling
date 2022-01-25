@@ -10,16 +10,16 @@ export function userId(state) {
   return state.user_id;
 }
 
-export function userEmailBool (state) {
-  return state.email_bool
+export function userEmailBool(state) {
+  return state.email_bool;
 }
 
-export function userNicknameBool (state) {
-  return state.nickname_bool
+export function userNicknameBool(state) {
+  return state.nickname_bool;
 }
 
-export function profileNicknameBool (state) {
-  return state.pro_nickname_bool
+export function profileNicknameBool(state) {
+  return state.pro_nickname_bool;
 }
 
 export function profileConsultant(state) {
@@ -45,4 +45,16 @@ export function advicePageNum(state) {
 
 export function communityView(state) {
   return state.communityView;
+}
+
+export function communityDetail(state) {
+  return state.communityDetail;
+}
+
+export function communityLike(state) {
+  return state.communityLike;
+}
+
+export function communityComment(state) {
+  return state.communityComment;
 }
