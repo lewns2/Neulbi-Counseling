@@ -1,9 +1,13 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.ProfileModifyPasswordPutReq;
+import com.ssafy.common.auth.SsafyUserDetails;
+import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.ProfileRepository;
-import com.ssafy.db.repository.ProfileRepositorySupport;
+import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,9 +19,21 @@ import java.util.Optional;
 public class ProfileServiceImpl implements ProfileService {
 	@Autowired
 	ProfileRepository profileRepository;
+
+	@Autowired
+	UserRepository	userRepository;
+
+	@Autowired
+	ConsultantRepository consultantRepository;
+
+	@Autowired
+	ConsultantRepositorySupport consultantRepositorySupport;
 	
 	@Autowired
 	ProfileRepositorySupport profileRepositorySupport;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public Integer getUserByNickname(String nickname) {
@@ -36,5 +52,25 @@ public class ProfileServiceImpl implements ProfileService {
 	public Optional<User> findByUserId(Long UserId) {
 		Optional<User> user = profileRepositorySupport.findById(UserId);
 		return user;
+	}
+
+	@Override
+	public void modifyPasswordByUserId(ProfileModifyPasswordPutReq profileModifyPassword, Long id) {
+		Optional<User> userInfo = this.findByUserId(id);
+
+		String modifyPassword = passwordEncoder.encode(profileModifyPassword.getPassword());
+
+		userInfo.ifPresent(user1 -> {
+			user1.resetPassword(modifyPassword);
+			userRepository.save(user1);
+		});
+	}
+
+	@Override
+	public Optional<ConsultantProfile> getConsultantProfile(Long userId) {
+
+		Optional<ConsultantProfile> con = consultantRepositorySupport.findByUserId(userId);
+
+		return con;
 	}
 }
