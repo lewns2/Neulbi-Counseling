@@ -3,21 +3,28 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.ProfileCheckPostReq;
 import com.ssafy.api.request.ProfileModifyMaskPostReq;
 import com.ssafy.api.request.ProfileModifyNicknamePostReq;
+import com.ssafy.api.request.ProfileModifyPasswordPutReq;
+import com.ssafy.api.response.ConsultantProfileRes;
 import com.ssafy.api.service.ProfileService;
+import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Optional;
 
 /**
- * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
+ * 유저 정보관련 API 요청 처리를 위한 컨트롤러 정의.
  */
-@Api(value = "유저 API", tags = {"Profile"})
+@Api(value = "유저정보 API", tags = {"Profile"})
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -27,6 +34,9 @@ public class ProfileController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@PostMapping("/check/nickname")
 	@ApiOperation(value = "닉네임 중복 확인", notes = "<strong>닉네임</strong>이 이미 존재하는지 확인한다.")
@@ -110,5 +120,38 @@ public class ProfileController {
 		});
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
+	}
+
+	@PutMapping("/{user_id}/modify/password")
+	@ApiOperation(value = "비밀번호 변경", notes = "<strong>비밀번호 변경</strong>")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> changePassword(@PathVariable("user_id") Long id, @RequestBody ProfileModifyPasswordPutReq password) {
+
+		profileService.modifyPasswordByUserId(password, id);
+
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
+	}
+
+
+	@GetMapping("/{user_id}/consultantProfile")
+	@ApiOperation(value = "내 상담가 정보", notes = "<strong>내 상담가 정보</strong>불러오기")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<ConsultantProfileRes> getConsultantProfile(@PathVariable("user_id") Long userId) {
+
+		System.out.println(userId);
+		ConsultantProfile con = profileService.getConsultantProfile(userId).get();
+
+
+		return ResponseEntity.status(200).body(ConsultantProfileRes.of(con));
 	}
 }

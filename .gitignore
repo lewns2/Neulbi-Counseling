@@ -459,4 +459,6 @@ gradle-app.setting
 
 generated
 
+application-oauth.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,intellij+all,macos,node,vue,vuejs,visualstudiocode,java,gradle

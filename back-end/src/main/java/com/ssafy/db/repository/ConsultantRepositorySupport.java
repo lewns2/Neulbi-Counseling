@@ -1,18 +1,16 @@
 package com.ssafy.db.repository;
 
-import com.querydsl.core.Tuple;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.api.response.ConsultantListRes;
 import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.QConsultantProfile;
 import com.ssafy.db.entity.QUser;
-import com.ssafy.db.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,54 +27,72 @@ public class ConsultantRepositorySupport {
 
     // 고민상담 - 상담가 목록 불러오기
     // is_consultant = true인 user를 가져온다.
-    public Page<ConsultantListRes> findByConsultant(boolean flag, Pageable pageable) {
-        List<Tuple> temp = jpaQueryFactory
-                .select(qUser.id, qUser.nickname, qUser.pointTot, qConsultantProfile.consultingCnt, qConsultantProfile.topicCategory.id, qConsultantProfile.description)
-                .from(qUser)
-                .join(qConsultantProfile).on(qUser.id.eq(qConsultantProfile.user.id))
+    public Page<ConsultantProfile> findAll(Pageable pageable) {
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .from(qConsultantProfile)
                 .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
-                .fetch();
+                .offset(pageable.getOffset()).fetchResults();
 
 
-        // Page<ConsultantListRes> cons = getConsultantListRes(temp);
+        if (cons == null) return Page.empty();
 
-
-        return null;
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
     }
 
+    public Page<ConsultantProfile>findConsultantProfileByDescriptionContains(String desc, Pageable pageable){
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .where(qConsultantProfile.description.contains(desc))
+                .from(qConsultantProfile)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
 
-    private List<ConsultantListRes> getConsultantListRes(List<Tuple> temp) {
-        if (temp == null) return Collections.emptyList();
+        if (cons == null) return Page.empty();
 
-        List<ConsultantListRes> cons = new ArrayList<>();
-        for (Tuple t : temp) {
-            ConsultantListRes con = new ConsultantListRes();
-            con.setId(t.get(qUser.id));
-            con.setTopicCategoryId(t.get(qConsultantProfile.topicCategory.id));
-            con.setNickname(t.get(qUser.nickname));
-            con.setPointTot(t.get(qUser.pointTot));
-            con.setProfileImg(t.get(qUser.profileImg));
-            con.setConsultingCnt(t.get(qConsultantProfile.consultingCnt));
-            con.setDescription(t.get(qConsultantProfile.description));
-
-            cons.add(con);
-        }
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
 
 
-
-        return cons;
     }
+
+    public Page<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname, Pageable pageable) {
+
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .where(qConsultantProfile.user.nickname.contains(nickname))
+                .from(qConsultantProfile)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
+
+        if (cons == null) return Page.empty();
+
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
+    }
+
 
     // 고민상담 - 상담가 목록 불러오기 끝
-    public List<ConsultantListRes> findByTopicCategory(Long topicCategoryId) {
-        List<Tuple> temp = jpaQueryFactory
-                .select(qUser.id, qUser.nickname, qUser.pointTot, qConsultantProfile.consultingCnt, qConsultantProfile.topicCategory.id, qConsultantProfile.description)
-                .from(qUser)
-                .join(qConsultantProfile).on(qUser.id.eq(qConsultantProfile.user.id))
-                .where(qConsultantProfile.topicCategory.id.eq(topicCategoryId)).fetch();
+    public Page<ConsultantProfile> findAllByTopicCategoryId(Long topicCategoryId, Pageable pageable) {
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .from(qConsultantProfile)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .where(qConsultantProfile.topicCategory.id.eq(topicCategoryId)).fetchResults();
 
-        return getConsultantListRes(temp);
+        if (cons == null) return Page.empty();
+
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
     }
+
+    public Optional<ConsultantProfile> findByUserId(Long userId) {
+        ConsultantProfile con = jpaQueryFactory
+                .select(qConsultantProfile)
+                .from(qConsultantProfile)
+                .where(qConsultantProfile.user.id.eq(userId))
+                .fetchOne();
+
+        if(con==null)return Optional.empty();
+        return Optional.ofNullable(con);
+     }
 
 }

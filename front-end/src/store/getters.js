@@ -35,7 +35,7 @@ export function adviceView(state) {
 }
 
 export function adviceTotalLength(state) {
-  return state.adviceViewTotal.length;
+  return state.adviceTotalPageNum;
 }
 
 export function advicePageNum(state) {

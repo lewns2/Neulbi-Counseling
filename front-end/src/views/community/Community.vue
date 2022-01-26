@@ -1,6 +1,7 @@
 <template>
   <div>
     <community-view :userInfo="state.userInfo"></community-view>
+    <!-- router.push로 이동하게 하기 -->
     <community-create :userInfo="state.userInfo"></community-create>
   </div>
 </template>

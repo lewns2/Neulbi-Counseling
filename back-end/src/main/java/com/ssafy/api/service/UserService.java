@@ -12,6 +12,5 @@ public interface UserService {
 	User getUserByEmail(String userEmail);
 	User getUserByNickname(String userCheckInfo);
 	User getUserById(Long userId);
-	String getRandomPassword();
 	public boolean sendMail(String id);
 }

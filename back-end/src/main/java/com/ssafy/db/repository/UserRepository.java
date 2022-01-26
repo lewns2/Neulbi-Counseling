@@ -17,7 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String userEM);
     Optional<User> findByNickname(String userEM);
     Optional<User> findUserById(Long userId);
-    List<User> findFirst10ByOrderByPointTotDesc();
-    List<ConsultantListRes> findAllByNicknameContains(String nickname);
+    List<User> findFirst15ByOrderByPointTotDesc();
 
 }
