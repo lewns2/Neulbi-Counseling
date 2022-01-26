@@ -250,7 +250,7 @@ export function confessionGetTopicView({ state }, topicId) {
 
 export function confessionSearch({ state }, payload) {
   console.log(state);
-  const url = `/confession/search/${payload.key}/${payload.value}`;
+  const url = `/confession/search?key=${payload.key}/value=${payload.value}`;
   let body = payload.page;
   console.log("검색 -> ", url, body);
   return $axios.get(url, body);
@@ -265,11 +265,11 @@ export function confessionPageSearch({state}, payload) {
 }
 
 export function advicePageSearch({state}, payload) {
-  console.log(state);
-  const url = `/advice`;
-  let body = payload;
-  console.log("페이지네이션 -> ", url, body)
-  return $axios.get(url, body);
+  const page = payload.page
+  const size = payload.size
+  const url = `/advice?page=${page}&size=${size}`;
+  console.log("페이지네이션 -> ", url)
+  return $axios.get(url);
 }
 
 export function adviceGetRank({ commit }) {
@@ -278,6 +278,7 @@ export function adviceGetRank({ commit }) {
     .get(url)
     .then((res) => {
       if (res.status == 200) {
+        console.log(res, '랭크')
         commit("CLEAR_ADVICE_RANK");
         commit("SET_ADVICE_RANK", res.data);
       } else {
@@ -296,10 +297,11 @@ export function adviceGetView({ commit }) {
     .then((res) => {
       console.log('성공????')
       if (res.status == 200) {
+        console.log(res)
         commit("CLEAR_ADVICE_VIEW_TOTAL");
         commit("CLEAR_ADVICE_VIEW");
-        commit("SET_ADVICE_VIEW_TOTAL", res.data);
-        commit("SET_ADVICE_VIEW", res.data);
+        commit("SET_ADVICE_VIEW_TOTAL", res.data.totalPages);
+        commit("SET_ADVICE_VIEW", res.data.content);
       } else {
         console.log("오류 발생");
       }
@@ -316,7 +318,7 @@ export function adviceGetCategory({ commit }, payload) {
     .then((res) => {
       if (res.status == 200) {
         commit("CLEAR_ADVICE_VIEW_TOTAL");
-        commit("SET_ADVICE_VIEW_TOTAL", res.data);
+        commit("SET_ADVICE_VIEW_TOTAL", res.data.totalPages);
         commit("CLEAR_ADVICE_VIEW");
         commit("SET_ADVICE_VIEW", res.data);
       } else {
@@ -341,8 +343,12 @@ export function adviceCreateChatRoom({ state }, payload) {
 }
 
 export function adviceSearch({ state }, payload) {
-  console.log(state);
-  const url = `/advice/search/${payload.key}/${payload.value}`;
+  console.log(payload)
+  const key = payload.key
+  const value = payload.value
+  const size = payload.size
+  const page = payload.page
+  const url = `/advice/search/${key}/${value}?page=${page}&size=${size}`;
   return $axios.get(url);
 }
 

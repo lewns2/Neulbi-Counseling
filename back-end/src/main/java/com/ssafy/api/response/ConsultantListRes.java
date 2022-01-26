@@ -49,9 +49,10 @@ public class ConsultantListRes {
 	public static Page<ConsultantListRes> of(Page<ConsultantProfile> cons) {
 		List<ConsultantListRes> temp = new ArrayList<>();
 
+		if(cons.isEmpty()) return Page.empty();
+
 		Pageable pageable = cons.getPageable();
 		long total = cons.getTotalElements();
-		int totalPage= cons.getTotalPages();
 
 		for (ConsultantProfile c: cons.getContent()) {
 			ConsultantListRes r = new ConsultantListRes();

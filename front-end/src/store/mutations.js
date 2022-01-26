@@ -40,21 +40,13 @@ export function CLEAR_ADVICE_RANK(state) {
   state.adviceRank = [];
 }
 
-export function SET_ADVICE_VIEW_TOTAL(state, adviceViewTotal) {
-  adviceViewTotal.forEach((view) => {
-    state.adviceViewTotal.push({
-      id: view.id,
-      nickname: view.nickname,
-      profileImg: view.profileImg,
-      pointTot: view.pointTot,
-      topicCategoryId: view.topicCategoryId,
-      description: view.description,
-      consultingCnt: view.consultingCnt,
-    });
-  });
+export function SET_ADVICE_VIEW_TOTAL(state, totalPages) {
+  console.log(totalPages, '내가 토탈')
+  state.adviceTotalPageNum = totalPages
 }
 
 export function SET_ADVICE_VIEW(state, adviceView) {
+  console.log(adviceView)
   let min = Math.min(6, adviceView.length);
   for (let i = 0; i < min; i++) {
     state.adviceView.push({

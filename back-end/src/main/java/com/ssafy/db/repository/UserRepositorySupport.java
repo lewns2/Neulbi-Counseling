@@ -52,11 +52,11 @@ public class UserRepositorySupport {
         return Optional.ofNullable(user);
     }
 
-    public List<User> findFirst10ByOrderByPointTotDesc() {
+    public List<User> findFirst15ByOrderByPointTotDesc() {
         List<User> users = jpaQueryFactory
                 .select(qUser)
                 .from(qUser)
-                .orderBy(qUser.pointTot.desc()).limit(10).where(qUser.isConsultant.eq(true)).fetch();
+                .orderBy(qUser.pointTot.desc()).limit(15).where(qUser.isConsultant.eq(true)).fetch();
 
         if (users == null) return Collections.emptyList();
         return users;

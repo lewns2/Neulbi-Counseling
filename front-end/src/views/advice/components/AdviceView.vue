@@ -1,5 +1,6 @@
 <template>
   <h3>주제 선택</h3>
+  {{ state.adviceView }}
   <button
     type="button"
     class="btn btn-light"
@@ -27,7 +28,7 @@
   </button>
   
   <button id="prev" @click="checkPage($event)">이전</button>
-    {{state.page}} 페이지
+    {{state.page}} 페이지 / {{ state.total_page }} 페이지
   <button id="next" @click="checkPage($event)">다음</button>
 
   <h3>상담가들 주르륵</h3>
@@ -69,11 +70,11 @@ export default {
       searchCategories: [
         { value: "닉네임", backValue: "nickname" },
         { value: "설명", backValue: "description" },
-        { value: "포인트", backValue: "pointTot" },
       ],
       key: null,
       word: null,
       page: 1,
+      total_page: computed(() => store.getters["root/adviceTotalLength"]),
     });
 
     store.dispatch("root/adviceGetView");
@@ -106,14 +107,17 @@ export default {
         .dispatch("root/adviceSearch", {
           key: state.key,
           value: state.word,
+          size: 1,
+          page: state.page,
         })
         .then((res) => {
           if (res.status == 200) {
+            console.log('검색', res)
             store.commit("root/SET_ADVICE_PAGENUM", 1);
             store.commit("root/CLEAR_ADVICE_VIEW_TOTAL");
-            store.commit("root/SET_ADVICE_VIEW_TOTAL", res.data);
+            store.commit("root/SET_ADVICE_VIEW_TOTAL", res.data.totalPages);
             store.commit("root/CLEAR_ADVICE_VIEW");
-            store.commit("root/SET_ADVICE_VIEW", res.data);
+            store.commit("root/SET_ADVICE_VIEW", res.data.content);
           } else {
             console.log("오류 발생");
           }
@@ -125,25 +129,24 @@ export default {
 
     const checkPage = function(event) {
             let targetId = event.currentTarget.id;
-            
             if(targetId == "prev") {
                 state.page -= 1;
                 if(state.page < 1) state.page = 1;
-
             }
             else if(targetId == "next") {
-                state.page += 1;
-                
+                state.page += 1;   
             }
             store.dispatch("root/advicePageSearch",{
-                pageSize: 6,
+                size: 1,
                 page: state.page,
             })
             .then((res) => {
-                console.log(res)
+              store.commit("root/CLEAR_ADVICE_VIEW");
+              store.commit("root/SET_ADVICE_VIEW", res.data.content);
+              console.log(res)
             })
             .catch((err)=> {
-                console.log(err)
+              console.log(err)
             })
         }
 
