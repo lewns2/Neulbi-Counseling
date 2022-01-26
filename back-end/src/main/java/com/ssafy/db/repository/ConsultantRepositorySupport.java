@@ -40,11 +40,29 @@ public class ConsultantRepositorySupport {
         return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
     }
 
+    public Page<ConsultantProfile>findConsultantProfileByDescriptionContains(String desc, Pageable pageable){
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .where(qConsultantProfile.description.contains(desc))
+                .from(qConsultantProfile)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
+
+        if (cons == null) return Page.empty();
+
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
+
+
+    }
+
     public Page<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname, Pageable pageable) {
 
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
-                .where(qConsultantProfile.user.nickname.contains(nickname)).fetchResults();
+                .where(qConsultantProfile.user.nickname.contains(nickname))
+                .from(qConsultantProfile)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
 
         if (cons == null) return Page.empty();
 

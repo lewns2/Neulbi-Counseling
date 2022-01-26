@@ -2,6 +2,8 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConsultantRegisterPostReq;
 import com.ssafy.api.response.ConsultantListRes;
+import com.ssafy.api.response.ConsultantProfileRes;
+import com.ssafy.api.response.ConsultantRankRes;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.ConsultantService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -44,7 +46,7 @@ public class AdviceController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<Page<ConsultantListRes>> consultantList(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public ResponseEntity<Page<ConsultantListRes>> consultantList(@PageableDefault(page = 0, size = 1) Pageable pageable) {
         // user 테이블에서 is_consultant 가 true인 사람의 point_tot, user_id,
 
         Page<ConsultantProfile> cons = consultantService.getAllConsultant(pageable);
@@ -93,13 +95,12 @@ public class AdviceController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<Page<ConsultantListRes>> consultantRanking() {
+    public ResponseEntity<List<ConsultantRankRes>> consultantRanking() {
         // user 테이블에서 is_consultant 가 true인 사람의 point_tot이 상위 10위인 사람
 
-        int count = 1; // 임시 > 수정해야함
-        Page<ConsultantProfile> users = null;
+        List<User> users = consultantService.getUserByRank();
 
-        return ResponseEntity.status(200).body(ConsultantListRes.of(users));
+        return ResponseEntity.status(200).body(ConsultantRankRes.of(users));
 
     }
 
@@ -111,12 +112,12 @@ public class AdviceController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<Page<ConsultantProfile>> consultantSearch(@PathVariable String key, @PathVariable String value, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public ResponseEntity<Page<ConsultantListRes>> consultantSearch(@PathVariable String key, @PathVariable String value, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
 
         Page<ConsultantProfile> cons = consultantService.getConsultantByValue(key, value, pageable);
 
-        return ResponseEntity.status(200).body(cons);
+        return ResponseEntity.status(200).body(ConsultantListRes.of(cons));
 
     }
 

@@ -69,7 +69,6 @@ export default {
             searchCategories: [
                 { value: "닉네임", backValue: "nickname" },
                 { value: "방 제목", backValue: "title" },
-                { value: "설명", backValue: "description" },
             ],
             key: null,
             word: null,

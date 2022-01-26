@@ -77,6 +77,8 @@ public class ConsultantServiceImpl implements ConsultantService {
         Page<ConsultantProfile> cons = null;
         if (key.equals("nickname")) {
             cons = consultantRepositorySupport.findConsultantProfileByUserNicknameContains(value, pageable);
+        }else if(key.equals("description")){
+            cons = consultantRepositorySupport.findConsultantProfileByDescriptionContains(value, pageable);
         }
 
         return cons;
@@ -90,7 +92,7 @@ public class ConsultantServiceImpl implements ConsultantService {
 
     @Override
     public List<User> getUserByRank( ) {
-        List<User> users = userRepositorySupport.findFirst10ByOrderByPointTotDesc();
+        List<User> users = userRepositorySupport.findFirst15ByOrderByPointTotDesc();
         return users;
     }
 
