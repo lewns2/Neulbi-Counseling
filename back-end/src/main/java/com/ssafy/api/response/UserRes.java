@@ -1,7 +1,5 @@
 package com.ssafy.api.response;
 
-import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.Mask;
 import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.ApiModel;
@@ -29,8 +27,8 @@ public class UserRes{
 	@ApiModelProperty(name="User userID 숫자 번호임")
 	long id;
 
-	@ApiModelProperty(name="User mask")
-	Mask mask;
+	@ApiModelProperty(name="User 현재 마스크")
+	String mask;
 
 	@ApiModelProperty(name="User isPenalty")
 	boolean isPenalty;

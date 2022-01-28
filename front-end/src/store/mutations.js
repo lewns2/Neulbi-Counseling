@@ -18,11 +18,11 @@ export function SET_USER_NICKNAME(state, bool) {
   state.nickname_bool = bool;
 }
 
-export function SET_PROFILE_NICKNAME (state, bool) {
-  state.pro_nickname_bool = bool
+export function SET_PROFILE_NICKNAME(state, bool) {
+  state.pro_nickname_bool = bool;
 }
 
-export function SET_PROFILE_CONSULTANTPROFILE(state, profileConsultant) {
+export function SET_PROFILE_CONSULTANT_PROFILE(state, profileConsultant) {
   state.profileConsultant = profileConsultant;
 }
 
@@ -40,21 +40,13 @@ export function CLEAR_ADVICE_RANK(state) {
   state.adviceRank = [];
 }
 
-export function SET_ADVICE_VIEW_TOTAL(state, adviceViewTotal) {
-  adviceViewTotal.forEach((view) => {
-    state.adviceViewTotal.push({
-      id: view.id,
-      nickname: view.nickname,
-      profileImg: view.profileImg,
-      pointTot: view.pointTot,
-      topicCategoryId: view.topicCategoryId,
-      description: view.description,
-      consultingCnt: view.consultingCnt,
-    });
-  });
+export function SET_ADVICE_VIEW_TOTAL(state, totalPages) {
+  console.log(totalPages, '내가 토탈')
+  state.adviceTotalPageNum = totalPages
 }
 
 export function SET_ADVICE_VIEW(state, adviceView) {
+  console.log(adviceView)
   let min = Math.min(6, adviceView.length);
   for (let i = 0; i < min; i++) {
     state.adviceView.push({
@@ -97,12 +89,28 @@ export function SET_ADVICE_PAGENUM(state, payload) {
 }
 
 export function SET_COMMUNITY_VIEW(state, communityView) {
-    let min = Math.min(6, communityView.length);
-    for (let i = 0; i < min; i++) {
+  let min = Math.min(6, communityView.length);
+  for (let i = 0; i < min; i++) {
     state.adviceView.push({
       id: communityView[i].id,
       title: communityView[i].title,
       author: communityView[i].author,
     });
   }
+}
+
+export function SET_COMMUNITY_DETAIL(state, payload) {
+  state.communityDetail = payload;
+}
+
+export function SET_COMMUNITY_LIKE(state, payload) {
+  state.communityLike = payload;
+}
+
+export function SET_COMMUNITY_COMMENT(state, payload) {
+  state.communityComment = payload;
+}
+
+export function SET_CHATROOM_LIST(state, payload) {
+  state.chatRoomList = payload
 }

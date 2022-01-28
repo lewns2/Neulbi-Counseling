@@ -127,6 +127,7 @@ public class UserController {
         System.out.println("가나다라");
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 
+
         String userId = userDetails.getUsername();
 
         System.out.println(userId);

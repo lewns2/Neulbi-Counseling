@@ -1,15 +1,15 @@
 package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.ssafy.db.converter.MaskAttributeConverter;
+import com.ssafy.db.converter.RoleAttributeConverter;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Convert;
+import javax.persistence.Column;
 
 /**
  * 유저 모델 정의.
@@ -30,17 +30,17 @@ public class User extends BaseEntity{
     double pointTot; // 등급 포인트
     int reportCnt; // 신고 받은 횟수
 
-    // 외래키
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="mask_id")
-    Mask mask;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="role_id")
-    Role role;
+    @Column(name="mask_id")
+    @Convert(converter = MaskAttributeConverter.class)
+    String mask;
+
+    @Column(name="role_id")
+    @Convert(converter = RoleAttributeConverter.class)
+    String role;
 
     // Jackson 라이브러리 Annotation
-    @JsonIgnore // 직렬화 시 제외 필드
+    @JsonIgnoreProperties// 직렬화 시 제외 필드
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // 쓰기 전용
             String password;
 
@@ -53,4 +53,5 @@ public class User extends BaseEntity{
     public void registerConsultant(boolean isConsultant){
         this.isConsultant = isConsultant;
     }
+
 }

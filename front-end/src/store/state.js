@@ -8,8 +8,12 @@ export default {
   pro_nickname_bool: false,
   profileConsultant: [],
   adviceRank: [],
-  adviceViewTotal: [],
   adviceView: [],
+  adviceTotalPageNum: [],
   advicePageNum: 1,
   communityView: [],
-}
+  communityDetail: [],
+  communityLike: [],
+  communityComment: [],
+  chatRoomList: [],
+};

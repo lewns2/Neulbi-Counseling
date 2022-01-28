@@ -69,7 +69,6 @@ export default {
             searchCategories: [
                 { value: "닉네임", backValue: "nickname" },
                 { value: "방 제목", backValue: "title" },
-                { value: "설명", backValue: "description" },
             ],
             key: null,
             word: null,
@@ -100,12 +99,13 @@ export default {
             })
 
         }
-
+        // 검색 시, 주제, 키워드, 현재 페이지를 넘겨준다.
         const clickSearch = function() {
             console.log(state.key, state.word, state.page);
             store.dispatch("root/confessionSearch", {
                 key: state.key,
                 value: state.word,
+                pageSize: 6,
                 page: state.page,
             })
             .then((res) => {
@@ -115,9 +115,11 @@ export default {
             .catch((error) => {
                 console.log(error);
             })
-            console.log(page)
         }
-
+        
+        // 내가 넘겨줄 것 : 보여줄 page size
+        // 데이터들, 전체 page 수, 전체 게시글 갯수,   
+        // 페이지 
         const checkPage = function(event) {
             let targetId = event.currentTarget.id;
             
@@ -128,8 +130,18 @@ export default {
             }
             else if(targetId == "next") {
                 state.page += 1;
+                
             }
-            console.log(state.page)
+            store.dispatch("root/advicePageSearch",{
+                pageSize: 6,
+                page: state.page,
+            })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err)=> {
+                console.log(err)
+            })
         }
 
         return {state, onMounted, getConfessionView, clickSearch, checkPage, clickConfessionCategory }

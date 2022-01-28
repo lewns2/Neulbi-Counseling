@@ -1,13 +1,10 @@
 package com.ssafy.api.response;
 
-import com.querydsl.core.Tuple;
 import com.ssafy.db.entity.ConsultantProfile;
-import com.ssafy.db.entity.Mask;
 import com.ssafy.db.entity.TopicCategory;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;

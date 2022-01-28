@@ -1,5 +1,6 @@
 <template>
   <select class="form-select" v-model="state.topic">
+    <!-- create 당시 topicCategoryId가 들어가지 않으면, 우리가 DB 설정을 안해둔 것이다. -->
     <option selected>선택</option>
     <option
       v-for="(category, index) in state.categories"
@@ -58,7 +59,7 @@ export default {
         .dispatch("root/adviceCreateConsultant", {
           description: state.description,
           topicCategoryId: state.topic,
-          id: state.userInfo.id,
+          userId: state.userInfo.id,
         })
         .then((res) => {
           console.log(res);
