@@ -1,7 +1,5 @@
 package com.ssafy.api.request;
 
-import com.ssafy.db.entity.Mask;
-import com.ssafy.db.entity.Role;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

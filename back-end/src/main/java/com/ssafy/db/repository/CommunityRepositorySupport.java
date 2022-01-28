@@ -51,7 +51,6 @@ public class CommunityRepositorySupport {
 
         return Optional.ofNullable(community);
 
-
     }
 
 }
