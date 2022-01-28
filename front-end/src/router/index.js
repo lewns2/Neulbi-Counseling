@@ -7,6 +7,9 @@ import Confession from "../views/confession/Confession.vue";
 import Advice from "../views/advice/Advice.vue";
 import Community from "../views/community/Community.vue";
 import CommunityDetail from "../views/community/components/CommunityDetail";
+import Chat from "../views/chatroom/Chat.vue"
+import ChatRoom from "../views/chatroom/ChatRoom.vue"
+import Meeting from "../views/meeting/Meeting.vue";
 
 const routes = [
   {
@@ -51,11 +54,21 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: "/chatroom",
-  //   name: "ChatRoom",
-  //   component: ChatRoom,
-  // },
+  {
+    path: "/chat",
+    name: "Chat",
+    component: Chat,
+  },
+  {
+    path: "/chatroom/:user_id",
+    name: "ChatRoom",
+    component: ChatRoom,
+  },
+  {
+    path: "/meeting",
+    name: "Meeting",
+    component: Meeting,
+  },
 ];
 
 const router = createRouter({
