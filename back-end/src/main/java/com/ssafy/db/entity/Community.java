@@ -28,7 +28,7 @@ public class Community extends BaseEntity{
 
     @JsonManagedReference
     @OneToMany(mappedBy = "community") //참조를 당하는 쪽에서 읽기만 가능!
-    private final List<Comment> commentList = new LinkedList<Comment>();
+    private List<Comment> commentList = new LinkedList<>();
 
     public void setDeleted(boolean isDeleted){
         this.isDeleted = isDeleted;

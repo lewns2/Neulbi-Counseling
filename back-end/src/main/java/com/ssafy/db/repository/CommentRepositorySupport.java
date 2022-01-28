@@ -25,7 +25,7 @@ public class CommentRepositorySupport {
         QueryResults<Comment> cons = jpaQueryFactory
                 .select(qComment)
                 .from(qComment)
-                .where(qComment.community.id.eq(communityId).and(qComment.isDeleted.eq(false)))
+                .where(qComment.isDeleted.eq(false).and(qComment.community.id.eq(communityId)))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset()).fetchResults();
 

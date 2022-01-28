@@ -20,8 +20,7 @@ public interface ConsultantRepository extends JpaRepository<ConsultantProfile, L
     // 아래와 같이, Query Method 인터페이스(반환값, 메소드명, 인자) 정의를 하면 자동으로 Query Method 구현됨.
 
     Page<ConsultantProfile> findAll(Pageable pageable);
-    Page<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname, Pageable pageable);
-    Page<ConsultantProfile> findConsultantProfileByDescriptionContains(String desc, Pageable pageable);
+    List<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname);
     List<ConsultantListRes> findAllByTopicCategoryId(String topicCategoryId, Pageable pageable);
     Optional<ConsultantProfile> findByUserId(Long userId);
 
