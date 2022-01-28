@@ -110,3 +110,7 @@ export function SET_COMMUNITY_LIKE(state, payload) {
 export function SET_COMMUNITY_COMMENT(state, payload) {
   state.communityComment = payload;
 }
+
+export function SET_CHATROOM_LIST(state, payload) {
+  state.chatRoomList = payload
+}

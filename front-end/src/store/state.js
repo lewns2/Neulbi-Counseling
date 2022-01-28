@@ -15,4 +15,5 @@ export default {
   communityDetail: [],
   communityLike: [],
   communityComment: [],
+  chatRoomList: [],
 };

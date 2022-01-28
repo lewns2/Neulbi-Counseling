@@ -58,7 +58,10 @@ import { useStore } from "vuex";
 import router from "@/router";
 export default {
   name: "AdviceView",
-  setup() {
+  props: {
+    userInfo: Array,
+  },
+  setup(props) {
     const store = useStore();
     const state = reactive({
       adviceView: computed(() => store.getters["root/adviceView"]),
@@ -80,18 +83,24 @@ export default {
     store.dispatch("root/adviceGetView");
 
     const clickAdviceCategory = function (topic) {
-      console.log(topic);
       store.dispatch("root/adviceGetCategory", topic);
     };
 
     const clickCreateChatRoom = function (consultant_id) {
+      const body = { userId: props.userInfo.id, consultantId: consultant_id }
+      console.log(body)
       store
-        .dispatch("root/adviceCreateChatRoom", consultant_id)
+        .dispatch("root/adviceCreateChatRoom", body)
         .then((res) => {
-          console.log(res);
+          console.log(res)
           if (res.status == 200) {
-            console.log("채팅방 생성 성공");
-            router.push({ name: "ChatRoom" });
+            store.dispatch("root/chatRoomView", body)
+            router.push({
+              name: "ChatRoom",
+              params: {
+                user_id: props.userInfo.id,
+              }
+            });
           } else {
             console.log("오류 발생");
           }
