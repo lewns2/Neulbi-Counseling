@@ -58,3 +58,7 @@ export function communityLike(state) {
 export function communityComment(state) {
   return state.communityComment;
 }
+
+export function chatRoomList(state) {
+  return state.chatRoomList;
+}

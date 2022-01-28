@@ -72,7 +72,7 @@ export default {
 						name: 'Home'
 					})
 				}
-			},500)
+			},1000)
 		}
 
 		const sendEmail = function () {

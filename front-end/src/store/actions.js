@@ -41,7 +41,6 @@ export function userOverlapping({ commit }, payload) {
 }
 
 export function signIn({ state, commit, dispatch }, payload) {
-  console.log("signIn", state, payload);
   const url = "/user/signin";
   let body = payload;
   $axios
@@ -53,6 +52,7 @@ export function signIn({ state, commit, dispatch }, payload) {
         commit("SET_IS_LOGIN_ERROR", false);
         localStorage.setItem("jwt", token);
         if (state.isLogin) {
+          console.log("SingIn 성공")
           dispatch("userGetInfo", token);
         } else {
           console.log("유저 정보 없음");
@@ -337,9 +337,9 @@ export function adviceCreateConsultant({ state }, payload) {
 }
 
 export function adviceCreateChatRoom({ state }, payload) {
-  console.log(state.userInfo.id);
-  const url = `/chatroom/${state.userInfo.id}/${payload}`;
-  return $axios.post(url);
+  const url = `/chatroom/create`;
+  const body = payload
+  return $axios.post(url, body);
 }
 
 export function adviceSearch({ state }, payload) {
@@ -474,5 +474,31 @@ export function communityCreateChatRoom({ state }, payload) {
     })
     .catch((err) => {
       console.log('실패')
+    })
+}
+
+export function chatRoomView({ state, commit }, payload) {
+  const user_id = payload.userId
+  const url = `chatroom/${user_id}`
+  $axios.get(url)
+    .then((res) => {
+      console.log(res, 'akwlakr')
+      commit('SET_CHATROOM_LIST', res.data.chatRooms)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+export function chatRoomViewDetail({ state }, payload) {
+  const user_id = payload.user_id
+  const chatroom_id = payload.chatroom_id
+  const url = `chatroom/${user_id}/${chatroom_id}`
+  $axios.get(url)
+    .then((res) => {
+      console.log("detail view", res)
+    })
+    .catch((err) => {
+      console.log("실패", err)
     })
 }

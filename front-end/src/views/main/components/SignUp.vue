@@ -91,7 +91,7 @@ export default {
 			console.log(credentials)
 			store.dispatch('root/signUp', credentials)
 			.then((res) => {
-				console.log(res)
+				console.log("SignUp 성공")
 				store.commit("root/SET_USER_EMAIL", false)
 				store.commit("root/SET_USER_NICKNAME", false)
 				router.push({
