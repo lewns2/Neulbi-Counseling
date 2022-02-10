@@ -1,29 +1,36 @@
 <template>
   <div>
+    <button @click="goToCreateCommunity">게시글 생성</button>
     <community-view :userInfo="state.userInfo"></community-view>
-    <!-- router.push로 이동하게 하기 -->
-    <community-create :userInfo="state.userInfo"></community-create>
   </div>
 </template>
 
 <script>
-import { reactive} from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from 'vue-router'
 import CommunityView from './components/CommunityView.vue';
-import CommunityCreate from './components/CommunityCreate.vue';
 
 export default {
     name: "Confession",
-    components: { CommunityCreate, CommunityView },
+    components: { CommunityView },
 
     setup() {
       const store = useStore();
-
+      const router = useRouter()
       const state = reactive({
-        userInfo: store.getters['root/userInfo'],
+        userInfo: computed(()=> store.getters['root/userInfo']),
       })
 
-      return {state}
+      onMounted(() => {
+        store.dispatch("root/communityGetCommunityList")
+      })
+
+      const goToCreateCommunity = function () {
+        router.push({ name : "CommunityCreate" })
+      }
+
+      return { state, onMounted, goToCreateCommunity }
     }
 
 }

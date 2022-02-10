@@ -1,7 +1,7 @@
 /* 공통으로 적용되어야할 css */
 @media (max-width: 700px) {
   .main-container {
-    height: calc(100% - 275px) !important;
+    height: 100% !important;
   }
 }
 
@@ -25,7 +25,7 @@
 }
 
 .main-container {
-  height: calc(100% - 195px);
+  height: 100%);
 }
 
 .el-row.main-footer {

@@ -1,12 +1,27 @@
 <template>
-  <h3>랭킹 순위 주르륵</h3>
-  <p v-for="(adviceRank, index) in state.adviceRanks" :key="index">
-    {{ adviceRank.id }} {{ adviceRank.nickname }}{{ adviceRank.pointTot }}
-  </p>
+  <div class="d-flex justify-content-center">
+    <article class="leaderboard">
+      <header>
+        <h1 class="leaderboard__title">
+          <span class="me-1 leaderboard__title--top">고민상담</span>
+          <span class="leaderboard__title--bottom">RankingBoard</span>
+        </h1>
+      </header>
+      
+      <main class="leaderboard__profiles">
+        <article class="leaderboard__profile" v-for="(adviceRank, index) in state.adviceRankList" :key="index">
+          <!-- <img :src="adviceRank.profileImg" alt="Mark Zuckerberg" class="leaderboard__picture"> -->
+          <span class="leaderboard__name">{{ adviceRank.nickname }}</span>
+          <span class="leaderboard__value">{{ adviceRank.pointTot }}점</span>
+        </article>
+      </main>
+    </article>
+  </div>
+  <br>
 </template>
 
 <script>
-import { computed, onMounted, reactive } from "vue";
+import { computed, reactive } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -15,14 +30,119 @@ export default {
     const store = useStore();
 
     const state = reactive({
-      adviceRanks: computed(() => store.getters["root/adviceRank"]),
+      adviceRankList: computed(() => store.getters["root/adviceRankList"]),
     });
 
-    store.dispatch("root/adviceGetRank");
-
-    return { state, onMounted };
+    return { state };
   },
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.leaderboard {
+  max-width: 75%;
+  width: 75%;
+  border-radius: 12px;
+  
+  header {
+    --start: 15%;
+    
+    height: 130px;
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, 0.33) 10%, rgba(54, 89, 219, 0.33) 17%), linear-gradient(to right, #7e97fa, #c2d6f8);
+    color: #fff;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    
+    .leaderboard__title {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      right: calc(var(--start) * .75);
+      transform: translateY(-50%);
+      text-transform: uppercase;
+      margin: 0;
+      
+      span {
+        display: block;
+      }
+      
+      &--top {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 6.5px;
+      }
+      
+      &--bottom {
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 3.55px;
+        opacity: .65;
+        transform: translateY(-2px);
+      }
+    }
+    
+    .leaderboard__icon {
+      fill: #fff;
+      opacity: .35;
+      width: 50px;
+      position: absolute;
+      top: 50%;
+      left: var(--start);
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  &__profiles {
+    background-color: #fff;
+    border-radius: 0 0 12px 12px;
+    padding: 15px 15px 20px;
+    display: grid;
+    row-gap: 8px;
+  }
+  
+  &__profile {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+    padding: 10px 30px 10px 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+    transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
+    background-color: #fff;
+  }
+  
+  &__picture {
+    max-width: 100%;
+    width: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
+  }
+  
+  &__name {
+    color: #979cb0;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.64px;
+    margin-left: 12px;
+  }
+  
+  &__value {
+    color: #35d8ac;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: right;
+    
+    & > span {
+      opacity: .8;
+      font-weight: 600;
+      font-size: 13px;
+      margin-left: 3px;
+    }
+  }
+}
+
+.leaderboard {
+  box-shadow: 0 0 40px -10px rgba(0, 0, 0, .4);
+}</style>

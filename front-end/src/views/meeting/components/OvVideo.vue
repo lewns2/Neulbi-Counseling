@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <video ref="root" autoplay />
-  </div>
+  <video ref="root" autoplay />
 </template>
 
 <script>

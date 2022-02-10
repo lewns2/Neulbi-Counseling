@@ -8,12 +8,15 @@ import com.ssafy.db.repository.*;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 상담가 프로필 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -41,14 +44,15 @@ public class ConsultantServiceImpl implements ConsultantService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    MyConsultantRepositorySupport myConsultantRepositorySupport;
+
     @Override
     public ConsultantProfile createConsultantProfile(ConsultantRegisterPostReq consultantInfo) {
         User user = userService.getUserById(consultantInfo.getUserId());
         user.registerConsultant(true);
 
         TopicCategory topicCategory = topicCategoryRepositorySupport.findByTopicCategoryId(consultantInfo.getTopicCategoryId()).orElse(null);
-
-
 
         ConsultantProfile consultantProfile = ConsultantProfile.builder()
                 .consultingCnt(0)
@@ -57,8 +61,6 @@ public class ConsultantServiceImpl implements ConsultantService {
                 .topicCategory(topicCategory)
                 .build();
 
-
-
         userRepository.save(user);
 
         return consultantRepository.save(consultantProfile);
@@ -66,35 +68,100 @@ public class ConsultantServiceImpl implements ConsultantService {
 
 
     @Override
-    public Page<ConsultantProfile> getAllConsultant(Pageable pageable) {
+    public Page<ConsultantProfile> getAllConsultant(Pageable pageable, Long userId) {
 
-        Page<ConsultantProfile> cons = consultantRepositorySupport.findAll(pageable);
+        Page<ConsultantProfile> cons = consultantRepositorySupport.findAll(pageable,userId);
         return cons;
     }
 
     @Override
-    public Page<ConsultantProfile> getConsultantByValue(String key, String value, Pageable pageable) {
+    public Page<ConsultantProfile> getConsultantByValue(String key, String value, Pageable pageable, Long userId) {
         Page<ConsultantProfile> cons = null;
         if (key.equals("nickname")) {
-            cons = consultantRepositorySupport.findConsultantProfileByUserNicknameContains(value, pageable);
+            cons = consultantRepositorySupport.findConsultantProfileByUserNicknameContains(value, userId, pageable);
         }else if(key.equals("description")){
-            cons = consultantRepositorySupport.findConsultantProfileByDescriptionContains(value, pageable);
+            cons = consultantRepositorySupport.findConsultantProfileByDescriptionContains(value, userId, pageable);
+        }
+        return cons;
+    }
+
+    @Override
+    public Page<ConsultantProfile> getUserByTopicCategory(Long topicCategoryId, Pageable pageable, Long userId) {
+        Page<ConsultantProfile> cons = consultantRepositorySupport.findAllByTopicCategoryId(topicCategoryId, pageable, userId);
+        return cons;
+    }
+
+    @Override
+    public Optional<ConsultantProfile> getConsultantByUserId(Long userId) {
+        return consultantRepository.findConsultantProfileByUserId(userId);
+    }
+
+    @Override
+    public List<ConsultantProfile> getUserByRank( ) {
+        List<User> users = userRepositorySupport.findFirst10ByOrderByPointTotDesc();
+
+        List<ConsultantProfile> consultantProfileList = new ArrayList<>();
+
+        for (User u : users) {
+            Optional<ConsultantProfile> consultantProfile = consultantRepositorySupport.findByUserId(u.getId());
+            consultantProfileList.add(consultantProfile.get());
+        }
+        return consultantProfileList;
+    }
+
+    @Override
+    public void modifyConsultantDescription(Long userId, String description) {
+        Optional<ConsultantProfile> consultantProfile = getConsultantByUserId(userId);
+
+        consultantProfile.ifPresent(con -> {
+            con.modifyDescription(description);
+            consultantRepository.save(con);
+        });
+    }
+
+    @Override
+    public void modifyConsultantTopicCategory(Long id, Long topicCategoryId) {
+        ConsultantProfile consultantProfile = getConsultantByUserId(id).orElse(null);
+
+        TopicCategory topicCategory = topicCategoryRepositorySupport.findByTopicCategoryId(topicCategoryId).orElse(null);
+        consultantProfile.modifyTopicCategory(topicCategory);
+        consultantRepository.save(consultantProfile);
+
+    }
+
+    @Override
+    public Page<ConsultantListRes> getInfoMyFavoriteConsultant(Page<ConsultantProfile> consultantProfiles, Long userId) {
+        List<ConsultantListRes> temp = new ArrayList<>();
+
+        Pageable pageable = consultantProfiles.getPageable();
+        long total = consultantProfiles.getTotalElements();
+
+        for (ConsultantProfile c: consultantProfiles.getContent()) {
+            ConsultantListRes r = new ConsultantListRes();
+            User user = c.getUser();
+            TopicCategory topicCategory = c.getTopicCategory();
+
+            r.setId(user.getId());
+            r.setProfileImg(user.getProfileImg());
+            r.setPointTot(user.getPointTot());
+            r.setNickname(user.getNickname());
+            r.setTopicCategoryName(topicCategory.getName());
+            r.setDescription(c.getDescription());
+            r.setConsultingCnt(c.getConsultingCnt());
+
+            // 해당 컨설턴트가 목록에 없으면 False, 있으면 True값 반환
+            MyConsultant myConsultant = myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId(userId,user.getId()).orElse(null);
+
+            boolean isMyFavConsultant;
+            if(myConsultant == null) isMyFavConsultant = false;
+            else isMyFavConsultant = true;
+            r.setFavConsultant(isMyFavConsultant);
+            temp.add(r);
         }
 
-        return cons;
-    }
+        Page<ConsultantListRes> res = new PageImpl<ConsultantListRes>(temp,pageable,total);
 
-    @Override
-    public Page<ConsultantProfile> getUserByTopicCategory(Long topicCategoryId, Pageable pageable) {
-        Page<ConsultantProfile> cons = consultantRepositorySupport.findAllByTopicCategoryId(topicCategoryId, pageable);
-        return cons;
+        return res;
     }
-
-    @Override
-    public List<User> getUserByRank( ) {
-        List<User> users = userRepositorySupport.findFirst15ByOrderByPointTotDesc();
-        return users;
-    }
-
 
 }

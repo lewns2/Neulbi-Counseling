@@ -1,116 +1,232 @@
-export function SET_IS_LOGIN(state, isLogin) {
-  state.isLogin = isLogin;
+import state from "./state";
+
+export function MAIN_EMAIL_BOOL(state, data) {
+  state.mainEmailBool = data
 }
 
-export function SET_IS_LOGIN_ERROR(state, isLoginError) {
-  state.isLoginError = isLoginError;
+export function MAIN_NICKNAME_BOOL(state, data) {
+  state.mainNicknameBool= data
+}
+
+export function MAIN_IS_SIGNIN(state, data) {
+  state.mainIsSignIn = data;
 }
 
 export function GET_USER_INFO(state, userInfo) {
   state.userInfo = userInfo;
 }
 
-export function SET_USER_EMAIL(state, bool) {
-  state.email_bool = bool;
+export function PROFILE_GET_NICKNAME(state, data) {
+  state.profileNicknameBool = data;
 }
 
-export function SET_USER_NICKNAME(state, bool) {
-  state.nickname_bool = bool;
+export function PROFILE_GET_CONSULTANT_PROFILE(state, data) {
+  state.profileConsultantProfile = data;
 }
 
-export function SET_PROFILE_NICKNAME(state, bool) {
-  state.pro_nickname_bool = bool;
+export function PROFILE_CONSULTANT_LIKE(state, data) {
+  state.profileConsultantLike = data
 }
 
-export function SET_PROFILE_CONSULTANT_PROFILE(state, profileConsultant) {
-  state.profileConsultant = profileConsultant;
+export function PROFILE_GET_HISTORY_MEETING(state, data) {
+  state.profileHistoryConfession = []
+  state.profileHistoryConfession = data.confession
+  state.profileHistoryAdvice = []
+  state.profileHistoryAdvice = data.advice
 }
 
-export function SET_ADVICE_RANK(state, adviceRank) {
-  adviceRank.forEach((rank) => {
-    state.adviceRank.push({
+export function PROFILE_GET_HISTORY_REVIEW(state, data) {
+  state.profileHistoryReceivedReview = data.receivedReview
+  state.profileHistoryWrittenReview = data.writtenReview
+}
+
+export function PROFILE_GET_HISTORY_COMMUNITY(state, data) {
+  state.profileHistoryCommunity = data
+}
+
+export function PROFILE_GET_HISTORY_COMMENT(state, data) {
+  state.profileHistoryComment = data
+}
+
+export function CONFESSION_GET_LAST_PAGE_NUM(state, data) {
+  state.confessionLastPageNum = 0
+  state.confessionLastPageNum = data
+}
+
+export function CONFESSION_GET_CONSULTANT_LIST(state, data) {
+  state.confessionMeetingList = []
+  let min = Math.min(6, data.length)
+  for (let i = 0; i < min; i++) {
+    state.confessionMeetingList.push({
+      ownerId: data[i].ownerId,
+      ownerNickname: data[i].ownerNickname,
+      title: data[i].nickntitleame,
+      description: data[i].description,
+      meetingId: data[i].meetingId,
+      participants: data[i].participants,
+      currJoinParticipants: data[i].currJoinParticipants,
+      topicCategoryId: data[i].topicCategoryId,
+      topicCategoryName: data[i].topicCategoryName,
+      mask: data[i].mask,
+      profileImg: data[i].profileImg
+    })
+  }
+}
+
+export function CONFESSION_CREATE_MEETING_INFO(state, data) {
+  state.confessionMeetingInfo = []
+  state.confessionMeetingInfo.push({
+    meetingId: data.meeting.id,
+    ownerId: data.ownerId,
+    topicCategoryId: data.topicCategoryId,
+    title: data.meeting.title,
+    description: data.meeting.description,
+    isActive: data.meeting.active,
+    participants: data.meeting.participants
+  })
+  state.confessionMeetingInfo = state.confessionMeetingInfo[0]
+}
+
+export function CONFESSION_REVIEW_LIST(state, data) {
+  state.confessionReviewList = []
+  state.confessionReviewList = data
+}
+
+export function ADVICE_GET_RANK_LIST(state, data) {
+  state.adviceRankList = []
+  data.forEach((rank) => {
+    state.adviceRankList.push({
       id: rank.id,
       nickname: rank.nickname,
       pointTot: rank.pointTot,
+      profileImg: rank.profileImg,
     });
   });
 }
 
-export function CLEAR_ADVICE_RANK(state) {
-  state.adviceRank = [];
+export function ADVICE_GET_LAST_PAGE_NUM(state, data) {
+  state.adviceLastPageNum = 0
+  state.adviceLastPageNum = data
 }
 
-export function SET_ADVICE_VIEW_TOTAL(state, totalPages) {
-  console.log(totalPages, '내가 토탈')
-  state.adviceTotalPageNum = totalPages
-}
-
-export function SET_ADVICE_VIEW(state, adviceView) {
-  console.log(adviceView)
-  let min = Math.min(6, adviceView.length);
+export function ADVICE_GET_CONSULTANT_LIST(state, data) {
+  state.adviceConsultantList = []
+  let min = Math.min(6, data.length)
   for (let i = 0; i < min; i++) {
-    state.adviceView.push({
-      id: adviceView[i].id,
-      nickname: adviceView[i].nickname,
-      profileImg: adviceView[i].profileImg,
-      pointTot: adviceView[i].pointTot,
-      topicCategoryId: adviceView[i].topicCategoryId,
-      description: adviceView[i].description,
-      consultingCnt: adviceView[i].consultingCnt,
-    });
+    state.adviceConsultantList.push({
+      id: data[i].id,
+      nickname: data[i].nickname,
+      profileImg: data[i].profileImg,
+      pointTot: data[i].pointTot,
+      topicCategoryName: data[i].topicCategoryName,
+      description: data[i].description,
+      consultingCnt: data[i].consultingCnt,
+      favConsultant: data[i].favConsultant,
+    })
   }
 }
 
-export function CLEAR_ADVICE_VIEW_TOTAL(state) {
-  state.adviceViewTotal = [];
+export function COMMUNITY_GET_COMMUNITY_LIST(state, data) {
+  state.communityList = data
 }
 
-export function CLEAR_ADVICE_VIEW(state) {
-  state.adviceView = [];
+export function COMMUNITY_GET_LAST_PAGE_NUM(state, data) {
+  state.communityLastPageNum = 0
+  state.communityLastPageNum = data
 }
 
-export function SET_ADVICE_PAGINATION(state, payload) {
-  let min = Math.min(payload.pageNum * 6 - 1, payload.totalNum - 1);
-  for (let i = (payload.pageNum - 1) * 6; i <= min; i++) {
-    state.adviceView.push({
-      id: state.adviceViewTotal[i].id,
-      nickname: state.adviceViewTotal[i].nickname,
-      profileImg: state.adviceViewTotal[i].profileImg,
-      pointTot: state.adviceViewTotal[i].pointTot,
-      topicCategoryId: state.adviceViewTotal[i].topicCategoryId,
-      description: state.adviceViewTotal[i].description,
-      consultingCnt: state.adviceViewTotal[i].consultingCnt,
-    });
+export function COMMUNITY_GET_DETAIL(state, payload) {
+  state.communityComment = payload.commentListRes
+  state.communityDetail = {
+    description: payload.description,
+    community_id: payload.id,
+    like: payload.like,
+    likeCnt: payload.likeCnt,
+    title: payload.title,
+    user_id: payload.userId,
+    userNickname: payload.userNickname,
+    viewCnt: payload.viewCnt
   }
 }
 
-export function SET_ADVICE_PAGENUM(state, payload) {
-  state.advicePageNum = payload;
+export function CHATROOM_GET_LIST(state, data) {
+  state.chatRoomList = data
 }
 
-export function SET_COMMUNITY_VIEW(state, communityView) {
-  let min = Math.min(6, communityView.length);
+export function CHATROOM_GET_DETAIL_ID(state, data) {
+  state.chatRoomId = data
+}
+
+export function CHATROOM_GET_DETAIL_MESSAGE(state, data) {
+  state.chatRoomMessage = data
+}
+
+export function CHATROOM_GET_USER_LIST(state, data) {
+  state.chatRoomUserList = data
+}
+
+export function ADVICE_CREATE_MEETING_INFO(state, data) {
+  state.adviceMeetingInfo = []
+  state.adviceMeetingInfo.push({
+    meetingId: data.meeting.id,
+    ownerId: data.ownerId,
+    topicCategoryId: data.topicCategoryId,
+    title: data.meeting.title,
+    description: data.meeting.description,
+    isActive: data.meeting.active,
+    participants: data.meeting.participants
+  })
+  state.adviceMeetingInfo = state.adviceMeetingInfo[0]
+}
+
+export function CHATROOM_GET_MEETING_IS_ACTIVE(state, data) {
+  state.meetingIsActive = false
+  state.meetingIsActive = data
+}
+
+export function MEETING_PARTICIPANT_LIMIT(state, data) {
+  state.meetingParticipantLimit = true
+  console.log(state.meetingParticipantLimit, 'limit')
+  state.meetingParticipantLimit = data
+}
+
+export function NOTICE_GET_LAST_PAGE_NUM(state, data) {
+  state.noticeLastPageNum = 0
+  state.noticeLastPageNum = data
+}
+
+export function NOTICE_GET_NOTICE_LIST(state, data) {
+  state.noticeList = []
+  state.noticeList = data
+}
+
+export function NOTICE_GET_NOTICE_DETAIL(state, data) {
+  state.noticeDetail = data
+}
+
+export function QNA_GET_LAST_PAGE_NUM(state, data) {
+  state.qnaLastPageNum = 0
+  state.qnaLastPageNum = data
+}
+
+export function QNA_GET_QUESTION_LIST(state, data) {
+  state.qnaList = []
+  state.qnaList = data
+}
+
+export function QNA_GET_QUESTION_DETAIL(state, data) {
+  state.qnaDetail = data
+}
+
+export function QNA_GET_QUESTION_ANSWER(state, data) {
+  state.qnaAnswerList = []
+  let min = Math.min(6, data.length)
   for (let i = 0; i < min; i++) {
-    state.adviceView.push({
-      id: communityView[i].id,
-      title: communityView[i].title,
-      author: communityView[i].author,
-    });
+    state.qnaAnswerList.push({
+      answerId: data[i].answerId,
+      date: data[i].date,
+      description: data[i].description,
+      userId: data[i].userId,
+    })
   }
-}
-
-export function SET_COMMUNITY_DETAIL(state, payload) {
-  state.communityDetail = payload;
-}
-
-export function SET_COMMUNITY_LIKE(state, payload) {
-  state.communityLike = payload;
-}
-
-export function SET_COMMUNITY_COMMENT(state, payload) {
-  state.communityComment = payload;
-}
-
-export function SET_CHATROOM_LIST(state, payload) {
-  state.chatRoomList = payload
 }

@@ -187,7 +187,14 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    // oauth 2.0
+    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+
+    // chatroom
+    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 test {

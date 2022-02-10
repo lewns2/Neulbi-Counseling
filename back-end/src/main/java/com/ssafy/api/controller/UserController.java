@@ -41,10 +41,8 @@ public class UserController {
     @PostMapping("/signin")
     @ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-            @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "Success", response = UserLoginPostRes.class),
+            @ApiResponse(code = 401, message = "Invalid Password", response = UserLoginPostRes.class),
     })
     public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserLoginPostReq loginInfo) {
         String email = loginInfo.getEmail();
@@ -63,10 +61,7 @@ public class UserController {
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
+            @ApiResponse(code = 200, message = "Success", response = BaseResponseBody.class),
     })
     public ResponseEntity<? extends BaseResponseBody> register(
             @RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
@@ -80,12 +75,13 @@ public class UserController {
     }
 
     @PostMapping("/check")
-    @ApiOperation(value = "닉네임 중복 확인", notes = "<strong>닉네임</strong>이 이미 존재하는지 확인한다.")
+    @ApiOperation(value = "이메일 또는 닉네임 중복 확인", notes = "<strong>이메일 또는 닉네임</strong>이 이미 존재하는지 확인한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
+            @ApiResponse(code = 200, message = "Duplicated Email", response = BaseResponseBody.class),
+            @ApiResponse(code = 200, message = "Success Email", response = BaseResponseBody.class),
+            @ApiResponse(code = 200, message = "Duplicated Nickname", response = BaseResponseBody.class),
+            @ApiResponse(code = 200, message = "Success Nickname", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "FAIL", response = BaseResponseBody.class)
     })
     public ResponseEntity<? extends BaseResponseBody> check(
             @RequestBody @ApiParam(value = "닉네임 중복확인 체크", required = true) UserCheckPostReq checkInfo) {
@@ -108,16 +104,13 @@ public class UserController {
             else return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success Nickname"));
         }
 
-        return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Success"));
+        return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
     }
 
     @GetMapping("/info")
     @ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
+            @ApiResponse(code = 200, message = "성공", response = UserRes.class)
     })
     public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) {
         /**
@@ -126,6 +119,7 @@ public class UserController {
          */
         System.out.println("가나다라");
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+
 
         String userId = userDetails.getUsername();
 
@@ -138,10 +132,8 @@ public class UserController {
     @PostMapping("/resetPassword")
     @ApiOperation(value = "이메일 입력 받음", notes = "회원의 이메일로 임시 비밀번호 전송")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
+            @ApiResponse(code = 200, message = "SUCCESS", response = BaseResponseBody.class),
+            @ApiResponse(code = 404, message = "FAIL", response = BaseResponseBody.class)
     })
     public ResponseEntity<BaseResponseBody> resetPassword(@RequestBody @ApiParam(value = "이메일 정보", required = true) UserLoginPostReq email) {
         String tempEmail = email.getEmail();

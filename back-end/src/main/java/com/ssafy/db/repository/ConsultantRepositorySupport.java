@@ -27,40 +27,11 @@ public class ConsultantRepositorySupport {
 
     // 고민상담 - 상담가 목록 불러오기
     // is_consultant = true인 user를 가져온다.
-    public Page<ConsultantProfile> findAll(Pageable pageable) {
+    public Page<ConsultantProfile> findAll(Pageable pageable, Long userId) {
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
                 .from(qConsultantProfile)
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset()).fetchResults();
-
-
-        if (cons == null) return Page.empty();
-
-        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
-    }
-
-    public Page<ConsultantProfile>findConsultantProfileByDescriptionContains(String desc, Pageable pageable){
-        QueryResults<ConsultantProfile> cons = jpaQueryFactory
-                .select(qConsultantProfile)
-                .where(qConsultantProfile.description.contains(desc))
-                .from(qConsultantProfile)
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset()).fetchResults();
-
-        if (cons == null) return Page.empty();
-
-        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
-
-
-    }
-
-    public Page<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname, Pageable pageable) {
-
-        QueryResults<ConsultantProfile> cons = jpaQueryFactory
-                .select(qConsultantProfile)
-                .where(qConsultantProfile.user.nickname.contains(nickname))
-                .from(qConsultantProfile)
+                .where(qConsultantProfile.user.id.ne(userId))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset()).fetchResults();
 
@@ -68,16 +39,45 @@ public class ConsultantRepositorySupport {
 
         return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
     }
+
+    public Page<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname, Long userId, Pageable pageable) {
+
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .where(qConsultantProfile.user.nickname.contains(nickname)
+                        .and(qConsultantProfile.user.id.ne(userId)))
+                .from(qConsultantProfile).fetchResults();
+
+        if (cons == null) return Page.empty();
+
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
+    }
+
+    public Page<ConsultantProfile> findConsultantProfileByDescriptionContains(String description, Long userId, Pageable pageable) {
+
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .where(qConsultantProfile.description.contains(description)
+                .and(qConsultantProfile.user.id.ne(userId)))
+                .from(qConsultantProfile).fetchResults();
+
+        if (cons == null) return Page.empty();
+
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
+    }
+
 
 
     // 고민상담 - 상담가 목록 불러오기 끝
-    public Page<ConsultantProfile> findAllByTopicCategoryId(Long topicCategoryId, Pageable pageable) {
+    public Page<ConsultantProfile> findAllByTopicCategoryId(Long topicCategoryId, Pageable pageable, Long userId) {
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
                 .from(qConsultantProfile)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .where(qConsultantProfile.topicCategory.id.eq(topicCategoryId)).fetchResults();
+                .where(qConsultantProfile.topicCategory.id.eq(topicCategoryId)
+                        .and(qConsultantProfile.user.id.ne(userId)))
+                .fetchResults();
 
         if (cons == null) return Page.empty();
 
@@ -95,4 +95,13 @@ public class ConsultantRepositorySupport {
         return Optional.ofNullable(con);
      }
 
+    public ConsultantProfile findByUserIdOne(Long userId) {
+        ConsultantProfile con = jpaQueryFactory
+                .select(qConsultantProfile)
+                .from(qConsultantProfile)
+                .where(qConsultantProfile.user.id.eq(userId))
+                .fetchOne();
+
+        return con;
+    }
 }

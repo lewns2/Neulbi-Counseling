@@ -1,28 +1,32 @@
 package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.ssafy.db.converter.MaskAttributeConverter;
+import com.ssafy.db.converter.RoleAttributeConverter;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Convert;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 유저 모델 정의.
  */
 @Entity
 @Getter
-@ToString
 // @DynamicInsert // insert 시 null 인필드 제외
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class User extends BaseEntity{
     String nickname; // 별명
+    String socialId; // 소셜 로그인 유저 구분자
     String email; // 이메일 == 아이디
     String profileImg; // 프로필 이미지 주소
     boolean isConsultant; // 상담가 신청 여부
@@ -30,17 +34,53 @@ public class User extends BaseEntity{
     double pointTot; // 등급 포인트
     int reportCnt; // 신고 받은 횟수
 
-    // 외래키
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="mask_id")
-    Mask mask;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="role_id")
-    Role role;
+    @Column(name="mask_id")
+    @Convert(converter = MaskAttributeConverter.class)
+    String mask;
+
+    @Column(name="role_id")
+    @Convert(converter = RoleAttributeConverter.class)
+    String role;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<Comment> commentList = new LinkedList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<Community> communityList = new LinkedList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<LikeCheck> LikeCheckList = new LinkedList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<Meeting> meetingList = new LinkedList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<Review> reviewList = new LinkedList<>();
+
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<MeetingHistory> meetingHistoryList = new LinkedList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<UserMeeting> userMeetingList = new LinkedList<>();
 
     // Jackson 라이브러리 Annotation
-    @JsonIgnore // 직렬화 시 제외 필드
+    @JsonIgnoreProperties// 직렬화 시 제외 필드
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // 쓰기 전용
             String password;
 
@@ -52,5 +92,28 @@ public class User extends BaseEntity{
     // 컨설턴트로 등록
     public void registerConsultant(boolean isConsultant){
         this.isConsultant = isConsultant;
+    }
+
+    // 닉네임 변경
+    public void modifyNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    // 신고 당한 횟수 증가
+    public void increaseReportCnt() { this.reportCnt++; }
+
+    // 포인트 더하기
+    public void addPoint(double pointTot) {
+        this.pointTot += pointTot;
+    }
+
+    // 접근 권한
+    public String getRoleKey() { return "ROLE_" + this.role; }
+
+    // 소셜 로그인에서 이미지 및 소셜 아이디가 바뀌면 자동으로 바뀌게
+    public User modifySocial(String socialId, String profileImg) {
+        this.socialId = socialId;
+        this.profileImg = profileImg;
+        return this;
     }
 }
