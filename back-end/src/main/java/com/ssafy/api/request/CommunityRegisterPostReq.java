@@ -15,12 +15,10 @@ public class CommunityRegisterPostReq {
 
 	@ApiModelProperty(name="유저 id", example="user_id")
 	Long userId;
-	@ApiModelProperty(name="게시글 내용", example="description")
+	@ApiModelProperty(name="게시글 내용", example="title")
 	String title; // 게시글 제목(50자 제한)
 	@ApiModelProperty(name="게시글 내용", example="description")
 	String description; // 게시글 내용 5000자
-
-
 
 
 }

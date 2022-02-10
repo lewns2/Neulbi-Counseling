@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <MainHeader />
-    <div class="content">
-      <router-view />
-    </div>
+    <main-header></main-header>
+    <router-view />
   </div>
 </template>
 
@@ -13,7 +11,8 @@ import MainHeader from "./views/main/components/MainHeader.vue";
 export default {
   name: "App",
   components: { MainHeader },
-  setup() {},
+  setup() {
+  },
 };
 </script>
 
@@ -24,7 +23,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 100%;
+  height: auto;
   width: 100%;
+  margin-left: 10px;
+  margin-right: 3px;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  justify-content: center;
 }
 </style>

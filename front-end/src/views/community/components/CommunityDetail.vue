@@ -1,131 +1,111 @@
 <template>
-  <p>{{ state.communityDetail }}</p>
-  <button
-    v-if="state.userId == state.communityId"
-    type="button"
-    @click="clickModifyDetail"
-  >
-    수정하기
-  </button>
-  <button
-    v-if="state.userId == state.communityId"
-    type="button"
-    @click="clickDeleteDetail"
-  >
-    삭제하기</button
-  ><br />
-  <button type="button" @click="state.report = !state.report">신고</button>
-  <div v-if="state.report">
-    <textarea
-      cols="30"
-      rows="10"
-      v-model="state.reportMsg"
-      placeholder="신고 내용을 작성해주세요."
-    ></textarea
-    ><br />
-    <button type="button" @click="clickReportDetail">보내기</button>
-  </div>
-  <button type="button" @click="clickLike">하트 이모티콘</button>
   <div>
-    <p>{{ state.communityComment }}</p>
-    <textarea
-      cols="30"
-      rows="10"
-      v-model="state.reportMsg"
-      placeholder="댓글을 작성해주세요."
-    ></textarea
-    ><br />
-    <button type="button" @click="clickComment">등록</button>
+    <!-- community_detail -->
+    <p>{{ state.communityDetail }}</p>
+
+    <!-- 작성자일 때 나오는 수정, 삭제 버튼 -->
+    <div v-if="state.userInfo.id == state.communityDetail.user_id">
+      <button type="button" @click="clickModifyCommunity">
+        수정하기
+      </button>
+      <button type="button" @click="clickDeleteCommunity">
+        삭제하기
+      </button>
+    </div>
+
+    <!-- 게시글 신고 버튼 -->
+    <button type="button" @click="state.reportBool = !state.reportBool">신고</button>
+    <div v-if="state.reportBool">
+      <textarea
+        cols="30"
+        rows="5"
+        v-model="state.reportMsg"
+        placeholder="신고 내용을 작성해주세요."
+      ></textarea
+      ><br />
+      <button type="button" @click="clickCommunityReportDetail">보내기</button>
+    </div>
+
+    <!-- 게시글 공감 버튼 -->
+    <button type="button" @click="clickCommunityLike">하트 이모티콘</button>
+    <br>
+    <br>
+
+    <!-- 게시글에 대한 댓글 -->
+    <comment-view
+      :userInfo="state.userInfo"
+      :communityDetail="state.communityDetail"
+    >
+    </comment-view>
   </div>
 </template>
 
 <script>
-import { computed, onMounted, reactive } from "vue";
-import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { computed, reactive } from "vue"
+import { useStore } from "vuex"
+import { useRouter } from "vue-router"
+import CommentView from './CommentView.vue'
 
 export default {
   name: "CommunityDetail",
+  components: {
+    CommentView,
+  },
   setup() {
     const store = useStore();
-    const route = useRoute();
+    const router = useRouter();
     const state = reactive({
+      userInfo: computed(() => store.getters["root/userInfo"]),
       communityDetail: computed(() => store.getters["root/communityDetail"]),
       communityLike: computed(() => store.getters["root/communityLike"]),
-      communityComment: computed(() => store.getters["root/communityComment"]),
-      title: "",
-      description: "",
-      userId: computed(() => store.getters["root/userId"]),
-      communityId: 0,
+      reportBool: false,
       reportMsg: "",
-      report: false,
-      commentDescription: "",
     });
 
-    store.dispatch("root/CommunityGetDetail", state.communityId);
-    store.dispatch("root/CommunityGetLike", state.communityId);
-    store.dispatch("root/CommunityGetComment", state.communityId);
+    const clickModifyCommunity = function () {
+      router.push({
+        name: 'CommunityModify',
+        params: {
+          community_id: state.communityDetail.community_id
+        }
+      })
+    }
 
-    onMounted(() => {
-      state.communityId = route.params.communityId;
-    });
-
-    const clickModifyDetail = function () {
-      store.dispatch("root/CommunityModifyDetail", {
-        community_id: state.communityId,
-        title: state.title,
-        description: state.description,
-      });
+    const clickDeleteCommunity = async function () {
+      const body = {
+        user_id: state.userInfo.id, community_id: state.communityDetail.community_id
+      }
+      await store.dispatch("root/communityDeleteDetail", body)
+      await router.push({ name: 'Community' })
     };
 
-    const clickDelete = function () {
-      store.dispatch("root/CommunityDeleteDetail", state.communityId);
-    };
+    const clickCommunityReportDetail = function () {
+      store.dispatch("root/reportDetail", {
+        category: 'community',
+        reportUserId: state.communityDetail.user_id,
+        userId: state.userInfo.id,
+        reportMsg: state.reportMsg,
+      })
+    }
 
-    const clickReportDetail = function () {
-      store
-        .dispatch("root/CommunityReportDetail", {
-          report_user_id: state.communityId,
-          user_id: state.userId,
-          report_msg: state.reportMsg,
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            alert("신고 성공");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
-    const clickLike = function () {
-      store.dispatch("root/CommunityModifyLike", state.communityId);
-    };
-
-    const clickComment = function () {
-      store
-        .dispatch("root/CommunityCreateComment", {
-          community_id: state.communityId,
-          user_id: state.userId,
-          desc: state.commentDescription,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+    const clickCommunityLike = async function () {
+      await store.dispatch("root/communityModifyLike", {
+        userId: state.userInfo.id,
+        communityId: state.communityDetail.community_id
+      })
+      await store.dispatch('root/communityGetDetail', {
+        user_id: state.userInfo.id,
+        community_id: state.communityDetail.community_id
+      })
+    }
 
     return {
       state,
-      clickModifyDetail,
-      clickDelete,
-      clickReportDetail,
-      clickLike,
-      clickComment,
+      router,
+      clickModifyCommunity,
+      clickDeleteCommunity,
+      clickCommunityReportDetail,
+      clickCommunityLike,
     };
   },
 };

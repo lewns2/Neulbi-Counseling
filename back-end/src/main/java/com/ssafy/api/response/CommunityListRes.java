@@ -23,7 +23,6 @@ import java.util.List;
 @ApiModel("ConsultantListRes")
 public class CommunityListRes {
 
-
 	@ApiModelProperty(name="Community id")
 	Long id;
 	@ApiModelProperty(name="User nickname")
@@ -35,30 +34,23 @@ public class CommunityListRes {
 	@ApiModelProperty(name="Community viewCnt")
 	int viewCnt;
 
-
-
-
-
 	public static Page<CommunityListRes> of(Page<Community> coms) {
 		List<CommunityListRes> temp = new ArrayList<>();
 
 		Pageable pageable = coms.getPageable();
 		long total = coms.getTotalElements();
-		int totalPage= coms.getTotalPages();
 
 		for (Community c: coms.getContent()) {
 			CommunityListRes clr = new CommunityListRes();
 			User user = c.getUser();
-			
+
 			clr.setUserNickname(user.getNickname());
 			clr.setId(c.getId());
 			clr.setTitle(c.getTitle());
 			clr.setLikeCnt(c.getLikeCnt());
 			clr.setViewCnt(c.getViewCnt());
 
-
 			temp.add(clr);
-
 		}
 
 		Page<CommunityListRes> res = new PageImpl<CommunityListRes>(temp,pageable,total);

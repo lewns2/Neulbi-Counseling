@@ -22,16 +22,35 @@ public class Community extends BaseEntity{
     boolean isDeleted; // 글 삭제여부
 
     // 외래키
-    @OneToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     User user;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "community") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
     private List<Comment> commentList = new LinkedList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "community") //참조를 당하는 쪽에서 읽기만 가능!
+    @Builder.Default
+    private List<LikeCheck> LikeCheckList = new LinkedList<>();
+
 
     public void setDeleted(boolean isDeleted){
         this.isDeleted = isDeleted;
+    }
+
+    public void modifyCommunity(String description, String title){
+        this.description = description;
+        this.title = title;
+    }
+
+    public void increaseViewCnt() { this.viewCnt++; }
+
+    public void likeCntChange(int likeCnt){
+        this.likeCnt = likeCnt;
     }
 
 }

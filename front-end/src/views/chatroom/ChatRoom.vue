@@ -1,14 +1,15 @@
 <template>
-  <h1>chatroom</h1>
-  <chat-room-view :chatRoomList="state.chatRoomList"></chat-room-view>
-  <chat-room-personal></chat-room-personal>
+  <div class="d-flex justify-content-around">
+    <chat-room-view :chatRoomList="state.chatRoomList"></chat-room-view>
+    <chat-room-personal></chat-room-personal>
+  </div>
 </template>
 
 <script>
 import ChatRoomView from "./components/ChatRoomView.vue"
 import ChatRoomPersonal from "./components/ChatRoomPersonal.vue"
 import { useStore } from "vuex";
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 
 export default {
   name: "ChatRoom",
@@ -20,10 +21,15 @@ export default {
     const store = useStore()
 
     const state = reactive({
-      chatRoomList: computed(() => store.getters["root/chatRoomList"])
+      userInfo: computed(() => store.getters['root/userInfo']),
+      chatRoomList: computed(() => store.getters["root/chatRoomList"]),
     })
 
-    return { state }
+    onMounted(async() => {
+      store.dispatch('root/chatRoomGetList', { userId: state.userInfo.id })
+    })
+
+    return { state, onMounted }
   }
 };
 </script>

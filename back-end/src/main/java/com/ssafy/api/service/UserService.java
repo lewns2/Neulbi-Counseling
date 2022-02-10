@@ -13,4 +13,5 @@ public interface UserService {
 	User getUserByNickname(String userCheckInfo);
 	User getUserById(Long userId);
 	public boolean sendMail(String id);
+	void deleteUserById(Long userId);
 }

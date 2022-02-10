@@ -1,8 +1,10 @@
 package com.ssafy.config;
 
+import com.ssafy.api.service.CustomOAuth2UserService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.JwtAuthenticationFilter;
 import com.ssafy.common.auth.SsafyUserDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * 인증(authentication) 와 인가(authorization) 처리를 위한 스프링 시큐리티 설정 정의.
  */
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -28,7 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UserService userService;
-    
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -55,13 +62,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
-                .csrf().disable()
+                .csrf().disable().cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
-                .antMatchers("/users/info").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
-    	        	    .anyRequest().permitAll()
-                .and().cors();
+                .antMatchers("/**").permitAll() // 인증이 필요 없는 부분
+                .antMatchers("/oauth2/authorization/google").authenticated() // 인증이 필요한 부분 구글 oauth2Login부분
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
+
+
+        // 에러 복구용
+//        http
+//                .httpBasic().disable()
+//                .csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
+//                .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+//                .authorizeRequests()
+//                .antMatchers("/users/info").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
+//    	        	    .anyRequest().permitAll()
+//                .and().cors();
     }
 }

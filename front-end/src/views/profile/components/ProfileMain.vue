@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>ProfileMain</p>
+    <h1>ProfileMain</h1>
     <button @click="clickConfession">Confession</button>
     <button @click="clickAdvice">Advice</button>
   </div>
