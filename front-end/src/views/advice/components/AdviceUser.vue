@@ -1,47 +1,241 @@
 <template>
-  <h3>유저 정보 주르륵</h3>
-  <p>이메일: {{ state.userInfo.email }}</p>
-  <p>닉네임: {{ state.userInfo.nickname }}</p>
-  <p>프로필이미지:{{ state.userInfo.profileImg }}</p>
-  <p>포인트: {{ state.userInfo.pointTot }}</p>
-  <p>reportCnt: {{ state.userInfo.reportCnt }}</p>
-  <p>가면: {{ state.userInfo.mask }}</p>
-  <button
-    type="button"
-    class="btn btn-outline-secondary"
-    @click="clickModifyMask"
-  >
-    가면 변경
-  </button>
-  <p>페널티: {{ state.userInfo.penalty }}</p>
-  <p>상담가인가?: {{ state.userInfo.consultant }}</p>
-
-  <button type="button" class="btn btn-outline-secondary">
-    <router-link :to="{ name: 'Confession' }">고해성사로 이동</router-link>
-  </button>
-  <br />
-  <button type="button" class="btn btn-outline-secondary">
-    <!-- <router-link :to="{ name: 'Profile' }">프로필로 이동</router-link> -->
-  </button>
+  <div class="mt-5 mb-5 d-flex justify-content-center">
+    <div class="outer-div">
+      <div class="inner-div">
+        <div class="front">
+          <div class="front__bkg-photo">
+            <img :src="state.userInfo.profileImg" style="width: 100%;">
+          </div>
+          <div class="front__face-photo">{{ state.userInfo.mask_id }}</div>
+          <div class="front__text">
+            <h3 class="front__text-header">{{ state.userInfo.nickname }}</h3>
+            <p>이메일: {{ state.userInfo.email }}<br>
+            등급: {{ state.grade }} / 포인트: {{ state.userInfo.pointTot }}</p>
+                    
+            <button @click="goToConfession" class="front__text-hover mb-4">고해성사 페이지</button><br>
+            <button v-if="!state.userInfo.consultant" class="front__text-hover">상담가 신청</button>
+            <button v-else class="front__text-hover">내 프로필 페이지</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { reactive, computed } from "vue";
-import { useStore } from "vuex";
+import { reactive } from "vue";
+import { useRouter } from "vue-router"
 export default {
   name: "AdviceUser",
-  setup() {
-    const store = useStore();
+  props: {
+    userInfo: Object,
+  },
+  setup(props) {
+    const router = useRouter()
     const state = reactive({
-      userInfo: computed(() => store.getters["root/userInfo"]),
+      userInfo: props.userInfo,
+      grade: 'None',
     });
 
     const clickModifyMask = function () {
       // store.dispatch("root/modifyMask", state.userInfo.id);
-    };
-    return { state, clickModifyMask };
+    }
+
+    const goToConfession = function () {
+      router.push({ name: 'Confession' })
+    }
+
+    return { state, clickModifyMask, goToConfession };
   },
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+
+.outer-div,
+.inner-div {
+  height: 85%;
+  max-width: 85%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.outer-div {
+  perspective: 900px;
+  perspective-origin: 50% calc(50% - 18em);
+}
+
+.inner-div {
+  margin: 0 auto;
+  border-radius: 5px;
+  font-weight: 400;
+  color: #071011;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.6s cubic-bezier(0.8, -0.4, 0.2, 1.7);
+  transform-style: preserve-3d;
+
+  
+  &:hover .social-icon {
+    opacity: 1;
+    top: 0;
+  }
+
+  /*&:hover .front__face-photo,
+  &:hover .front__footer {
+    opacity: 1;
+  }*/
+}
+
+
+.front {
+  position: relative;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+}
+
+.front {
+  height: 100%;
+  background: #fff;
+  backface-visibility: hidden;
+  border-radius: calc(var(--curve) * 1px);
+  --surface-color: #fff;
+  --curve: 40;
+  box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.front__bkg-photo {
+  position: relative;
+  height: 20vh;
+  width: 100%;
+  // background: url("https://images.unsplash.com/photo-1511207538754-e8555f2bc187?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=88672068827eaeeab540f584b883cc66&auto=format&fit=crop&w=1164&q=80")
+  //   no-repeat;
+  // background-size: cover;
+  backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: calc(var(--curve) * 1px);
+  --surface-color: #fff;
+  --curve: 40;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.front__face-photo {
+  position: relative;
+  top: -60px;
+  height: 120px;
+  width: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid black;
+  background: white;
+  overflow: hidden;
+ /* backface-visibility: hidden;
+  transition: all 0.6s cubic-bezier(0.8, -0.4, 0.2, 1.7);
+  z-index: 3;*/
+}
+
+.front__text {
+  position: relative;
+  top: -55px;
+  margin: 0 auto;
+  font-family: "Montserrat";
+  font-size: 18px;
+  backface-visibility: hidden;
+
+  .front__text-header {
+    font-weight: 700;
+    font-family: "Oswald";
+    text-transform: uppercase;
+    font-size: 20px;
+  }
+
+  .front__text-para {
+    position: relative;
+    top: -5px;
+
+    color: #000;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .front-icons {
+    position: relative;
+    top: 0;
+    font-size: 14px;
+    margin-right: 6px;
+    color: gray;
+  }
+
+  .front__text-hover {
+    position: relative;
+    top: 10px;
+    font-size: 15px;
+    color: #bbd2f9;
+    backface-visibility: hidden;
+
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+
+    border: 2px solid #bbd2f9;
+    padding: 8px 15px;
+    border-radius: 30px;
+
+    background: #bbd2f9;
+    color: #fff;
+  }
+}
+
+.social-media-wrapper {
+  font-size: 36px;
+
+  .social-icon {
+    position: relative;
+    top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    opacity: 0;
+    color: #fff;
+    transition: all 0.4s cubic-bezier(0.3, 0.7, 0.1, 1.9);
+  }
+
+  .social-icon:nth-child(1) {
+    transition-delay: 0.6s;
+  }
+
+  .social-icon:nth-child(2) {
+    transition-delay: 0.7s;
+  }
+
+  .social-icon:nth-child(3) {
+    transition-delay: 0.8s;
+  }
+
+  .social-icon:nth-child(4) {
+    transition-delay: 0.9s;
+  }
+}
+
+.fab {
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.fab:hover {
+  top: -5px;
+}
+</style>

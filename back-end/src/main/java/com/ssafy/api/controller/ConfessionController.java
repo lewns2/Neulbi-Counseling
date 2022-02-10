@@ -5,13 +5,19 @@ package com.ssafy.api.controller;
  */
 
 import com.ssafy.api.request.ConfessionPostReq;
-import com.ssafy.api.response.MeetingRes;
-import com.ssafy.api.response.MeetingResList;
-import com.ssafy.api.response.UserLoginPostRes;
+import com.ssafy.api.response.MeetingListRes;
+import com.ssafy.api.response.ConfessionRes;
+import com.ssafy.api.service.MeetingHistoryService;
+import com.ssafy.api.service.MeetingService;
 import com.ssafy.common.model.response.BaseResponseBody;
 
 import com.ssafy.db.entity.Meeting;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,95 +29,72 @@ import java.util.List;
 @RequestMapping("/confession")
 public class ConfessionController {
 
+    @Autowired
+    MeetingService meetingService;
+
+    @Autowired
+    MeetingHistoryService meetingHistoryService;
+
+    private Page<ConfessionRes> getPageConfessionRes(Page<Meeting> meetings) {
+        List<ConfessionRes> temp = new ArrayList<>();
+        Pageable tempPageable = meetings.getPageable();
+        long total = meetings.getTotalElements();
+
+        meetings.getContent().forEach( meeting -> {
+            ConfessionRes confessionRes =
+                    ConfessionRes.of(meeting,
+                            meetingHistoryService
+                                    .getCountMeetingHistoriesByMeetingIdAndActionCreateOrActionJoin(meeting.getId()));
+            temp.add(confessionRes);
+        });
+
+        return new PageImpl<ConfessionRes>(temp, tempPageable, total);
+    }
+
     @GetMapping()
     @ApiOperation(value = "넘겨 받을 값 없음", notes = "고해성사 모든 방 검색")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-            @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "성공", response = MeetingListRes.class)
     })
-    public ResponseEntity<MeetingResList> findConfession() {
+    public ResponseEntity<Page<ConfessionRes>> findConfession(@PageableDefault(page = 0, size = 6) Pageable pageable) {
 
-        // meeting에서 meeting_category_id가 고해성사인 방을 모두 검색 하여 돌려줌
-        // @PathVariable int noticeSeq
+        Page<Meeting> meetings = meetingService.getAllMeetings(pageable);
 
-        // 테스트
-        System.out.println("1111111111111111111111111111");
-        System.out.println("고해성사 방 전부 검색");
-
-        List<Meeting> resList = new ArrayList<>();
-
-//        for(int i = 1; i <= 3; i++) {
-//            Meeting meeting = new Meeting();
-//            meeting.setTitle("방" + i);
-//            meeting.setDescription("방설명" + i);
-//            meeting.setParticipants(i);
-//            resList.add(meeting);
-//        }
-
-        // 일단 넘겨주는 값 없음
-        return ResponseEntity.status(200).body( MeetingResList.of(200, "Success", resList) );
+        return ResponseEntity.status(200).body( getPageConfessionRes(meetings) );
     }
 
     @GetMapping("/{topicCategoryId}")
     @ApiOperation(value = "topicCategoryId : 주제별 id", notes = "주제별 고해성사 방 검색")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-            @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "성공", response = MeetingListRes.class)
     })
-    public ResponseEntity<MeetingResList> findTopicCategoryConfession(@PathVariable int topicCategoryId) {
+    public ResponseEntity<Page<ConfessionRes>> findTopicCategoryConfession(@PageableDefault(page = 0, size = 6) Pageable pageable
+                                                                            , @PathVariable Long topicCategoryId) {
 
-        // topicCategoryId를 topic_category에서 찾아서 해당 주제의 방을 전부 넘겨줌
+        Page<Meeting> meetings = meetingService.getMeetingsByTopicCategory(pageable, topicCategoryId);
 
-        // 테스트
-        System.out.println(topicCategoryId);
-        System.out.println("고해성사 주제별 방 전부 검색");
-
-        List<Meeting> resList = new ArrayList<>();
-
-//        for(int i = 1; i <= 3; i++) {
-//            Meeting meeting = new Meeting();
-//            meeting.setTitle("방" + i);
-//            meeting.setDescription("방설명" + i);
-//            meeting.setParticipants(i);
-//            resList.add(meeting);
-//        }
-
-        // 일단 넘겨주는 값 없음
-        return ResponseEntity.status(200).body( MeetingResList.of(200, "Success", resList) );
+        return ResponseEntity.status(200).body( getPageConfessionRes(meetings) );
     }
 
-    @GetMapping("/confession/search/{key}/{value}")
+    @GetMapping("/search/{key}/{value}")
     @ApiOperation(value = "key, value", notes = "원하는 검색을 통해 고해성사 방 검색")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-            @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "성공", response = MeetingListRes.class)
     })
-    public ResponseEntity<ConfessionPostReq> findSearchConfession(@PathVariable int key, @PathVariable int value) {
+    public ResponseEntity<Page<ConfessionRes>> findSearchConfession(@PageableDefault(page = 0, size = 6) Pageable pageable
+                                                                    , @PathVariable String key
+                                                                    , @PathVariable String value) {
 
-        // key와 value를 통해 고해성사방을 검색한다.
-        // service단에 key와 value를 넘겨줘서 해당 값에 맞는 적절한 방 검색
+        // 방 설명, 방 제목, 방장 닉네임
+        Page<Meeting> meetings = meetingService.searchMeetings(pageable, key , value);
 
-        // 테스트
-        System.out.println(key);
-        System.out.println(value);
-
-        // 일단 넘겨주는 값 없음
-        return ResponseEntity.status(200).body( null );
+        return ResponseEntity.status(200).body( getPageConfessionRes(meetings) );
     }
 
     @PostMapping()
     @ApiOperation(value = "방 제목, 방 설명, 주제, 제한인원 수", notes = "방 제목, 방 설명, 주제, 제한인원 수를 통해 고해성사 방을 생성한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
-            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-            @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "Success", response = BaseResponseBody.class)
     })
     public ResponseEntity<BaseResponseBody> createConfession(@RequestBody @ApiParam(value="방 생성 정보", required = true) ConfessionPostReq confessionInfo) {
 

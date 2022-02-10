@@ -14,22 +14,20 @@ import lombok.Setter;
 @Setter
 @ApiModel("MeetingResResponse")
 public class MeetingRes {
-    @ApiModelProperty(name="방 제목", example = "취직 문제로 고민인 사람")
-    String title;
-    @ApiModelProperty(name="방 설명", example = "진짜 힘든사람만 들어오세요")
-    String description;
-    @ApiModelProperty(name="제한 인원수", example = "3")
-    int participants;
-    @ApiModelProperty(name="해당 방 연결주소", example = "sdfadff22424")
-    String meetingAddress;
+
+    @ApiModelProperty(name = "미팅 정보", example = "미팅 정보")
+    Meeting meeting;
+    @ApiModelProperty(name = "해당 미팅방 방장의 UserId", example = "10")
+    Long ownerId;
+    @ApiModelProperty(name = "해당 미팅방의 토픽 카테고리 Id", example = "2")
+    Long topicCategoryId;
 
     public static MeetingRes of(Meeting meeting) {
         MeetingRes res = new MeetingRes();
-        res.setTitle(meeting.getTitle());
-        res.setDescription(meeting.getDescription());
-        res.setParticipants(meeting.getParticipants());
-        res.setMeetingAddress("연결 주소 : 임시로 넣어놓은 문자열");
 
+        res.setMeeting(meeting);
+        res.setOwnerId(meeting.getUser().getId());
+        res.setTopicCategoryId(meeting.getTopicCategory().getId());
         return res;
     }
 }

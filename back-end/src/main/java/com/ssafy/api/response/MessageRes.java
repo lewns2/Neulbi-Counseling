@@ -16,13 +16,17 @@ public class MessageRes extends BaseResponseBody {
     private List<Message> chatMessage;
     private Long chatRoomId;
     private Long userId;
+    private List<Long> userList;
+    private boolean isActive;
 
-    public static MessageRes of(Integer statusCode, String resMessage, List<Message> message) {
+    public static MessageRes of(Integer statusCode, String resMessage, List<Message> message, List<Long> userList, boolean isActive) {
 
         MessageRes res = new MessageRes();
         res.setStatusCode(statusCode);
         res.setMessage(resMessage);
         res.setChatMessage(message);
+        res.setUserList(userList);
+        res.isActive = isActive;
 //        for (Message msg: message) {
 //            res.setMessage(msg.getMessage());
 //            res.setChatRoomId(msg.getChatRoomId());

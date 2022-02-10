@@ -1,6 +1,5 @@
 package com.ssafy.api.service;
 
-
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
@@ -11,9 +10,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
-import java.util.Date;
 
 /**
  * 유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -38,7 +34,13 @@ public class UserServiceImpl implements UserService {
         String email = userRegisterInfo.getEmail();
         String password = passwordEncoder.encode(userRegisterInfo.getPassword());
 
-        User user = User.builder().email(email).nickname(nickname).password(password).build();
+        User user = User.builder()
+                .email(email)
+                .nickname(nickname)
+                .password(password)
+                .mask("DEFAULT_MASK")
+                .socialId("0")
+                .build();
         return userRepository.save(user);
     }
 
@@ -88,6 +90,13 @@ public class UserServiceImpl implements UserService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void deleteUserById(Long userId) {
+        User user = getUserById(userId);
+
+        userRepository.delete(user);
     }
 }
 

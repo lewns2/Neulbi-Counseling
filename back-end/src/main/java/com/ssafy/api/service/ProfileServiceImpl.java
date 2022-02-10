@@ -1,15 +1,18 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.ProfileModifyPasswordPutReq;
-import com.ssafy.common.auth.SsafyUserDetails;
-import com.ssafy.db.entity.ConsultantProfile;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,6 +38,18 @@ public class ProfileServiceImpl implements ProfileService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@Autowired
+	MyConsultantRepository myConsultantRepository;
+
+	@Autowired
+	MyConsultantRepositorySupport myConsultantRepositorySupport;
+
+	@Autowired
+	CommunityRepositorySupport communityRepositorySupport;
+
+	@Autowired
+	CommentRepositorySupport commentRepositorySupport;
+
 	@Override
 	public Integer getUserByNickname(String nickname) {
 
@@ -43,10 +58,6 @@ public class ProfileServiceImpl implements ProfileService {
 		return cnt;
 	}
 
-	@Override
-	public void modifyUserByNickname(String UserNickName) {
-
-	}
 
 	@Override
 	public Optional<User> findByUserId(Long UserId) {
@@ -62,6 +73,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 		userInfo.ifPresent(user1 -> {
 			user1.resetPassword(modifyPassword);
+			user1.setModifiedDate(LocalDateTime.now());
 			userRepository.save(user1);
 		});
 	}
@@ -72,5 +84,76 @@ public class ProfileServiceImpl implements ProfileService {
 		Optional<ConsultantProfile> con = consultantRepositorySupport.findByUserId(userId);
 
 		return con;
+	}
+
+	@Override
+	public List<ConsultantProfile> getMyConsultantList(Long userId) {
+
+		List<MyConsultant> myConsultantList = myConsultantRepositorySupport.findMyConsultantListByUserId(userId);
+
+		List<ConsultantProfile> consultantProfileList = new ArrayList<>();
+
+		for(MyConsultant myConsultant : myConsultantList) {
+			Long consultantId = myConsultant.getConsultant().getId();
+			System.out.println("이번 녀석의 UserID는"+consultantId);
+			consultantProfileList.add(consultantRepositorySupport.findByUserIdOne(consultantId));
+		}
+
+		return consultantProfileList;
+	}
+
+	@Override
+	@Transactional
+	public void createMyConsultant(Long userId, Long consultantId) {
+		User user = userRepository.findUserById(userId).get();
+		User consultant = userRepository.findUserById(consultantId).get();
+
+		boolean hasConsultant;
+//		= myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId(userId,consultantId);;
+		MyConsultant myConsultantCheck = myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId(userId,consultantId).orElse(null);
+		if(myConsultantCheck == null) hasConsultant = false;
+		else hasConsultant = true;
+		// 해당 컨설턴트가 목록에 없음 hasConsultant 가 false 이면 추가
+		if(!hasConsultant) {
+			MyConsultant myConsultant = MyConsultant.builder()
+					.user(user)
+					.consultant(consultant)
+					.build();
+			myConsultantRepository.save(myConsultant);
+			// 생성하고 저장에 성공했다 true
+		}
+		// hasConsultant가 true이면 삭제.
+		else {
+			myConsultantRepositorySupport.deleteMyConsultantByUserIdAndConsultantId(userId,consultantId);
+		}
+	}
+
+	@Override
+	public void deleteMyConsultant(Long userId, Long consultantId) {
+		myConsultantRepositorySupport.deleteMyConsultantByUserIdAndConsultantId(userId, consultantId);
+	}
+
+	@Override
+	public void modifyUserNickname(Long userId, String nickname) {
+		Optional<User> user = findByUserId(userId);
+
+		user.ifPresent(user1 -> {
+			user1.modifyNickname(nickname);
+			userRepository.save(user1);
+		});
+	}
+
+	@Override
+	public Page<Community> getCommunityList(Pageable pageable, Long userId) {
+		Page<Community> communityList = communityRepositorySupport.findAllByUserId(pageable,userId);
+
+		return communityList;
+	}
+
+	@Override
+	public Page<Comment> getCommentList(Pageable pageable, Long userId) {
+		Page<Comment> comments = commentRepositorySupport.findAllByUserId(pageable, userId);
+
+		return comments;
 	}
 }

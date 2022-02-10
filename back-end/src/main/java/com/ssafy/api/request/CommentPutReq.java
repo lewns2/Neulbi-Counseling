@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @ApiModel("CommentPutRequest")
 public class CommentPutReq {
-    @ApiModelProperty(name="아이디", example = "user_id")
+    @ApiModelProperty(name="현재 유저아이디")
     Long userId;
-    @ApiModelProperty(name="아이디", example = "user_id")
+    @ApiModelProperty(name="댓글 번호")
     Long commentId;
-    @ApiModelProperty(name="아이디", example = "user_id")
+    @ApiModelProperty(name="댓글 내용")
     String description;
 }

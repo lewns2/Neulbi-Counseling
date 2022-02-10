@@ -4,10 +4,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @ApiModel("CommentPostRequest")
+@ToString
 public class CommentPostReq {
     @ApiModelProperty(name="댓글 작성자")
     Long userId;
@@ -17,6 +19,4 @@ public class CommentPostReq {
     String description;
     @ApiModelProperty(name="댓글 그룹")
     int groupNum;
-    @ApiModelProperty(name="계층")
-    int layer;
 }

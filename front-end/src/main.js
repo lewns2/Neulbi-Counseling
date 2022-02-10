@@ -6,7 +6,7 @@ import VueAxios from "./common/lib/axios";
 import axios from "./common/lib/axios";
 
 // global styles
-import "./assets/main.css";
+// import "./assets/main.css";
 
 const app = createApp({
   render: () => h(App),

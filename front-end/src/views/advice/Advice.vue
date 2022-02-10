@@ -1,14 +1,15 @@
 <template>
+  
+  
+  
   <div class="row">
-    <advice-create></advice-create>
-  </div>
-  <div class="row">
-    <div class="col-sm-8" align="left">
+    <div class="col-sm-9" align="left">
       <advice-view :userInfo="state.userInfo"></advice-view>
-      <advice-pagination></advice-pagination>
+      <!-- <advice-pagination></advice-pagination> -->
     </div>
-    <div class="col-sm-4">
-      <!-- <advice-user></advice-user> -->
+    <div class="col-sm-3">
+      <advice-user :userInfo="state.userInfo"></advice-user>
+      <advice-create :userInfo="state.userInfo"></advice-create>
       <advice-rank></advice-rank>
     </div>
   </div>
@@ -16,19 +17,19 @@
 
 <script>
 import AdviceCreate from "./components/AdviceCreate.vue";
-import AdvicePagination from "./components/AdvicePagination.vue";
+// import AdvicePagination from "./components/AdvicePagination.vue";
 import AdviceRank from "./components/AdviceRank.vue";
 import AdviceUser from "./components/AdviceUser.vue";
 import AdviceView from "./components/AdviceView.vue";
 
-import { reactive } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: "Advice",
   components: {
     AdviceCreate,
-    AdvicePagination,
+    // AdvicePagination,
     AdviceRank,
     AdviceUser,
     AdviceView,
@@ -36,11 +37,16 @@ export default {
   setup () {
     const store = useStore()
     const state = reactive({
-      userInfo: store.getters['root/userInfo'],
+      userInfo: computed(() => store.getters['root/userInfo']),
     })
-    return { state }
+
+    onMounted(async() => {
+      await store.dispatch("root/adviceGetConsultantList", state.userInfo.id)
+      await store.dispatch("root/adviceGetRankList")
+    })
+    return { state, onMounted }
   }
 };
 </script>
 
-<style></style>
+<style scoped></style>

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  * 모델 간 공통 사항 정의.
  */
 @Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
@@ -22,6 +23,10 @@ public class BaseEntity {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    //@LastModifiedBy
-    //private LocalDateTime modifiedDate;
+    @LastModifiedBy
+    private LocalDateTime modifiedDate;
+
+    public void setModifiedDate() {
+        this.modifiedDate = LocalDateTime.now();
+    }
 }

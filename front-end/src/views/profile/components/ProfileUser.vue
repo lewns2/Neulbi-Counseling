@@ -1,27 +1,38 @@
 <template>
   <div>
-    <p>ProfileUser</p>
-    <p>{{ userInfo }}</p>
-    <input type="text" placeholder="사용자 닉네임" id="nickname" v-model="state.nickname" />
-    <button @click="getNickname">getNickname</button>
-    <p>{{ state.nickname_bool }}</p>
-    <button v-if="state.nickname_bool == true" @click="modifyNickname">
+    <h1>ProfileUser</h1>
+    <br>
+    <h3>닉네임 변경</h3>
+    <input type="text" placeholder="사용자 닉네임" id="nickname" v-model="state.nickname">
+    <button @click="clickgetNickname">getNickname</button>
+    <p>{{ state.profileNicknameBool }}</p>
+    <button v-if="state.profileNicknameBool == true" @click="clickmodifyNickname">
       modifyNickname
     </button>
     <br>
+    <hr>
     <br>
+    <h3>마스크 변경</h3>
     <div v-for="(idx) in 10" :key="idx">
-      <button @click="modifyMask(idx)">{{idx}}</button>
+      <button @click="clickmodifyMask(idx)">{{idx}}</button>
     </div>
     <br>
+    <hr>
     <br>
-    <p>Profile_Img_Route</p>
-    <input type="text" placeholder="이미지 경로" id="profileImg" v-model="state.profileImg" />
-    <button @click="modifyProfileImg">
-      modifyProfileImg
-    </button>
+    <h3>프로필 이미지 변경</h3>
+    <!-- 내가 추가한 부분 -->
+    <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
+      <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
+      <img style="width: 35%; max-width: 600px;" v-bind:src="state.profileImgThumbnail">
+    </div>
+    <input class="align-middle" @change="changeImgFile" type="file"><!-- C -->
+    <button class="btn btn-primary" @click="clickmodifyProfileImg"> 변경하기 </button>
+    <!----------------->
+
     <br>
+    <hr>
     <br>
+    <h3>비밀번호 변경</h3>
     <!-- modal button -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</button>
     <!-- modal -->
@@ -46,14 +57,16 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="modifyPassword">Send message</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyPassword">Send message</button>
           </div>
         </div>
       </div>
     </div>
     <br>
+    <hr>
     <br>
-    <button @click="resignUser">회원탈퇴</button>
+    <h3>회원 탈퇴</h3>
+    <button @click="clickresignUser">회원탈퇴</button>
   </div>
 </template>
 
@@ -65,61 +78,76 @@ import { useRouter } from 'vue-router'
 export default {
   name: 'ProfileUser',
   props: {
-    userInfo : Array,
+    userInfo : Object,
   },
   setup(props) {
     const store = useStore()
     const router = useRouter()
 
     const state = reactive({
-      userInfo: null,
+      userInfo: props.userInfo,
       nickname: null,
       maskId : null,
       profileImg : null,
-			nickname_bool: computed(() => store.getters['root/profileNicknameBool']),
+      profileImgThumbnail : props.userInfo.profileImg !== null ? props.userInfo.profileImg : 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
+			profileNicknameBool: computed(() => store.getters['root/profileNicknameBool']),
       password: null,
       newPassword: null,
       newPasswordConfirmation: null,
     })
 
-    const getNickname = function () {
+    const clickgetNickname = function () {
       store.dispatch('root/profileGetNickname', { nickname: state.nickname })
     }
 
-    const modifyNickname = function () {
-      store.dispatch('root/profileModifyNickname', { user_id: props.userInfo.id, nickname: state.nickname})
+    const clickmodifyNickname = async function () {
+      await store.dispatch('root/profileModifyNickname', { user_id: state.userInfo.id, nickname: state.nickname})
+      await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
-    const modifyMask = function (event) {
-      store.dispatch('root/profileModifyMask', { user_id: props.userInfo.id, mask_id: event})
+    const clickmodifyMask = async function (event) {
+      await store.dispatch('root/profileModifyMask', { user_id: state.userInfo.id, mask_id: event})
+      await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
-    const modifyProfileImg = function () {
-      console.log(state.profileImg)
-      store.dispatch('root/profileModifyProfileImg', { user_id: props.userInfo.id, profile_img: state.profileImg })
+    ////////////////////
+    const changeImgFile = async function (event) {
+      if( event.target.files && event.target.files.length > 0 ) {
+        const file = event.target.files[0];
+        store.profileImg = file;
+        state.profileImgThumbnail = URL.createObjectURL(file); // 파일 경로로 바꿔서 추가
+      }
     }
 
-    const modifyPassword = function () {
-      store.dispatch('root/profileModifyPassword', { user_id: props.userInfo.id, password: state.newPassword})
+    const clickmodifyProfileImg = async function () {
+      await store.dispatch('root/profileModifyProfileImg', { user_id: state.userInfo.id, profile_img: state.profileImg })
+      await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
+    }
+    ////////////////////
+
+    const clickmodifyPassword = async function () {
+      await store.dispatch('root/profileModifyPassword', { user_id: state.userInfo.id, password: state.newPassword})
+      await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
-    const resignUser = function () {
-      store.dispatch('root/profileResignUser', { user_id: props.userInfo.id })
-      .then((res) => {
-        console.log('성공', res)
-        store.commit("root/SET_IS_LOGIN", false)
-        store.commit("root/GET_USER_INFO", null)
-        localStorage.removeItem("jwt")
-        router.push({
-          name: 'Home'
-        })
+    const clickresignUser = async function () {
+      await store.dispatch('root/profileResignUser', { user_id: state.userInfo.id })
+      await router.push({
+        name: 'Home'
       })
-      .catch((err) => {
-        console.log('실패', err)
-      })
+      
     }
 
-    return { onMounted, state, getNickname, modifyNickname, modifyMask, modifyProfileImg, modifyPassword, resignUser }
+    return {
+      onMounted, state, 
+      clickgetNickname, 
+      clickmodifyNickname, 
+      clickmodifyMask, 
+      changeImgFile, // 수정
+      clickmodifyProfileImg, 
+      clickmodifyPassword, 
+      clickresignUser
+    }
   }
 }
 </script>

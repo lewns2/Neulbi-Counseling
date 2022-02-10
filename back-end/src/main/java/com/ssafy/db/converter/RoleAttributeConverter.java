@@ -23,6 +23,6 @@ public class RoleAttributeConverter implements AttributeConverter<String, Intege
         } else if (2 == code) {
             return "ADMIN";
         }
-        return "Hacker";
+        return "HACKER";
     }
 }
