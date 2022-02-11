@@ -8,6 +8,7 @@ export default {
   // profile
   profileNicknameBool: false,
   profileConsultantProfile: [],
+  profileConsultantLikeActive: [],
   profileConsultantLike: [],
   profileHistoryConfession: [],
   profileHistoryAdvice: [],
@@ -31,6 +32,7 @@ export default {
   // chatRoom
   chatRoomList: [],
   chatRoomId: [],
+  chatRoomNickname: '',
   chatRoomMessage: [],
   chatRoomUserList: [],
   meetingIsActive: false,

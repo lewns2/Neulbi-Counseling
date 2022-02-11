@@ -25,7 +25,18 @@ export function PROFILE_GET_CONSULTANT_PROFILE(state, data) {
 }
 
 export function PROFILE_CONSULTANT_LIKE(state, data) {
-  state.profileConsultantLike = data
+  state.profileConsultantLikeActive = data[0]
+  state.profileConsultantLike = []
+  for (let i = 1; i < data.length; i++) {
+    state.profileConsultantLike.push({
+      id: data[i].id,
+      nickname: data[i].nickname,
+      topicCategoryName: data[i].topicCategoryName,
+      pointTot: data[i].pointTot,
+      consultingCnt: data[i].consultingCnt,
+      description: data[i].description,
+    })
+  }
 }
 
 export function PROFILE_GET_HISTORY_MEETING(state, data) {
@@ -155,6 +166,10 @@ export function CHATROOM_GET_LIST(state, data) {
 
 export function CHATROOM_GET_DETAIL_ID(state, data) {
   state.chatRoomId = data
+}
+
+export function CHATROOM_GET_DETAIL_NICKNAME(state, data) {
+  state.chatRoomNickname = data
 }
 
 export function CHATROOM_GET_DETAIL_MESSAGE(state, data) {
