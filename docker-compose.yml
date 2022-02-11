@@ -8,7 +8,7 @@ services:
       context: front-end/
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "9999:9999"
       - "443:443" 
     # [인증서 파일 저장 경로]:/var/www/html
     volumes:
