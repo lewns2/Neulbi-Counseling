@@ -24,6 +24,10 @@ export function profileConsultantProfile(state) {
   return state.profileConsultantProfile;
 }
 
+export function profileConsultantLikeActive(state) {
+  return state.profileConsultantLikeActive
+}
+
 export function profileConsultantLike(state) {
   return state.profileConsultantLike
 }
@@ -98,6 +102,10 @@ export function chatRoomList(state) {
 
 export function chatRoomId(state) {
   return state.chatRoomId
+}
+
+export function chatRoomNickname(state) {
+  return state.chatRoomNickname
 }
 
 export function chatRoomMessage(state) {

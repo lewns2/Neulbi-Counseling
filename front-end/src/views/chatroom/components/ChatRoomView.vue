@@ -1,49 +1,25 @@
 <template>
-    <div class="left">
-            <div class="top">
-                <input type="text" placeholder="검색" />
-                <a href="javascript:;" class="search"></a>
-            </div>
-            <ul class="people">
-                <li class="person" data-chat="person1">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/thomas.jpg" alt="" />
-                    <span class="name">Thomas Bangalter</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">I was wondering...</span>
-                </li>
-                <li class="person" data-chat="person2">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/dog.png" alt="" />
-                    <span class="name">Dog Woofson</span>
-                    <span class="time">1:44 PM</span>
-                    <span class="preview">I've forgotten how it felt before</span>
-                </li>
-                <li class="person" data-chat="person3">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/louis-ck.jpeg" alt="" />
-                    <span class="name">Louis CK</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">But we’re probably gonna need a new carpet.</span>
-                </li>
-                <li class="person" data-chat="person4">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/bo-jackson.jpg" alt="" />
-                    <span class="name">Bo Jackson</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">It’s not that bad...</span>
-                </li>
-                <li class="person" data-chat="person5">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/michael-jordan.jpg" alt="" />
-                    <span class="name">Michael Jordan</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">Wasup for the third time like is 
-you blind bitch</span>
-                </li>
-                <li class="person" data-chat="person6">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/drake.jpg" alt="" />
-                    <span class="name">Drake</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">howdoyoudoaspace</span>
-                </li>
-            </ul>
-        </div>
+  <div class="top"><span>
+    <span class="name"></span></span>
+  </div>
+  <br>
+  <ul class="people">
+    <!-- {{ state.chatRoomList}} -->
+    <li class="person" data-chat="person1" v-for="(chatRoom, idx) in state.chatRoomList" :key=idx @click="chatRoomGetDetail(chatRoom.id, consultantNickName)">
+      <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
+      <span class="name" v-if="chatRoom.consultantId == state.userInfo.id">{{ chatRoom.userNickName }}</span>
+      <span class="name" v-else>{{ chatRoom.consultantNickName }}</span>
+      <span class="iscon" v-if="chatRoom.consultantId == state.userInfo.id">상담가</span>
+      <span class="iscon" v-else>상담자</span>
+      <span class="time" v-if="chatRoom.createdDate!=null" @click="chatRoomGetDetail(chatRoom.id, chatRoom.consultantNickName)">
+        {{ chatRoom.createdDate.substr(5, 5) }}
+      </span>
+      <span class="time" v-else @click="chatRoomGetDetail(chatRoom.id, consultantNickName)">xx-xx</span>
+      <span class="preview" v-if="chatRoom.lastMessage!=null">{{ chatRoom.lastMessage }}</span>
+      <span class="preview" v-else>메시지가 없습니다.</span>
+      <hr>
+    </li>
+  </ul>
     <!-- <div v-for="(chatRoom, idx) in state.chatRoomList" :key=idx>
       <p @click="chatRoomGetDetail(chatRoom.id)">{{ chatRoom.id }}</p>
     </div> -->
@@ -64,8 +40,9 @@ export default {
       chatRoomList: computed(() => props.chatRoomList),
       userInfo: store.getters['root/userInfo'],
     })
-    const chatRoomGetDetail = function (chatRoom_id) {
+    const chatRoomGetDetail = function (chatRoom_id, consultantNickName) {
       console.log(chatRoom_id)
+      store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', consultantNickName)
       store.dispatch("root/chatRoomGetDetail",
         { user_id: state.userInfo.id, chatRoom_id: chatRoom_id }
       )
@@ -76,6 +53,151 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+@charset "UTF-8";
+*, *:before, *:after {
+  box-sizing: border-box;
+}
 
+.container .left .top {
+  width: 100%;
+  height: 47px;
+  padding: 15px 29px;
+  background-color: #e6e6e6;
+  border-top-left-radius: 30px;
+  border-bottom: 1px solid white;
+}
+.container .left .people {
+  overflow-y: auto;
+  margin-left: -1px;
+  padding-left: 0px;
+  width: 100%;
+}
+.container .left .people .person {
+  position: relative;
+  width: 100%;
+  padding: 12px 5% 16px 20%;
+  cursor: pointer;
+  background-color: #fff;
+}
+// .container .left .people .person:after {
+//   position: absolute;
+//   bottom: 0;
+//   left: 50%;
+//   display: block;
+//   width: 80%;
+//   height: 1px;
+//   content: "";
+//   background-color: #e6e6e6;
+//   transform: translate(-50%, 0);
+// }
+.container .left .people .person img {
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: 12px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.container .left .people .person .name {
+  float: left;
+  font-size: 14px;
+  line-height: 22px;
+  display: inline-block;
+  color: #1a1a1a;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  padding-left: 30px;
+}
+.container .left .people .person .time {
+  font-size: 14px;
+  position: relative;
+  // top: 16px;
+  width: 100%;
+  padding: 0 0 5px 5px;
+  color: #999;
+  background-color: #fff;
+}
+.container .left .people .person .preview {
+  font-size: 14px;
+  display: inline-block;
+  overflow: hidden !important;
+  width: 70%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+  color: #999;
+}
+
+// .container .left .people .person.active, .container .left .people .person:hover {
+//   margin-top: -1px;
+//   margin-left: -1px;
+//   padding-top: 13px;
+//   border: 0;
+//   background-color: var(--blue);
+//   width: calc(100% + 2px);
+//   padding-left: calc(10% + 1px);
+// }
+.container .left .people .person.active span, .container .left .people .person:hover span {
+  color: var(--white);
+  background: transparent;
+}
+.container .left .people .person.active:after, .container .left .people .person:hover:after {
+  display: none;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    margin-left: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideFromLeft {
+  0% {
+    margin-left: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+@keyframes slideFromRight {
+  0% {
+    margin-right: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideFromRight {
+  0% {
+    margin-right: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+
+::-webkit-scrollbar { width: 10px; }
+
+::-webkit-scrollbar-track { 
+  background-color: white; 
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb { 
+    background: #e6e6e6;
+    border-radius: 5px;
+}
 </style>

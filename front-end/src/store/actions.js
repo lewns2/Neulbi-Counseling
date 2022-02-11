@@ -810,9 +810,11 @@ export async function chatRoomGetList({ state, commit, dispatch }, payload) {
   const url = `chatroom/${user_id}`
   await $axios.get(url)
     .then((res) => {
-      commit('CHATROOM_GET_LIST', res.data.chatRooms)
+      console.log(res)
+      commit('CHATROOM_GET_LIST', res.data)
+      commit('CHATROOM_GET_DETAIL_ID', res.data[0].consultantNickName)
       dispatch('chatRoomGetDetail',{
-         user_id: state.userInfo.id, chatRoom_id: res.data.chatRooms[0].id 
+         user_id: state.userInfo.id, chatRoom_id: res.data[0].id 
       })
     })
     .catch((err) => {
