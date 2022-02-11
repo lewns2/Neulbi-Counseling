@@ -1,5 +1,5 @@
 <template>
-  
+  <main-header></main-header>
   
   
   <div class="row">
@@ -21,6 +21,7 @@ import AdviceCreate from "./components/AdviceCreate.vue";
 import AdviceRank from "./components/AdviceRank.vue";
 import AdviceUser from "./components/AdviceUser.vue";
 import AdviceView from "./components/AdviceView.vue";
+import MainHeader from "../main/components/MainHeader.vue";
 
 import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
@@ -28,6 +29,7 @@ import { useStore } from 'vuex'
 export default {
   name: "Advice",
   components: {
+    MainHeader,
     AdviceCreate,
     // AdvicePagination,
     AdviceRank,
