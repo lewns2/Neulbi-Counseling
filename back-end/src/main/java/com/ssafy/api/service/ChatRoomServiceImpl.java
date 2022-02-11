@@ -1,17 +1,19 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.ChatRoomJoinUserPostReq;
+import com.ssafy.api.response.ChatRoomRes;
 import com.ssafy.db.entity.ChatRoom;
 import com.ssafy.db.entity.Message;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.*;
-import lombok.RequiredArgsConstructor;
+import com.ssafy.db.repository.ChatRoomRepository;
+import com.ssafy.db.repository.ChatRoomRepositorySupport;
+import com.ssafy.db.repository.MessageRepository;
+import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service("chatRoomService")
@@ -25,6 +27,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Autowired
     ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    MessageService messageService;
 
     @Autowired
     ChatRoomRepositorySupport chatRoomRepositorySupport;
@@ -85,6 +93,29 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         userList.add(chatRoom.getConsultantId());
 
         return userList;
+    }
+
+    @Override
+    public List<ChatRoomRes> getChatRoomInfoByChatRooms(List<ChatRoom> chatRooms) {
+        List<ChatRoomRes> chatRoomResList = new ArrayList<>();
+
+
+        for(ChatRoom chatRoom : chatRooms) {
+            ChatRoomRes res = new ChatRoomRes();
+
+            Message message = messageService.getLastMessageByChatRoomId(chatRoom.getId());
+            res.setUserId(chatRoom.getUserId());
+            res.setConsultantId(chatRoom.getConsultantId());
+            User user = userService.getUserById(chatRoom.getUserId());
+            res.setConsultantNickName(user.getNickname());
+            res.setConsultantProfileImg(user.getProfileImg());
+            res.setMessage(message.getMessage());
+            res.setStatusCode(200);
+            res.setMessage("Success");
+
+            chatRoomResList.add(res);
+        }
+        return chatRoomResList;
     }
 
 
