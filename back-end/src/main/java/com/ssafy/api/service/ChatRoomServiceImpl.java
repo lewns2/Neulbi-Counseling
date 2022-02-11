@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service("chatRoomService")
@@ -30,6 +31,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProfileService profileService;
 
     @Autowired
     MessageService messageService;
@@ -99,17 +103,26 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     public List<ChatRoomRes> getChatRoomInfoByChatRooms(List<ChatRoom> chatRooms) {
         List<ChatRoomRes> chatRoomResList = new ArrayList<>();
 
-
         for(ChatRoom chatRoom : chatRooms) {
             ChatRoomRes res = new ChatRoomRes();
 
-            Message message = messageService.getLastMessageByChatRoomId(chatRoom.getId());
+            Optional<Message> message = messageService.getLastMessageByChatRoomId(chatRoom.getId());
+            String msg;
+            if(message.isPresent()) {
+                msg = message.get().getMessage();
+            }
+            else {
+                msg = "아직 메시지가 없습니다.";
+            }
+
             res.setUserId(chatRoom.getUserId());
             res.setConsultantId(chatRoom.getConsultantId());
-            User user = userService.getUserById(chatRoom.getUserId());
-            res.setConsultantNickName(user.getNickname());
-            res.setConsultantProfileImg(user.getProfileImg());
-            res.setMessage(message.getMessage());
+            res.setMessage(msg);
+
+            User consultant = userService.getUserById(chatRoom.getConsultantId());
+
+            res.setConsultantNickName(consultant.getNickname());
+            res.setConsultantProfileImg(consultant.getProfileImg());
             res.setStatusCode(200);
             res.setMessage("Success");
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MessageRepositorySupport {
@@ -28,7 +29,7 @@ public class MessageRepositorySupport {
         return message;
     }
 
-    public Message findLastMessageByChatRoomId(Long chatRoomId) {
+    public Optional<Message> findLastMessageByChatRoomId(Long chatRoomId) {
         Message message = jpaQueryFactory.select(qMessage)
                 .from(qMessage)
                 .where(qMessage.chatRoomId.eq(chatRoomId))
@@ -36,7 +37,8 @@ public class MessageRepositorySupport {
                 .limit(1)
                 .fetchOne();
 
-        return message;
+        if(message == null) return Optional.empty();
+        else return Optional.ofNullable(message);
     }
 
 }
