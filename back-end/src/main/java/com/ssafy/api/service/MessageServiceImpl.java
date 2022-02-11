@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("messageService")
 public class MessageServiceImpl implements MessageService{
@@ -26,9 +27,8 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Message getLastMessageByChatRoomId(Long chatRoomId) {
-        Message message = messageRepositorySupport.findLastMessageByChatRoomId(chatRoomId);
-
+    public Optional<Message> getLastMessageByChatRoomId(Long chatRoomId) {
+        Optional<Message> message = messageRepositorySupport.findLastMessageByChatRoomId(chatRoomId);
 
         return message;
     }
