@@ -110,10 +110,15 @@ public class User extends BaseEntity{
     // 접근 권한
     public String getRoleKey() { return "ROLE_" + this.role; }
 
-    // 소셜 로그인에서 이미지 및 소셜 아이디가 바뀌면 자동으로 바뀌게
-    public User modifySocial(String socialId, String profileImg) {
+    // --- 수정한 부분
+    // 소셜 로그인, 소셜 아이디 바꾸기
+    public User modifySocialId(String socialId) {
         this.socialId = socialId;
-        this.profileImg = profileImg;
         return this;
+    }
+
+    // 프로필 이미지 변경
+    public void modifyProfileImg(String profileImg) {
+        this.profileImg = profileImg;
     }
 }

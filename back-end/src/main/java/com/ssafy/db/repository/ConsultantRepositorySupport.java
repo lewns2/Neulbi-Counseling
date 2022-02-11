@@ -27,7 +27,21 @@ public class ConsultantRepositorySupport {
 
     // 고민상담 - 상담가 목록 불러오기
     // is_consultant = true인 user를 가져온다.
-    public Page<ConsultantProfile> findAll(Pageable pageable, Long userId) {
+    public Page<ConsultantProfile> findAll(Pageable pageable) {
+        QueryResults<ConsultantProfile> cons = jpaQueryFactory
+                .select(qConsultantProfile)
+                .from(qConsultantProfile)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
+
+        if (cons == null) return Page.empty();
+
+        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
+    }
+
+    // 고민상담 - 상담가 목록 불러오기
+    // is_consultant = true인 user를 가져온다.
+    public Page<ConsultantProfile> findAllByUserIdNotEqual(Pageable pageable, Long userId) {
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
                 .from(qConsultantProfile)

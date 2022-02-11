@@ -56,6 +56,8 @@ export default {
     const clickLogout = function () {
       store.commit("root/MAIN_IS_SIGNIN", false)
       store.commit("root/GET_USER_INFO", null)
+      store.commit("root/MAIN_EMAIL_BOOL", false)
+      store.commit("root/MAIN_NICKNAME_BOOL", false)
       localStorage.removeItem("jwt")
       router.push({ name: 'Home' })
     }

@@ -20,18 +20,6 @@
 
     <!-- 검색 후 결과 얻기 -->
     <div class="col-4 d-flex justify-content-end">
-      <!-- <details class="custom-select">
-        <summary class="radios">
-          <input type="radio" name="item" id="default" :title="state.showKey" checked>
-          <input type="radio" name="item" id="nickname" title="닉네임">
-          <input type="radio" name="item" id="description" title="설명">
-        </summary>
-        <ul class="list">
-          <li v-for="(searchCategory, idx) in state.searchCategories" :key="idx">
-            <label :for="searchCategory.backValue" @click="clickModifyShowCategory(searchCategory)">{{ searchCategory.value }}</label>
-          </li>
-        </ul>
-      </details> -->
       <div class="dropdown me-3">
         <input type="checkbox" id="dropdown">
 
@@ -42,18 +30,12 @@
         </label>
 
         <ul class="dropdown__items">
-          <li>🙂</li>
-          <li>😺</li>
-          <li>😽</li>
-          <li>😎</li>
-          <li>🤗</li>
+          <li class="ps-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(1)">닉네임</button></li>
+          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(2)">방 제목</button></li>
+          <li class="pe-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(3)">방 설명</button></li>
         </ul>
       </div>
       
-      <!-- <button type="button" class="select-btn mx-2">
-        {{ state.showKey }}
-      </button> -->
-      <!-- <div class="d-flex justify-content-center my-3"> -->
       <div class="searchBox">
         <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
       </div>
@@ -65,10 +47,6 @@
         검색
       </button>
     </div>
-
-    <!-- </div> -->
-    
-
   </span>
 
 
@@ -77,7 +55,7 @@
   <div class="row d-flex justify-content-start">
     <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 mx-5 my-5">
       <div class="card">
-        <img :src="confessionMeeting.profileImg" class="card__image" alt="" />
+        <img :src="'/profile/image/'+confessionMeeting.ownerId">
         <div class="card__overlay">
           <div class="card__header">
             <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
@@ -129,6 +107,7 @@ export default {
     const router = useRouter()
     const state = reactive({
       userInfo: props.userInfo,
+      profileImgThumbnail : `/profile/${props.userInfo.id}/profileImg`,
       confessionMeetingList: computed(() => store.getters['root/confessionMeetingList']),
       confessionLastPageNum: computed(() => store.getters["root/confessionLastPageNum"]),
       confessionMeetingInfo: computed(() => store.getters['root/confessionMeetingInfo']),
@@ -300,9 +279,10 @@ export default {
       })
     }
 
-    const clickConfessionList = function(category) {
-      state.showKey = category.value
-      state.key = category.backValue
+    const clickConfessionList = function(num) {
+      state.key = state.searchCategories[num-1].backValue
+      state.showKey = state.searchCategories[num-1].value
+      console.log(state.key, state.showKey)
     }
 
     return {state, onMounted, getConfessionView, clickConfessionSearch, checkPage, clickConfessionCategory, clickEnterMeeting, clickConfessionList }
@@ -690,7 +670,6 @@ button {
   border: 2px solid #bbd2f9;
 }
 
-
 .searchInput {
   display: block;
   border:none;
@@ -705,7 +684,6 @@ button {
   width: 100%;
   padding: 0 6px;
 }
-
 
 @media screen and (max-width: 620px) {
 .searchBox:hover > .searchInput {
@@ -757,43 +735,43 @@ button {
   position: relative;
   height: 100%;
   width: 45%;
-  letter-spacing: 0.4px;
-  border: 2px solid #bbd2f9;
-  border-radius: 30px;
-  background: #bbd2f9;
-  color: black !important;;
+  // letter-spacing: 0.4px;
+  // border: 2px solid #bbd2f9;
+  // border-radius: 30px;
+  // background: #bbd2f9;
+  // color: black !important;
+  filter: url(#goo);
 }
+
 .dropdown__face {
   display: block;
   position: relative;
+  height: 100%;
+  background-color: #bbd2f9;
+  border-radius: 25px;
+  border: 2px solid #bbd2f9;
 }
 .dropdown__items {
   margin: 0;
   position: absolute;
   right: 0;
+  padding-left: 0px;
   border: 2px solid #bbd2f9;
   border-radius: 30px;
   background: #bbd2f9;
+  background-color: #bbd2f9;
   top: 50%;
-  width: 100%;
+  width: 150%;
   list-style: none;
   list-style-type: none;
   display: flex;
   justify-content: space-between;
   visibility: hidden;
   z-index: -1;
-  opacity: 0;
+  opacity: 1;
   transition: all 0.4s cubic-bezier(0.93, 0.88, 0.1, 0.8);
 }
-.dropdown__items::before {
-  content: "";
-  background-color: #fff;
-  position: absolute;
-  bottom: 100%;
-  right: 20%;
-  height: 40px;
-  width: 20px;
-}
+
 .dropdown__arrow {
   border-bottom: 2px solid #000;
   border-right: 2px solid #000;

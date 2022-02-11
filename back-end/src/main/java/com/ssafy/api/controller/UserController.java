@@ -24,6 +24,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.net.MalformedURLException;
+
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
@@ -112,18 +114,15 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = UserRes.class)
     })
-    public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) throws MalformedURLException {
         /**
          * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
          * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
          */
-        System.out.println("가나다라");
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
-
 
         String userId = userDetails.getUsername();
 
-        System.out.println(userId);
         User user = userService.getUserByEmail(userId);
 
         return ResponseEntity.status(200).body(UserRes.of(user));

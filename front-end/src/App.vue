@@ -31,7 +31,7 @@ export default {
 
 body {
   height: 100vh;
-  margin: 0;
+  margin-top: 0px!important;
   justify-content: center;
 }
 </style>

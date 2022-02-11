@@ -5,8 +5,8 @@ package com.ssafy.api.controller;
  */
 
 import com.ssafy.api.request.ConfessionPostReq;
-import com.ssafy.api.response.MeetingListRes;
 import com.ssafy.api.response.ConfessionRes;
+import com.ssafy.api.response.MeetingListRes;
 import com.ssafy.api.service.MeetingHistoryService;
 import com.ssafy.api.service.MeetingService;
 import com.ssafy.common.model.response.BaseResponseBody;

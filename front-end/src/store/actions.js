@@ -8,11 +8,11 @@ export function mainSingUp({ state }, payload) {
   $axios.post(url, body)
 }
 
-export function mainUserInfoCheck({ commit }, payload) {
+export async function mainUserInfoCheck({ commit }, payload) {
   const url = "/user/check"
   let body = payload
   console.log(url, body)
-  $axios.post(url, body)
+  await $axios.post(url, body)
     .then((res) => {
       console.log('성공', res)
       if (res.data.message === "Duplicated Email") {
@@ -132,11 +132,14 @@ export async function profileModifyMask({ state }, payload) {
 }
 
 export async function profileModifyProfileImg({ state }, payload) {
-  const user_id = payload.user_id
-  const body = { profile_img: payload.profile_img }
-  const url = `/profile/${user_id}/profileImg`
+  const user_id = payload.user_id;
+  const url = `/profile/image/${user_id}`
   const header = { headers: { 'Content-Type': 'multipart/form-data' } };
-  await $axios.post(url, body, header)
+
+  const formData = new FormData();
+  formData.append("profileImg", payload.profile_img);
+
+  await $axios.post(url, formData, header)
     .then((res) => {
       console.log(res)
     })
@@ -421,6 +424,7 @@ export async function adviceGetConsultantList({ commit }, payload) {
   await $axios.get(url)
     .then((res) => {
       if (res.status == 200) {
+        console.log(res)
         commit("ADVICE_GET_LAST_PAGE_NUM", res.data.totalPages)
         commit("ADVICE_GET_CONSULTANT_LIST", res.data.content) 
       } else {

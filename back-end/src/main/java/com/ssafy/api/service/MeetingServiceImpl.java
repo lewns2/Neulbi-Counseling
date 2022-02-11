@@ -25,6 +25,9 @@ public class MeetingServiceImpl implements MeetingService {
     MeetingRepositorySupport meetingRepositorySupport;
 
     @Autowired
+    MeetingHistoryRepositorySupport meetingHistoryRepositorySupport;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -155,7 +158,6 @@ public class MeetingServiceImpl implements MeetingService {
             meetings = meetingRepositorySupport.findByDescription(pageable,value);
         }else if(key.equals("ownerNickname")){
             meetings = meetingRepositorySupport.findByUserNickname(pageable,value);
-
         }
 
         return meetings;

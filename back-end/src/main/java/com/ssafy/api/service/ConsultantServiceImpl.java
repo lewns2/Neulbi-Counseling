@@ -66,11 +66,21 @@ public class ConsultantServiceImpl implements ConsultantService {
         return consultantRepository.save(consultantProfile);
     }
 
+    @Override
+    public ConsultantProfile getConsultant(Long userId) {
+        ConsultantProfile cons = consultantRepositorySupport.findByUserId(userId).orElse(null);
+        return cons;
+    }
+
 
     @Override
-    public Page<ConsultantProfile> getAllConsultant(Pageable pageable, Long userId) {
-
-        Page<ConsultantProfile> cons = consultantRepositorySupport.findAll(pageable,userId);
+    public Page<ConsultantProfile> getAllConsultant(Pageable pageable) {
+        Page<ConsultantProfile> cons = consultantRepositorySupport.findAll(pageable);
+        return cons;
+    }
+    @Override
+    public Page<ConsultantProfile> getAllConsultantByUserIdNotEqual(Pageable pageable, Long userId) {
+        Page<ConsultantProfile> cons = consultantRepositorySupport.findAllByUserIdNotEqual(pageable, userId);
         return cons;
     }
 
@@ -158,6 +168,8 @@ public class ConsultantServiceImpl implements ConsultantService {
             r.setFavConsultant(isMyFavConsultant);
             temp.add(r);
         }
+
+
 
         Page<ConsultantListRes> res = new PageImpl<ConsultantListRes>(temp,pageable,total);
 

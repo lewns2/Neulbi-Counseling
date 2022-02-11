@@ -5,7 +5,9 @@ import com.ssafy.db.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 public interface ProfileService {
 	Integer getUserByNickname(String ProfileCheckInfo);
 	Optional<User> findByUserId(Long UserId);
+	int modifyProfileImg(Long userId, MultipartFile profileImgInfo) throws IOException;
 	void modifyPasswordByUserId(ProfileModifyPasswordPutReq profileModifyPassword, Long id);
 	Optional<ConsultantProfile> getConsultantProfile(Long userId);
 	List<ConsultantProfile> getMyConsultantList(Long userId);
