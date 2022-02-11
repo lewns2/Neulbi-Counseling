@@ -13,7 +13,7 @@ public class ProjectDirectoryPathUtil {
 
     public static String getProfileImageDirectoryPath() {
         // 현재 프로젝트 경로
-        String projectPath = "/home/ubuntu/docker-volume/jenkins/workspace/s06p12e202_deploy/back-end";
+        // String projectPath = ".";
         // 폴더 경로
         String directoryPath =
                 "src" + File.separator + // File.seperator는 OS종속적
@@ -22,7 +22,7 @@ public class ProjectDirectoryPathUtil {
                         "static" + File.separator +
                         "profile_img";
 
-        return projectPath + File.separator + directoryPath;
+        return "." + File.separator + directoryPath;
     }
 
     public static String getProfileImagePath(String fileName) {
