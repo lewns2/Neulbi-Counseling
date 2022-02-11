@@ -169,7 +169,7 @@ input:checked + .hearth {
   display: flex;
   width: 50%;
   height: 40vh;
-  left: 20%;
+  left: 26%;
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
