@@ -1,11 +1,13 @@
+
+// Vue3 관련 설정 파일
 module.exports = {
   devServer: {
     https: false,
     port: 8083,
     open: true,
     proxy: {
-      '/api/v1': {
-        target: 'http://localhost:8080/'
+      '/': {
+        target: 'https://i6e202.p.ssafy.io:8443/'
       }
     },
     historyApiFallback: true,
@@ -18,5 +20,5 @@ module.exports = {
     'element-plus'
   ],
   lintOnSave: false,
-  outputDir: '../back-end/src/main/resources/dist'
+  outputDir: '/app/dist'
 }
