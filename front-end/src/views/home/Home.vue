@@ -1,4 +1,5 @@
 <template>
+  <main-header></main-header>
   <div class="home">
     <home-main :userInfo="state.userInfo"></home-main>
     <home-service></home-service>
@@ -9,7 +10,7 @@
 <script>
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
-
+import MainHeader from "../main/components/MainHeader.vue";
 import HomeMain from './components/HomeMain.vue'
 import HomeService from './components/HomeService.vue'
 import HomeAge from './components/HomeAge.vue'
@@ -17,6 +18,7 @@ import HomeAge from './components/HomeAge.vue'
 export default {
   name: 'Home',
   components: {
+    MainHeader,
     HomeMain,
     HomeService,
     HomeAge

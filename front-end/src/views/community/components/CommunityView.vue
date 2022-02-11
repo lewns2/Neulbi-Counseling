@@ -8,7 +8,7 @@
     </div>
 
      <div class="column intro row-hover pos-relative py-4 px-4 mt-5 mb-5 row text-center">      
-      <h6 style="color:#6c8093">'열린게시판'는 사용자들 간의 유용한 정보를 공유하고 서로 도움을 받을 수 있는 소통하는 공간입니다. 다양한 의견과 글을 자유롭게 게시하고 공유해주세요.</h6>
+      <h6 style="color:black">'열린게시판'는 사용자들 간의 유용한 정보를 공유하고 서로 도움을 받을 수 있는 소통하는 공간입니다. 다양한 의견과 글을 자유롭게 게시하고 공유해주세요.</h6>
      </div>
 
     <!-- <div class="col-lg-9 mb-3">  -->
@@ -282,7 +282,7 @@ a:hover {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fafbfc;
+    background-color: #eceff3;
     background-clip: border-box;
     border-top: 2px solid black;
     border-bottom: 2px solid rgba(0,0,0,.125);
@@ -301,7 +301,7 @@ a:hover {
 }
 
 .intro {
-  background-color: #fafbfc;
+  background-color: #eceff3;
 }
 
 </style>

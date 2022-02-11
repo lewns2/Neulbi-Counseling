@@ -1,9 +1,11 @@
 <template>
+  <main-header></main-header>
   <notice-view></notice-view>
 </template>
 
 <script>
 import NoticeView from "./components/NoticeView.vue";
+import MainHeader from "../main/components/MainHeader.vue";
 import { onMounted, reactive, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -12,6 +14,7 @@ export default {
   name: "Notice",
   components: {
     NoticeView,
+    MainHeader
   },
   setup() {
     const store = useStore();
