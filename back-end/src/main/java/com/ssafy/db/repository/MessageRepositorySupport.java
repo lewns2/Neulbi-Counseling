@@ -23,7 +23,11 @@ public class MessageRepositorySupport {
 
     public List<Message> findByChatRoomId(Long chatRoomId) {
 
-        List<Message> message = jpaQueryFactory.select(qMessage).from(qMessage).where(qMessage.chatRoomId.eq(chatRoomId)).fetch();
+        List<Message> message = jpaQueryFactory.select(qMessage)
+                .from(qMessage)
+                .where(qMessage.chatRoomId.eq(chatRoomId))
+                .orderBy(qMessage.createdDate.desc())
+                .fetch();
 
         if(message == null) return null;
         return message;
