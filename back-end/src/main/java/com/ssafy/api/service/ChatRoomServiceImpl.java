@@ -120,7 +120,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             res.setLastMessage(msg);
             res.setId(chatRoom.getId());
             User consultant = userService.getUserById(chatRoom.getConsultantId());
-
+            res.setCreatedDate(message.get().getCreatedDate());
             res.setConsultantNickName(consultant.getNickname());
             res.setConsultantProfileImg(consultant.getProfileImg());
             res.setStatusCode(200);
