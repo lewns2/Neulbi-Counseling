@@ -92,9 +92,9 @@ export default {
 			userInfo: computed(() => store.getters['root/userInfo']),
 			isSignIn: computed(() => store.getters["root/mainIsSignIn"]),
 			email: null,
-			BACKEND_PORT: process.env.BACKEND_PORT === null ? '' : `:${process.env.BACKEND_PORT}`,
+			BACKEND_PORT: 8443,
 			BACKEND_URL: `${location.protocol}//${location.hostname}${state.BACKEND_PORT}`,
-			FRONTEND_PORT: process.env.FRONTEND_PORT === null ? '' : `:${process.env.FRONTEND_PORT}`,
+			FRONTEND_PORT: 9999,
 			REDIRECT_URI: `${location.protocol}//${location.hostname}${state.FRONTEND_PORT}/oauth/redirect`
 		})
 		
