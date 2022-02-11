@@ -32,6 +32,7 @@ public class CommunityRepositorySupport {
                 .select(qCommunity)
                 .from(qCommunity)
                 .where(qCommunity.isDeleted.eq(false))
+                .orderBy(qCommunity.id.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset()).fetchResults();
 

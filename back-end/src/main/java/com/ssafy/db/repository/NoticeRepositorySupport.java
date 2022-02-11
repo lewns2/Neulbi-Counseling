@@ -43,7 +43,6 @@ public class NoticeRepositorySupport {
                 .offset(pageable.getOffset())
                 .fetchResults();
 
-
         if (notices == null) return Page.empty();
 
         return new PageImpl<Notice>(notices.getResults(), pageable, notices.getTotal());

@@ -192,6 +192,27 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
+	public void modifyMask(Long userId, int maskId) {
+		Optional<User> user = findByUserId(userId);
+
+		user.ifPresent(user1 -> {
+			user1.modifyMask(maskId);
+			userRepository.save(user1);
+		});
+	}
+
+	@Override
+	public void modifyMaskBack(Long userId, int maskBackId) {
+
+		Optional<User> user = findByUserId(userId);
+
+		user.ifPresent(user1 -> {
+			user1.modifyMaskBack(maskBackId);
+			userRepository.save(user1);
+		});
+	}
+
+	@Override
 	public Page<Community> getCommunityList(Pageable pageable, Long userId) {
 		Page<Community> communityList = communityRepositorySupport.findAllByUserId(pageable,userId);
 
