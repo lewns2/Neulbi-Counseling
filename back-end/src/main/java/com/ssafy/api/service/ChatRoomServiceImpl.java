@@ -12,6 +12,7 @@ import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -108,11 +109,14 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             Optional<Message> message = messageService.getLastMessageByChatRoomId(chatRoom.getId());
             String msg;
+            LocalDateTime localDateTime;
             if(message.isPresent()) {
                 msg = message.get().getMessage();
+                localDateTime = message.get().getCreatedDate();
             }
             else {
                 msg = "아직 메시지가 없습니다.";
+                localDateTime = null;
             }
 
             res.setUserId(chatRoom.getUserId());
@@ -120,7 +124,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             res.setLastMessage(msg);
             res.setId(chatRoom.getId());
             User consultant = userService.getUserById(chatRoom.getConsultantId());
-            res.setCreatedDate(message.get().getCreatedDate());
+            res.setCreatedDate(localDateTime);
             res.setConsultantNickName(consultant.getNickname());
             res.setConsultantProfileImg(consultant.getProfileImg());
             res.setStatusCode(200);
@@ -130,6 +134,5 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
         return chatRoomResList;
     }
-
 
 }
