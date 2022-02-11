@@ -22,7 +22,7 @@ public class ProjectDirectoryPathUtil {
                         "static" + File.separator +
                         "profile_img";
 
-        return "." + File.separator + directoryPath;
+        return directoryPath;
     }
 
     public static String getProfileImagePath(String fileName) {
