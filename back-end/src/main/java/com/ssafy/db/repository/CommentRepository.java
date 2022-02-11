@@ -13,7 +13,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findCommentById(Long commentId);
 
-    // 게시글에 해당하는 댓글 목록 불러오기
-    Page<Comment> findByCommunityIdAndDeletedIsFalse(Pageable pageable, Long communityId);
-
 }

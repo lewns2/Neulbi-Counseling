@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="(chatRoom, idx) in state.chatRoomList" :key=idx>
-      <p @click="chatRoomViewDetail(chatRoom.id)">{{ chatRoom.id }}</p>
+      <p @click="chatRoomGetDetail(chatRoom.id)">{{ chatRoom.id }}</p>
     </div>
   </div>
 </template>
@@ -20,13 +20,14 @@ export default {
       chatRoomList: computed(() => props.chatRoomList),
       userInfo: store.getters['root/userInfo'],
     })
-    const chatRoomViewDetail = function (chatRoom_id) {
-      store.dispatch("root/chatRoomViewDetail",
+    const chatRoomGetDetail = function (chatRoom_id) {
+      console.log(chatRoom_id)
+      store.dispatch("root/chatRoomGetDetail",
         { user_id: state.userInfo.id, chatRoom_id: chatRoom_id }
       )
     }
 
-    return { state, chatRoomViewDetail }
+    return { state, chatRoomGetDetail }
   }
 }
 </script>

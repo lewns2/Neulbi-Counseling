@@ -1,51 +1,47 @@
 <template>
-    <div>
-        <h2>게시글 생성</h2>
-        <form :model="article">
-            <input type="text" placeholder="title" id="title"
-					v-model="article.title" />
-
-            <input type="text" placeholder="description" id="description"
-					v-model="article.description" />
-            <button type="button" @click="createArticle">생성</button>
-                
-        </form>
-    </div>
-  
+  <div>
+    <h2>게시글 생성</h2>
+    <form :model="community">
+      <input type="text" placeholder="title" id="title"
+        v-model="community.title"
+      >
+      <input type="text" placeholder="description" id="description"
+        v-model="community.description"
+      >
+      <button type="button" @click="clickCreateArticle">생성</button>          
+    </form>
+  </div>
 </template>
 
 <script>
-import { reactive} from "vue";
+import { reactive, computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from 'vue-router'
 export default {
-    name: "CommunityCreate",
-    props: {
-        userInfo: Array,
-    },
-    setup(props) {
-        const store = useStore();
-        
-        const article = reactive({
-            title: null, 
-            description: null,
-            user: props.userInfo.id,
-        })
+  name: "CommunityCreate",
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+    const state = reactive({
+      userInfo: computed(()=> store.getters['root/userInfo']),
+    })
+    const community = reactive({
+      title: null, 
+      description: null,
+    })
 
-        const createArticle = function() {
-            // console.log(props.userInfo)
-            // console.log(article)
-            store.dispatch("root/communityCreateChatRoom", article)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        } 
+    const clickCreateArticle = async function() {
+      const body = {
+        title: community.title,
+        description: community.description,
+        userId: state.userInfo.id
+      }
+      await store.dispatch("root/communityCreateCommunity", body)
+      await router.push({ name: 'Community' })
+    } 
 
-        return {article, createArticle, reactive};
-    }
-
+    return { state, community, clickCreateArticle }
+  }
 }
 </script>
 

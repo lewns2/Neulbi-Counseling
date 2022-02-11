@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div v-if="state.userInfo">
-      <p>{{ state.userInfo.id }}</p>
-      <button @click="clickProfile(state.userInfo.id)">Go To Profile</button>
-    </div>
+  <div class="homemain1">
+  </div>
+  <div class="homemain2 py-4 mb-5" v-if="state.userInfo">
+    <button type="button" class="btn btn-light btn-lg" @click="clickProfile">시작하기</button>
   </div>
 </template>
 
@@ -15,7 +14,7 @@ import { useRouter } from 'vue-router'
 export default {
   name: 'HomeMain',
   props: {
-    userInfo : Array,
+    userInfo : Object,
   },
   setup(props) {
     const store = useStore()
@@ -25,11 +24,11 @@ export default {
 			userInfo: props.userInfo
     })
     
-    const clickProfile = function(user_id)  {
+    const clickProfile = function()  {
       router.push({
         name: 'Profile',
         params: {
-          user_id: user_id
+          user_id: state.userInfo.id
         }
       })
 		}
@@ -40,4 +39,17 @@ export default {
 
 <style>
 
+.homemain1 {
+  width: 60%;
+  height: 60%;
+  background-image: url("handshake.png");
+  /* width: 50vw; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.homemain2 {
+  background-color: #c1d2f6;
+}
 </style>

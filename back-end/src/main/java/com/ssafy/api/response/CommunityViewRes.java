@@ -20,9 +20,10 @@ import java.util.TreeSet;
 @ApiModel("ConsultantListRes")
 public class CommunityViewRes {
 
-
     @ApiModelProperty(name = "Community id")
     Long id;
+    @ApiModelProperty(name = "User id")
+    Long userId;
     @ApiModelProperty(name = "User nickname")
     String userNickname;
     @ApiModelProperty(name = "Community title")
@@ -33,28 +34,28 @@ public class CommunityViewRes {
     int likeCnt;
     @ApiModelProperty(name = "Community viewCnt")
     int viewCnt;
+    @ApiModelProperty(name = "Community viewCnt")
+    boolean isLike;
 
     @ApiModelProperty(name = "Comment List")
     List<CommentListRes> commentListRes;
 
 
-    public static CommunityViewRes of(Community c) {
-
-
+    public static CommunityViewRes of(Community c, boolean isLike) {
         CommunityViewRes clr = new CommunityViewRes();
         User user = c.getUser();
         List<CommentListRes> commentListRes = CommentListRes.of(c.getCommentList());
 
-
         clr.setCommentListRes(commentListRes);
 
+        clr.setUserId(user.getId());
         clr.setUserNickname(user.getNickname());
         clr.setId(c.getId());
         clr.setTitle(c.getTitle());
         clr.setDescription(c.getDescription());
         clr.setLikeCnt(c.getLikeCnt());
         clr.setViewCnt(c.getViewCnt());
-
+        clr.setLike(isLike);
 
         return clr;
     }

@@ -22,7 +22,7 @@ public interface ConsultantRepository extends JpaRepository<ConsultantProfile, L
     Page<ConsultantProfile> findAll(Pageable pageable);
     List<ConsultantProfile> findConsultantProfileByUserNicknameContains(String nickname);
     List<ConsultantListRes> findAllByTopicCategoryId(String topicCategoryId, Pageable pageable);
-    Optional<ConsultantProfile> findByUserId(Long userId);
+    Optional<ConsultantProfile> findConsultantProfileByUserId(Long id);
 
 
 

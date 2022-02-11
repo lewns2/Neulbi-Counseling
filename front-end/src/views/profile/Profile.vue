@@ -15,23 +15,28 @@
         <profile-user :userInfo="state.userInfo"></profile-user>
       </div>
       <div v-else-if="state.select==='Consultant'">
-        <profile-consultant :userInfo="state.userInfo"></profile-consultant>
+        <profile-consultant
+          :userInfo="state.userInfo"
+        >
+        </profile-consultant>
       </div>
       <div v-else>
-        <profile-history :userInfo="state.userInfo"></profile-history>
+        <profile-history
+          :userInfo="state.userInfo"
+        >
+        </profile-history>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import ProfileMain from './components/ProfileMain.vue'
 import ProfileUser from './components/ProfileUser.vue'
 import ProfileConsultant from './components/ProfileConsultant.vue'
 import ProfileHistory from './components/ProfileHistory.vue'
-
 
 export default {
   name: 'Profile',
@@ -45,15 +50,40 @@ export default {
     const store = useStore()
 
     const state = reactive({
-      userInfo: store.getters['root/userInfo'],
-      select: 'Main'
+      userInfo: computed(() => store.getters['root/userInfo']),
+      select: 'Main',
     })
 
-    const selectProfile = function (event) {
+    const selectProfile = async function (event) {
+      const body = { user_id: state.userInfo.id }
+      if (state.userInfo.consultant) {
+        await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
+      } else {
+        store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", "No")
+      }
+      await store.dispatch('root/profileGetConsultantLike', state.userInfo.id)
+      await store.dispatch('root/profileGetHistoryMeeting', body)
+      await store.dispatch('root/profileGetHistoryReview', body)
+      await store.dispatch('root/profileGetHistoryCommunity', body)
+      await store.dispatch('root/profileGetHistoryComment', body)
       state.select = event.target.textContent
     }
 
-    return { state, selectProfile }
+    onMounted(async() => {
+      const body = { user_id: state.userInfo.id }
+      if (state.userInfo.consultant) {
+        await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
+      } else {
+        store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", "No")
+      }
+      await store.dispatch('root/profileGetConsultantLike', state.userInfo.id)
+      await store.dispatch('root/profileGetHistoryMeeting', body)
+      await store.dispatch('root/profileGetHistoryReview', body)
+      await store.dispatch('root/profileGetHistoryCommunity', body)
+      await store.dispatch('root/profileGetHistoryComment', body)
+    })
+
+    return { state, selectProfile, onMounted }
   }
 }
 </script>

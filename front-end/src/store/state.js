@@ -1,19 +1,50 @@
 export default {
-  isLogin: false,
-  isLoginError: false,
+  // main
+  mainEmailBool: false,
+  mainNicknameBool: false,
+  mainIsSignIn: false,
+  // user 정보
   userInfo: null,
-  user_id: null,
-  email_bool: false,
-  nickname_bool: false,
-  pro_nickname_bool: false,
-  profileConsultant: [],
-  adviceRank: [],
-  adviceView: [],
-  adviceTotalPageNum: [],
-  advicePageNum: 1,
-  communityView: [],
+  // profile
+  profileNicknameBool: false,
+  profileConsultantProfile: [],
+  profileConsultantLike: [],
+  profileHistoryConfession: [],
+  profileHistoryAdvice: [],
+  profileHistoryReceivedReview: [],
+  profileHistoryWrittenReview: [],
+  profileHistoryCommunity: [],
+  profileHistoryComment: [],
+  // confession
+  confessionLastPageNum: 0,
+  confessionMeetingList: [],
+  confessionReviewList: [],
+  // advice
+  adviceConsultantList: [],
+  adviceLastPageNum: 0,
+  adviceRankList: [],
+  // community
+  communityList: [],
+  communityLastPageNum: 0,
   communityDetail: [],
-  communityLike: [],
   communityComment: [],
+  // chatRoom
   chatRoomList: [],
-};
+  chatRoomId: [],
+  chatRoomMessage: [],
+  chatRoomUserList: [],
+  meetingIsActive: false,
+  // meeting
+  adviceMeetingInfo: [],
+  confessionMeetingInfo: [],
+  meetingParticipantLimit: true,
+  // notice
+  noticeLastPageNum: 0,
+  noticeList: [],
+  noticeDetail: [],
+  // qna
+  qnaLastPageNum: 0,
+  qnaList: [],
+  qnaDetail: [],
+  qnaAnswerList: [],
+}

@@ -44,6 +44,7 @@ public class UserRepositorySupport {
     }
 
     public Optional<User> findUserById(Long userId) {
+        System.out.println(">>>>>>>>>>>><<<<<<<<<<<<<<>>>>>>>>>>>>>><<<<<<<<<<<<<<");
         System.out.println(userId);
         User user = jpaQueryFactory.select(qUser).from(qUser)
                 .where(qUser.id.eq(userId)).fetchOne();
@@ -56,7 +57,7 @@ public class UserRepositorySupport {
         List<User> users = jpaQueryFactory
                 .select(qUser)
                 .from(qUser)
-                .orderBy(qUser.pointTot.desc()).limit(10).where(qUser.isConsultant.eq(true)).fetch();
+                .orderBy(qUser.pointTot.desc()).limit(5).where(qUser.isConsultant.eq(true)).fetch();
 
         if (users == null) return Collections.emptyList();
         return users;

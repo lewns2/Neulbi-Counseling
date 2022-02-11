@@ -32,6 +32,7 @@ public class CommunityRepositorySupport {
                 .select(qCommunity)
                 .from(qCommunity)
                 .where(qCommunity.isDeleted.eq(false))
+                .orderBy(qCommunity.id.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset()).fetchResults();
 
@@ -41,16 +42,114 @@ public class CommunityRepositorySupport {
         return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
     }
 
-    public Optional<Community> findById(Long id) {
-        Community community = jpaQueryFactory
+    // 게시글 좋아요 수 순으로 정렬된 전체 목록 불러오기
+    public Page<Community> findAllByDeletedIsFalseAndSortedLike(Pageable pageable) {
+        QueryResults<Community> community = jpaQueryFactory
                 .select(qCommunity)
                 .from(qCommunity)
-                .where(qCommunity.id.eq(id).and(qComment.isDeleted.eq(false))).distinct().fetchOne();
+                .where(qCommunity.isDeleted.eq(false))
+                .orderBy(qCommunity.likeCnt.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetchResults();
+
+        if (community == null) return Page.empty();
+
+        return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
+    }
+
+    // 게시글 조회수 수 순으로 정렬된 전체 목록 불러오기
+    public Page<Community> findAllByDeletedIsFalseAndSortedView(Pageable pageable) {
+        QueryResults<Community> community = jpaQueryFactory
+                .select(qCommunity)
+                .from(qCommunity)
+                .where(qCommunity.isDeleted.eq(false))
+                .orderBy(qCommunity.viewCnt.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetchResults();
+
+        if (community == null) return Page.empty();
+
+        return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
+    }
+
+
+    //  게시글 내용으로 검색
+    public Page<Community> findAllByDeletedIsFalseAndDescriptionContains(Pageable pageable, String value) {
+        QueryResults<Community> community = jpaQueryFactory
+                .select(qCommunity)
+                .from(qCommunity)
+                .where(qCommunity.isDeleted.eq(false).and(qCommunity.description.contains(value)))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetchResults();
+
+        if (community == null) return Page.empty();
+
+        return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
+    }
+
+    // 게시글 제목으로 검색
+    public Page<Community> findAllByDeletedIsFalseAndTitleContains(Pageable pageable, String value) {
+        QueryResults<Community> community = jpaQueryFactory
+                .select(qCommunity)
+                .from(qCommunity)
+                .where(qCommunity.isDeleted.eq(false).and(qCommunity.title.contains(value)))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetchResults();
+
+
+        if (community == null) return Page.empty();
+
+        return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
+    }
+
+    // 사용자 닉네임으로 검색
+    public Page<Community> findAllByDeletedIsFalseAndUserNicknameContains(Pageable pageable, String value) {
+        QueryResults<Community> community = jpaQueryFactory
+                .select(qCommunity)
+                .from(qCommunity)
+                .where(qCommunity.isDeleted.eq(false).and(qCommunity.user.nickname.contains(value)))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetchResults();
+
+
+        if (community == null) return Page.empty();
+
+        return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
+    }
+
+
+
+    // 게시글 상세내용 불러오기
+    public Optional<Community> findByIdAndCommentListFalse(Long id) {
+
+        Community community = jpaQueryFactory
+                .select(qCommunity)
+                .from(qCommunity,qComment)
+                .where(qCommunity.id.eq(id)).distinct().fetchOne();
 
         if (community == null) return Optional.empty();
 
         return Optional.ofNullable(community);
 
+    }
+
+    public Page<Community> findAllByUserId(Pageable pageable, Long userId) {
+        QueryResults<Community> community = jpaQueryFactory
+                .select(qCommunity)
+                .from(qCommunity)
+                .where(qCommunity.user.id.eq(userId))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetchResults();
+
+        if (community == null) return Page.empty();
+
+        return new PageImpl<Community>(community.getResults(), pageable, community.getTotal());
     }
 
 }

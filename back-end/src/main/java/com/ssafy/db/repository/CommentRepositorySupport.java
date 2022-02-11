@@ -3,13 +3,15 @@ package com.ssafy.db.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.db.entity.Comment;
+import com.ssafy.db.entity.Community;
 import com.ssafy.db.entity.QComment;
-import com.ssafy.db.entity.QCommunity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CommentRepositorySupport {
@@ -17,22 +19,46 @@ public class CommentRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QComment qComment = QComment.comment;
-    QCommunity qCommunity = QCommunity.community;
 
-    // 게시글에 해당하는 댓글 목록 불러오기
-    // is_delete = false인 comment를 가져온다.
-    public Page<Comment> findByCommunityIdAndDeletedIsFalse(Pageable pageable, Long communityId) {
+    // 게시글에 해당하는 댓글 전체 목록 불러오기
+    public List<Comment> findAllByCommunityIdAndDeletedIsFalse(Long communityId) {
         QueryResults<Comment> cons = jpaQueryFactory
                 .select(qComment)
                 .from(qComment)
-                .where(qComment.isDeleted.eq(false).and(qComment.community.id.eq(communityId)))
+                .where(qComment.community.id.eq(communityId).and(qComment.isDeleted.eq(false)))
+                .orderBy(qComment.groupNum.asc(), qComment.layer.asc(), qComment.id.asc())
+                .fetchResults();
+
+        if (cons == null) return null;
+
+        return cons.getResults();
+    }
+
+    // 댓글 이후의 대댓글 전부 불러오기
+    public List<Comment> findAllByEqualsGroupNum(int groupNum) {
+        QueryResults<Comment> cons = jpaQueryFactory
+                .select(qComment)
+                .from(qComment)
+                .where(qComment.groupNum.eq(groupNum))
+                .fetchResults();
+
+        if (cons == null) return null;
+
+        return cons.getResults();
+    }
+
+    public Page<Comment> findAllByUserId(Pageable pageable, Long userId) {
+        QueryResults<Comment> comment = jpaQueryFactory
+                .select(qComment)
+                .from(qComment)
+                .where(qComment.user.id.eq(userId))
                 .limit(pageable.getPageSize())
-                .offset(pageable.getOffset()).fetchResults();
+                .offset(pageable.getOffset())
+                .fetchResults();
 
+        if (comment == null) return Page.empty();
 
-        if (cons == null) return Page.empty();
-
-        return new PageImpl<Comment>(cons.getResults(), pageable, cons.getTotal());
+        return new PageImpl<Comment>(comment.getResults(), pageable, comment.getTotal());
     }
 
 }

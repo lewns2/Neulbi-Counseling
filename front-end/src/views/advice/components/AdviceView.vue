@@ -1,167 +1,846 @@
 <template>
-  <h3>주제 선택</h3>
-  {{ state.adviceView }}
-  <button
-    type="button"
-    class="btn btn-light"
-    v-for="(category, index) in state.categories"
-    :key="index"
-    @click="clickAdviceCategory(category.number)"
-  >
-    {{ category.value }}
-  </button>
-  <h3>검색</h3>
-  <select name="" id="" v-model="state.key">
-    <option
-      v-for="(searchCategory, index) in state.searchCategories"
-      :key="index"
-      :value="searchCategory.backValue"
-    >
-      {{ searchCategory.value }}
-    </option>
-  </select>
-        
+  <!-- 카테고리 선택 -->
+  <span class="mt-4 mb-4 row" style="line-height: 40px;">
+    <div class="col-8 d-flex justify-content-evenly" style="width: 60%;">
+      <div @click="clickAdviceList">
+        <a href="#" class="cta">
+          <span>모두</span>
+        </a>
+      </div>
+      <div
+        v-for="(category, index) in state.categories"
+        :key="index"
+        @click="clickAdviceCategory(category.number)"
+      >
+        <a href="#" class="cta">
+          <span>{{ category.value }}</span>
+        </a>
+      </div>
+    </div>
 
-  <input type="text" v-model="state.word" />
-  <button type="button" class="btn btn-light me-md-2" @click="clickSearch">
-    검색
-  </button>
-  
-  <button id="prev" @click="checkPage($event)">이전</button>
-    {{state.page}} 페이지 / {{ state.total_page }} 페이지
-  <button id="next" @click="checkPage($event)">다음</button>
+    <!-- 검색 후 결과 얻기 -->
+    <div class="col-4 d-flex justify-content-end">
+      <div class="dropdown me-3">
+        <input type="checkbox" id="dropdown" @click="clickChange">
 
-  <h3>상담가들 주르륵</h3>
-  <p v-for="(adviceView, index) in state.adviceView" :key="index">
-    앞면 정보<br />
-    상담가번호: {{ adviceView.id }} 상담가 닉네임:
-    {{ adviceView.nickname }} 상담가 프로필이미지:
-    {{ adviceView.profileImg }} 상담가 포인트: {{ adviceView.pointTot }}
-    <br />
-    뒷면 정보<br />
-    포인트: {{ adviceView.pointTot }}주제:
-    {{ adviceView.topicCategoryId }}한줄소개:
-    {{ adviceView.description }} 상담수:{{ adviceView.consultingCnt }}
-    <button
-      type="button"
-      class="btn btn-light me-md-2"
-      @click="clickCreateChatRoom(adviceView.id)"
-    >
-      1:1 채팅하기
-    </button>
-  </p>
+        <label class="dropdown__face" for="dropdown">
+          <div class="dropdown__text ps-3">{{ state.showKey }}</div>
+
+          <div class="dropdown__arrow"></div>
+        </label>
+
+        <ul class="dropdown__items" id="drop1">
+          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(1)">닉네임</button></li>
+          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(2)">설명</button></li>
+        </ul>
+      </div>
+      
+      <div class="searchBox">
+        <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+      </div>
+      <button
+        type="button"
+        class="search-btn ms-2"
+        @click="clickSearch"
+      >
+        검색
+      </button>
+    </div>
+  </span>
+
+
+  <hr>
+
+  <!-- 상담가 리스트 -->
+  <div class="row d-flex justify-content-start">
+    <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 mx-5 my-5">
+      <div class="card">
+        <img :src="'/profile/image/'+adviceConsultant.id" class="card__image" alt="" />
+        <div class="card__overlay">
+          <div class="card__header">
+            <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+            <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+            <div class="card__header-text">
+              <h3 class="card__title">{{ adviceConsultant.nickname }}</h3>            
+              <span class="card__status">주제: {{ adviceConsultant.topicCategoryName }}</span>
+            </div>
+            <label class="like" v-if="adviceConsultant.favConsultant">
+              <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)" checked>
+              <div class="hearth"/>
+            </label>
+            <label class="like" v-else>
+              <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)">
+              <div class="hearth"/>
+            </label>
+          </div>
+          <p class="card__description">
+            포인트 : {{ adviceConsultant.pointTot }}<br>
+            상담횟수 : {{ adviceConsultant.consultingCnt }}<br>
+            한 줄 소개 : <br>
+            {{ adviceConsultant.description }} <br><br>
+            <button
+              type="button"
+              class="front__text-hover"
+              @click="clickCreateChatRoom(adviceConsultant.id)"
+            >
+              1:1 채팅하기
+            </button>
+          </p>
+
+        </div>
+      </div>      
+    </div>
+  </div>
+  <br>
+
+  <!-- pagination -->
+  <br>
+  <div class="d-flex justify-content-center mb-5">
+    <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
+    <div class="counter">{{state.page}}페이지 / {{ state.adviceLastPageNum }}페이지 </div>
+    <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+  </div>
+
 </template>
 
 <script>
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
 export default {
   name: "AdviceView",
   props: {
-    userInfo: Array,
+    userInfo: Object,
   },
   setup(props) {
     const store = useStore();
     const state = reactive({
-      adviceView: computed(() => store.getters["root/adviceView"]),
+      userInfo: props.userInfo,
+      adviceConsultantList: computed(() => store.getters["root/adviceConsultantList"]),
+      adviceLastPageNum: computed(() => store.getters["root/adviceLastPageNum"]),
       categories: [
         { value: "학업", number: "1" },
-        { value: "취업", number: "2" },
-        { value: "이직", number: "3" },
+        { value: "가정", number: "2" },
+        { value: "취업", number: "3" },
+        { value: "진로", number: "4" },
+        { value: "연애", number: "5" },
+        { value: "결혼", number: "6" },
       ],
       searchCategories: [
         { value: "닉네임", backValue: "nickname" },
         { value: "설명", backValue: "description" },
       ],
-      key: null,
+      showKey: 'Select',
+      key: "Select",
       word: null,
       page: 1,
-      total_page: computed(() => store.getters["root/adviceTotalLength"]),
-    });
+      topic: null,
+      pageSearchTopic: 'main',
+    })
 
-    store.dispatch("root/adviceGetView");
+    onMounted(() => {
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
 
-    const clickAdviceCategory = function (topic) {
-      store.dispatch("root/adviceGetCategory", topic);
-    };
+      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+      if (state.page===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+      if (state.page === state.adviceLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+    })
 
-    const clickCreateChatRoom = function (consultant_id) {
-      const body = { userId: props.userInfo.id, consultantId: consultant_id }
-      console.log(body)
-      store
-        .dispatch("root/adviceCreateChatRoom", body)
-        .then((res) => {
-          console.log(res)
-          if (res.status == 200) {
-            store.dispatch("root/chatRoomView", body)
-            router.push({
-              name: "ChatRoom",
-              params: {
-                user_id: props.userInfo.id,
-              }
-            });
-          } else {
-            console.log("오류 발생");
-          }
+    const clickAdviceList = async function () {
+      state.pageSearchTopic = 'main'
+      state.page = 1
+      await store.dispatch("root/adviceGetConsultantList", state.userInfo.id)
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
+
+      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+      if (state.page===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+      if (state.page === state.adviceLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+    }
+
+    const clickAdviceCategory = async function (topic) {
+      state.page = 1
+      state.topic = topic
+      state.pageSearchTopic = 'category'
+      await store.dispatch("root/adviceGetCategoryList", {
+        user_id: state.userInfo.id,
+          topic_category_id: topic
         })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
 
-    const clickSearch = function () {
-      console.log(state.key);
-      store
-        .dispatch("root/adviceSearch", {
-          key: state.key,
-          value: state.word,
-          size: 1,
+      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+      if (state.page===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+      if (state.page === state.adviceLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+    }
+
+    const clickSearch = async function () {
+      state.pageSearchTopic = 'search'
+      state.page = 1
+      await store.dispatch("root/adviceGetSearchList", {
+        user_id: state.userInfo.id,
+        key: state.key,
+        value: state.word,
+      })
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
+
+      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+      if (state.page===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+      if (state.page === state.adviceLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+    }
+
+    const checkPage = async function(event) {
+      let targetId = event.currentTarget.id;
+      if(targetId == "prev") {
+        state.page -= 1;
+      }
+      else if(targetId == "next") {
+        state.page += 1;
+      }
+
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
+
+      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+      if (state.page===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+      if (state.page === state.adviceLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+
+      if(state.pageSearchTopic === 'main') {
+        await store.dispatch("root/advicePageSearch",{
+          user_id: state.userInfo.id,
+          size: 6,
           page: state.page,
         })
-        .then((res) => {
-          if (res.status == 200) {
-            console.log('검색', res)
-            store.commit("root/SET_ADVICE_PAGENUM", 1);
-            store.commit("root/CLEAR_ADVICE_VIEW_TOTAL");
-            store.commit("root/SET_ADVICE_VIEW_TOTAL", res.data.totalPages);
-            store.commit("root/CLEAR_ADVICE_VIEW");
-            store.commit("root/SET_ADVICE_VIEW", res.data.content);
-          } else {
-            console.log("오류 발생");
-          }
+      } else if (state.pageSearchTopic === 'topic') {
+        await store.dispatch("root/adviceTopicPageSearch",{
+          user_id: state.userInfo.id,
+          topicCategoryId: state.topic,
+          size: 6,
+          page: state.page,
         })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+      } else if (state.pageSearchTopic === 'search') {
+        await store.dispatch("root/adviceSearchPageSearch",{
+          user_id: state.userInfo.id,
+          key: state.key,
+          value: state.word,
+          size: 6,
+          page: state.page,
+        })
+      }
+    }
 
-    const checkPage = function(event) {
-            let targetId = event.currentTarget.id;
-            if(targetId == "prev") {
-                state.page -= 1;
-                if(state.page < 1) state.page = 1;
-            }
-            else if(targetId == "next") {
-                state.page += 1;   
-            }
-            store.dispatch("root/advicePageSearch",{
-                size: 1,
-                page: state.page,
-            })
-            .then((res) => {
-              store.commit("root/CLEAR_ADVICE_VIEW");
-              store.commit("root/SET_ADVICE_VIEW", res.data.content);
-              console.log(res)
-            })
-            .catch((err)=> {
-              console.log(err)
-            })
+    const clickCreateChatRoom = async function (consultant_id) {
+      const body = { userId: state.userInfo.id, consultantId: consultant_id }
+      await store.dispatch("root/adviceCreateChatRoom", body)
+      await router.push({
+        name: "ChatRoom",
+        params: {
+          user_id: props.userInfo.id,
         }
+      })
+    }
 
-    return { state, clickAdviceCategory, clickCreateChatRoom, clickSearch, checkPage};
-  },
-};
+    const clickMyConsultant = async function (consultant_id) {
+      const body = { user_id: state.userInfo.id, consultant_id: consultant_id }
+      await store.dispatch('root/adviceModifyConsultantLike', body)
+      if(state.pageSearchTopic === 'main') {
+        await store.dispatch("root/advicePageSearch",{
+          user_id: state.userInfo.id,
+          size: 6,
+          page: state.page,
+        })
+      } else if (state.pageSearchTopic === 'topic') {
+        await store.dispatch("root/adviceTopicPageSearch",{
+          user_id: state.userInfo.id,
+          topicCategoryId: state.topic,
+          size: 6,
+          page: state.page,
+        })
+      } else if (state.pageSearchTopic === 'search') {
+        await store.dispatch("root/adviceSearchPageSearch",{
+          user_id: state.userInfo.id,
+          key: state.key,
+          value: state.word,
+          size: 6,
+          page: state.page,
+        })
+      }
+    }
+
+    const clickModifyShowCategory = function(num) {
+      state.key = state.searchCategories[num-1].backValue
+      state.showKey = state.searchCategories[num-1].value
+      // const drop = document.getElementById("dropdown")
+      // drop.setAttribute("checked", false)
+      // const drop1 = document.getElementsByClassName("dropdown__items").style
+      // // drop1 = hidden
+      // console.log(ref)
+    }
+
+
+    return { 
+      state,
+      onMounted,
+      clickAdviceList,
+      clickAdviceCategory,
+      clickCreateChatRoom,
+      clickSearch,
+      checkPage,
+      clickMyConsultant,
+      clickModifyShowCategory,
+    }
+  }
+}
 </script>
 
-<style></style>
+<style scoped lang="scss">
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+/*   background-color: #fef8f8; */
+}
+
+input {
+  display: none;
+}
+
+.like {
+  display: block;
+  width: var(--size);
+  height: var(--size);
+  cursor: pointer;
+  border-radius: 999px;
+  overflow: visible;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+    --size: 80px;
+  --frames: 62;
+}
+
+.hearth {
+  background-image: url('https://assets.codepen.io/23500/Hashflag-AppleEvent.svg');
+  background-size: calc(var(--size) * var(--frames)) var(--size);
+  background-repeat: no-repeat;
+  background-position-x: calc(var(--size) * (var(--frames) * -1 + 2));
+  background-position-y: calc(var(--size) * 0.02);
+  width: var(--size);
+  height: var(--size);
+  --size: 80px;
+  --frames: 62;
+}
+
+input:checked + .hearth {
+  animation: like 1s steps(calc(var(--frames) - 3));  
+  animation-fill-mode: forwards;
+}
+
+@keyframes like {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: calc(var(--size) * (var(--frames) * -1 + 3));
+  }
+}
+
+@media (hover: hover) {
+  .like:hover {
+    background-color: #E1255E15;
+    .hearth {
+      background-position-x: calc(var(--size) * (var(--frames) * -1 + 1));
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.cta { 
+  position: relative;
+  margin: auto;
+  padding: 19px 22px;
+  transition: all .2s ease;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 28px;
+    background: rgba(#bbd2f9,.5);
+    width: 56px;
+    height: 56px;
+    transition: all .3s ease;
+  }
+  span {
+    position: relative;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 900;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+  svg {
+    position: relative;
+    top: 0;
+    margin-left: 10px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #111;
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all .3s ease;
+  }
+  &:hover {
+    &:before {
+      width: 100%;
+      background: rgba(#bbd2f9,1);
+    }
+    svg {
+      transform: translateX(0);
+    }
+    &:active {
+      transform: scale(.96);
+    }
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 4rem 5vw;
+  padding: 0;
+  list-style-type: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 40vh;  
+  border-radius: calc(var(--curve) * 1px);
+  overflow: hidden;
+  text-decoration: none;
+  --surface-color: #fff;
+  --curve: 40;
+  box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.card__image {      
+  width: 100%;
+  height: auto;
+}
+
+.card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;      
+  border-radius: calc(var(--curve) * 1px);    
+  background-color: var(--surface-color);      
+  transform: translateY(100%);
+  transition: .2s ease-in-out;
+}
+
+.card:hover .card__overlay {
+  transform: translateY(0);
+}
+
+.card__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  padding: 1em;
+  border-radius: calc(var(--curve) * 1px) 0 0 0;    
+  background-color: var(--surface-color);
+  transform: translateY(-100%);
+  transition: .2s ease-in-out;
+}
+
+.card__arc {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  bottom: 100%;
+  right: 0;      
+  z-index: 1;
+}
+
+.card__arc path {
+  fill: var(--surface-color);
+  d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
+}       
+
+.card:hover .card__header {
+  transform: translateY(0);
+}
+
+.card__thumb {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;      
+  border-radius: 50%;      
+}
+
+.card__title {
+  font-size: 1em;
+  margin: 0 0 .3em;
+  color: #6A515E;
+}
+
+.card__tagline {
+  display: block;
+  margin: 1em 0;
+  font-family: "MockFlowFont";  
+  font-size: .8em; 
+  color: #D7BDCA;  
+}
+
+.card__status {
+  font-size: .8em;
+  color: #D7BDCA;
+}
+
+.card__description {
+  padding: 0 2em 2em;
+  margin: 0;
+  color: #D7BDCA;
+  font-family: "MockFlowFont";   
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+  overflow: hidden;
+
+  .front__text-hover {
+    position: relative;
+    top: 10px;
+    font-size: 15px;
+    color: #bbd2f9;
+    backface-visibility: hidden;
+
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+
+    border: 2px solid #bbd2f9;
+    padding: 8px 15px;
+    border-radius: 30px;
+
+    background: #bbd2f9;
+    color: #fff;
+  }
+}
+
+// pagination
+
+button {
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.paginate {
+  position: relative;
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  position: absolute;
+  margin-top: -25px;
+  -webkit-filter: drop-shadow(0 2px 0px rgba(0, 0, 0, 0.2));
+}
+.paginate i {
+  position: absolute;
+  left: 0;
+  width: 60%;
+  height: 5px;
+  border-radius: 2.5px;
+  background: #708bef;
+  transition: all 0.15s ease;
+}
+.paginate.left {
+  right: 67%;
+}
+.paginate.left i {
+  transform-origin: 0% 50%;
+}
+.paginate.left i:first-child {
+  transform: translate(0, -1px) rotate(40deg);
+}
+.paginate.left i:last-child {
+  transform: translate(0, 1px) rotate(-40deg);
+}
+.paginate.left:hover i:first-child {
+  transform: translate(0, -1px) rotate(30deg);
+}
+.paginate.left:hover i:last-child {
+  transform: translate(0, 1px) rotate(-30deg);
+}
+.paginate.left:active i:first-child {
+  transform: translate(1px, -1px) rotate(25deg);
+}
+.paginate.left:active i:last-child {
+  transform: translate(1px, 1px) rotate(-25deg);
+}
+.paginate.left[data-state=disabled] i:first-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.left[data-state=disabled] i:last-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.left[data-state=disabled]:hover i:first-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.left[data-state=disabled]:hover i:last-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.right {
+  left: 44%;
+}
+.paginate.right i {
+  transform-origin: 100% 50%;
+}
+.paginate.right i:first-child {
+  transform: translate(0, 1px) rotate(40deg);
+}
+.paginate.right i:last-child {
+  transform: translate(0, -1px) rotate(-40deg);
+}
+.paginate.right:hover i:first-child {
+  transform: translate(0, 1px) rotate(30deg);
+}
+.paginate.right:hover i:last-child {
+  transform: translate(0, -1px) rotate(-30deg);
+}
+.paginate.right:active i:first-child {
+  transform: translate(1px, 1px) rotate(25deg);
+}
+.paginate.right:active i:last-child {
+  transform: translate(1px, -1px) rotate(-25deg);
+}
+.paginate.right[data-state=disabled] i:first-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.right[data-state=disabled] i:last-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.right[data-state=disabled]:hover i:first-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.right[data-state=disabled]:hover i:last-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate[data-state=disabled] {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.counter {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  margin-top: -15px;
+  font-size: 20px;
+  font-family: Helvetica, sans-serif;
+  text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
+  color: #708bef;
+  z-index: -1;
+}
+
+// 검색창
+.searchBox {
+  position: relative;
+  // transform:  translate(-50%,50%);
+  background: white;
+  height: 100%;
+  width: 50%;
+  border-radius: 40px;
+  padding: 10px;
+  border: 2px solid #bbd2f9;
+}
+
+.searchInput {
+  display: block;
+  border:none;
+  background: none;
+  outline:none;
+  float:left;
+  padding: 0;
+  color: black;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 20px;
+  width: 100%;
+  padding: 0 6px;
+}
+
+@media screen and (max-width: 620px) {
+.searchBox:hover > .searchInput {
+    width: 150px;
+    padding: 0 6px;
+  }
+}
+
+.search-btn {
+  position: relative;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
+  width: 20%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #bbd2f9;
+  // padding: 8px 15px;
+  border-radius: 30px;
+
+  background: #bbd2f9;
+  color: #fff;
+}
+
+.select-btn {
+  position: relative;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
+  width: 25%;
+  font-weight: 700;
+  // text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #bbd2f9;
+  // padding: 8px 15px;
+  border-radius: 30px;
+
+  background: #bbd2f9;
+  color: black !important;
+}
+
+
+
+// dropdown
+.dropdown {
+  position: relative;
+  height: 100%;
+  width: 45%;
+  // letter-spacing: 0.4px;
+  // border: 2px solid #bbd2f9;
+  // border-radius: 30px;
+  // background: #bbd2f9;
+  // color: black !important;
+  filter: url(#goo);
+}
+
+.dropdown__face {
+  display: block;
+  position: relative;
+  height: 100%;
+  background-color: #bbd2f9;
+  border-radius: 25px;
+  border: 2px solid #bbd2f9;
+}
+.dropdown__items {
+  margin: 0;
+  position: absolute;
+  right: 0;
+  padding-left: 0px;
+  border: 2px solid #bbd2f9;
+  border-radius: 30px;
+  background: #bbd2f9;
+  background-color: #bbd2f9;
+  top: 50%;
+  width: 120%;
+  list-style: none;
+  list-style-type: none;
+  display: flex;
+  visibility: hidden;
+  justify-content: space-between;
+  z-index: -1;
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.93, 0.88, 0.1, 0.8);
+}
+
+.dropdown__arrow {
+  border-bottom: 2px solid #000;
+  border-right: 2px solid #000;
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg) translateY(-50%);
+  transform-origin: right;
+}
+.dropdown input {
+  display: none;
+}
+
+.dropdown input:checked ~ .dropdown__items {
+  top: calc(100% + 25px);
+  visibility: visible;
+  opacity: 1;
+}
+
+</style>

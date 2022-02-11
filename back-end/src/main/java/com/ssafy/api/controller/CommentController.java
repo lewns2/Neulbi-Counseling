@@ -26,8 +26,8 @@ public class CommentController {
     @PostMapping("/{community_id}")
     @ApiOperation(value = "댓글 등록", notes = "<strong>댓글</strong>을 등록한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "실패", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "SUCCESS", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "FAIL", response = BaseResponseBody.class)
     })
     public ResponseEntity<BaseResponseBody> createComment(@RequestBody @ApiParam(value = "댓글 정보", required = true) CommentPostReq commentInfo) {
 
@@ -43,8 +43,8 @@ public class CommentController {
     @PutMapping("/{community_id}")
     @ApiOperation(value = "댓글 수정", notes = "<strong>댓글</strong>을 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "실패", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "SUCCESS", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "FAIL", response = BaseResponseBody.class)
     })
     public ResponseEntity<BaseResponseBody> modifyComment(@RequestBody @ApiParam(value = "게시글 번호", required = true) CommentPutReq commentInfo) {
 
@@ -60,14 +60,14 @@ public class CommentController {
     @DeleteMapping("/{community_id}")
     @ApiOperation(value = "댓글 삭제", notes = "<strong>댓글</strong>을 삭제한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "실패", response = BaseResponseBody.class)
+            @ApiResponse(code = 200, message = "SUCCESS", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "FAIL", response = BaseResponseBody.class)
     })
-    public ResponseEntity<BaseResponseBody> deleteComment(@RequestBody @ApiParam(value = "게시글 번호", required = true) @PathVariable(name = "community_id") Long communityId) {
+    public ResponseEntity<BaseResponseBody> deleteComment(@RequestBody @ApiParam(value = "게시글 번호", required = true) CommentPutReq commentInfo) {
 
-        Comment comment = commentService.deleteComment(communityId);
+        boolean isSuccess = commentService.deleteComment(commentInfo);
 
-        if (comment != null) {
+        if (isSuccess) {
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
         } else {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
