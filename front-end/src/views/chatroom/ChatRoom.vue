@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 @charset "UTF-8";
 *, *:before, *:after {
   box-sizing: border-box;
