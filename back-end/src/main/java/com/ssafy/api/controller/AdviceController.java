@@ -2,11 +2,9 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConsultantRegisterPostReq;
 import com.ssafy.api.response.ConsultantListRes;
-import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.ConsultantService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.ConsultantProfile;
-import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,12 +45,7 @@ public class AdviceController {
 
         System.out.println(pageable.toString());
 
-        Page<ConsultantProfile> cons = null;
-
-        if(consultantService.getConsultant(userId) == null)
-            cons = consultantService.getAllConsultant(pageable);
-        else
-            cons = consultantService.getAllConsultantByUserIdNotEqual(pageable, userId);
+        Page<ConsultantProfile> cons = consultantService.getAllConsultantByUserIdNotEqual(pageable, userId);
 
         Page<ConsultantListRes> consultantListRes = consultantService.getInfoMyFavoriteConsultant(cons,userId);
         return ResponseEntity.status(200).body(consultantListRes);
@@ -111,5 +104,3 @@ public class AdviceController {
         return ResponseEntity.status(200).body(consultantListRes);
     }
 }
-
-

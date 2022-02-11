@@ -213,23 +213,33 @@ public class ProfileController {
     }
 
     @PostMapping("/{user_id}/mask")
-    @ApiOperation(value = "마스크 변경", notes = "<strong>닉네임</strong>을 변경한다.")
+    @ApiOperation(value = "마스크 변경", notes = "<strong>마스크 이미지</strong>를 변경한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> changeNickname(
+    public ResponseEntity<? extends BaseResponseBody> changeMask(
             @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 변경", required = true) ProfileModifyMaskPostReq mask_id) {
 
+        profileService.modifyMask(id, mask_id.getMask_id());
 
-        Optional<User> user = profileService.findByUserId(id);
-        Long changeMask = mask_id.getMask_id();
-        user.ifPresent(user1 -> {
-            //user1.setMask(changeMask);
-            userRepository.save(user1);
-        });
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
+    }
+
+    @PostMapping("/{user_id}/maskBack")
+    @ApiOperation(value = "마스크 배경 변경", notes = "<strong>마스크 배경화면</strong>을 변경한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> changeMaskBackground(
+            @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 배경 변경", required = true) ProfileModifyMaskPostReq maskBack) {
+
+        profileService.modifyMask(id, maskBack.getMask_id());
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -244,9 +254,7 @@ public class ProfileController {
             @PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) Long userId) throws MalformedURLException {
 
         User user = userService.getUserById(userId);
-
         if(user == null) return null;
-
         // 기본 이미지 내려줄 것
         if(user.getProfileImg() == null || user.getProfileImg().equals(""))
             ProjectDirectoryPathUtil.getProfileImagePath("default_profile_image.jpg");
@@ -262,10 +270,6 @@ public class ProfileController {
     })
     public ResponseEntity<? extends BaseResponseBody> modifyProfileImg(
             @PathVariable("user_id") Long userId, @RequestParam("profileImg") @ApiParam(value = "프로파일 이미지", required = true) MultipartFile profileImgInfo) throws IOException {
-
-        System.out.println("--------------------------------------");
-        System.out.println(profileImgInfo);
-        System.out.println("--------------------------------------");
 
         int statusCode = profileService.modifyProfileImg(userId, profileImgInfo);
 
@@ -303,7 +307,6 @@ public class ProfileController {
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
-
 
     @GetMapping("/{user_id}/consultantProfile")
     @ApiOperation(value = "내 상담가 프로필 정보", notes = "<strong>내 상담가 프로필 정보</strong>불러오기")
@@ -389,9 +392,9 @@ public class ProfileController {
             List<Review> receivedReview = consultantProfile.getReviewList();
             map.put("receivedReview", receivedReview);
         }
-
         return ResponseEntity.status(200).body(map);
     }
+
 
 
 }

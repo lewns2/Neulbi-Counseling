@@ -38,7 +38,8 @@ public class UserServiceImpl implements UserService {
                 .email(email)
                 .nickname(nickname)
                 .password(password)
-                .mask("DEFAULT_MASK")
+                .maskId(1)
+                .maskBack(1)
                 .socialId("0")
                 .profileImg("default-profile-image.jpg")
                 .build();
