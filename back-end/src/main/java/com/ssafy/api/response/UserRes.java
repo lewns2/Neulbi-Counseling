@@ -31,7 +31,7 @@ public class UserRes{
 	long id;
 
 	@ApiModelProperty(name="User 현재 마스크")
-	String mask;
+	int maskId;
 
 	@ApiModelProperty(name="접근 권한")
 	String role;
@@ -59,7 +59,7 @@ public class UserRes{
 		res.setPenalty(user.isPenalty());
 		res.setConsultant(user.isConsultant());
 
-		res.setMask(user.getMask());
+		res.setMaskId(user.getMaskId());
 		res.setRole(user.getRole());
 
 		return res;
