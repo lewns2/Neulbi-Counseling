@@ -119,14 +119,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
                 localDateTime = null;
             }
 
-            res.setUserId(chatRoom.getUserId());
-            res.setConsultantId(chatRoom.getConsultantId());
+            // 채팅방 관련 정보
             res.setLastMessage(msg);
             res.setId(chatRoom.getId());
-            User consultant = userService.getUserById(chatRoom.getConsultantId());
             res.setCreatedDate(localDateTime);
+
+            // 유저
+            User user = userService.getUserById(chatRoom.getUserId());
+            res.setUserId(chatRoom.getUserId());
+            res.setUserNickName(user.getNickname());
+
+            // 컨설턴트
+            User consultant = userService.getUserById(chatRoom.getConsultantId());
+            res.setConsultantId(chatRoom.getConsultantId());
             res.setConsultantNickName(consultant.getNickname());
             res.setConsultantProfileImg(consultant.getProfileImg());
+
             res.setStatusCode(200);
             res.setMessage("Success");
 

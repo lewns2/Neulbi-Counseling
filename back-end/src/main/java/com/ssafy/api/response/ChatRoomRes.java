@@ -27,10 +27,11 @@ public class ChatRoomRes extends BaseResponseBody {
     Long id;
     // 유저 아이디 따로 받아옴
     Long userId;
+    // 유저 닉네임
+    String userNickName;
 
     // 해당 컨설턴트 아이디 따로 받아옴
     Long consultantId;
-
     // 해당 컨설턴트의 닉네임
     String consultantNickName;
     // 해당 컨설턴트 프로필 사진
