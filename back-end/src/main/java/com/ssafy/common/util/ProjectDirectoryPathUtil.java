@@ -15,7 +15,7 @@ public class ProjectDirectoryPathUtil {
         // 현재 프로젝트 경로
         String projectPath = "https://i6e202.p.ssafy.io:8443";
         // 폴더 경로
-        String directoryPath = File.separator +
+        String directoryPath =
                 "src" + File.separator + // File.seperator는 OS종속적
                         "main" + File.separator +
                         "resources" + File.separator +
