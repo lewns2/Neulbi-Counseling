@@ -3,6 +3,7 @@ package com.ssafy.config;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
+import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,6 +50,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String makeRedirectUrl(String token) {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setRedirectPort(443);
+
         return UriComponentsBuilder.fromUriString("/oauth/success")
                 .queryParam("accessToken", token)
                 .build().toUriString();
