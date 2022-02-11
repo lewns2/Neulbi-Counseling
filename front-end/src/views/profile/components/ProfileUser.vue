@@ -89,7 +89,7 @@ export default {
       nickname: null,
       maskId : null,
       profileImg : null,
-      profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
+      profileImgThumbnail : `https://i6e202.p.ssafy.io/profile/image/${props.userInfo.id}`,
 			profileNicknameBool: computed(() => store.getters['root/profileNicknameBool']),
       password: null,
       newPassword: null,

@@ -13,14 +13,14 @@ public class ProjectDirectoryPathUtil {
 
     public static String getProfileImageDirectoryPath() {
         // 현재 프로젝트 경로
-        String projectPath = System.getProperty("user.dir");
-//                File.separator + "home" +
-//                File.separator + "ubuntu" +
-//                File.separator + "docker-volume" +
-//                File.separator + "jenkins" +
-//                File.separator + "workspace" +
-//                File.separator + "s06p12e202_deploy" +
-//                File.separator + "back-end";
+        String projectPath =
+                File.separator + "home" +
+                File.separator + "ubuntu" +
+                File.separator + "docker-volume" +
+                File.separator + "jenkins" +
+                File.separator + "workspace" +
+                File.separator + "s06p12e202_deploy" +
+                File.separator + "back-end";
 
 
         // 폴더 경로
