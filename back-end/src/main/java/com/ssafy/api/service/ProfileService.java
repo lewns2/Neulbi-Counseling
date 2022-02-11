@@ -26,4 +26,6 @@ public interface ProfileService {
 	void createMyConsultant(Long userId, Long consultantId);
 	void deleteMyConsultant(Long userId, Long consultantId);
 	void modifyUserNickname(Long userId, String nickname);
+	void modifyMask(Long userId, int maskId);
+	void modifyMaskBack(Long userId, int maskId);
 }

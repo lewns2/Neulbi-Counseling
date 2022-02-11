@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 유저 모델 관련 디비 쿼리 생성을 위한 구현 정의.
+ * 컨설턴트 모델 관련 디비 쿼리 생성을 위한 구현 정의.
  */
 @Repository
 public class ConsultantRepositorySupport {
@@ -27,25 +27,12 @@ public class ConsultantRepositorySupport {
 
     // 고민상담 - 상담가 목록 불러오기
     // is_consultant = true인 user를 가져온다.
-    public Page<ConsultantProfile> findAll(Pageable pageable) {
-        QueryResults<ConsultantProfile> cons = jpaQueryFactory
-                .select(qConsultantProfile)
-                .from(qConsultantProfile)
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset()).fetchResults();
-
-        if (cons == null) return Page.empty();
-
-        return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
-    }
-
-    // 고민상담 - 상담가 목록 불러오기
-    // is_consultant = true인 user를 가져온다.
     public Page<ConsultantProfile> findAllByUserIdNotEqual(Pageable pageable, Long userId) {
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
                 .from(qConsultantProfile)
                 .where(qConsultantProfile.user.id.ne(userId))
+                .orderBy(qConsultantProfile.id.asc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset()).fetchResults();
 
@@ -58,9 +45,13 @@ public class ConsultantRepositorySupport {
 
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
+                .from(qConsultantProfile)
                 .where(qConsultantProfile.user.nickname.contains(nickname)
                         .and(qConsultantProfile.user.id.ne(userId)))
-                .from(qConsultantProfile).fetchResults();
+                .orderBy(qConsultantProfile.user.nickname.asc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
+
 
         if (cons == null) return Page.empty();
 
@@ -71,26 +62,27 @@ public class ConsultantRepositorySupport {
 
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
+                .from(qConsultantProfile)
                 .where(qConsultantProfile.description.contains(description)
                 .and(qConsultantProfile.user.id.ne(userId)))
-                .from(qConsultantProfile).fetchResults();
+                .orderBy(qConsultantProfile.description.asc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
 
         if (cons == null) return Page.empty();
 
         return new PageImpl<ConsultantProfile>(cons.getResults(), pageable, cons.getTotal());
     }
 
-
-
     // 고민상담 - 상담가 목록 불러오기 끝
     public Page<ConsultantProfile> findAllByTopicCategoryId(Long topicCategoryId, Pageable pageable, Long userId) {
         QueryResults<ConsultantProfile> cons = jpaQueryFactory
                 .select(qConsultantProfile)
                 .from(qConsultantProfile)
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
                 .where(qConsultantProfile.topicCategory.id.eq(topicCategoryId)
                         .and(qConsultantProfile.user.id.ne(userId)))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
                 .fetchResults();
 
         if (cons == null) return Page.empty();

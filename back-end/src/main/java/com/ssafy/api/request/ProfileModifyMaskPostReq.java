@@ -13,5 +13,5 @@ import lombok.Setter;
 @ApiModel("ProfileModifyMaskPostRequest")
 public class ProfileModifyMaskPostReq {
 	@ApiModelProperty(name="값", example="mask_id")
-	Long mask_id;
+	int mask_id;
 }

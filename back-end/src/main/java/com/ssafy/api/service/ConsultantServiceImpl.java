@@ -72,12 +72,6 @@ public class ConsultantServiceImpl implements ConsultantService {
         return cons;
     }
 
-
-    @Override
-    public Page<ConsultantProfile> getAllConsultant(Pageable pageable) {
-        Page<ConsultantProfile> cons = consultantRepositorySupport.findAll(pageable);
-        return cons;
-    }
     @Override
     public Page<ConsultantProfile> getAllConsultantByUserIdNotEqual(Pageable pageable, Long userId) {
         Page<ConsultantProfile> cons = consultantRepositorySupport.findAllByUserIdNotEqual(pageable, userId);

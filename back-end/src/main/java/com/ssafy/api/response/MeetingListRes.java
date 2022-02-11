@@ -47,7 +47,7 @@ public class MeetingListRes extends BaseResponseBody {
     @ApiModelProperty(name="topic_category_name", example = "화상회의 주제 이름")
     String topicCategoryName;
     @ApiModelProperty(name="mask_name", example = "방장의 마스크 이미지")
-    String mask;
+    int maskId;
     @ApiModelProperty(name="profileImg", example = "방장의 프로필 이미지")
     String profileImg;
 
@@ -70,7 +70,7 @@ public class MeetingListRes extends BaseResponseBody {
             mlr.setParticipants(m.getParticipants());
             mlr.setOwnerId(user.getId());
             mlr.setOwnerNickname(user.getNickname());
-            mlr.setMask(user.getMask());
+            mlr.setMaskId(user.getMaskId());
             mlr.setProfileImg(user.getProfileImg());
             mlr.setMeetingCategoryId(meetingCategory.getId());
             mlr.setMeetingCategoryName(meetingCategory.getName());

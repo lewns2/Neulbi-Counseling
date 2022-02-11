@@ -1,27 +1,21 @@
 package com.ssafy.api.response;
 
-import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.TopicCategory;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.entity.MyConsultant;
 import com.ssafy.db.repository.MyConsultantRepositorySupport;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.checkerframework.checker.optional.qual.Present;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 상담가 목록 조회 API ([GET] /advice) 요청에 대한 응답값 정의.

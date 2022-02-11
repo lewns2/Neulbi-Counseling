@@ -86,8 +86,9 @@ public class OAuthAttributes {
                 .socialId(socialId)
                 .profileImg(picture)
                 .role("USER")
-                .mask("DEFAULT_MASK")
+                .maskId(1)
                 .profileImg("default-profile-image.jpg")
+                .maskBack(1)
                 .build();
     }
 

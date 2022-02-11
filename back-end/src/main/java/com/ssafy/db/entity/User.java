@@ -1,11 +1,9 @@
 package com.ssafy.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.ssafy.db.converter.MaskAttributeConverter;
 import com.ssafy.db.converter.RoleAttributeConverter;
 import lombok.*;
 import javax.persistence.Entity;
@@ -27,17 +25,14 @@ import java.util.List;
 public class User extends BaseEntity{
     String nickname; // 별명
     String socialId; // 소셜 로그인 유저 구분자
+    int maskId; // 마스크 번호
+    int maskBack; // 마스크 배경
     String email; // 이메일 == 아이디
     String profileImg; // 프로필 이미지 주소
     boolean isConsultant; // 상담가 신청 여부
     boolean isPenalty; // 현재 패널티 여부
     double pointTot; // 등급 포인트
     int reportCnt; // 신고 받은 횟수
-
-
-    @Column(name="mask_id")
-    @Convert(converter = MaskAttributeConverter.class)
-    String mask;
 
     @Column(name="role_id")
     @Convert(converter = RoleAttributeConverter.class)
@@ -120,5 +115,13 @@ public class User extends BaseEntity{
     // 프로필 이미지 변경
     public void modifyProfileImg(String profileImg) {
         this.profileImg = profileImg;
+    }
+
+    public void modifyMask(int maskId) {
+        this.maskId = maskId;
+    }
+
+    public void modifyMaskBack(int maskBack) {
+        this.maskBack = maskBack;
     }
 }
