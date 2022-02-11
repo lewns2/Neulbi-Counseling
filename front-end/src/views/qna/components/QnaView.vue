@@ -1,5 +1,5 @@
 <template bgcolor="white">
-  <div class="container">
+  <div class="container" style="width: 1000px">
     <div class="row"></div>
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
@@ -15,7 +15,7 @@
     >
       <h6 style="color: #6c8093">
         'Q&amp;A'는 궁금증을 해소하는 공간입니다. 운영자에게 궁금한 점이나
-        제시할 사항이 있다면 자유롭게 작성해주세요. 비공개로 작성시 작성자
+        제시할 사항이 있다면 자유롭게 작성해주세요. <br />비공개로 작성시 작성자
         본인만 답글을 확인할 수 있습니다.
       </h6>
     </div>
@@ -37,13 +37,13 @@
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5></h5>
         </div>
-        <div class="col-md-4 mb-3 mb-sm-0">
+        <div class="col-md-6 mb-3 mb-sm-0">
           <h5>제목</h5>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5>작성자</h5>
         </div>
-        <div class="col-md-4 mb-3 mb-sm-0">
+        <div class="col-md-2 mb-3 mb-sm-0">
           <h5>작성일</h5>
         </div>
       </div>
@@ -51,25 +51,30 @@
 
     <div v-for="(qna, idx) in state.qnaList" :key="idx">
       <!-- QnA 리스트 -->
-      <div
-        class="card row-hover pos-relative py-3 px-3"
-        id="board-style1"
-        @click="showQnaAnswer(qna, idx)"
-      >
+      <div class="card row-hover pos-relative py-3 px-3" id="board-style1">
         <div class="row align-items-center">
-          <div class="d-flex col-md-2 mb-3 mb-sm-0" style="color: #3a6bff">
+          <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
             <button
-              v-if="state.userInfo.role === 'ADMIN'"
+              v-if="
+                state.userInfo.role === 'ADMIN' ||
+                state.userInfo.nickname == qna.userNickname
+              "
               @click="goToQnaDetail(qna)"
               class="form-control form-control-md col-lg-2"
               id="input"
               style="font-size: 10px; margin-right: 50px"
             >
-              댓글관리
+              답글관리
             </button>
+          </div>
+          <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
             <h6>Q</h6>
           </div>
-          <div class="col-md-4 mb-3 mb-sm-0" style="text-align: left">
+          <div
+            class="col-md-6 mb-3 mb-sm-0"
+            style="text-align: left"
+            @click="showQnaAnswer(qna, idx)"
+          >
             <h6>
               <i
                 v-if="qna.rocked"
@@ -87,7 +92,7 @@
             </h6>
           </div>
 
-          <div class="col-md-4 mb-3 mb-sm-0">
+          <div class="col-md-2 mb-3 mb-sm-0">
             <h6>
               {{ qna.date.substr(0, 10) }}
             </h6>
@@ -98,27 +103,24 @@
       <!-- QnA 댓글 -->
       <div
         name="qnaAnswers"
+        style="background-color: rgb(250, 250, 250); display: none"
         class="card row-hover pos-relative py-3 px-3"
         id="board-style1"
-        style="background-color: rgb(250, 250, 250); display: none"
       >
         <div class="row align-items-center">
-          <div class="col-md-2 mb-3 mb-sm-0" style="color: #3a6bff">
-            <h6
-              v-if="state.userInfo.role === 'ADMIN'"
-              style="margin-left: 85px"
-            >
-              A
-            </h6>
-            <h6 v-else>A</h6>
+          <div class="col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
+            <h6></h6>
           </div>
-          <div class="col-md-6 mb-3 mb-sm-0" style="text-align: left">
+          <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
+            <h6>A</h6>
+          </div>
+          <div class="col-md-8 mb-3 mb-sm-0" style="text-align: left">
             <h6 v-if="state.qnaAnswerList[0]">
               <i class="fas fa-arrow-right"></i>&nbsp;&nbsp;&nbsp;
               {{ state.qnaAnswerList[0].description }}
             </h6>
           </div>
-          <div class="col-md-4 mb-3 mb-sm-0">
+          <div class="col-md-2 mb-3 mb-sm-0">
             <h6 v-if="state.qnaAnswerList[0]">
               {{ state.qnaAnswerList[0].date.substr(0, 10) }}
             </h6>
@@ -130,7 +132,7 @@
     <!--페이지-->
     <div style="margin: 3%">
       <button id="prev" @click="checkPage($event)">이전</button>
-      {{ state.page }} 페이지 / {{ state.communityLastPageNum }} 페이지
+      {{ state.page }} 페이지 / {{ state.qnaLastPageNum }} 페이지
       <button id="next" @click="checkPage($event)">다음</button>
     </div>
   </div>
@@ -220,19 +222,13 @@ export default {
       for (var i = 0; i < state.qnaList.length; i++) {
         document.getElementsByName("qnaAnswers")[i].style.display = "none";
       }
-      if (!qna.rocked || state.userInfo.userNickname == qna.userNickname) {
+      if (!qna.rocked) {
         await store.dispatch("root/qnaGetQuestionDetail", {
           qna_id: qna.qnaId,
           user_id: state.userInfo.id,
         });
         if (state.qnaAnswerList[0])
           document.getElementsByName("qnaAnswers")[idx].style.display = "block";
-        // await router.push({
-        //   name: "QnaDetail",
-        //   params: {
-        //     qna_id: qna.qnaId,
-        //   },
-        // });
       } else {
         alert("비공개된 글입니다.");
       }

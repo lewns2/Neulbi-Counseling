@@ -1,5 +1,5 @@
 <template bgcolor="white">
-  <div class="container">
+  <div class="container" style="width: 1000px">
     <div class="row"></div>
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
@@ -20,7 +20,7 @@
     </div>
 
     <!-- <div class="col-lg-9 mb-3">  -->
-    <div class="inner-main-header">
+    <div class="inner-main-header" v-if="state.userInfo.role === 'ADMIN'">
       <button
         @click="goToCreateNotice"
         class="form-control form-control-md col-lg-2"
@@ -35,13 +35,13 @@
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5>번호</h5>
         </div>
-        <div class="col-md-4 mb-3 mb-sm-0">
+        <div class="col-md-6 mb-3 mb-sm-0">
           <h5>제목</h5>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5>작성자</h5>
         </div>
-        <div class="col-md-4 mb-3 mb-sm-0">
+        <div class="col-md-2 mb-3 mb-sm-0">
           <h5>작성일</h5>
         </div>
       </div>
@@ -58,7 +58,7 @@
           <h6>{{ notice.noticeId }}</h6>
         </div>
         <div
-          class="col-md-4 mb-3 mb-sm-0"
+          class="col-md-6 mb-3 mb-sm-0"
           @click="goToNoticeDetail(notice.noticeId)"
           style="text-align: left"
         >
@@ -72,7 +72,7 @@
           </h6>
         </div>
 
-        <div class="col-md-4 mb-3 mb-sm-0">
+        <div class="col-md-2 mb-3 mb-sm-0">
           <h6>
             {{ notice.date.substr(0, 10) }}
           </h6>
@@ -83,7 +83,7 @@
     <!--페이지-->
     <div style="margin: 3%">
       <button id="prev" @click="checkPage($event)">이전</button>
-      {{ state.page }} 페이지 / {{ state.communityLastPageNum }} 페이지
+      {{ state.page }} 페이지 / {{ state.noticeLastPageNum }} 페이지
       <button id="next" @click="checkPage($event)">다음</button>
     </div>
   </div>
@@ -95,11 +95,14 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
   name: "NoticeView",
-  setup() {
+  props: {
+    userInfo: Object,
+  },
+  setup(props) {
     const store = useStore();
     const router = useRouter();
     const state = reactive({
-      userInfo: computed(() => store.getters["root/userInfo"]),
+      userInfo: props.userInfo,
       noticeList: computed(() => store.getters["root/noticeList"]),
       noticeLastPageNum: computed(
         () => store.getters["root/noticeLastPageNum"]

@@ -1,6 +1,6 @@
 <template>
   <main-header></main-header>
-  <notice-view></notice-view>
+  <notice-view :userInfo="state.userInfo"></notice-view>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
   name: "Notice",
   components: {
     NoticeView,
-    MainHeader
+    MainHeader,
   },
   setup() {
     const store = useStore();
