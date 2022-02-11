@@ -1,58 +1,84 @@
 <template>
-  <div class="container-contact100">
-    <div class="wrap-contact100">
-      <div class="contact100-form validate-form">
-        <div class="contact100-form-title">공지사항 등록</div>
-
-        <div
-          class="wrap-input100 validate-input"
-          data-validate="Please enter title"
-        >
+  <div class="container">
+    <link
+      href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+    <!--디테일 헤더-->
+    <div class="detailheader row-hover pos-relative py-3 px-3 mt-5 row-lg-4">
+      <div class="row align-items-center">
+        <div class="col-md-12" id="leftalign">
           <input
-            class="input100"
             type="text"
-            name="title"
-            placeholder="Please enter title"
             v-model="state.title"
+            placeholder="제목을 작성해주세요."
+            style="border: none; font-size: 28px; width: 900px"
           />
-          <span class="focus-input100"></span>
         </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-8 op-7" id="leftalign">
+          <h5>{{ state.userInfo.nickname }} | {{ state.today }}</h5>
+        </div>
+        <!-- <div class="col-md-4 op-7" id="leftalign">
+          <h5>1999-99-99</h5>
+        </div> -->
+        <div class="col-md-4 op-7">
+          <div class="row">
+            <div class="col px-1">
+              <span class="d-block text-sm"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <div
-          class="wrap-input100 validate-input"
-          data-validate="Please enter description"
+    <!--디테일 본문-->
+    <div
+      class="d-flex card row-hover pos-relative mt-2 py-3 px-3 row-lg-4"
+      id="maintext"
+      style="
+        justify-content: space-between;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+        text-align: left;
+      "
+    >
+      <div>
+        <i
+          class="fas fa-sticky-note"
+          style="color: #3a6bff; font-size: 25px"
+        ></i>
+        <br /><br />
+        <textarea
+          cols="120"
+          rows="5"
+          v-model="state.description"
+          placeholder="글을 작성해주세요."
+          style="border: none"
+        ></textarea>
+      </div>
+      <div class="d-flex" style="justify-content: flex-end">
+        <button
+          @click="goToNotice"
+          class="form-control form-control-md col-lg-2"
+          id="input"
         >
-          <textarea
-            class="input100"
-            name="description"
-            placeholder="Please enter description"
-            v-model="state.description"
-          ></textarea>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="container-downBtn">
-          <button class="downBtn" @click="goToNotice">
-            <span> <i class="fas fa-undo"></i>&nbsp;취소 </span>
-          </button>
-          <button
-            style="margin-left: 30px"
-            class="downBtn"
-            @click="clickCreateNotice"
-          >
-            <span>
-              <i class="far fa-paper-plane"></i>
-              생성
-            </span>
-          </button>
-        </div>
+          취소
+        </button>
+        <button
+          @click="clickCreateNotice"
+          class="form-control form-control-md col-lg-2"
+          id="input"
+        >
+          등록
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -65,6 +91,18 @@ export default {
       userInfo: computed(() => store.getters["root/userInfo"]),
       title: "",
       description: "",
+      today: "",
+    });
+
+    onMounted(() => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month =
+        now.getMonth() + 1 < 10
+          ? "0" + (now.getMonth() + 1)
+          : now.getMonth() + 1;
+      const date = now.getDate();
+      state.today = year + "-" + month + "-" + date;
     });
 
     const clickCreateNotice = async function () {
@@ -90,218 +128,107 @@ export default {
 };
 </script>
 
-<style scoped>
-input {
-  outline: none;
-  border: none;
-}
-
-textarea {
-  outline: none;
-  border: none;
-}
-
-textarea:focus,
-input:focus {
-  border-color: transparent !important;
-}
-
-input::-webkit-input-placeholder {
-  color: #bdbdd3;
-}
-input:-moz-placeholder {
-  color: #bdbdd3;
-}
-input::-moz-placeholder {
-  color: #bdbdd3;
-}
-input:-ms-input-placeholder {
-  color: #bdbdd3;
-}
-
-textarea::-webkit-input-placeholder {
-  color: #bdbdd3;
-}
-textarea:-moz-placeholder {
-  color: #bdbdd3;
-}
-textarea::-moz-placeholder {
-  color: #bdbdd3;
-}
-textarea:-ms-input-placeholder {
-  color: #bdbdd3;
-}
-
-button {
-  outline: none !important;
-  border: none;
-  background: transparent;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-.container {
-  max-width: 100%;
-}
-
-.container-contact100 {
-  width: 100%;
-  min-height: 10vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  position: relative;
-  background-color: #f2f2f2;
-}
-
-.wrap-contact100 {
-  width: 700px;
-  background: transparent;
-  padding: 50px 0px 160px 0px;
-}
-
-.contact100-form {
-  width: 100%;
-}
-
-.contact100-form-title {
-  display: block;
-  font-family: Ubuntu-Bold;
-  font-size: 30px;
-  color: #403866;
-  line-height: 1.2;
-  text-transform: uppercase;
-  text-align: center;
-  padding-bottom: 49px;
-}
-
-.wrap-input100 {
-  width: 100%;
-  background-color: #fff;
-  border-radius: 31px;
-  margin-bottom: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.input100 {
-  position: relative;
-  display: block;
-  width: 100%;
-  background: #fff;
-  border-radius: 31px;
-  font-family: Ubuntu-Bold;
-  font-size: 18px;
-  color: #8f8fa1;
-  line-height: 1.2;
-}
-
-input.input100 {
-  height: 62px;
-  padding: 0 35px 0 35px;
-}
-
-textarea.input100 {
-  min-height: 300px;
-  padding: 19px 35px 0 35px;
-}
-
-.focus-input100 {
-  display: block;
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
-  border-radius: 31px;
-  background-color: #fff;
-  pointer-events: none;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-}
-
-.input100:focus + .focus-input100 {
-  width: calc(100% + 20px);
-}
-
-.container-downBtn {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding-top: 10px;
-}
-
-.downBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px;
-  min-width: 150px;
-  height: 62px;
-  /* background-color: transparent; */
-  border-radius: 31px;
-
-  font-family: Ubuntu-Bold;
-  font-size: 16px;
-  color: #fff;
-  line-height: 1.2;
-  text-transform: uppercase;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-  position: relative;
-  z-index: 1;
-}
-
-.downBtn::before {
-  content: "";
-  display: block;
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  transform: translateX(-50%);
-  border-radius: 31px;
-  background-color: #827ffe;
-  pointer-events: none;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-}
-
-.downBtn:hover:before {
-  background-color: #403866;
-  width: calc(100% + 20px);
-}
-
-.validate-input {
-  position: relative;
+<style scoped lang="scss">
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+  input[type="checkbox"] {
+    --active: #275efe;
+    --active-inner: #fff;
+    --focus: 2px rgba(39, 94, 254, 0.3);
+    --border: #bbc1e1;
+    --border-hover: #275efe;
+    --background: #fff;
+    --disabled: #f6f8ff;
+    --disabled-inner: #e1e6f9;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 21px;
+    outline: none;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid var(--bc, var(--border));
+    background: var(--b, var(--background));
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+    &:after {
+      content: "";
+      display: block;
+      left: 0;
+      top: 0;
+      position: absolute;
+      transition: transform var(--d-t, 0.3s) var(--d-t-e, ease),
+        opacity var(--d-o, 0.2s);
+    }
+    &:checked {
+      --b: var(--active);
+      --bc: var(--active);
+      --d-o: 0.3s;
+      --d-t: 0.6s;
+      --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
+    }
+    &:hover {
+      &:not(:checked) {
+        &:not(:disabled) {
+          --bc: var(--border-hover);
+        }
+      }
+    }
+    &:focus {
+      box-shadow: 0 0 0 var(--focus);
+    }
+    &:not(.switch) {
+      width: 21px;
+      &:after {
+        opacity: var(--o, 0);
+      }
+      &:checked {
+        --o: 1;
+      }
+    }
+    & + label {
+      font-size: 14px;
+      line-height: 21px;
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+  }
+  input[type="checkbox"] {
+    &:not(.switch) {
+      border-radius: 7px;
+      &:after {
+        width: 5px;
+        height: 9px;
+        border: 2px solid var(--active-inner);
+        border-top: 0;
+        border-left: 0;
+        left: 7px;
+        top: 4px;
+        transform: rotate(var(--r, 20deg));
+      }
+      &:checked {
+        --r: 43deg;
+      }
+    }
+    &.switch {
+      width: 38px;
+      border-radius: 11px;
+      &:after {
+        left: 2px;
+        top: 2px;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        background: var(--ab, var(--border));
+        transform: translateX(var(--x, 0));
+      }
+      &:checked {
+        --ab: var(--active-inner);
+        --x: 17px;
+      }
+    }
+  }
 }
 </style>
