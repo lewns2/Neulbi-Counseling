@@ -56,7 +56,11 @@ export default {
 
     const selectProfile = async function (event) {
       const body = { user_id: state.userInfo.id }
-      await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
+      if (state.userInfo.consultant) {
+        await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
+      } else {
+        store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", "No")
+      }
       await store.dispatch('root/profileGetConsultantLike', state.userInfo.id)
       await store.dispatch('root/profileGetHistoryMeeting', body)
       await store.dispatch('root/profileGetHistoryReview', body)
@@ -67,7 +71,11 @@ export default {
 
     onMounted(async() => {
       const body = { user_id: state.userInfo.id }
-      await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
+      if (state.userInfo.consultant) {
+        await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
+      } else {
+        store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", "No")
+      }
       await store.dispatch('root/profileGetConsultantLike', state.userInfo.id)
       await store.dispatch('root/profileGetHistoryMeeting', body)
       await store.dispatch('root/profileGetHistoryReview', body)

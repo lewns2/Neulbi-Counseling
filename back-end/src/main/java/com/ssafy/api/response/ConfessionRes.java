@@ -22,7 +22,7 @@ public class ConfessionRes {
     String description;
     @ApiModelProperty(name="is_active", example = "방 활성화 여부")
     boolean isActive;
-    @ApiModelProperty(name="currJoinParticipants", example = "현재 방 참가자 수")
+    @ApiModelProperty(name="participants", example = "현재 방 참가자 수")
     long currJoinParticipants;
     @ApiModelProperty(name="participants", example = "방 최대 참가자 수")
     int participants;

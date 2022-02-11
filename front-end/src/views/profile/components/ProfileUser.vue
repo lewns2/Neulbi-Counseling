@@ -89,7 +89,7 @@ export default {
       nickname: null,
       maskId : null,
       profileImg : null,
-      profileImgThumbnail : props.userInfo.profileImg !== null ? props.userInfo.profileImg : 'https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927',
+      profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
 			profileNicknameBool: computed(() => store.getters['root/profileNicknameBool']),
       password: null,
       newPassword: null,
@@ -114,7 +114,7 @@ export default {
     const changeImgFile = async function (event) {
       if( event.target.files && event.target.files.length > 0 ) {
         const file = event.target.files[0];
-        store.profileImg = file;
+        state.profileImg = file;
         state.profileImgThumbnail = URL.createObjectURL(file); // 파일 경로로 바꿔서 추가
       }
     }

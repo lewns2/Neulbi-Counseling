@@ -1,15 +1,13 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.ProfileCheckPostReq;
-import com.ssafy.api.request.ProfileModifyMaskPostReq;
-import com.ssafy.api.request.ProfileModifyNicknamePostReq;
-import com.ssafy.api.request.ProfileModifyPasswordPutReq;
+import com.ssafy.api.request.*;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.ConsultantService;
 import com.ssafy.api.service.MeetingHistoryService;
 import com.ssafy.api.service.ProfileService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.common.util.ProjectDirectoryPathUtil;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.ConsultantRepository;
 import com.ssafy.db.repository.MyConsultantRepositorySupport;
@@ -17,13 +15,19 @@ import com.ssafy.db.repository.UserRepository;
 import io.swagger.annotations.*;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import retrofit2.http.Multipart;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.*;
 
 /**
@@ -230,24 +234,42 @@ public class ProfileController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
 
-    @PostMapping("/{user_id}/profileImg")
-    @ApiOperation(value = "프로 변경", notes = "<strong>닉네임</strong>을 변경한다.")
+    @GetMapping("/image/{user_id}")
+    @ApiOperation(value = "프로필 이미지 불러오기", notes = "<strong>프로필 이미지</strong>를 불러온다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> modifyProfile(
-            @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 변경", required = true) ProfileModifyMaskPostReq mask_id) {
+    public Resource getProfileImg(
+            @PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) Long userId) throws MalformedURLException {
 
+        User user = userService.getUserById(userId);
 
-        Optional<User> user = profileService.findByUserId(id);
-        Long changeMask = mask_id.getMask_id();
-        user.ifPresent(user1 -> {
-            //user1.setMask(changeMask);
-            userRepository.save(user1);
-        });
+        if(user == null) return null;
+
+        // 기본 이미지 내려줄 것
+        if(user.getProfileImg() == null || user.getProfileImg().equals(""))
+            ProjectDirectoryPathUtil.getProfileImagePath("default_profile_image.jpg");
+
+        return new UrlResource("file:" + ProjectDirectoryPathUtil.getProfileImagePath(user.getProfileImg()));
+    }
+
+    @PostMapping("/image/{user_id}")
+    @ApiOperation(value = "프로필 이미지 변경", notes = "<strong>프로필 이미지</strong>를 변경한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> modifyProfileImg(
+            @PathVariable("user_id") Long userId, @RequestParam("profileImg") @ApiParam(value = "프로파일 이미지", required = true) MultipartFile profileImgInfo) throws IOException {
+
+        System.out.println("--------------------------------------");
+        System.out.println(profileImgInfo);
+        System.out.println("--------------------------------------");
+
+        int statusCode = profileService.modifyProfileImg(userId, profileImgInfo);
+
+        if(statusCode == 500) return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -287,15 +309,14 @@ public class ProfileController {
     @ApiOperation(value = "내 상담가 프로필 정보", notes = "<strong>내 상담가 프로필 정보</strong>불러오기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<ConsultantProfileRes> getConsultantProfile(@PathVariable("user_id") Long userId) {
+        ConsultantProfile con = profileService.getConsultantProfile(userId).orElse(null);
 
-        System.out.println(userId);
-        ConsultantProfile con = profileService.getConsultantProfile(userId).get();
-
+        // 상담가 정보 없음
+        if(con == null) return ResponseEntity.status(500).body(null);
+        
         return ResponseEntity.status(200).body(ConsultantProfileRes.of(con));
     }
 
@@ -346,26 +367,28 @@ public class ProfileController {
     @ApiOperation(value = "내 리뷰 정보", notes = "<strong>내 리뷰 정보</strong>불러오기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<Map<String, List<Review>>> userReview(@PathVariable("user_id") Long userId) {
 
         System.out.println(userId);
-        User user = profileService.findByUserId(userId).get();
-        ConsultantProfile consultantProfile = profileService.getConsultantProfile(user.getId()).get();
+        User user = profileService.findByUserId(userId).orElse(null);
 
-        // 쓴 리뷰
-        List<Review> writtenReview = user.getReviewList();
-
-        // 받은 리뷰
-        List<Review> receivedReview = consultantProfile.getReviewList();
+        // 사용자 없음
+        if(user == null) return ResponseEntity.status(500).body(null);
 
         Map<String, List<Review>> map = new HashMap<>();
 
+        // 내가 쓴 리뷰
+        List<Review> writtenReview = user.getReviewList();
         map.put("writtenReview", writtenReview);
-        map.put("receivedReview", receivedReview);
+        
+        // 유저가 상담가로 신청했으면 받은 리뷰
+        if(user.isConsultant()) {
+            ConsultantProfile consultantProfile = profileService.getConsultantProfile(user.getId()).orElse(null);
+            List<Review> receivedReview = consultantProfile.getReviewList();
+            map.put("receivedReview", receivedReview);
+        }
 
         return ResponseEntity.status(200).body(map);
     }

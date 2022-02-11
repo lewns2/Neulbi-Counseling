@@ -16,7 +16,9 @@ import java.util.Optional;
  */
 public interface ConsultantService {
 	ConsultantProfile createConsultantProfile(ConsultantRegisterPostReq consultantInfo);
-	Page<ConsultantProfile> getAllConsultant(Pageable pageable, Long userId);
+	ConsultantProfile getConsultant(Long userId);
+	Page<ConsultantProfile> getAllConsultant(Pageable pageable);
+	Page<ConsultantProfile> getAllConsultantByUserIdNotEqual(Pageable pageable, Long userId);
 	Page<ConsultantProfile> getConsultantByValue(String key, String value, Pageable pageable, Long userId);
 	Page<ConsultantProfile> getUserByTopicCategory(Long topicCategoryId, Pageable pageable, Long userId);
 	Optional<ConsultantProfile> getConsultantByUserId(Long userId);

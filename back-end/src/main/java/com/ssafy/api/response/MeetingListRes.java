@@ -6,7 +6,9 @@ import com.ssafy.db.entity.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,15 +24,13 @@ import java.util.List;
 @ApiModel("MeetingResList")
 public class MeetingListRes extends BaseResponseBody {
 
-    private static MeetingHistoryService meetingHistoryService;
-
     @ApiModelProperty(name="title", example = "방 제목")
     String title;
     @ApiModelProperty(name="description", example = "방 설명")
     String description;
     @ApiModelProperty(name="is_active", example = "방 활성화 여부")
     boolean isActive;
-    @ApiModelProperty(name="participants", example = "방 참가자 수")
+    @ApiModelProperty(name="participants", example = "방 최대 참가자 수")
     int participants;
     @ApiModelProperty(name="meeting_id", example = "화상회의 방 Id")
     Long meetingId;
@@ -50,7 +50,6 @@ public class MeetingListRes extends BaseResponseBody {
     String mask;
     @ApiModelProperty(name="profileImg", example = "방장의 프로필 이미지")
     String profileImg;
-
 
     public static Page<MeetingListRes> of(Page<Meeting> meetingList) {
         List<MeetingListRes> temp = new ArrayList<>();
@@ -85,7 +84,6 @@ public class MeetingListRes extends BaseResponseBody {
         Page<MeetingListRes> res = new PageImpl<>(temp, pageable, total);
 
         return res;
-
 
     }
 
