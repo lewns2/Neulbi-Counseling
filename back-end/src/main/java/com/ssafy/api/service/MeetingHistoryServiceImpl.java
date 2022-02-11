@@ -60,6 +60,9 @@ public class MeetingHistoryServiceImpl implements MeetingHistoryService {
 
     @Override
     public long getCountMeetingHistoriesByMeetingIdAndActionCreateOrActionJoin(Long meetingId) {
+        System.out.println("---------------------------------------------------");
+        System.out.println(meetingId);
+
         return meetingHistoryRepositorySupport.countMeetingHistoriesByMeetingIdAndActionCreateOrActionJoin(meetingId);
     }
 

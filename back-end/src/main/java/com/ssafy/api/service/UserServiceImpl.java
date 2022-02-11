@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
                 .password(password)
                 .mask("DEFAULT_MASK")
                 .socialId("0")
+                .profileImg("default-profile-image.jpg")
                 .build();
         return userRepository.save(user);
     }

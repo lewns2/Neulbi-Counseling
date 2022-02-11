@@ -1,6 +1,6 @@
 <template>
   <!-- 카테고리 선택 -->
-  <span class="mt-5 mb-5 row">
+  <span class="mt-4 mb-4 row" style="line-height: 40px;">
     <div class="col-8 d-flex justify-content-evenly" style="width: 60%;">
       <div @click="clickAdviceList">
         <a href="#" class="cta">
@@ -20,25 +20,32 @@
 
     <!-- 검색 후 결과 얻기 -->
     <div class="col-4 d-flex justify-content-end">
-      <details class="custom-select">
-        <summary class="radios">
-          <input type="radio" name="item" id="default" :title="state.showKey" checked>
-          <input type="radio" name="item" id="nickname" title="닉네임">
-          <input type="radio" name="item" id="description" title="설명">
-        </summary>
-        <ul class="list">
-          <li v-for="(searchCategory, idx) in state.searchCategories" :key="idx">
-            <label :for="searchCategory.backValue" @click="clickModifyShowCategory(searchCategory)">{{ searchCategory.value }}</label>
-          </li>
-        </ul>
-      </details>
-      <form class="search-box ms-3">
-        <input type="text" placeholder=" ">
-        <button type="reset"></button>
-      </form>
-    </div>
-    
+      <div class="dropdown me-3">
+        <input type="checkbox" id="dropdown" @click="clickChange">
 
+        <label class="dropdown__face" for="dropdown">
+          <div class="dropdown__text ps-3">{{ state.showKey }}</div>
+
+          <div class="dropdown__arrow"></div>
+        </label>
+
+        <ul class="dropdown__items" id="drop1">
+          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(1)">닉네임</button></li>
+          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(2)">설명</button></li>
+        </ul>
+      </div>
+      
+      <div class="searchBox">
+        <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+      </div>
+      <button
+        type="button"
+        class="search-btn ms-2"
+        @click="clickSearch"
+      >
+        검색
+      </button>
+    </div>
   </span>
 
 
@@ -48,7 +55,7 @@
   <div class="row d-flex justify-content-start">
     <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 mx-5 my-5">
       <div class="card">
-        <img :src="adviceConsultant.profileImg" class="card__image" alt="" />
+        <img :src="'/profile/image/'+adviceConsultant.id" class="card__image" alt="" />
         <div class="card__overlay">
           <div class="card__header">
             <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
@@ -97,7 +104,7 @@
 </template>
 
 <script>
-import { reactive, computed, onMounted } from "vue";
+import { reactive, computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
 export default {
@@ -203,6 +210,21 @@ export default {
         key: state.key,
         value: state.word,
       })
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
+
+      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+      if (state.page===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+      if (state.page === state.adviceLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
     }
 
     const checkPage = async function(event) {
@@ -292,10 +314,16 @@ export default {
       }
     }
 
-    const clickModifyShowCategory = function(category) {
-      state.showKey = category.value
-      state.key = category.backValue
+    const clickModifyShowCategory = function(num) {
+      state.key = state.searchCategories[num-1].backValue
+      state.showKey = state.searchCategories[num-1].value
+      // const drop = document.getElementById("dropdown")
+      // drop.setAttribute("checked", false)
+      // const drop1 = document.getElementsByClassName("dropdown__items").style
+      // // drop1 = hidden
+      // console.log(ref)
     }
+
 
     return { 
       state,
@@ -306,7 +334,7 @@ export default {
       clickSearch,
       checkPage,
       clickMyConsultant,
-      clickModifyShowCategory
+      clickModifyShowCategory,
     }
   }
 }
@@ -679,4 +707,140 @@ button {
   color: #708bef;
   z-index: -1;
 }
+
+// 검색창
+.searchBox {
+  position: relative;
+  // transform:  translate(-50%,50%);
+  background: white;
+  height: 100%;
+  width: 50%;
+  border-radius: 40px;
+  padding: 10px;
+  border: 2px solid #bbd2f9;
+}
+
+.searchInput {
+  display: block;
+  border:none;
+  background: none;
+  outline:none;
+  float:left;
+  padding: 0;
+  color: black;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 20px;
+  width: 100%;
+  padding: 0 6px;
+}
+
+@media screen and (max-width: 620px) {
+.searchBox:hover > .searchInput {
+    width: 150px;
+    padding: 0 6px;
+  }
+}
+
+.search-btn {
+  position: relative;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
+  width: 20%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #bbd2f9;
+  // padding: 8px 15px;
+  border-radius: 30px;
+
+  background: #bbd2f9;
+  color: #fff;
+}
+
+.select-btn {
+  position: relative;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
+  width: 25%;
+  font-weight: 700;
+  // text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #bbd2f9;
+  // padding: 8px 15px;
+  border-radius: 30px;
+
+  background: #bbd2f9;
+  color: black !important;
+}
+
+
+
+// dropdown
+.dropdown {
+  position: relative;
+  height: 100%;
+  width: 45%;
+  // letter-spacing: 0.4px;
+  // border: 2px solid #bbd2f9;
+  // border-radius: 30px;
+  // background: #bbd2f9;
+  // color: black !important;
+  filter: url(#goo);
+}
+
+.dropdown__face {
+  display: block;
+  position: relative;
+  height: 100%;
+  background-color: #bbd2f9;
+  border-radius: 25px;
+  border: 2px solid #bbd2f9;
+}
+.dropdown__items {
+  margin: 0;
+  position: absolute;
+  right: 0;
+  padding-left: 0px;
+  border: 2px solid #bbd2f9;
+  border-radius: 30px;
+  background: #bbd2f9;
+  background-color: #bbd2f9;
+  top: 50%;
+  width: 120%;
+  list-style: none;
+  list-style-type: none;
+  display: flex;
+  visibility: hidden;
+  justify-content: space-between;
+  z-index: -1;
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.93, 0.88, 0.1, 0.8);
+}
+
+.dropdown__arrow {
+  border-bottom: 2px solid #000;
+  border-right: 2px solid #000;
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg) translateY(-50%);
+  transform-origin: right;
+}
+.dropdown input {
+  display: none;
+}
+
+.dropdown input:checked ~ .dropdown__items {
+  top: calc(100% + 25px);
+  visibility: visible;
+  opacity: 1;
+}
+
 </style>

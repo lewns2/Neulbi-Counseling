@@ -4,7 +4,7 @@
       <div class="inner-div">
         <div class="front">
           <div class="front__bkg-photo">
-            <img :src="state.userInfo.profileImg" style="width: 100%;">
+            <img :src="state.profileImgThumbnail" style="width: 100%;">
           </div>
           <div class="front__face-photo">{{ state.userInfo.mask_id }}</div>
           <div class="front__text">
@@ -33,6 +33,7 @@ export default {
     const router = useRouter()
     const state = reactive({
       userInfo: props.userInfo,
+      profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
       grade: 'None',
     });
 

@@ -1,10 +1,7 @@
 package com.ssafy.db.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.db.entity.Meeting;
-import com.ssafy.db.entity.MeetingHistory;
-import com.ssafy.db.entity.QMeetingHistory;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +13,7 @@ public class MeetingHistoryRepositorySupport {
 
     @Autowired
     JPAQueryFactory jpaQueryFactory;
+    QMeeting qMeeting = QMeeting.meeting;
     QMeetingHistory qMeetingHistory = QMeetingHistory.meetingHistory;
 
     public Long findMeetingHistoryJoinCountByMeetingRoomId(Long meetingRoomId) {
@@ -70,7 +68,7 @@ public class MeetingHistoryRepositorySupport {
     public long countMeetingHistoriesByMeetingIdAndActionCreateOrActionJoin(Long meetingId) {
         return jpaQueryFactory
                 .select(qMeetingHistory.id)
-                .from(qMeetingHistory)
+                .from(qMeetingHistory, qMeeting)
                 .where(
                         qMeetingHistory.meeting.id.eq(meetingId)
                                 .and(qMeetingHistory.action.eq("CREATE")

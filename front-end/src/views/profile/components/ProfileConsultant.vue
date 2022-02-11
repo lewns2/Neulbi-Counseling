@@ -1,28 +1,34 @@
 <template>
   <div>
     <h1>ProfileConsultant</h1>
-    <p>{{ state.profileConsultantProfile.topicCategoryName }}</p>
-    <p>{{ state.profileConsultantProfile.description }}</p>
-    <select class="form-select" v-model="state.topic">
-      <option selected>선택</option>
-      <option
-        v-for="(category, index) in state.categories"
-        :key="index"
-        :value="category.number"
-      >
-        {{ category.value }}
-      </option>
-    </select>
-    <button type="button" @click="clickProfileModifyTopicCategory">
-      수정하기
-    </button>
-    <br><br>
-    <textarea cols="30" rows="10" v-model="state.description"></textarea><br>
-    <button type="button" @click="clickProfileModifyDescription">
-      수정하기
-    </button>
-    <profile-consultant-list :userInfo="state.userInfo">
-    </profile-consultant-list>
+    <div v-if="state.profileConsultantProfile == 'No'">
+      상담가 등록이 필요합니다.
+    </div>
+    <div v-else>
+      <p>{{ state.profileConsultantProfile.topicCategoryName }}</p>
+      <p>{{ state.profileConsultantProfile.description }}</p>
+
+      <select class="form-select" v-model="state.topic">
+        <option selected>선택</option>
+        <option
+          v-for="(category, index) in state.categories"
+          :key="index"
+          :value="category.number"
+        >
+          {{ category.value }}
+        </option>
+      </select>
+      <button type="button" @click="clickProfileModifyTopicCategory">
+        수정하기
+      </button>
+      <br><br>
+      <textarea cols="30" rows="10" v-model="state.description"></textarea><br>
+      <button type="button" @click="clickProfileModifyDescription">
+        수정하기
+      </button>
+      <profile-consultant-list :userInfo="state.userInfo">
+      </profile-consultant-list>
+    </div>
   </div>
 </template>
 

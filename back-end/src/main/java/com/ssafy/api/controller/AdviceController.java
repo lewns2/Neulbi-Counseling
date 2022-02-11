@@ -45,7 +45,15 @@ public class AdviceController {
         // 1. getAll 할때 컨설턴트 아이디가 받아온 유저 아이디와 다른것들만 받아오기
         // 2. 받아온 유저 아이디에 해당하는 myFavConsultantList에서 각각 서치하면서 해당 목록에 있는 유저들은 True값 반환 -> ConsultantListRes에서 진행?
 
-        Page<ConsultantProfile> cons = consultantService.getAllConsultant(pageable, userId);
+        System.out.println(pageable.toString());
+
+        Page<ConsultantProfile> cons = null;
+
+        if(consultantService.getConsultant(userId) == null)
+            cons = consultantService.getAllConsultant(pageable);
+        else
+            cons = consultantService.getAllConsultantByUserIdNotEqual(pageable, userId);
+
         Page<ConsultantListRes> consultantListRes = consultantService.getInfoMyFavoriteConsultant(cons,userId);
         return ResponseEntity.status(200).body(consultantListRes);
     }
