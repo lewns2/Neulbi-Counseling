@@ -40,9 +40,10 @@ export default {
 <style>
 
 .homemain1 {
-  width: 60%;
+  width: 100%;
   height: 60%;
   background-image: url("handshake.png");
+  background-color: #c2d6f8;
   /* width: 50vw; */
   background-position: center;
   background-repeat: no-repeat;
@@ -50,6 +51,6 @@ export default {
 }
 
 .homemain2 {
-  background-color: #c1d2f6;
+  background-color: #c2d6f8;
 }
 </style>

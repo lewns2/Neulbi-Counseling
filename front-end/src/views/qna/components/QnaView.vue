@@ -1,58 +1,138 @@
-<template>
+<template bgcolor="white">
   <div class="container">
-    <h1>Q&amp;A</h1>
-    <div class="buttons" style="margin-left: 50px">
-      <div class="helpdesk">
-        <a class="btn effect01" target="_blank" @click="goToNotice"
-          ><span>공지사항</span></a
-        >
-        <a class="btn effect01" target="_blank"><span>Q&amp;A</span></a>
-      </div>
-    </div>
-    <div>
-      <button style="float: right" @click="goToCreateQna">생성</button>
-    </div>
-    <div>
-      <ul class="responsive-table">
-        <li class="table-header" style="color: white; font-size: 15px">
-          <div class="col col-1">번호</div>
-          <div class="col col-2" style="text-align: left; padding-left: 50px">
-            제목
-          </div>
-          <div class="col col-3">작성자</div>
-          <div class="col col-4">작성일</div>
-        </li>
-        <li
-          v-for="(qna, idx) in state.qnaList"
-          :key="idx"
-          class="table-row"
-          @click="goToQnaDetail(qna)"
-        >
-          <div class="col col-1" data-label="qnaId">
-            {{ qna.qnaId }}
-          </div>
-          <div
-            class="col col-2"
-            data-label="title"
-            style="text-align: left; padding-left: 50px"
-          >
-            <i v-if="qna.rocked" class="fas fa-lock" style="color: #f65566"></i>
-            <i v-else class="fas fa-lock-open" style="color: gold"></i>
-            &nbsp;&nbsp;{{ qna.title }}
-          </div>
-          <div class="col col-3" data-label="nickname">
-            {{ qna.userNickname }}
-          </div>
-          <div class="col col-4" data-label="date">
-            {{ qna.date.substr(0, 10) }}
-          </div>
-        </li>
-      </ul>
+    <div class="row"></div>
+    <link
+      href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+      rel="stylesheet"
+    />
+
+    <div style="margin-top: 5%">
+      <h2>Q&amp;A</h2>
     </div>
 
-    <button id="prev" @click="checkPage($event)">이전</button>
-    {{ state.page }} 페이지 / {{ state.qnaLastPageNum }} 페이지
-    <button id="next" @click="checkPage($event)">다음</button>
+    <div
+      class="column intro row-hover pos-relative py-4 px-4 mt-5 mb-5 row text-center"
+    >
+      <h6 style="color: #6c8093">
+        'Q&amp;A'는 궁금증을 해소하는 공간입니다. 운영자에게 궁금한 점이나
+        제시할 사항이 있다면 자유롭게 작성해주세요. 비공개로 작성시 작성자
+        본인만 답글을 확인할 수 있습니다.
+      </h6>
+    </div>
+
+    <div class="inner-main-header">
+      <button
+        @click="goToCreateQna"
+        class="form-control form-control-md col-lg-2"
+        id="input"
+      >
+        등록
+      </button>
+    </div>
+
+    <!-- <div class="col-lg-9 mb-3">  -->
+    <!--게시판 헤더-->
+    <div class="cardheader row-hover pos-relative py-3 px-3">
+      <div class="row align-items-center">
+        <div class="col-md-2 mb-3 mb-sm-0">
+          <h5></h5>
+        </div>
+        <div class="col-md-4 mb-3 mb-sm-0">
+          <h5>제목</h5>
+        </div>
+        <div class="col-md-2 mb-3 mb-sm-0">
+          <h5>작성자</h5>
+        </div>
+        <div class="col-md-4 mb-3 mb-sm-0">
+          <h5>작성일</h5>
+        </div>
+      </div>
+    </div>
+
+    <div v-for="(qna, idx) in state.qnaList" :key="idx">
+      <!-- QnA 리스트 -->
+      <div
+        class="card row-hover pos-relative py-3 px-3"
+        id="board-style1"
+        @click="showQnaAnswer(qna, idx)"
+      >
+        <div class="row align-items-center">
+          <div class="d-flex col-md-2 mb-3 mb-sm-0" style="color: #3a6bff">
+            <button
+              v-if="state.userInfo.role === 'ADMIN'"
+              @click="goToQnaDetail(qna)"
+              class="form-control form-control-md col-lg-2"
+              id="input"
+              style="font-size: 10px; margin-right: 50px"
+            >
+              댓글관리
+            </button>
+            <h6>Q</h6>
+          </div>
+          <div class="col-md-4 mb-3 mb-sm-0" style="text-align: left">
+            <h6>
+              <i
+                v-if="qna.rocked"
+                class="fas fa-lock"
+                style="color: #f65566"
+              ></i>
+              <i v-else class="fas fa-lock-open" style="color: gold"></i>
+              &nbsp;&nbsp;
+              {{ qna.title }}
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3 mb-sm-0">
+            <h6>
+              <p class="text-black">{{ qna.userNickname }}</p>
+            </h6>
+          </div>
+
+          <div class="col-md-4 mb-3 mb-sm-0">
+            <h6>
+              {{ qna.date.substr(0, 10) }}
+            </h6>
+          </div>
+        </div>
+      </div>
+
+      <!-- QnA 댓글 -->
+      <div
+        name="qnaAnswers"
+        class="card row-hover pos-relative py-3 px-3"
+        id="board-style1"
+        style="background-color: rgb(250, 250, 250); display: none"
+      >
+        <div class="row align-items-center">
+          <div class="col-md-2 mb-3 mb-sm-0" style="color: #3a6bff">
+            <h6
+              v-if="state.userInfo.role === 'ADMIN'"
+              style="margin-left: 85px"
+            >
+              A
+            </h6>
+            <h6 v-else>A</h6>
+          </div>
+          <div class="col-md-6 mb-3 mb-sm-0" style="text-align: left">
+            <h6 v-if="state.qnaAnswerList[0]">
+              <i class="fas fa-arrow-right"></i>&nbsp;&nbsp;&nbsp;
+              {{ state.qnaAnswerList[0].description }}
+            </h6>
+          </div>
+          <div class="col-md-4 mb-3 mb-sm-0">
+            <h6 v-if="state.qnaAnswerList[0]">
+              {{ state.qnaAnswerList[0].date.substr(0, 10) }}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--페이지-->
+    <div style="margin: 3%">
+      <button id="prev" @click="checkPage($event)">이전</button>
+      {{ state.page }} 페이지 / {{ state.communityLastPageNum }} 페이지
+      <button id="next" @click="checkPage($event)">다음</button>
+    </div>
   </div>
 </template>
 
@@ -72,6 +152,7 @@ export default {
       userInfo: props.userInfo,
       qnaList: computed(() => store.getters["root/qnaList"]),
       qnaLastPageNum: computed(() => store.getters["root/qnaLastPageNum"]),
+      qnaAnswerList: computed(() => store.getters["root/qnaAnswerList"]),
       searchWord: "",
       page: 1,
       pageSearchTopic: "main",
@@ -117,17 +198,41 @@ export default {
     };
 
     const goToQnaDetail = async function (qna) {
-      if (!qna.rocked) {
+      await store.dispatch("root/qnaGetQuestionDetail", {
+        qna_id: qna.qnaId,
+        user_id: state.userInfo.id,
+      });
+      await router.push({
+        name: "QnaDetail",
+        params: {
+          qna_id: qna.qnaId,
+        },
+      });
+    };
+
+    const showQnaAnswer = async function (qna, idx) {
+      if (
+        document.getElementsByName("qnaAnswers")[idx].style.display == "block"
+      ) {
+        document.getElementsByName("qnaAnswers")[idx].style.display = "none";
+        return;
+      }
+      for (var i = 0; i < state.qnaList.length; i++) {
+        document.getElementsByName("qnaAnswers")[i].style.display = "none";
+      }
+      if (!qna.rocked || state.userInfo.userNickname == qna.userNickname) {
         await store.dispatch("root/qnaGetQuestionDetail", {
           qna_id: qna.qnaId,
           user_id: state.userInfo.id,
         });
-        await router.push({
-          name: "QnaDetail",
-          params: {
-            qna_id: qna.qnaId,
-          },
-        });
+        if (state.qnaAnswerList[0])
+          document.getElementsByName("qnaAnswers")[idx].style.display = "block";
+        // await router.push({
+        //   name: "QnaDetail",
+        //   params: {
+        //     qna_id: qna.qnaId,
+        //   },
+        // });
       } else {
         alert("비공개된 글입니다.");
       }
@@ -149,6 +254,7 @@ export default {
       goToQnaDetail,
       goToNotice,
       goToCreateQna,
+      showQnaAnswer,
     };
   },
 };
@@ -156,152 +262,79 @@ export default {
 
 <style scoped lang="scss">
 body {
-  font-family: "lato", sans-serif;
+  margin-top: 20px;
+  background: #eee;
+  color: #708090;
+}
+.icon-1x {
+  font-size: 24px !important;
+}
+a {
+  text-decoration: none;
+}
+.text-primary,
+a.text-primary:focus,
+a.text-primary:hover {
+  color: #1f4b97 !important;
+}
+.text-black,
+.text-hover-black:hover {
+  color: #000 !important;
+}
+.font-weight-bold {
+  font-weight: 700 !important;
 }
 
-.buttons {
-  // display: flex;
-  // flex-direction: row;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  /*   padding: 2em 0em; */
-}
-
-.helpdesk {
+.inner-main-header {
+  height: 6rem;
+  border-bottom: 1px solid #cbd5e0;
+  display: flex;
   align-items: center;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  padding: 40px 0px;
-  width: 240px;
+  padding: 0 1rem;
+  flex-shrink: 0;
+  justify-content: flex-end;
 }
 
-.btn {
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 45px;
-  max-width: 160px;
-  position: relative;
-  text-decoration: none;
-  text-transform: uppercase;
-  width: 100%;
+#input {
   margin-left: 10px;
-}
-.btn:hover {
-  text-decoration: none;
+  width: auto;
+  display: inline;
 }
 
-/*btn_background*/
-.effect01 {
-  color: #fff;
-  border: 4px solid #000;
-  box-shadow: 0px 0px 0px 1px #000 inset;
-  background-color: #000;
-  overflow: hidden;
+#dropdownMenuButton1 {
+  background-color: white;
+}
+
+a:hover {
+  font-weight: bold;
+  font-size: large;
+}
+
+.cardheader {
   position: relative;
-  transition: all 0.3s ease-in-out;
-}
-.effect01:hover {
-  border: 4px solid #666;
-  background-color: #fff;
-  box-shadow: 0px 0px 0px 4px #eee inset;
-}
-
-/*btn_text*/
-.effect01 span {
-  transition: all 0.2s ease-out;
-  z-index: 2;
-}
-.effect01:hover span {
-  letter-spacing: 0.13em;
-  color: #333;
-}
-
-/*highlight*/
-.effect01:after {
-  background: #fff;
-  border: 0px solid #000;
-  content: "";
-  height: 155px;
-  left: -75px;
-  opacity: 0.8;
-  position: absolute;
-  top: -50px;
-  -webkit-transform: rotate(35deg);
-  transform: rotate(35deg);
-  width: 50px;
-  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1); /*easeOutCirc*/
-  z-index: 1;
-}
-.effect01:hover:after {
-  background: #fff;
-  border: 20px solid #000;
-  opacity: 0;
-  left: 120%;
-  -webkit-transform: rotate(40deg);
-  transform: rotate(40deg);
-}
-
-.container {
-  max-width: 80%;
-  // margin-left: auto;
-  // margin-right: auto;
-  margin-top: 50px;
-}
-
-.responsive-table li {
-  border-radius: 3px;
-  padding: 25px 30px;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fafbfc;
+  background-clip: border-box;
+  border-top: 2px solid black;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+  /* border-radius: 0.25rem; */
 }
-.responsive-table .table-header {
-  background-color: #95a5a6;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+
+#board-style1 {
+  border-top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  border-left: 0;
+  border-right: 0;
 }
-.responsive-table .table-row {
-  background-color: #ffffff;
-  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+
+#board-style1:hover {
+  background-color: snow;
 }
-.responsive-table .col-1 {
-  flex-basis: 10%;
-}
-.responsive-table .col-2 {
-  flex-basis: 40%;
-}
-.responsive-table .col-3 {
-  flex-basis: 30%;
-}
-.responsive-table .col-3 {
-  flex-basis: 20%;
-}
-@media all and (max-width: 767px) {
-  .responsive-table .table-header {
-    display: none;
-  }
-  .responsive-table li {
-    display: block;
-  }
-  .responsive-table .col {
-    flex-basis: 100%;
-  }
-  .responsive-table .col {
-    display: flex;
-    padding: 10px 0;
-  }
-  .responsive-table .col:before {
-    color: #6c7a89;
-    padding-right: 10px;
-    content: attr(data-label);
-    flex-basis: 50%;
-    text-align: right;
-  }
+
+.intro {
+  background-color: #fafbfc;
 }
 </style>
