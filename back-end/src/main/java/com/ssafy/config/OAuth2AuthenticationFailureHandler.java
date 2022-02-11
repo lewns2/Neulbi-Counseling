@@ -1,6 +1,7 @@
 package com.ssafy.config;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Connector;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,9 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     }
 
     private String makeRedirectUrl() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setRedirectPort(443);
+
         return UriComponentsBuilder.fromUriString("/oauth/failure")
                 .build().toUriString();
     }
