@@ -1,4 +1,5 @@
 <template>
+  <main-header></main-header>
   <div class="d-flex justify-content-around">
     <chat-room-view :chatRoomList="state.chatRoomList"></chat-room-view>
     <chat-room-personal></chat-room-personal>
@@ -6,6 +7,7 @@
 </template>
 
 <script>
+import MainHeader from "../main/components/MainHeader.vue";
 import ChatRoomView from "./components/ChatRoomView.vue"
 import ChatRoomPersonal from "./components/ChatRoomPersonal.vue"
 import { useStore } from "vuex";
@@ -14,6 +16,7 @@ import { reactive, computed, onMounted } from 'vue';
 export default {
   name: "ChatRoom",
   components: {
+    MainHeader,
     ChatRoomView,
     ChatRoomPersonal,
   },

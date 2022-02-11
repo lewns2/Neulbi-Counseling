@@ -235,7 +235,6 @@ export async function profileGetHistoryMeeting({ state, commit }, payload) {
   const url = `profile/${user_id}/meeting`
   await $axios.get(url)
     .then((res) => {
-      console.log(res)
       commit('PROFILE_GET_HISTORY_MEETING', res.data)
     })
     .catch((err) => {
@@ -248,7 +247,6 @@ export async function profileGetHistoryReview({ state, commit }, payload) {
   const url = `profile/${user_id}/review`
   await $axios.get(url)
     .then((res) => {
-      console.log(res, '리뷰')
       commit('PROFILE_GET_HISTORY_REVIEW', res.data)
     })
     .catch((err) => {
