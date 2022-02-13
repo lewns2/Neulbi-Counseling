@@ -3,7 +3,7 @@
     <i class="fas fa-arrow-right" style="color: #3a6bff; font-size: 25px"></i>
     <br /><br />
     <textarea
-      cols="120"
+      cols="100"
       rows="5"
       v-model="state.description"
       :placeholder="
