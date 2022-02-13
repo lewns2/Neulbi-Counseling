@@ -1,4 +1,5 @@
 <template>
+  <main-header></main-header>
   <div class="container">
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 
@@ -128,6 +129,8 @@
 </template>
 
 <script>
+import MainHeader from "@/views/main/components/MainHeader.vue";
+
 import { computed, reactive } from "vue"
 import { useStore } from "vuex"
 import { useRouter } from "vue-router"
@@ -136,6 +139,7 @@ import CommentView from './CommentView.vue'
 export default {
   name: "CommunityDetail",
   components: {
+    MainHeader,
     CommentView,
   },
   setup() {

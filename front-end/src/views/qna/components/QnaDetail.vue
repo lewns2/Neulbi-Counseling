@@ -1,4 +1,5 @@
 <template>
+  <main-header></main-header>
   <div class="container">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
@@ -99,6 +100,7 @@
 
 <script>
 import QnaAnswer from "./QnaAnswer.vue";
+import MainHeader from "@/views/main/components/MainHeader.vue";
 
 import { reactive, computed } from "@vue/reactivity";
 import { useStore } from "vuex";
@@ -107,6 +109,7 @@ export default {
   name: "QnaDetail",
   components: {
     QnaAnswer,
+    MainHeader,
   },
   setup() {
     const store = useStore();
@@ -156,6 +159,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.form-control {
+  width: 10%;
+}
+
+
 .detailheader {
   position: relative;
   display: flex;
