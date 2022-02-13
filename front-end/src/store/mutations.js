@@ -21,7 +21,24 @@ export function PROFILE_GET_NICKNAME(state, data) {
 }
 
 export function PROFILE_GET_CONSULTANT_PROFILE(state, data) {
-  state.profileConsultantProfile = data;
+  state.profileConsultantProfile = []
+  if (data == null) {
+    state.profileConsultantProfile = {
+      nickname: data,
+      pointTot: data,
+      topicCategoryName: data,
+      description: data,
+      consultingCnt: data
+    }
+  } else {
+    state.profileConsultantProfile = {
+      nickname: data.nickname,
+      pointTot: data.pointTot,
+      topicCategoryName: data.topicCategoryName,
+      description: data.description,
+      consultingCnt: data.consultingCnt
+    }
+  }
 }
 
 export function PROFILE_CONSULTANT_LIKE(state, data) {

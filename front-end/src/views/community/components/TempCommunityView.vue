@@ -167,7 +167,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
 body{
     margin-top:20px;
     background:#eee;
