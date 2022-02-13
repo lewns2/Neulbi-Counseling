@@ -93,12 +93,12 @@ public class ChatRoomController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = ChatRoomRes.class)
     })
-    public ResponseEntity<? extends BaseResponseBody> getChatRoom(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<List<ChatRoomRes>> getChatRoom(@PathVariable("user_id") Long userId) {
 
         // 유저 아이디를 통해 해당 유저의 채팅방 정보를 얻어온다.
         List<ChatRoom> chatRooms = chatRoomService.getChatRoomByUserId(userId);
-
-        return ResponseEntity.status(200).body(ChatRoomRes.of(200,"Success",chatRooms));
+        List<ChatRoomRes> chatRoomResList = chatRoomService.getChatRoomInfoByChatRooms(chatRooms);
+        return ResponseEntity.status(200).body(chatRoomResList);
     }
 
     @GetMapping("/chatroom/{user_id}/{chatRoom_id}")

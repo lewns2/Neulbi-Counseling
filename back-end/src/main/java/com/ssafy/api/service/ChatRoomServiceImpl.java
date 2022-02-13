@@ -1,14 +1,18 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.ChatRoomJoinUserPostReq;
+import com.ssafy.api.response.ChatRoomRes;
 import com.ssafy.db.entity.ChatRoom;
 import com.ssafy.db.entity.Message;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.*;
-import lombok.RequiredArgsConstructor;
+import com.ssafy.db.repository.ChatRoomRepository;
+import com.ssafy.db.repository.ChatRoomRepositorySupport;
+import com.ssafy.db.repository.MessageRepository;
+import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +29,15 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Autowired
     ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    ProfileService profileService;
+
+    @Autowired
+    MessageService messageService;
 
     @Autowired
     ChatRoomRepositorySupport chatRoomRepositorySupport;
@@ -87,5 +100,47 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return userList;
     }
 
+    @Override
+    public List<ChatRoomRes> getChatRoomInfoByChatRooms(List<ChatRoom> chatRooms) {
+        List<ChatRoomRes> chatRoomResList = new ArrayList<>();
+
+        for(ChatRoom chatRoom : chatRooms) {
+            ChatRoomRes res = new ChatRoomRes();
+
+            Optional<Message> message = messageService.getLastMessageByChatRoomId(chatRoom.getId());
+            String msg;
+            LocalDateTime localDateTime;
+            if(message.isPresent()) {
+                msg = message.get().getMessage();
+                localDateTime = message.get().getCreatedDate();
+            }
+            else {
+                msg = "아직 메시지가 없습니다.";
+                localDateTime = null;
+            }
+
+            // 채팅방 관련 정보
+            res.setLastMessage(msg);
+            res.setId(chatRoom.getId());
+            res.setCreatedDate(localDateTime);
+
+            // 유저
+            User user = userService.getUserById(chatRoom.getUserId());
+            res.setUserId(chatRoom.getUserId());
+            res.setUserNickName(user.getNickname());
+
+            // 컨설턴트
+            User consultant = userService.getUserById(chatRoom.getConsultantId());
+            res.setConsultantId(chatRoom.getConsultantId());
+            res.setConsultantNickName(consultant.getNickname());
+            res.setConsultantProfileImg(consultant.getProfileImg());
+
+            res.setStatusCode(200);
+            res.setMessage("Success");
+
+            chatRoomResList.add(res);
+        }
+        return chatRoomResList;
+    }
 
 }

@@ -1,4 +1,5 @@
 <template>
+  <main-header></main-header>
   <div>
     <!-- <button @click="goToCreateCommunity">게시글 생성</button> -->
     <community-view :userInfo="state.userInfo"></community-view>
@@ -9,11 +10,15 @@
 import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router'
+import MainHeader from "../main/components/MainHeader.vue";
 import CommunityView from './components/CommunityView.vue';
 
 export default {
     name: "Confession",
-    components: { CommunityView },
+    components: { 
+      CommunityView,
+      MainHeader
+    },
 
     setup() {
       const store = useStore();

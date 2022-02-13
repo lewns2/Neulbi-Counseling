@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { reactive, computed, onMounted, ref } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
 export default {
