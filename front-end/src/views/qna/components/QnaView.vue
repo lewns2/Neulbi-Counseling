@@ -68,7 +68,7 @@
             </button>
           </div>
           <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
-            <h6>Q</h6>
+            <h6 style="margin-left: 15px">Q</h6>
           </div>
           <div
             class="col-md-6 mb-3 mb-sm-0"
@@ -112,7 +112,7 @@
             <h6></h6>
           </div>
           <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
-            <h6>A</h6>
+            <h6 style="margin-left: 15px">A</h6>
           </div>
           <div class="col-md-8 mb-3 mb-sm-0" style="text-align: left">
             <h6 v-if="state.qnaAnswerList[0]">
