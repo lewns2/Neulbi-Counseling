@@ -189,7 +189,7 @@ export async function profileGetConsultantProfile({ state, commit }, payload) {
       if (res.status == 200) {
         commit("PROFILE_GET_CONSULTANT_PROFILE", res.data);
       } else {
-        console.log("오류 발생");
+        commit("PROFILE_GET_CONSULTANT_PROFILE", 1);
       }
     })
     .catch((err) => {

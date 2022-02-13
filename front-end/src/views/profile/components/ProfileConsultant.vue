@@ -2,12 +2,6 @@
   <div class="row" style="height: 80vh; width:100%; display: flex; align-content: center;">
     <div class="col-5" style="border-right: 1px solid black;">
       <h3 class="py-3" style="text-align: left;">상담가 프로필 변경</h3>
-      <div class="d-flex justify-content-start my-3">
-        <div class="searchBox">
-            <input class="searchInput" type="text" placeholder="Title" v-model="consultant.title">
-        </div>
-      </div>
-      <br>
       <!-- 선택하여 정수를 반환하도록 수정해야함 -->
       <div>
         <div class="pagination d-flex justify-content-start my-3 mx-2">
@@ -52,36 +46,8 @@
         </div>
       </div>
       <br>
-      <button class="front__text-hover mt-3 mb-4 d-flex justify-content-start" @click="clickCreateMeeting">상담가 정보 변경</button>
+      <button class="front__text-hover mt-3 mb-4 d-flex justify-content-start" @click="clickProfileModifyDescription">상담가 정보 변경</button>
       </div>
-    
-      <!-- 
-      <div v-if="state.profileConsultantProfile == 'No'">
-        상담가 등록이 필요합니다.
-      </div>
-      <div v-else>
-        <p>{{ state.profileConsultantProfile.topicCategoryName }}</p>
-        <p>{{ state.profileConsultantProfile.description }}</p>
-
-        <select class="form-select" v-model="state.topic">
-          <option selected>선택</option>
-          <option
-            v-for="(category, index) in state.categories"
-            :key="index"
-            :value="category.number"
-          >
-            {{ category.value }}
-          </option>
-        </select>
-        <button type="button" @click="clickProfileModifyTopicCategory">
-          수정하기
-        </button>
-        <br><br>
-        <textarea cols="30" rows="10" v-model="state.description"></textarea><br>
-        <button type="button" @click="clickProfileModifyDescription">
-          수정하기
-        </button>
-      </div> -->
     <div class="col-1"></div>
     <div class="col-6">
       <profile-consultant-list :userInfo="state.userInfo">
@@ -93,7 +59,7 @@
 <script>
 import ProfileConsultantList from './ProfileConsultantList.vue'
 
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "ProfileConsultant",
@@ -122,9 +88,37 @@ export default {
     })
 
     const consultant = reactive({
-      title: null, 
       topicCategoryId: null,  
-      description: null,
+      description: state.profileConsultantProfile.description,
+    })
+
+    onMounted(() => {
+      console.log(state.profileConsultantProfile.topicCategoryName, 'onmounted')
+      if(state.profileConsultantProfile.topicCategoryName == '학업'){
+        const targetId = 'topic_div_1'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '가정') {
+        const targetId = 'topic_div_2'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '취업') {
+        const targetId = 'topic_div_3'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '진로') {
+        const targetId = 'topic_div_4'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '연애') {
+        const targetId = 'topic_div_5'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '결혼') {
+        const targetId = 'topic_div_6'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      }
     })
 
     const clickSearchList = function (num, event) {
@@ -139,12 +133,13 @@ export default {
       document.getElementById('topic_div_5').setAttribute('data-state', '')
       document.getElementById('topic_div_6').setAttribute('data-state', '')
       topic_tag.setAttribute('data-state', 'active')
+      clickProfileModifyTopicCategory(consultant.topicCategoryId)
     }
     
-    const clickProfileModifyTopicCategory = async function () {
+    const clickProfileModifyTopicCategory = async function (topicCategoryId) {
       await store.dispatch("root/profileModifyTopicCategory", {
         id: props.userInfo.id,
-        topicCategoryId: state.topic,
+        topicCategoryId: topicCategoryId,
       })
       await store.dispatch('root/profileGetConsultantProfile', state.userInfo.id)
     }
@@ -153,7 +148,7 @@ export default {
       console.log(state.description)
       await store.dispatch("root/profileModifyDescription", {
         user_id: props.userInfo.id,
-        description: state.description
+        description: consultant.description
       })
       await store.dispatch('root/profileGetConsultantProfile', state.userInfo.id)
     }
@@ -161,6 +156,7 @@ export default {
     return {
       state,
       consultant,
+      onMounted,
       clickSearchList,
       clickProfileModifyTopicCategory,
       clickProfileModifyDescription
@@ -231,7 +227,7 @@ export default {
   // transform:  translate(-50%,50%);
   background: white;
   height: 10%;
-  width: 40%;
+  width: 65%;
   // right: 10%;
   border-radius: 40px;
   padding: 10px;
