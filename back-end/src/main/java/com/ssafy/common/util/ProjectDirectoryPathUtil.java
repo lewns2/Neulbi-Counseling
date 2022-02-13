@@ -31,7 +31,7 @@ public class ProjectDirectoryPathUtil {
                         "static" + File.separator +
                         "profile_img";
 
-        return projectPath + "/" + directoryPath;
+        return directoryPath;
     }
 
     public static String getProfileImagePath(String fileName) {
