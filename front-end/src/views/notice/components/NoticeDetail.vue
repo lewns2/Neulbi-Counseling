@@ -1,4 +1,5 @@
 <template>
+  <main-header></main-header>
   <div class="container">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
@@ -90,11 +91,16 @@
 </template>
 
 <script>
+import MainHeader from "@/views/main/components/MainHeader.vue";
+
 import { reactive, computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
   name: "NoticeDetail",
+  components: {
+    MainHeader
+  },
   setup() {
     const store = useStore();
     const router = useRouter();
