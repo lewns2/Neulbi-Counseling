@@ -15,4 +15,5 @@ public interface QnaService {
     int createQna(QnaPostReq qnaInfo);
     int modifyQna(QnaPutReq qnaInfo);
     int deleteQna(QnaDeleteReq qnaInfo);
+    void modifyQnaIsAnswered(Long qnaId);
 }

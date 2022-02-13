@@ -1,75 +1,129 @@
 <template>
-  <p>댓글</p>
-  <input type="text" v-model="state.description">
-  <button @click="clickCreateAnswer">댓글 달기</button>
-
-  <div v-for="(answer, idx) in state.qnaAnswerList" :key="idx">
-    {{ answer }}
-    <input type="text" v-model="answer.description">
-    <button @click="clickModifyAnswer(answer)">수정</button>
-    <button @click="clickDeleteAnswer(answer.answerId)">삭제</button>
+  <div>
+    <i class="fas fa-arrow-right" style="color: #3a6bff; font-size: 25px"></i>
+    <br /><br />
+    <textarea
+      cols="120"
+      rows="5"
+      v-model="state.description"
+      :placeholder="
+        state.description == null
+          ? state.description
+          : '답글이 아직 작성되지 않았습니다.😢'
+      "
+      :readonly="state.userInfo.role != 'ADMIN'"
+      style="border: none"
+    ></textarea
+    ><br />
+  </div>
+  <div
+    class="d-flex"
+    style="justify-content: flex-end"
+    v-if="state.userInfo.role == 'ADMIN'"
+  >
+    <button
+      class="form-control form-control-md col-lg-2"
+      @click="clickCreateAnswer"
+      id="input"
+      v-if="!state.qnaAnswerList[0]"
+    >
+      등록
+    </button>
+    <button
+      class="form-control form-control-md col-lg-2"
+      @click="clickModifyAnswer"
+      id="input"
+      v-if="state.qnaAnswerList[0]"
+    >
+      수정
+    </button>
+    <button
+      class="form-control form-control-md col-lg-2"
+      @click="clickDeleteAnswer"
+      id="input"
+      v-if="state.qnaAnswerList[0]"
+    >
+      삭제
+    </button>
   </div>
 </template>
 
 <script>
-import { reactive, computed } from 'vue'
-import { useStore } from 'vuex'
+import { reactive, computed, onMounted } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  name: 'QnaAnswer',
+  name: "QnaAnswer",
   props: {
     userInfo: Object,
     qnaDetail: Object,
   },
   setup(props) {
-    const store = useStore()
+    const store = useStore();
     const state = reactive({
       userInfo: props.userInfo,
       qnaDetail: props.qnaDetail,
-      qnaAnswerList: computed(() => store.getters['root/qnaAnswerList']),
-      description: '',
-    })
+      qnaAnswerList: computed(() => store.getters["root/qnaAnswerList"]),
+      description: "",
+      answerId: "",
+    });
+
+    onMounted(() => {
+      if (state.qnaAnswerList[0]) {
+        state.description = state.qnaAnswerList[0].description;
+        state.answerId = state.qnaAnswerList[0].answerId;
+      }
+    });
 
     const clickCreateAnswer = async function () {
-      await store.dispatch('root/qnaCreateAnswer', {
+      await store.dispatch("root/qnaCreateAnswer", {
         userId: state.userInfo.id,
         qnaId: state.qnaDetail.qnaId,
         description: state.description,
-      })
-      await store.dispatch('root/qnaGetQuestionDetail', {
+      });
+      await store.dispatch("root/qnaGetQuestionDetail", {
         qna_id: state.qnaDetail.qnaId,
-        user_id: state.userInfo.id
-      })
-    }
+        user_id: state.userInfo.id,
+      });
+      if (state.qnaAnswerList[0]) {
+        state.description = state.qnaAnswerList[0].description;
+        state.answerId = state.qnaAnswerList[0].answerId;
+      }
+    };
 
-    const clickModifyAnswer = async function (answer) {
-      await store.dispatch('root/qnaModifyAnswer', {
+    const clickModifyAnswer = async function () {
+      await store.dispatch("root/qnaModifyAnswer", {
         userId: state.userInfo.id,
-        answerId: answer.answerId,
-        description: answer.description,
-      })
-      await store.dispatch('root/qnaGetQuestionDetail', {
+        answerId: state.answerId,
+        description: state.description,
+      });
+      await store.dispatch("root/qnaGetQuestionDetail", {
         qna_id: state.qnaDetail.qnaId,
-        user_id: state.userInfo.id
-      })
-    }
+        user_id: state.userInfo.id,
+      });
+    };
 
-    const clickDeleteAnswer = async function (answerId) {
-      await store.dispatch('root/qnaDeleteAnswer', {
+    const clickDeleteAnswer = async function () {
+      await store.dispatch("root/qnaDeleteAnswer", {
         userId: state.userInfo.id,
-        answerId: answerId,
-      })
-      await store.dispatch('root/qnaGetQuestionDetail', {
+        answerId: state.answerId,
+      });
+      await store.dispatch("root/qnaGetQuestionDetail", {
         qna_id: state.qnaDetail.qnaId,
-        user_id: state.userInfo.id
-      })
-    }
+        user_id: state.userInfo.id,
+      });
+      if (state.qnaAnswerList[0]) {
+        state.description = state.qnaAnswerList[0].description;
+        state.answerId = state.qnaAnswerList[0].answerId;
+      } else {
+        state.description = "";
+        state.answerId = "";
+      }
+    };
 
-    return { state, clickCreateAnswer, clickModifyAnswer, clickDeleteAnswer }
-  }
-}
+    return { state, clickCreateAnswer, clickModifyAnswer, clickDeleteAnswer };
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

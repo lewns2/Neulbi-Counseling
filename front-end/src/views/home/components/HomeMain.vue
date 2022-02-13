@@ -37,12 +37,19 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+
+h1 {
+  text-align: left;
+  margin-left: 10%;
+  font-size: 150px;
+}
 
 .homemain1 {
-  width: 100%;
-  height: 60%;
-  background-image: url("handshake.png");
+  /* width: 100%; */
+  height: 100%;
+
+  background-image: url("캡처-removebg-preview.png");
   background-color: #c2d6f8;
   /* width: 50vw; */
   background-position: center;

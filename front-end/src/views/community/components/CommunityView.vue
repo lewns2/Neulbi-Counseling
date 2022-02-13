@@ -228,7 +228,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 
 
 body{
@@ -286,7 +286,6 @@ a:hover {
     background-clip: border-box;
     border-top: 2px solid black;
     border-bottom: 2px solid rgba(0,0,0,.125);
-    /* border-radius: 0.25rem; */
 }
 
 #board-style1 {

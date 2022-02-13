@@ -1,137 +1,26 @@
 <template>
-  <div class="right">
-      <div class="top"><span>To: 
-                    <span class="name">Dog Woofson</span></span>
-                    </div>
-      <div class="chat" data-chat="person1">
-          <div class="conversation-start">
-              <span>Today, 6:48 AM</span>
-          </div>
-          <div class="bubble you">
-              Hello,
-          </div>
-          <div class="bubble you">
-              it's me.
-          </div>
-          <div class="bubble you">
-              I was wondering...
-          </div>
-      </div>
-      <div class="chat" data-chat="person2">
-          <div class="conversation-start">
-              <span>Today, 5:38 PM</span>
-          </div>
-          <div class="bubble you">
-              Hello, can you hear me?
-          </div>
-          <div class="bubble you">
-              I'm in California dreaming
-          </div>
-          <div class="bubble me">
-              ... about who we used to be.
-          </div>
-          <div class="bubble me">
-              Are you serious?
-          </div>
-          <div class="bubble you">
-              When we were younger and free...
-          </div>
-          <div class="bubble you">
-              I've forgotten how it felt before
-          </div>
-      </div>
-      <div class="chat" data-chat="person3">
-          <div class="conversation-start">
-              <span>Today, 3:38 AM</span>
-          </div>
-          <div class="bubble you">
-              Hey human!
-          </div>
-          <div class="bubble you">
-              Umm... Someone took a shit in the hallway.
-          </div>
-          <div class="bubble me">
-              ... what.
-          </div>
-          <div class="bubble me">
-              Are you serious?
-          </div>
-          <div class="bubble you">
-              I mean...
-          </div>
-          <div class="bubble you">
-              It’s not that bad...
-          </div>
-          <div class="bubble you">
-              But we’re probably gonna need a new carpet.
-          </div>
-      </div>
-      <div class="chat" data-chat="person4">
-          <div class="conversation-start">
-              <span>Yesterday, 4:20 PM</span>
-          </div>
-          <div class="bubble me">
-              Hey human!
-          </div>
-          <div class="bubble me">
-              Umm... Someone took a shit in the hallway.
-          </div>
-          <div class="bubble you">
-              ... what.
-          </div>
-          <div class="bubble you">
-              Are you serious?
-          </div>
-          <div class="bubble me">
-              I mean...
-          </div>
-          <div class="bubble me">
-              It’s not that bad...
-          </div>
-      </div>
-      <div class="chat" data-chat="person5">
-          <div class="conversation-start">
-              <span>Today, 6:28 AM</span>
-          </div>
-          <div class="bubble you">
-              Wasup
-          </div>
-          <div class="bubble you">
-              Wasup
-          </div>
-          <div class="bubble you">
-              Wasup for the third time like is <br />you blind bitch
-          </div>
-
-      </div>
-      <div class="chat" data-chat="person6">
-          <div class="conversation-start">
-              <span>Monday, 1:27 PM</span>
-          </div>
-          <div class="bubble you">
-              So, how's your new phone?
-          </div>
-          <div class="bubble you">
-              You finally have a smartphone :D
-          </div>
-          <div class="bubble me">
-              Drake?
-          </div>
-          <div class="bubble me">
-              Why aren't you answering?
-          </div>
-          <div class="bubble you">
-              howdoyoudoaspace
-          </div>
-      </div>
-      <div class="write">
-          <a href="javascript:;" class="write-link attach"></a>
-          <input type="text" />
-          <a href="javascript:;" class="write-link smiley"></a>
-          <a href="javascript:;" class="write-link send"></a>
-      </div>
+  <div class="top"><span>
+    <span class="name"></span></span>
   </div>
-  <!-- <div class="container">
+  <div class="chat" data-chat="person1">
+    
+    <!-- <div class="conversation-start">
+      <span>Today, 6:48 AM</span>
+    </div> -->
+    <div v-for="(message, idx) in chatRoom.chatRoomMessage" :key="idx">
+      <div v-if="(message.userId==state.userInfo.id)" class="bubble me pb-2">
+        {{ message.message }}
+      </div>
+      <div v-else class="bubble you pb-2">
+        {{ message.message}}
+      </div>
+    </div>
+  </div>
+  <div class="write">
+    <!-- <a href="javascript:;" class="write-link attach"></a> -->
+    <input type="text" id="searchInChatRoom" v-model="data.message" @keyup="sendMessage">
+    
+
     <div v-if="state.userInfo.id === state.chatRoomUserList[1]">
       <button @click="clickCreateMeeting">화상채팅 생성</button>
     </div>
@@ -140,23 +29,10 @@
         <button @click="clickEnterMeeting">화상채팅 참가</button>
       </div>
     </div>
-    <div id="app">
-      내용: 
-      <input
-        v-model="data.message"
-        type="text"
-        @keyup="sendMessage"
-      >
-       <button @click="sendMessage">작성</button> 
-       {{ chatRoom.chatRoomId }}
-      <div class="container"
-        v-for="(message, idx) in chatRoom.chatRoomMessage"
-        :key="idx"
-      >
-        <p>{{ message.userId }}: {{ message.message }}</p>
-      </div>
-    </div>
-  </div> -->
+
+    <button @click="clickSendMessage">전송</button> 
+
+  </div>
 </template>
 
 <script>
@@ -171,9 +47,14 @@ export default {
   setup () {
     const store = useStore()
     const router = useRouter()
-    onMounted(() => {
+    onMounted(async () => {
       connect()
+      window()
     })
+    const window = function(){
+      var form = document.getElementById('searchInChatRoom')
+      form.focus()
+    }
 
     const state = reactive ({
       stompClient: null,
@@ -183,7 +64,8 @@ export default {
       // chatRoomUserList 순서 => user_id / consultant_id / topic_id of consultant
       chatRoomUserList: computed(() => store.getters["root/chatRoomUserList"]),
       adviceMeetingInfo: computed(() => store.getters['root/adviceMeetingInfo']),
-      meetingIsActive: computed(() => store.getters['root/meetingIsActive'])
+      meetingIsActive: computed(() => store.getters['root/meetingIsActive']),
+      chatRoomNickname: computed(() => store.getters['root/chatRoomNickname'])
     })
 
     const chatRoom = reactive ({
@@ -214,6 +96,12 @@ export default {
     }
     const sendMessage = function (e) {
       if(e.keyCode === 13 && data.userId !== '' && data.message !== ''){
+        send()
+        data.message = ''
+      }
+    }
+    const clickSendMessage = function () {
+      if(data.userId !== '' && data.message != '') {
         send()
         data.message = ''
       }
@@ -262,11 +150,13 @@ export default {
 
     return { 
       data,
+      window,
       state,
       chatRoom,
       onMounted,
       connect,
       sendMessage,
+      clickSendMessage,
       send,
       clickCreateMeeting,
       clickEnterMeeting
@@ -275,6 +165,278 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+@charset "UTF-8";
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.container .right .top {
+  width: 100%;
+  height: 47px;
+  padding: 15px 29px;
+  background-color: #e6e6e6;
+  border-top-right-radius: 30px;
+  border-bottom: 1px solid white;
+}
+.container .right .top span {
+  font-size: 15px;
+  color: #1a1a1a;
+}
+.container .right .top span .name {
+  color: #1a1a1a;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+}
+.container .right .chat {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  padding: 0 35px 92px;
+  border-width: 1px 1px 1px 0;
+  border-style: solid;
+  border-color: #e6e6e6;
+  // height: calc(100% - 48px);
+  // justify-content: flex-end;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  height: 82%;
+  background-color: #c2d6f8;
+}
+.container .right .chat.active-chat .bubble {
+  transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
+}
+.container .right .chat.active-chat .bubble:nth-of-type(1) {
+  -webkit-animation-duration: 0.15s;
+          animation-duration: 0.15s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(2) {
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(3) {
+  -webkit-animation-duration: 0.45s;
+          animation-duration: 0.45s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(4) {
+  -webkit-animation-duration: 0.6s;
+          animation-duration: 0.6s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(5) {
+  -webkit-animation-duration: 0.75s;
+          animation-duration: 0.75s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(6) {
+  -webkit-animation-duration: 0.9s;
+          animation-duration: 0.9s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(7) {
+  -webkit-animation-duration: 1.05s;
+          animation-duration: 1.05s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(8) {
+  -webkit-animation-duration: 1.2s;
+          animation-duration: 1.2s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(9) {
+  -webkit-animation-duration: 1.35s;
+          animation-duration: 1.35s;
+}
+.container .right .chat.active-chat .bubble:nth-of-type(10) {
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+}
+.container .right .write {
+  position: absolute;
+  bottom: 29px;
+  left: 30px;
+  height: 42px;
+  padding-left: 8px;
+  // border: 1px solid #e6e6e6;
+  background-color: white;
+  width: calc(100% - 58px);
+  border-radius: 5px;
+}
+@keyframes blink-effect {50% { opacity: 0; } }
+
+.container .right .write input {
+  font-size: 16px;
+  float: left;
+  width: 60%;
+  height: 40px;
+  padding: 0 10px;
+  color: #1a1a1a;
+  border: 0;
+  outline: none;
+  background-color: white;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  animation: blink-effect 1s step-end infinite;
+}
+
+.container .right .write button {
+  float: right;
+  line-height: 220%;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #f9e000;
+  border: 1px solid #f9e000;
+  border-radius: 10px;
+}
+
+.container .right .write .write-link.attach:before {
+  display: inline-block;
+  float: left;
+  width: 20px;
+  height: 42px;
+  content: "";
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/attachment.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.container .right .write .write-link.smiley:before {
+  display: inline-block;
+  float: left;
+  width: 20px;
+  height: 42px;
+  content: "";
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/smiley.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.container .right .write .write-link.send:before {
+  display: inline-block;
+  float: left;
+  width: 20px;
+  height: 42px;
+  margin-left: 11px;
+  content: "";
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/send.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.container .right .bubble {
+  font-size: 16px;
+  position: relative;
+  display: inline-block;
+  clear: both;
+  margin-bottom: 8px;
+  padding: 13px 14px;
+  vertical-align: top;
+  border-radius: 5px;
+}
+.container .right .bubble:before {
+  position: absolute;
+  top: 19px;
+  display: block;
+  width: 8px;
+  height: 6px;
+  content: " ";
+  transform: rotate(29deg) skew(-35deg);
+}
+.container .right .bubble.you {
+  float: left;
+  color: black;
+  background-color: white;
+  align-self: flex-start;
+  -webkit-animation-name: slideFromLeft;
+          animation-name: slideFromLeft;
+}
+.container .right .bubble.you:before {
+  left: -3px;
+  background-color: white;
+}
+.container .right .bubble.me {
+  float: right;
+  color: #1a1a1a;
+  background-color: #f9e000;
+  align-self: flex-end;
+  -webkit-animation-name: slideFromRight;
+          animation-name: slideFromRight;
+}
+.container .right .bubble.me:before {
+  right: -3px;
+  background-color: #f9e000;
+}
+.container .right .conversation-start {
+  position: relative;
+  width: 100%;
+  margin-bottom: 27px;
+  text-align: center;
+}
+.container .right .conversation-start span {
+  font-size: 14px;
+  display: inline-block;
+  color: #999;
+}
+.container .right .conversation-start span:before, .container .right .conversation-start span:after {
+  position: absolute;
+  top: 10px;
+  display: inline-block;
+  width: 30%;
+  height: 1px;
+  content: "";
+  background-color: #e6e6e6;
+}
+.container .right .conversation-start span:before {
+  left: 0;
+}
+.container .right .conversation-start span:after {
+  right: 0;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    margin-left: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideFromLeft {
+  0% {
+    margin-left: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+@keyframes slideFromRight {
+  0% {
+    margin-right: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideFromRight {
+  0% {
+    margin-right: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+
+::-webkit-scrollbar { width: 10px; }
+
+::-webkit-scrollbar-track { 
+  background-color: #c2d6f8; 
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb { 
+    background: #f0f0f0; 
+    border-radius: 5px;
+}
+
 
 </style>
