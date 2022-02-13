@@ -126,4 +126,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+#input {
+  margin-left: 10px;
+  width: auto;
+  display: inline;
+}
+</style>

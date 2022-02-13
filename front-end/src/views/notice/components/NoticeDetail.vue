@@ -99,7 +99,7 @@ import { useRouter } from "vue-router";
 export default {
   name: "NoticeDetail",
   components: {
-    MainHeader
+    MainHeader,
   },
   setup() {
     const store = useStore();
@@ -144,4 +144,56 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+#input {
+  margin-left: 10px;
+  width: auto;
+  display: inline;
+}
+
+.detailheader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  border-top: 2px solid black;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+  /* border-radius: 0.25rem; */
+}
+
+#maintext {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  height: 300px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.detailbutton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+#leftalign {
+  text-align: left;
+}
+</style>

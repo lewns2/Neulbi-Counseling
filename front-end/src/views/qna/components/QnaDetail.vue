@@ -159,10 +159,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.form-control {
-  width: 10%;
+#input {
+  margin-left: 10px;
+  width: auto;
+  display: inline;
 }
-
 
 .detailheader {
   position: relative;
