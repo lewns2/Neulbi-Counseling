@@ -1,6 +1,6 @@
 <template>
   <main-header></main-header>
-  <div class="container">
+  <div class="container" style="width: 60%;">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
