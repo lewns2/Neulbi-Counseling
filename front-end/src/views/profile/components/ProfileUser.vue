@@ -1,72 +1,109 @@
 <template>
-  <div>
-    <h1>ProfileUser</h1>
-    <br>
+  <div style="text-align: left; margin-left: 10px; margin-top: 20px;">
     <h3>닉네임 변경</h3>
-    <input type="text" placeholder="사용자 닉네임" id="nickname" v-model="state.nickname">
-    <button @click="clickgetNickname">getNickname</button>
-    <p>{{ state.profileNicknameBool }}</p>
-    <button v-if="state.profileNicknameBool == true" @click="clickmodifyNickname">
-      modifyNickname
-    </button>
     <br>
-    <hr>
-    <br>
-    <h3>마스크 변경</h3>
-    <div v-for="(idx) in 10" :key="idx">
-      <button @click="clickmodifyMask(idx)">{{idx}}</button>
+    <div class="d-flex justify-content-start">
+      <div class="searchBox">
+        <input class="searchInput" type="text" placeholder="Nickname" v-model="state.nickname" @keyup="clickValidateNickname">
+      </div>
+      <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickgetNickname">중복 확인</button>
+      <button v-if="state.profileNicknameBool == true" class="front__text-hover d-flex justify-content-start" @click="clickmodifyNickname">
+        닉네임 변경
+      </button>
+    </div>
+    <div v-if="state.nicknameValid===false" class="ms-3 mt-2">
+      <p style="color: red;">{{ state.nicknameMessage }}</p>
     </div>
     <br>
     <hr>
     <br>
     <h3>프로필 이미지 변경</h3>
+    <br>
     <!-- 내가 추가한 부분 -->
     <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
       <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-      <img style="width: 35%; max-width: 600px;" v-bind:src="state.profileImgThumbnail">
+      <img class="card__thumb" v-bind:src="state.profileImgThumbnail">
     </div>
-    <input class="align-middle" @change="changeImgFile" type="file"><!-- C -->
-    <button class="btn btn-primary" @click="clickmodifyProfileImg"> 변경하기 </button>
-    <!----------------->
-
+    <br>
+    <div class="d-flex justify-content-start">
+      <label class="front__text-hover" for="input-file">업로드</label>
+      <input @change="changeImgFile" type="file" id="input-file" style="display: none;"><!-- C -->
+      <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickmodifyProfileImg">변경하기</button>
+    </div>
     <br>
     <hr>
     <br>
-    <h3>비밀번호 변경</h3>
-    <!-- modal button -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</button>
-    <!-- modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Password를 변경하세요.</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="message-password" class="col-form-label">현재 비밀번호:</label>
-                <input type="password" class="form-control" id="message-password" v-model="state.password">
-                <label for="message-newPassword" class="col-form-label">새로운 비밀번호:</label>
-                <input type="password" class="form-control" id="message-newPassword" v-model="state.newPassword">
-                <label for="message-newPasswordConfirmation" class="col-form-label">새로운 비밀번호 확인:</label>
-                <input type="password" class="form-control" id="message-newPasswordConfirmation" v-model="state.newPasswordConfirmation">
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyPassword">Send message</button>
+    <h3>마스크 변경</h3>
+    <br>
+    <div id="mask_id" class="thumbnail-wrapper">
+      <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
+      <img class="card__thumb">
+    </div>
+    <br>
+    <div class="d-flex justify-content-start">
+      <button class="front__text-hover d-flex justify-content-start"  data-bs-toggle="modal" data-bs-target="#exampleModal">선택하기</button>
+      <!-- 마스크 모달 -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">마스크를 선택하세요.</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickSelectMask">Select</button>
+            </div>
           </div>
         </div>
       </div>
+      <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickmodifyMask">변경하기</button>
     </div>
     <br>
     <hr>
     <br>
-    <h3>회원 탈퇴</h3>
-    <button @click="clickresignUser">회원탈퇴</button>
+    
+    <br>
+    <h3></h3>
+    <!-- modal button -->
+    <div class="d-flex justify-content-end">
+      <button type="button" class="front__text-hover mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal1">비밀번호 변경</button>
+      <!-- modal -->
+      <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel1">Password를 변경하세요.</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="message-password" class="col-form-label">현재 비밀번호:</label>
+                  <input type="password" class="form-control" id="message-password" v-model="state.password">
+                  <label for="message-newPassword" class="col-form-label">새로운 비밀번호:</label>
+                  <input type="password" class="form-control" id="message-newPassword" v-model="state.newPassword">
+                  <label for="message-newPasswordConfirmation" class="col-form-label">새로운 비밀번호 확인:</label>
+                  <input type="password" class="form-control" id="message-newPasswordConfirmation" v-model="state.newPasswordConfirmation">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyPassword">비밀번호 변경</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="front__text-hover" @click="clickresignUser">회원탈퇴</button>
+    </div>
   </div>
 </template>
 
@@ -87,6 +124,8 @@ export default {
     const state = reactive({
       userInfo: props.userInfo,
       nickname: null,
+      nicknameMessage: '',
+      nicknameValid: false,
       maskId : null,
       profileImg : null,
       profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
@@ -100,13 +139,43 @@ export default {
       store.dispatch('root/profileGetNickname', { nickname: state.nickname })
     }
 
+    const clickValidateNickname = function () {
+      let nicknameCheck = state.nickname
+      let lengthNickname = nicknameCheck.length
+      let specialNickname = nicknameCheck.search(
+        /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+      )
+      let spaceNickname = nicknameCheck.search(/\s/)
+      if (lengthNickname > 15) {
+        state.nicknameMessage = "닉네임 길이 15자 미만"
+        state.nicknameValid = false
+      } else {
+        if (specialNickname != -1 || spaceNickname != -1) {
+          state.nicknameMessage =
+            "닉네임에 특수문자나 공백을 포함 불가능"
+          state.nicknameValid = false
+        } else {
+          state.nicknameMessage = "사용할 수 있는 닉네임입니다."
+          state.nicknameValid = true
+        }
+      }
+      if (lengthNickname == 0) {
+        state.nicknameMessage = ""
+        state.nicknameValid = false
+      }
+    }
+
     const clickmodifyNickname = async function () {
       await store.dispatch('root/profileModifyNickname', { user_id: state.userInfo.id, nickname: state.nickname})
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
-    const clickmodifyMask = async function (event) {
-      await store.dispatch('root/profileModifyMask', { user_id: state.userInfo.id, mask_id: event})
+    const clickSelectMask = async function (event) {
+      state.maskId = event
+    }
+
+    const clickmodifyMask = async function () {
+      await store.dispatch('root/profileModifyMask', { user_id: state.userInfo.id, mask_id: state.maskId})
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
@@ -141,6 +210,8 @@ export default {
     return {
       onMounted, state, 
       clickgetNickname, 
+      clickValidateNickname,
+      clickSelectMask,
       clickmodifyNickname, 
       clickmodifyMask, 
       changeImgFile, // 수정
@@ -152,6 +223,71 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.searchBox {
+  position: relative;
+  // transform:  translate(-50%,50%);
+  background: white;
+  height: 100%;
+  width: 30%;
+  // right: 10%;
+  border-radius: 40px;
+  padding: 10px;
+  border: 2px solid #bbd2f9;
+}
 
+
+.searchInput {
+  border:none;
+  background: none;
+  outline:none;
+  float:left;
+  padding: 0;
+  color: black;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 20px;
+  width: 100%;
+  padding: 0 6px;
+}
+
+
+@media screen and (max-width: 620px) {
+.searchBox:hover > .searchInput {
+    width: 150px;
+    padding: 0 6px;
+  }
+}
+
+.front__text-hover {
+  position: relative;
+  // top: 10px;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
+
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #bbd2f9;
+  padding: 8px 15px;
+  margin-top: 0px;
+  border-radius: 30px;
+
+  background: #bbd2f9;
+  color: #fff;
+}
+
+.thumbnail-wrapper{
+  width: 100px;
+  height: 100px;
+}
+
+.card__thumb {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;      
+  border-radius: 50%;      
+}
 </style>

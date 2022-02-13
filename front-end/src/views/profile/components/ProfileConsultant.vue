@@ -170,23 +170,23 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 
 .front__text-hover {
-    position: relative;
-    top: 10px;
-    font-size: 15px;
-    color: #bbd2f9;
-    backface-visibility: hidden;
+  position: relative;
+  top: 10px;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
 
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
 
-    border: 2px solid #bbd2f9;
-    padding: 8px 15px;
-    border-radius: 30px;
+  border: 2px solid #bbd2f9;
+  padding: 8px 15px;
+  border-radius: 30px;
 
-    background: #bbd2f9;
-    color: #fff;
-  }
+  background: #bbd2f9;
+  color: #fff;
+}
 
 // 버튼들
 
