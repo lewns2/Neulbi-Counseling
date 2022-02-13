@@ -23,6 +23,8 @@ public class QnaRes {
     boolean isRocked;
     @ApiModelProperty(name = "Qna date")
     LocalDateTime date;
+    @ApiModelProperty(name = "Qna isAnswered")
+    boolean isAnswered;
 
     public static QnaRes ofDetail(Qna qna) {
         QnaRes res = new QnaRes();
@@ -32,6 +34,7 @@ public class QnaRes {
         res.setTitle(qna.getTitle());
         res.setDescription(qna.getDescription());
         res.setRocked(qna.isRocked());
+        res.setAnswered(qna.isAnswered());
 
         LocalDateTime modifiedDate = qna.getModifiedDate();
         res.setDate( modifiedDate != null ? modifiedDate : qna.getCreatedDate() );
@@ -46,6 +49,7 @@ public class QnaRes {
         res.setUserNickname(qna.getUser().getNickname());
         res.setTitle(qna.getTitle());
         res.setRocked(qna.isRocked());
+        res.setAnswered(qna.isAnswered());
 
         LocalDateTime modifiedDate = qna.getModifiedDate();
         res.setDate( modifiedDate != null ? modifiedDate : qna.getCreatedDate() );
