@@ -37,8 +37,11 @@
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5></h5>
         </div>
-        <div class="col-md-6 mb-3 mb-sm-0">
+        <div class="col-md-5 mb-3 mb-sm-0">
           <h5>제목</h5>
+        </div>
+        <div class="col-md-1 mb-3 mb-sm-0">
+          <h5>상태</h5>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5>작성자</h5>
@@ -71,7 +74,7 @@
             <h6 style="margin-left: 15px">Q</h6>
           </div>
           <div
-            class="col-md-6 mb-3 mb-sm-0"
+            class="col-md-5 mb-3 mb-sm-0"
             style="text-align: left"
             @click="showQnaAnswer(qna, idx)"
           >
@@ -85,6 +88,25 @@
               &nbsp;&nbsp;
               {{ qna.title }}
             </h6>
+          </div>
+
+          <div class="d-flex col-md-1 mb-3 mb-sm-0">
+            <span
+              class="form-control form-control-md col-lg-2"
+              id="input"
+              style="font-size: 10px"
+              v-if="qna.answered"
+            >
+              답변완료
+            </span>
+            <span
+              class="form-control form-control-md col-lg-2"
+              id="input"
+              style="font-size: 10px"
+              v-else
+            >
+              답변대기
+            </span>
           </div>
           <div class="col-md-2 mb-3 mb-sm-0">
             <h6>

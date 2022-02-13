@@ -1,6 +1,6 @@
 <template>
   <main-header></main-header>
-  <div class="container" style="width: 60%;">
+  <div class="container" style="width: 60%">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
@@ -50,7 +50,7 @@
         <i class="fas fa-question" style="color: #3a6bff; font-size: 25px"></i>
         <br /><br />
         <textarea
-          cols="120"
+          cols="100"
           rows="5"
           v-model="state.description"
           placeholder="질문을 작성해주세요."

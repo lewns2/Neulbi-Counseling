@@ -1,6 +1,6 @@
 <template>
   <main-header></main-header>
-  <div class="container" style="width: 60%;">
+  <div class="container" style="width: 60%">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
@@ -54,7 +54,7 @@
         ></i>
         <br /><br />
         <textarea
-          cols="120"
+          cols="100"
           rows="5"
           v-model="data.description"
           style="border: none"
