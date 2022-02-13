@@ -24,8 +24,8 @@
     <hr>
 
     <!-- 댓글 보여주기 -->
-    <div v-for="(comment, idx) in state.communityComment" :key=idx class="card row-hover pos-relative py-3 px-3" id="board-style1"> 
-      <div v-if="comment.layer==0" class="row align-items-center">
+    <div v-for="(comment, idx) in state.communityComment" :key=idx class="card row-hover pos-relative" id="board-style1"> 
+      <div v-if="comment.layer==0" class="row align-items-center py-1 px-3">
         <div class="col-2">
           <span>유저이미지</span>
         </div>
@@ -38,10 +38,7 @@
             {{comment.description}}
           </div>
           <!--대댓글에 관한-->
-          <button @click="clickCommentIsComment(idx, comment.groupNum)" v-if="state.commentIsCommentNumber!=idx">더보기</button>
-          <span>답글 쓰기</span> |
-          <span>답글 보기</span> |
-          <span>취소</span>
+          <span @click="clickCommentIsComment(idx, comment.groupNum)" v-if="state.commentIsCommentNumber!=idx">더보기</span>
           
         </div>
         <!--root 댓글의 수정/삭제-->
@@ -51,63 +48,64 @@
         <div class="col-1" v-if="state.userInfo.id === comment.userId">
             <span>삭제</span>
         </div>
+        <hr class="mt-3">
       </div>
       
       <!-- <hr> -->
-      
-        <div v-if="idx===state.commentIsCommentNumber">
-          <div v-for="(coComment, index) in state.communityComment" :key=index>
-            <div v-if="coComment.layer==1&coComment.groupNum==state.commentGroupNum" class="row align-items-center">
-              <!-- {{ coComment }} -->
-              
-              <div class="col-2">
-                <span>유저이미지</span>
-              </div>
-              <div class="col-8" id="leftalign">
-                <div>
-                  {{ coComment.userNickname }}
-                  <span>방금 전</span>
-                </div>
-                <div>
-                  {{ coComment.description }}
-                </div>
-              </div>
-              <div class="col-1" v-if="state.userInfo.id === comment.userId">
-                <span @click="clickModifyComment(coComment)" >수정</span>
-              </div>
-              <div class="col-1" v-if="state.userInfo.id === comment.userId">
-                  <span @click="clickDeleteComment(coComment.commentId)">삭제</span>
-              </div>
-              <!-- 대댓글 수정 부분 -->
-          </div>
-        </div>
-
-              <!-- 대댓글 수정 부분 -->
-              <!-- <span v-if="state.userInfo.id === coComment.userId">
-                <button @click="clickCommentUpdate(index)" v-if="state.commentIsCommentUpdateNumber!=index">수정</button>
-                <div v-if="index==state.commentIsCommentUpdateNumber">
-                  <textarea
-                    cols="30"
-                    rows="1"
-                    v-model="coComment.description"
-                    placeholder="댓글을 작성해주세요."
-                  ></textarea>
-                  <button @click="clickModifyComment(coComment)">수정</button>
-                </div> -->
-                <!-- 대댓글 삭제 부분 -->
-                <!-- <button @click="clickDeleteComment(coComment.commentId)">삭제</button>
-              </span> -->
+      <div v-if="idx===state.commentIsCommentNumber" class="container">
+        <div v-for="(coComment, index) in state.communityComment" :key=index>
+          <div v-if="coComment.layer==1&coComment.groupNum==state.commentGroupNum" class="row align-items-center">
+            <!-- {{ coComment }} -->
             
-
-          <!-- 대댓글 작성부분 -->
-          <textarea class="form-control" v-model="state.commentCommentDescription" id="message" placeholder="댓글을 작성해주세요" required=""></textarea>
-          <!-- <input type="text" v-model="state.commentCommentDescription"> -->
-          <button @click="clickCreateComment(comment.commentId)">대댓글 작성</button>
-          <button @click="clickCommentIsComment(-1, '')">더보기 닫기</button>
-          <div></div>
+            <div class="col-2">
+              <span>유저이미지</span>
+            </div>
+            <div class="col-8" id="leftalign">
+              <div>
+                {{ coComment.userNickname }}
+                <span>방금 전</span>
+              </div>
+              <div>
+                {{ coComment.description }}
+              </div>
+            </div>
+            <div class="col-1" v-if="state.userInfo.id === comment.userId">
+              <span @click="clickModifyComment(coComment)" >수정</span>
+            </div>
+            <div class="col-1" v-if="state.userInfo.id === comment.userId">
+                <span @click="clickDeleteComment(coComment.commentId)">삭제</span>
+            </div>
+            <br><br>
+            <!-- 대댓글 수정 부분 -->
         </div>
-      
+      </div>
 
+            <!-- 대댓글 수정 부분 -->
+            <!-- <span v-if="state.userInfo.id === coComment.userId">
+              <button @click="clickCommentUpdate(index)" v-if="state.commentIsCommentUpdateNumber!=index">수정</button>
+              <div v-if="index==state.commentIsCommentUpdateNumber">
+                <textarea
+                  cols="30"
+                  rows="1"
+                  v-model="coComment.description"
+                  placeholder="댓글을 작성해주세요."
+                ></textarea>
+                <button @click="clickModifyComment(coComment)">수정</button>
+              </div> -->
+              <!-- 대댓글 삭제 부분 -->
+              <!-- <button @click="clickDeleteComment(coComment.commentId)">삭제</button>
+            </span> -->
+          
+
+        <!-- 대댓글 작성부분 -->
+        <textarea class="form-control" v-model="state.commentCommentDescription" id="message" placeholder="댓글을 작성해주세요" required=""></textarea>
+        <!-- <input type="text" v-model="state.commentCommentDescription"> -->
+        <span @click="clickCreateComment(comment.commentId)">대댓글 작성</span> |
+        <span @click="clickCommentIsComment(-1, '')">닫기</span>
+        <div></div>
+      </div>
+      
+      
     </div>
 
     
@@ -228,7 +226,7 @@ img {
 
 #board-style1 {
   border-top: 0;
-  border-bottom: 1px solid rgba(0,0,0,.125);
+  border-bottom: 0;
   border-left: 0;
   border-right: 0;
 }
