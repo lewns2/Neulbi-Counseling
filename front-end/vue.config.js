@@ -7,7 +7,7 @@ module.exports = {
     open: true,
     proxy: {
       '/': {
-        target: 'https://i6e202.p.ssafy.io:8443/'
+        target: 'https://i6e202.p.ssafy.io:443/'
       }
     },
     historyApiFallback: true,
