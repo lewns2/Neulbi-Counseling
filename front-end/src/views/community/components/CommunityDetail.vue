@@ -107,20 +107,22 @@
     <hr>
 
     <!-- 게시글에 대한 댓글 -->
-    <comment-view
-      :userInfo="state.userInfo"
-      :communityDetail="state.communityDetail"
-    >
-    </comment-view>
-
-    <!-- 작성자일 때 나오는 수정, 삭제 버튼 -->
-    <div v-if="state.userInfo.id == state.communityDetail.user_id">
-      <button type="button" @click="clickModifyCommunity">
-        수정하기
-      </button>
-      <button type="button" @click="clickDeleteCommunity">
-        삭제하기
-      </button>
+    <div class="mt-5">
+      <comment-view
+        :userInfo="state.userInfo"
+        :communityDetail="state.communityDetail"
+      >
+      </comment-view>
+    
+      <!-- 작성자일 때 나오는 수정, 삭제 버튼 -->
+      <div v-if="state.userInfo.id == state.communityDetail.user_id">
+        <button type="button" @click="clickModifyCommunity">
+          수정하기
+        </button>
+        <button type="button" @click="clickDeleteCommunity">
+          삭제하기
+        </button>
+      </div>
     </div>
   </div>
 </template>
