@@ -89,7 +89,7 @@ export default {
       nickname: null,
       maskId : null,
       profileImg : null,
-      profileImgThumbnail : `/static/profile_image/${props.userInfo.id}`,
+      profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
 			profileNicknameBool: computed(() => store.getters['root/profileNicknameBool']),
       password: null,
       newPassword: null,
