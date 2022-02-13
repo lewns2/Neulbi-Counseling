@@ -2,75 +2,78 @@
   <div>
     <h1>My Consultant</h1>
     <br>
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="card">
-            <img :src="'/profile/image/'+state.profileConsultantLikeActive.id" class="card__image" alt="" />
-            <div class="card__overlay">
-              <div class="card__header">
-                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-                <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-                <div class="card__header-text">
-                  <h3 class="card__title">{{ state.profileConsultantLikeActive.nickname }}</h3>            
-                  <span class="card__status">주제: {{ state.profileConsultantLikeActive.topicCategoryName }}</span>
+    <div v-if="(state.profileConsultantLikeActive)">
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="card">
+              <img :src="'/profile/image/'+state.profileConsultantLikeActive.id" class="card__image" alt="" />
+              <div class="card__overlay">
+                <div class="card__header">
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                  <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+                  <div class="card__header-text">
+                    <h3 class="card__title">{{ state.profileConsultantLikeActive.nickname }}</h3>            
+                    <span class="card__status">주제: {{ state.profileConsultantLikeActive.topicCategoryName }}</span>
+                  </div>
                 </div>
+                <p class="card__description">
+                  포인트 : {{ state.profileConsultantLikeActive.pointTot }}<br>
+                  상담횟수 : {{ state.profileConsultantLikeActive.consultingCnt }}<br>
+                  한 줄 소개 : <br>
+                  {{ state.profileConsultantLikeActive.description }} <br><br>
+                  <button
+                    type="button"
+                    class="front__text-hover"
+                    @click="clickCreateChatRoom(state.profileConsultantLikeActive.id)"
+                  >
+                    1:1 채팅하기
+                  </button>
+                </p>
               </div>
-              <p class="card__description">
-                포인트 : {{ state.profileConsultantLikeActive.pointTot }}<br>
-                상담횟수 : {{ state.profileConsultantLikeActive.consultingCnt }}<br>
-                한 줄 소개 : <br>
-                {{ state.profileConsultantLikeActive.description }} <br><br>
-                <button
-                  type="button"
-                  class="front__text-hover"
-                  @click="clickCreateChatRoom(state.profileConsultantLikeActive.id)"
-                >
-                  1:1 채팅하기
-                </button>
-              </p>
-            </div>
-          </div>   
-        </div>
-        <div class="carousel-item" v-for="(consultant, index) in state.profileConsultantLike" :key="index">
-          <div class="card">
-            <img :src="'/profile/image/'+consultant.id" class="card__image" alt="" />
-            <div class="card__overlay">
-              <div class="card__header">
-                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-                <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-                <div class="card__header-text">
-                  <h3 class="card__title">{{ consultant.nickname }}</h3>            
-                  <span class="card__status">주제: {{ consultant.topicCategoryName }}</span>
+            </div>   
+          </div>
+          <div class="carousel-item" v-for="(consultant, index) in state.profileConsultantLike" :key="index">
+            <div class="card">
+              <img :src="'/profile/image/'+consultant.id" class="card__image" alt="" />
+              <div class="card__overlay">
+                <div class="card__header">
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                  <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+                  <div class="card__header-text">
+                    <h3 class="card__title">{{ consultant.nickname }}</h3>            
+                    <span class="card__status">주제: {{ consultant.topicCategoryName }}</span>
+                  </div>
                 </div>
-              </div>
-              <p class="card__description">
-                포인트 : {{ consultant.pointTot }}<br>
-                상담횟수 : {{ consultant.consultingCnt }}<br>
-                한 줄 소개 : <br>
-                {{ consultant.description }} <br><br>
-                <button
-                  type="button"
-                  class="front__text-hover"
-                  @click="clickCreateChatRoom(consultant.id)"
-                >
-                  1:1 채팅하기
-                </button>
-              </p>
+                <p class="card__description">
+                  포인트 : {{ consultant.pointTot }}<br>
+                  상담횟수 : {{ consultant.consultingCnt }}<br>
+                  한 줄 소개 : <br>
+                  {{ consultant.description }} <br><br>
+                  <button
+                    type="button"
+                    class="front__text-hover"
+                    @click="clickCreateChatRoom(consultant.id)"
+                  >
+                    1:1 채팅하기
+                  </button>
+                </p>
 
-            </div>
-          </div>   
+              </div>
+            </div>   
+          </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: #c2d6f8;"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true" id="next-button" style="background-color: #c2d6f8;"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: #c2d6f8;"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true" id="next-button" style="background-color: #c2d6f8;"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
     </div>
+    <div v-else>없습니다.</div>
   </div>
 </template>
 
@@ -99,9 +102,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-// 
-
 
 input {
   display: none;

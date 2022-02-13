@@ -196,7 +196,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 .detailheader {
     position: relative;
     display: flex;
