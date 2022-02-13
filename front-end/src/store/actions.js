@@ -96,8 +96,10 @@ export async function profileGetNickname({ state, commit }, payload) {
     .then((res) => {
       if (res.data.message === "SUCCESS") {
         commit("PROFILE_GET_NICKNAME", true);
+        alert("사용 가능한 닉네임 입니다.")
       } else if (res.data.message === "FAIL") {
         commit("PROFILE_GET_NICKNAME", false);
+        alert("동일한 닉네임이 이미 존재합니다.")
       }
     })
     .catch((err) => {
