@@ -122,4 +122,11 @@ public class QnaServiceImpl implements QnaService{
 
         return 200;
     }
+
+    @Override
+    public void modifyQnaIsAnswered(Long qnaId) {
+        Qna qna = getQna(qnaId);
+        qna.setIsAnswered();
+        qnaRepository.save(qna);
+    }
 }

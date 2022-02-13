@@ -18,6 +18,7 @@ public class Qna extends BaseEntity {
     String description; // 게시글 내용
     boolean isRocked; // 잠김 여부
     boolean isDeleted; // 글 삭제여부
+    boolean isAnswered; // 글 답변완료 여부
 
     // 외래키
     @JsonBackReference
@@ -37,5 +38,9 @@ public class Qna extends BaseEntity {
     public void modify(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public void setIsAnswered() {
+        this.isAnswered = true;
     }
 }
