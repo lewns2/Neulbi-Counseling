@@ -1,9 +1,9 @@
 <template>
   <div>
     <profile-history-meeting></profile-history-meeting>
-    <profile-history-review></profile-history-review>
     <profile-history-community></profile-history-community>
     <profile-history-comment></profile-history-comment>
+    <profile-history-review :userInfo="state.userInfo"></profile-history-review>
   </div>
 </template>
 

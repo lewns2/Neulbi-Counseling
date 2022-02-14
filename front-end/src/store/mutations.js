@@ -56,16 +56,24 @@ export function PROFILE_CONSULTANT_LIKE(state, data) {
   }
 }
 
-export function PROFILE_GET_HISTORY_MEETING(state, data) {
+export function PROFILE_GET_HISTORY_CONFESSION_MEETING(state, data) {
   state.profileHistoryConfession = []
-  state.profileHistoryConfession = data.confession
-  state.profileHistoryAdvice = []
-  state.profileHistoryAdvice = data.advice
+  state.profileHistoryConfession = data
 }
 
-export function PROFILE_GET_HISTORY_REVIEW(state, data) {
-  state.profileHistoryReceivedReview = data.receivedReview
-  state.profileHistoryWrittenReview = data.writtenReview
+export function PROFILE_GET_HISTORY_ADVICE_MEETING(state, data) {
+  state.profileHistoryAdvice = []
+  state.profileHistoryAdvice = data
+}
+
+export function PROFILE_GET_HISTORY_RECEIVED_REVIEW(state, data) {
+  state.profileHistoryReceivedReview = data.content
+  state.profileHistoryReceivedReviewLastPageNum = data.totalPages
+}
+
+export function PROFILE_GET_HISTORY_WRITTEN_REVIEW(state, data) {
+  state.profileHistoryWrittenReview = data.content
+  state.profileHistoryWrittenReviewLastPageNum = data.totalPages
 }
 
 export function PROFILE_GET_HISTORY_COMMUNITY(state, data) {
@@ -95,7 +103,8 @@ export function CONFESSION_GET_CONSULTANT_LIST(state, data) {
       currJoinParticipants: data[i].currJoinParticipants,
       topicCategoryId: data[i].topicCategoryId,
       topicCategoryName: data[i].topicCategoryName,
-      mask: data[i].mask,
+      maskId: data[i].maskId,
+      backId: data[i].backId,
       profileImg: data[i].profileImg
     })
   }
@@ -150,6 +159,8 @@ export function ADVICE_GET_CONSULTANT_LIST(state, data) {
       description: data[i].description,
       consultingCnt: data[i].consultingCnt,
       favConsultant: data[i].favConsultant,
+      maskId: data[i].maskId,
+      backId: data[i].backId,
     })
   }
 }
@@ -173,7 +184,8 @@ export function COMMUNITY_GET_DETAIL(state, payload) {
     title: payload.title,
     user_id: payload.userId,
     userNickname: payload.userNickname,
-    viewCnt: payload.viewCnt
+    viewCnt: payload.viewCnt,
+    createdDate: payload.createdDate
   }
 }
 

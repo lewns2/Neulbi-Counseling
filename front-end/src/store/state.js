@@ -13,7 +13,9 @@ export default {
   profileHistoryConfession: [],
   profileHistoryAdvice: [],
   profileHistoryReceivedReview: [],
+  profileHistoryReceivedReviewLastPageNum: 0,
   profileHistoryWrittenReview: [],
+  profileHistoryWrittenReviewLastPageNum: 0,
   profileHistoryCommunity: [],
   profileHistoryComment: [],
   // confession

@@ -375,7 +375,7 @@ public class ProfileController {
 
         Map<String, Page<AdviceAndConfessionListRes>> map = new HashMap<>();
 
-        map.put("advice", AdviceAndConfessionListRes.of(meetingHistories));
+        map.put("confession", AdviceAndConfessionListRes.of(meetingHistories));
 
         return ResponseEntity.status(200).body(map);
     }
@@ -386,8 +386,13 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+<<<<<<< HEAD
     public ResponseEntity<Map<String, Page<Review>>> userWrittenReview(@PathVariable("user_id") Long userId,
             @PageableDefault(page = 0, size = 3) Pageable pageable) {
+=======
+    public ResponseEntity<Map<String, Page<ReviewListRes>>> userWrittenReview(@PathVariable("user_id") Long userId,
+                                                                @PageableDefault(page = 0, size = 3) Pageable pageable) {
+>>>>>>> cde89a116673cd68170fb7a479b767f76e849e32
 
         User user = profileService.findByUserId(userId).orElse(null);
 
@@ -395,12 +400,17 @@ public class ProfileController {
         if (user == null)
             return ResponseEntity.status(500).body(null);
 
-        Map<String, Page<Review>> map = new HashMap<>();
+        Map<String, Page<ReviewListRes>> map = new HashMap<>();
 
         // 내가 쓴 리뷰
         Page<Review> writtenReviewList = reviewService.getWrittenReviewList(userId, pageable);
+<<<<<<< HEAD
         map.put("writtenReview", writtenReviewList);
 
+=======
+        map.put("writtenReview", ReviewListRes.of(writtenReviewList));
+        
+>>>>>>> cde89a116673cd68170fb7a479b767f76e849e32
         return ResponseEntity.status(200).body(map);
     }
 
@@ -410,8 +420,13 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+<<<<<<< HEAD
     public ResponseEntity<Map<String, Page<Review>>> userReceivedReview(@PathVariable("user_id") Long userId,
             @PageableDefault(page = 0, size = 3) Pageable pageable) {
+=======
+    public ResponseEntity<Map<String, Page<ReviewListRes>>> userReceivedReview(@PathVariable("user_id") Long userId,
+                                                                @PageableDefault(page = 0, size = 3) Pageable pageable) {
+>>>>>>> cde89a116673cd68170fb7a479b767f76e849e32
 
         User user = profileService.findByUserId(userId).orElse(null);
 
@@ -419,7 +434,7 @@ public class ProfileController {
         if (user == null)
             return ResponseEntity.status(500).body(null);
 
-        Map<String, Page<Review>> map = new HashMap<>();
+        Map<String, Page<ReviewListRes>> map = new HashMap<>();
 
         // 유저가 상담가로 신청했으면 받은 리뷰
         if (user.isConsultant()) {
@@ -427,7 +442,7 @@ public class ProfileController {
             Long consultantId = consultantProfile.getId();
             Page<Review> receivedReviewList = reviewService.getReceivedReviewList(consultantId, pageable);
 
-            map.put("receivedReview", receivedReviewList);
+            map.put("receivedReview", ReviewListRes.of(receivedReviewList));
         }
         // 유저가 상담가로 신청 안했으면
         else {
