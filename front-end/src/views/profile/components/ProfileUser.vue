@@ -1,7 +1,6 @@
 <template>
   <div style="text-align: left; margin-left: 10px; margin-top: 20px;">
     <h3>닉네임 변경</h3>
-    {{ state.userInfo }}
     <br>
     <div class="d-flex justify-content-start">
       <div class="searchBox">
