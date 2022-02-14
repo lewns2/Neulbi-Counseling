@@ -54,7 +54,7 @@ node {
     download = true
     version = '16.13.1'
     // Set the work directory where node_modules should be located
-    nodeModulesDir = file("${project.projectDir}/../front-end")
+//    nodeModulesDir = file("${project.projectDir}/../front-end")
 }
 
 configurations {
@@ -70,7 +70,7 @@ task webpack(type: NpmTask, dependsOn: 'npmInstall') {
 }
 
 // processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
-processResources.dependsOn 'webpack'
+//processResources.dependsOn 'webpack'
 
 //set build time and inject value to application.properties
 def buildTime() {
@@ -183,9 +183,18 @@ dependencies {
     implementation("io.springfox:springfox-bean-validators:3.0.0")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("io.awspring.cloud:spring-cloud-aws-context:2.3.3")
+    implementation("org.springframework.cloud:spring-cloud-aws-autoconfigure:2.2.6.RELEASE")
+
     compile("javax.annotation:javax.annotation-api:1.2")
+
     implementation("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
+
+//  aws s3
+    implementation("io.awspring.cloud:spring-cloud-aws-context:2.3.3")
+    implementation("org.springframework.cloud:spring-cloud-aws-autoconfigure:2.2.6.RELEASE")
+
 
     // oauth 2.0
     implementation('org.springframework.boot:spring-boot-starter-oauth2-client')

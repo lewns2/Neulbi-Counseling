@@ -14,23 +14,40 @@ import java.util.UUID;
  */
 public class ProjectDirectoryPathUtil {
 
-    public static String getProfileImageDirectoryPath() {
-        // 현재 프로젝트 경로
-        String projectPath = System.getProperty("user.dir");
-        // 폴더 경로
-        String directoryPath =
-                "src" + File.separator + // File.seperator는 OS종속적
-                        "main" + File.separator +
-                        "resources" + File.separator +
-                        "static" + File.separator +
-                        "profile_img";
+        public static String getProfileImageDirectoryPath() {
+                //
+                System.out.println("현재 디렉토리 절대 경로 1번");
+                System.out.println("현재 디렉토리 절대 경로 1번");
+                Path currentRelativePath = Paths.get("");
+                String s = currentRelativePath.toAbsolutePath().toString();
+                System.out.println(s);
+                //
+                System.out.println("현재 디렉토리 절대 경로 2번");
+                System.out.println("현재 디렉토리 절대 경로 2번");
+                Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+                System.out.println(path);
+                //
+                // 현재 프로젝트 경로
+                String projectPath = File.separator + "home" +
+                                File.separator + "ubuntu" +
+                                File.separator + "docker-volume" +
+                                File.separator + "jenkins" +
+                                File.separator + "workspace" +
+                                File.separator + "s06p12e202_deploy" +
+                                File.separator + "back-end";
 
-        return projectPath + File.separator + directoryPath;
-    }
+                // 폴더 경로
+                String directoryPath = "src" + File.separator + // File.seperator는 OS종속적
+                                "main" + File.separator +
+                                "resources" + File.separator +
+                                "static" + File.separator +
+                                "profile_img";
 
-    public static String getProfileImagePath(String fileName) {
-        return getProfileImageDirectoryPath() + File.separator + fileName;
-    }
+                return projectPath + File.separator + directoryPath;
+        }
 
+        public static String getProfileImagePath(String fileName) {
+                return getProfileImageDirectoryPath() + File.separator + fileName;
+        }
 
 }

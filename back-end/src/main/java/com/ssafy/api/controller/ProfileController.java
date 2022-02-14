@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * 유저 정보관련 API 요청 처리를 위한 컨트롤러 정의.
  */
-@Api(value = "유저정보 API", tags = {"Profile"})
+@Api(value = "유저정보 API", tags = { "Profile" })
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -54,6 +54,14 @@ public class ProfileController {
     @Autowired
     MeetingHistoryService meetingHistoryService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    S3FileUploadService s3FileUploadService;
+
+    @Autowired
+    MyConsultantRepositorySupport myConsultantRepositorySupport;
 
     @PostMapping("/check/nickname")
     @ApiOperation(value = "닉네임 중복 확인", notes = "<strong>닉네임</strong>이 이미 존재하는지 확인한다.")
@@ -66,7 +74,7 @@ public class ProfileController {
     public ResponseEntity<? extends BaseResponseBody> check(
             @RequestBody @ApiParam(value = "닉네임 중복확인 체크", required = true) ProfileCheckPostReq checkInfo) {
 
-//		밸류값
+        // 밸류값
         String nickname = checkInfo.getNickname();
         int profile_cnt = 0;
         profile_cnt = profileService.getUserByNickname(nickname);
@@ -86,11 +94,10 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> changeNickname(
-            @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "닉네임 변경", required = true) ProfileModifyNicknamePostReq nickname) {
+            @PathVariable("user_id") Long id,
+            @RequestBody @ApiParam(value = "닉네임 변경", required = true) ProfileModifyNicknamePostReq nickname) {
 
-
-        profileService.modifyUserNickname(id,nickname.getNickname());
-
+        profileService.modifyUserNickname(id, nickname.getNickname());
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -103,10 +110,11 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> modifyConsultantProfileTopicCategory(@PathVariable("user_id") Long id, @RequestParam("id") @ApiParam(value = "관심 주제 변경", required = true) Long topicCategoryId) {
+    public ResponseEntity<? extends BaseResponseBody> modifyConsultantProfileTopicCategory(
+            @PathVariable("user_id") Long id,
+            @RequestParam("id") @ApiParam(value = "관심 주제 변경", required = true) Long topicCategoryId) {
 
-
-        consultantService.modifyConsultantTopicCategory(id,topicCategoryId);
+        consultantService.modifyConsultantTopicCategory(id, topicCategoryId);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -119,10 +127,11 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> modifyConsultantProfileDescription(@PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "상담가 설명 변경", required = true) String description) {
+    public ResponseEntity<? extends BaseResponseBody> modifyConsultantProfileDescription(
+            @PathVariable("user_id") Long id,
+            @RequestBody @ApiParam(value = "상담가 설명 변경", required = true) String description) {
 
-        consultantService.modifyConsultantDescription(id,description);
-
+        consultantService.modifyConsultantDescription(id, description);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -136,7 +145,7 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> createMyConsultantList(@PathVariable("user_id") Long userId,
-                                                                             @PathVariable("consultant_id") Long consultantId) {
+            @PathVariable("consultant_id") Long consultantId) {
 
         System.out.println(userId);
         // 유저 아이디와 컨설턴트 아이디를 입력해서 선호하는 상담가 정보를 추가한다.
@@ -151,12 +160,11 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공")
     })
     public ResponseEntity<? extends BaseResponseBody> deleteMyConsultantList(@PathVariable("user_id") Long userId,
-                                                                             @PathVariable("consultant_id") Long consultantId) {
+            @PathVariable("consultant_id") Long consultantId) {
 
         System.out.println(userId);
         // 유저 아이디와 컨설턴트 아이디를 입력해서 선호하는 상담가 정보를 삭제한다.
         profileService.deleteMyConsultant(userId, consultantId);
-
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -184,7 +192,7 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공")
     })
     public ResponseEntity<Page<CommunityListRes>> getCommunityList(@PathVariable("user_id") Long userId,
-                                                                   @PageableDefault(page = 0, size = 3) Pageable pageable) {
+            @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 유저 아이디를 입력해서 해당하는 내가 작성한 글 정보들을 받아온다.
         Page<Community> CommunityList = profileService.getCommunityList(pageable, userId);
@@ -198,10 +206,10 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공")
     })
     public ResponseEntity<Page<CommentListRes>> getCommentList(@PathVariable("user_id") Long userId,
-                                                               @PageableDefault(page = 0, size = 3) Pageable pageable) {
+            @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 유저 아이디를 입력해서 해당하는 작성자가 작성한 댓글 정보들을 받아온다.
-        Page<Comment> commentList = profileService.getCommentList(pageable,userId);
+        Page<Comment> commentList = profileService.getCommentList(pageable, userId);
 
         return ResponseEntity.status(200).body(CommentListRes.of(commentList));
     }
@@ -215,7 +223,8 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> changeMask(
-            @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 변경", required = true) ProfileModifyMaskPostReq mask_id) {
+            @PathVariable("user_id") Long id,
+            @RequestBody @ApiParam(value = "마스크 변경", required = true) ProfileModifyMaskPostReq mask_id) {
 
         profileService.modifyMask(id, mask_id.getMask_id());
 
@@ -231,7 +240,8 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> changeMaskBackground(
-            @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 배경 변경", required = true) ProfileModifyMaskPostReq maskBack) {
+            @PathVariable("user_id") Long id,
+            @RequestBody @ApiParam(value = "마스크 배경 변경", required = true) ProfileModifyMaskPostReq maskBack) {
 
         profileService.modifyMaskBack(id, maskBack.getMask_id());
 
@@ -245,15 +255,17 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public Resource getProfileImg(
-            @PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) Long userId) throws MalformedURLException {
+            @PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) Long userId)
+            throws MalformedURLException {
 
         User user = userService.getUserById(userId);
-        if(user == null) return null;
+        if (user == null)
+            return null;
         // 기본 이미지 내려줄 것
-        if(user.getProfileImg() == null || user.getProfileImg().equals(""))
-            ProjectDirectoryPathUtil.getProfileImagePath("default_profile_image.jpg");
+        if (user.getProfileImg() == null || user.getProfileImg().equals(""))
+            s3FileUploadService.findImg("default_profile_image.jpg");
 
-        return new UrlResource("file:" + ProjectDirectoryPathUtil.getProfileImagePath(user.getProfileImg()));
+        return new UrlResource("file:" + s3FileUploadService.findImg(user.getProfileImg()));
     }
 
     @PostMapping("/image/{user_id}")
@@ -263,11 +275,14 @@ public class ProfileController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> modifyProfileImg(
-            @PathVariable("user_id") Long userId, @RequestParam("profileImg") @ApiParam(value = "프로파일 이미지", required = true) MultipartFile profileImgInfo) throws IOException {
+            @PathVariable("user_id") Long userId,
+            @RequestParam("profileImg") @ApiParam(value = "프로파일 이미지", required = true) MultipartFile profileImgInfo)
+            throws IOException {
 
         int statusCode = profileService.modifyProfileImg(userId, profileImgInfo);
 
-        if(statusCode == 500) return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
+        if (statusCode == 500)
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -295,7 +310,8 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> changePassword(@PathVariable("user_id") Long id, @RequestBody ProfileModifyPasswordPutReq password) {
+    public ResponseEntity<? extends BaseResponseBody> changePassword(@PathVariable("user_id") Long id,
+            @RequestBody ProfileModifyPasswordPutReq password) {
 
         profileService.modifyPasswordByUserId(password, id);
 
@@ -312,8 +328,9 @@ public class ProfileController {
         ConsultantProfile con = profileService.getConsultantProfile(userId).orElse(null);
 
         // 상담가 정보 없음
-        if(con == null) return ResponseEntity.status(500).body(null);
-        
+        if (con == null)
+            return ResponseEntity.status(500).body(null);
+
         return ResponseEntity.status(200).body(ConsultantProfileRes.of(con));
     }
 
@@ -325,8 +342,9 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryAdvice(@PathVariable("user_id") Long userId,
-                                                                                            @PageableDefault(page = 0, size = 3) Pageable pageable) {
+    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryAdvice(
+            @PathVariable("user_id") Long userId,
+            @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 내가 참가했던 meeting History 정보, meeting 정보
 
@@ -347,8 +365,9 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryConfession(@PathVariable("user_id") Long userId,
-                                                                                            @PageableDefault(page = 0, size = 3) Pageable pageable) {
+    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryConfession(
+            @PathVariable("user_id") Long userId,
+            @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 내가 참가했던 meeting History 정보, meeting 정보
 
@@ -367,20 +386,31 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+<<<<<<< HEAD
+    public ResponseEntity<Map<String, Page<Review>>> userWrittenReview(@PathVariable("user_id") Long userId,
+            @PageableDefault(page = 0, size = 3) Pageable pageable) {
+=======
     public ResponseEntity<Map<String, Page<ReviewListRes>>> userWrittenReview(@PathVariable("user_id") Long userId,
                                                                 @PageableDefault(page = 0, size = 3) Pageable pageable) {
+>>>>>>> cde89a116673cd68170fb7a479b767f76e849e32
 
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
-        if(user == null) return ResponseEntity.status(500).body(null);
+        if (user == null)
+            return ResponseEntity.status(500).body(null);
 
         Map<String, Page<ReviewListRes>> map = new HashMap<>();
 
         // 내가 쓴 리뷰
         Page<Review> writtenReviewList = reviewService.getWrittenReviewList(userId, pageable);
+<<<<<<< HEAD
+        map.put("writtenReview", writtenReviewList);
+
+=======
         map.put("writtenReview", ReviewListRes.of(writtenReviewList));
         
+>>>>>>> cde89a116673cd68170fb7a479b767f76e849e32
         return ResponseEntity.status(200).body(map);
     }
 
@@ -390,18 +420,24 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
+<<<<<<< HEAD
+    public ResponseEntity<Map<String, Page<Review>>> userReceivedReview(@PathVariable("user_id") Long userId,
+            @PageableDefault(page = 0, size = 3) Pageable pageable) {
+=======
     public ResponseEntity<Map<String, Page<ReviewListRes>>> userReceivedReview(@PathVariable("user_id") Long userId,
                                                                 @PageableDefault(page = 0, size = 3) Pageable pageable) {
+>>>>>>> cde89a116673cd68170fb7a479b767f76e849e32
 
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
-        if(user == null) return ResponseEntity.status(500).body(null);
+        if (user == null)
+            return ResponseEntity.status(500).body(null);
 
         Map<String, Page<ReviewListRes>> map = new HashMap<>();
 
         // 유저가 상담가로 신청했으면 받은 리뷰
-        if(user.isConsultant()) {
+        if (user.isConsultant()) {
             ConsultantProfile consultantProfile = profileService.getConsultantProfile(user.getId()).orElse(null);
             Long consultantId = consultantProfile.getId();
             Page<Review> receivedReviewList = reviewService.getReceivedReviewList(consultantId, pageable);

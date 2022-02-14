@@ -1,6 +1,7 @@
 package com.ssafy.config;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Connector;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

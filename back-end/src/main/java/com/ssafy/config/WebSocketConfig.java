@@ -20,6 +20,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // connection을 맺을때 CORS 허용합니다.
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat")
+                .setAllowedOrigins("https://i6e202.p.ssafy.io:8443")
+                .setAllowedOrigins("https://i6e202.p.ssafy.io:443")
                 .setAllowedOrigins("http://localhost:8083")
                 .withSockJS();
     }
