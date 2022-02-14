@@ -1,9 +1,6 @@
 package com.ssafy.api.response;
 
-import com.ssafy.db.entity.Community;
-import com.ssafy.db.entity.ConsultantProfile;
-import com.ssafy.db.entity.TopicCategory;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -52,6 +49,11 @@ public class CommunityListRes {
 			CommunityListRes clr = new CommunityListRes();
 			User user = c.getUser();
 
+			int cnt = 0;
+			for(Comment comment : c.getCommentList()) {
+				if(!comment.isDeleted())
+					cnt++;
+			}
 			clr.setUserNickname(user.getNickname());
 			clr.setUserProfileImg(user.getProfileImg());
 			clr.setMaskId(user.getMaskId());
@@ -60,7 +62,7 @@ public class CommunityListRes {
 			clr.setLikeCnt(c.getLikeCnt());
 			clr.setViewCnt(c.getViewCnt());
 			clr.setCreatedDate(c.getCreatedDate());
-			clr.setCommentCnt(c.getCommentList().size());
+			clr.setCommentCnt(cnt);
 			temp.add(clr);
 		}
 
