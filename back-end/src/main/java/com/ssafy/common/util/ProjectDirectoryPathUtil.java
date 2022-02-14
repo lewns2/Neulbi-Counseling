@@ -15,23 +15,8 @@ import java.util.UUID;
 public class ProjectDirectoryPathUtil {
 
     public static String getProfileImageDirectoryPath() {
-        //
-        System.out.println("현재 디렉토리 절대 경로 1번");
-        System.out.println("현재 디렉토리 절대 경로 1번");
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        System.out.println(s);
-        //
-        System.out.println("현재 디렉토리 절대 경로 2번");
-        System.out.println("현재 디렉토리 절대 경로 2번");
-        Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
-        System.out.println(path);
-        //
         // 현재 프로젝트 경로
         String projectPath = System.getProperty("user.dir");
-        System.out.println("현재 디렉토리 절대 경로 3번");
-        System.out.println("현재 디렉토리 절대 경로 3번");
-        System.out.println(projectPath);
         // 폴더 경로
         String directoryPath =
                 "src" + File.separator + // File.seperator는 OS종속적

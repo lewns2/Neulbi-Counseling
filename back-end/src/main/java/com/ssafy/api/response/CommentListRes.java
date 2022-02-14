@@ -25,6 +25,7 @@ public class CommentListRes {
     int layer;
     String userNickname;
     double userPointTot;
+    String communityTitle;
 
     public static List<CommentListRes> of(List<Comment> commentList) {
         List<CommentListRes> res = new LinkedList<>();
@@ -41,6 +42,7 @@ public class CommentListRes {
             cr.setUserNickname(user.getNickname());
             cr.setUserPointTot(user.getPointTot());
             cr.setCommunityId(c.getCommunity().getId());
+            cr.setCommunityTitle(c.getCommunity().getTitle());
             res.add(cr);
         }
 

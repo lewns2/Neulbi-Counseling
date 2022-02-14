@@ -142,6 +142,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
+    public Page<Meeting> getAllMeetingsByUserId(Long userId, Pageable pageable) {
+        Page<Meeting> meetings = meetingRepositorySupport.findAllByUserId(userId, pageable);
+        return meetings;
+    }
+
+    @Override
     public Page<Meeting> getMeetingsByTopicCategory(Pageable pageable, Long topicCategoryId) {
 
         Page<Meeting> meetings = meetingRepositorySupport.findByTopicCategoryId(pageable,topicCategoryId);
@@ -162,4 +168,6 @@ public class MeetingServiceImpl implements MeetingService {
 
         return meetings;
     }
+
+
 }
