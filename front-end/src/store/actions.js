@@ -135,6 +135,20 @@ export async function profileModifyMask({ state }, payload) {
     });
 }
 
+export async function profileModifyBack({ state }, payload) {
+  const user_id = payload.user_id;
+  const body = { mask_id: payload.mask_id };
+  const url = `/profile/${user_id}/maskBack`;
+  await $axios
+    .post(url, body)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 마스크 수정");
+    });
+}
+
 export async function profileModifyProfileImg({ state }, payload) {
   const user_id = payload.user_id;
   const url = `/profile/image/${user_id}`;
@@ -241,26 +255,84 @@ export async function profileModifyDescription({ state }, payload) {
     });
 }
 
-export async function profileGetHistoryMeeting({ state, commit }, payload) {
+export async function profileGetHistoryConfessionMeeting({ state, commit }, payload) {
   const user_id = payload.user_id;
-  const url = `profile/${user_id}/meeting`;
+  const url = `profile/${user_id}/meeting/confession`;
   await $axios
     .get(url)
     .then((res) => {
-      commit("PROFILE_GET_HISTORY_MEETING", res.data);
+      console.log(res)
+      commit("PROFILE_GET_HISTORY_CONFESSION_MEETING", res.data.confession);
     })
     .catch((err) => {
       console.log(err, "프로필 미팅 정보 조회");
     });
 }
 
-export async function profileGetHistoryReview({ state, commit }, payload) {
+export async function profileGetHistoryAdviceMeeting({ state, commit }, payload) {
   const user_id = payload.user_id;
-  const url = `profile/${user_id}/review`;
+  const url = `profile/${user_id}/meeting/advice`;
   await $axios
     .get(url)
     .then((res) => {
-      commit("PROFILE_GET_HISTORY_REVIEW", res.data);
+      console.log(res)
+      commit("PROFILE_GET_HISTORY_ADVICE_MEETING", res.data.advice);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 미팅 정보 조회");
+    });
+}
+
+export async function profileGetHistoryReceivedReview({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const url = `profile/${user_id}/review/receive`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      console.log(res)
+      commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 리뷰 정보 조회");
+    });
+}
+
+export async function profileGetHistoryReceivedReviewPageSearch({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const page = payload.page
+  const size = payload.size
+  const url = `profile/${user_id}/review/receive?page=${page}&size=${size}`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      console.log(res)
+      commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 리뷰 정보 조회");
+    });
+}
+
+export async function profileGetHistoryWrittenReview({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const url = `profile/${user_id}/review/written`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      commit("PROFILE_GET_HISTORY_WRITTEN_REVIEW", res.data.writtenReview);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 리뷰 정보 조회");
+    });
+}
+
+export async function profileGetHistoryWrittenReviewPageSearch({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const url = `profile/${user_id}/review/written`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      commit("PROFILE_GET_HISTORY_WRITTEN_REVIEW", res.data.writtenReview);
     })
     .catch((err) => {
       console.log(err, "프로필 리뷰 정보 조회");
@@ -1261,6 +1333,7 @@ export async function reviewSubmitReview({ state }, payload) {
   await $axios
     .post(url, body)
     .then((res) => {
+      alert("점수 부여가 성공적으로 완료됐습니다.")
       console.log(res);
     })
     .catch((err) => {

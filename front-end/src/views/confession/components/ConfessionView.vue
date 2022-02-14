@@ -55,11 +55,11 @@
   <div class="row d-flex justify-content-start">
     <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 mx-5 my-5">
       <div class="card">
-        <img :src="'/profile/image/'+confessionMeeting.ownerId">
+        <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confessionMeeting.profileImg">
         <div class="card__overlay">
           <div class="card__header">
-            <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-            <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+            <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+            <img class="card__thumb" :src="require('@/assets/mask/mask'+confessionMeeting.maskId+'.png')" alt="" />
             <div class="card__header-text">
               <h3 class="card__title">{{ confessionMeeting.ownerNickname }}</h3>            
               <span class="card__status">주제: {{ confessionMeeting.topicCategoryName }}</span>
@@ -107,7 +107,6 @@ export default {
     const router = useRouter()
     const state = reactive({
       userInfo: props.userInfo,
-      profileImgThumbnail : `/profile/${props.userInfo.id}/profileImg`,
       confessionMeetingList: computed(() => store.getters['root/confessionMeetingList']),
       confessionLastPageNum: computed(() => store.getters["root/confessionLastPageNum"]),
       confessionMeetingInfo: computed(() => store.getters['root/confessionMeetingInfo']),
