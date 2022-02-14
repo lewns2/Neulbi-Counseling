@@ -4,6 +4,7 @@ import com.ssafy.api.request.AnswerDeleteReq;
 import com.ssafy.api.request.AnswerPostReq;
 import com.ssafy.api.request.AnswerPutReq;
 import com.ssafy.api.service.AnswerService;
+import com.ssafy.api.service.QnaService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class AnswerController {
     @Autowired
     AnswerService answerService;
 
+    @Autowired
+    QnaService qnaService;
+
     @PostMapping()
     @ApiOperation(value = "Answer 등록", notes = "<strong>Q&A 답글</strong>을 등록한다.")
     @ApiResponses({
@@ -30,6 +34,9 @@ public class AnswerController {
             @ApiResponse(code = 500, message = "FAIL", response = BaseResponseBody.class)
     })
     public ResponseEntity<BaseResponseBody> createAnswer(@RequestBody @ApiParam(value = "Q&A 답글 정보", required = true) AnswerPostReq answerInfo) {
+
+        // QnA 답변 완료 등록
+        qnaService.modifyQnaIsAnswered(answerInfo.getQnaId());
         int statusCode = answerService.createAnswer(answerInfo);
 
         switch (statusCode) {

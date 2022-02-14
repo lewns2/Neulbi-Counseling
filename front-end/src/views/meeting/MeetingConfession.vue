@@ -30,7 +30,6 @@
     <div id="session" v-if="state.session">
       <!-- 미팅 떠나기 버튼 -->
       <div id="session-header">
-        <h1 id="session-title">{{ state.mySessionId }}</h1>
       </div>
 
       <!-- 스트림 화면 -->
@@ -72,7 +71,7 @@
           <ul style="text-align: left">
             <li>
               <button
-                class="fill"
+                class="front__text-hover"
                 v-if="state.videoState"
                 @click="hideMyVideo(state.videoState)"
               >
@@ -83,7 +82,7 @@
                 비디오 중지
               </button>
               <button
-                class="fill"
+                class="front__text-hover"
                 v-else
                 @click="hideMyVideo(state.videoState)"
               >
@@ -96,7 +95,7 @@
             </li>
             <li>
               <button
-                class="fill"
+                class="front__text-hover"
                 v-if="state.audioState"
                 @click="hideMyAudio(state.audioState)"
               >
@@ -107,7 +106,7 @@
                 음소거
               </button>
               <button
-                class="fill"
+                class="front__text-hover"
                 v-else
                 @click="hideMyAudio(state.audioState)"
               >
@@ -120,7 +119,7 @@
             </li>
             <li>
               <button
-                class="fill"
+                class="front__text-hover"
                 v-if="!state.maskState"
                 type="button"
                 @click="addMask"
@@ -131,7 +130,7 @@
                 ></i>
                 Mask ON
               </button>
-              <button class="fill" v-else type="button" @click="addMask">
+              <button class="front__text-hover" v-else type="button" @click="addMask">
                 <i
                   class="fas fa-user-circle"
                   style="color: orange; font-size: 15px"
@@ -141,7 +140,7 @@
             </li>
             <li>
               <button
-                class="fill"
+                class="front__text-hover"
                 v-if="!state.audioEcho"
                 type="button"
                 @click="clickFilter"
@@ -152,7 +151,7 @@
                 ></i>
                 echo ON
               </button>
-              <button class="fill" v-else type="button" @click="clickFilter">
+              <button class="front__text-hover" v-else type="button" @click="clickFilter">
                 <i
                   class="fas fa-times"
                   style="color: blue; font-size: 15px"
@@ -161,7 +160,7 @@
               </button>
             </li>
             <li>
-              <button class="fill" type="button" @click="leaveSession">
+              <button class="front__text-hover" type="button" @click="leaveSession">
                 <i
                   class="far fa-times-circle"
                   style="color: red; font-size: 15px"
@@ -170,14 +169,14 @@
               </button>
             </li>
             <li style="float: right">
-              <button class="fill" type="button" @click="participantShow">
+              <button class="front__text-hover" type="button" @click="participantShow">
                 <i class="fas fa-user-friends" style="font-size: 15px"></i>
                 참가자
               </button>
             </li>
             <li style="float: right">
               <button
-                class="fill"
+                class="front__text-hover"
                 type="button"
                 @click="clickEmojiView"
                 style="position: relative"
@@ -558,12 +557,19 @@ export default {
       console.log(`⭐ Displaying flying emoji: ${emoji}`);
 
       const node = document.createElement("mydiv");
-
+      console.log(node)
       node.appendChild(document.createTextNode(emoji));
+      console.log(node)
       node.className =
         Math.random() * 1 > 0.5 ? "emoji wiggle-1" : "emoji wiggle-2";
-      node.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
-      node.style.left = `${Math.random() * 100}%`;
+      // node.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
+      const deg = 10
+      const leftper = 20
+      const topper = 60
+      node.style.transform = `translateX(${deg})`;
+      // node.style.left = `${Math.random() * 100}%`;
+      node.style.right = `${leftper}%`;
+      // node.style.top = `${topper}%`;
       node.src = "";
       // + 이게 없으면 화면에 표시가 되지 않는다.
       document.body.appendChild(node);
@@ -914,9 +920,9 @@ video {
 
 mydiv {
   position: fixed;
-  top: 0px;
+  top: 20%;
   bottom: 0px;
-  left: 0px;
+  left: 72%;
   right: 0px;
   overflow: hidden;
   pointer-events: none;
@@ -925,11 +931,11 @@ mydiv {
 }
 
 .emoji.wiggle-1 {
-  animation: emerge 3s forwards, wiggle-1 1s ease-in-out infinite alternate;
+  animation: emerge 2s forwards, wiggle-1 2s ease-in-out infinite alternate;
   font-size: 60px;
 }
 .emoji.wiggle-2 {
-  animation: emerge 3s forwards, wiggle-2 1s ease-in-out infinite alternate;
+  animation: emerge 2s forwards, wiggle-2 2s ease-in-out infinite alternate;
   font-size: 60px;
 }
 /* .flying-emojis :global(.emoji.wiggle-1) {
@@ -943,24 +949,44 @@ mydiv {
 
 @keyframes emerge {
   to {
-    bottom: 85%;
+    /* left:5%; */
+    /* bottom: 85%; */
     opacity: 0;
   }
 }
 @keyframes wiggle-1 {
   from {
-    margin-left: -50px;
+    margin-top: 600px;
   }
   to {
-    margin-left: 50px;
+    margin-top: 450px;
   }
 }
 @keyframes wiggle-2 {
   from {
-    margin-left: 50px;
+    margin-top: 600px;
   }
   to {
-    margin-left: -50px;
+    margin-top: 450px;
   }
+}
+
+.front__text-hover {
+  position: relative;
+  /* top: 10px; */
+  font-size: 15px;
+  backface-visibility: hidden;
+
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid;
+  padding: 8px 15px;
+  margin-top: 0px;
+  border-radius: 30px;
+
+  background: black;
+  color: #fff;
 }
 </style>

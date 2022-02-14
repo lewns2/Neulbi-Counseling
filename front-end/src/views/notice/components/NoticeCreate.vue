@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <main-header></main-header>
+  <div class="container" style="width: 60%">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
@@ -50,7 +51,7 @@
         ></i>
         <br /><br />
         <textarea
-          cols="120"
+          cols="100"
           rows="5"
           v-model="state.description"
           placeholder="글을 작성해주세요."
@@ -78,12 +79,17 @@
 </template>
 
 <script>
+import MainHeader from "@/views/main/components/MainHeader.vue";
+
 import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 export default {
   name: "NoticeCreate",
+  components: {
+    MainHeader,
+  },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -230,5 +236,57 @@ export default {
       }
     }
   }
+}
+
+#input {
+  margin-left: 10px;
+  width: auto;
+  display: inline;
+}
+
+.detailheader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  border-top: 2px solid black;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+  /* border-radius: 0.25rem; */
+}
+
+#maintext {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  height: 300px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.detailbutton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+#leftalign {
+  text-align: left;
 }
 </style>

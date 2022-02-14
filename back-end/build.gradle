@@ -184,6 +184,7 @@ dependencies {
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     compile("javax.annotation:javax.annotation-api:1.2")
+    compile('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')
     implementation("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
