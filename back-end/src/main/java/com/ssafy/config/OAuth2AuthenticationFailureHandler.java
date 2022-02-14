@@ -26,7 +26,8 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     }
 
     private String makeRedirectUrl() {
-        return UriComponentsBuilder.fromUriString("https://i6e202.p.ssafy.io:443/oauth/failure")
+        return UriComponentsBuilder.fromUriString("/oauth/failure")
+                .port(443)
                 .build().toUriString();
     }
 }
