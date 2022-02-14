@@ -42,6 +42,8 @@ public class ConfessionRes {
     String topicCategoryName;
     @ApiModelProperty(name="mask_name", example = "방장의 마스크 이미지")
     int maskId;
+    @ApiModelProperty(name="mask_name", example = "방장의 마스크 배경 이미지")
+    int backId;
     @ApiModelProperty(name="profileImg", example = "방장의 프로필 이미지")
     String profileImg;
 
@@ -60,6 +62,7 @@ public class ConfessionRes {
         conRes.setOwnerId(user.getId());
         conRes.setOwnerNickname(user.getNickname());
         conRes.setMaskId(user.getMaskId());
+        conRes.setBackId(user.getMaskBack());
         conRes.setProfileImg(user.getProfileImg());
         conRes.setMeetingCategoryId(meetingCategory.getId());
         conRes.setMeetingCategoryName(meetingCategory.getName());
