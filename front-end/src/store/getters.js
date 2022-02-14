@@ -44,8 +44,16 @@ export function profileHistoryReceivedReview(state) {
   return state.profileHistoryReceivedReview
 }
 
+export function profileHistoryReceivedReviewLastPageNum(state) {
+  return state.profileHistoryReceivedReviewLastPageNum
+}
+
 export function profileHistoryWrittenReview(state) {
   return state.profileHistoryWrittenReview
+}
+
+export function profileHistoryWrittenReviewLastPageNum(state) {
+  return state.profileHistoryWrittenReviewLastPageNum
 }
 
 export function profileHistoryCommunity(state) {
