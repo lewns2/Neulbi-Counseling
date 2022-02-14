@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -324,27 +325,16 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, List<AdviceAndConfessionListRes>>> userMeetingHistoryAdvice(@PathVariable("user_id") Long userId,
+    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryAdvice(@PathVariable("user_id") Long userId,
                                                                                             @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 내가 참가했던 meeting History 정보, meeting 정보
 
         Page<MeetingHistory> meetingHistories = meetingHistoryService.getAdviceByUserId(userId, pageable);
 
-        List<AdviceAndConfessionListRes> advice = new LinkedList<>();
+        Map<String, Page<AdviceAndConfessionListRes>> map = new HashMap<>();
 
-        AdviceAndConfessionListRes adviceAndConfessionListRes;
-
-        // 미팅아이디가 1이면 고해성사 2면 고민상담으로 추가
-        for(MeetingHistory meetingHistory : meetingHistories) {
-            // advice
-            adviceAndConfessionListRes = new AdviceAndConfessionListRes(meetingHistory.getMeeting(), meetingHistory);
-            advice.add(adviceAndConfessionListRes);
-        }
-
-        Map<String, List<AdviceAndConfessionListRes>> map = new HashMap<>();
-
-        map.put("advice", advice);
+        map.put("advice", AdviceAndConfessionListRes.of(meetingHistories));
 
         return ResponseEntity.status(200).body(map);
     }
@@ -357,27 +347,16 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, List<AdviceAndConfessionListRes>>> userMeetingHistoryConfession(@PathVariable("user_id") Long userId,
+    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryConfession(@PathVariable("user_id") Long userId,
                                                                                             @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 내가 참가했던 meeting History 정보, meeting 정보
 
         Page<MeetingHistory> meetingHistories = meetingHistoryService.getConfessionByUserId(userId, pageable);
 
-        List<AdviceAndConfessionListRes> confession = new LinkedList<>();
+        Map<String, Page<AdviceAndConfessionListRes>> map = new HashMap<>();
 
-        AdviceAndConfessionListRes adviceAndConfessionListRes;
-
-        // 미팅아이디가 1이면 고해성사 2면 고민상담으로 추가
-        for(MeetingHistory meetingHistory : meetingHistories) {
-
-            adviceAndConfessionListRes = new AdviceAndConfessionListRes(meetingHistory.getMeeting(), meetingHistory);
-            confession.add(adviceAndConfessionListRes);
-        }
-
-        Map<String, List<AdviceAndConfessionListRes>> map = new HashMap<>();
-
-        map.put("confession", confession);
+        map.put("advice", AdviceAndConfessionListRes.of(meetingHistories));
 
         return ResponseEntity.status(200).body(map);
     }
@@ -391,7 +370,6 @@ public class ProfileController {
     public ResponseEntity<Map<String, Page<Review>>> userWrittenReview(@PathVariable("user_id") Long userId,
                                                                 @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
-        System.out.println(userId);
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
@@ -415,7 +393,6 @@ public class ProfileController {
     public ResponseEntity<Map<String, Page<Review>>> userReceivedReview(@PathVariable("user_id") Long userId,
                                                                 @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
-        System.out.println(userId);
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
