@@ -26,10 +26,7 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     }
 
     private String makeRedirectUrl() {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        connector.setRedirectPort(443);
-
-        return UriComponentsBuilder.fromUriString("/oauth/failure")
+        return UriComponentsBuilder.fromUriString("https://i6e202.p.ssafy.io:443/oauth/failure")
                 .build().toUriString();
     }
 }
