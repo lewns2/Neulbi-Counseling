@@ -33,6 +33,9 @@ public class UserRes{
 	@ApiModelProperty(name="User 현재 마스크")
 	int maskId;
 
+	@ApiModelProperty(name="User 현재 마스크 배경")
+	int backId;
+
 	@ApiModelProperty(name="접근 권한")
 	String role;
 
@@ -46,20 +49,13 @@ public class UserRes{
 		res.setId(user.getId());
 		res.setEmail(user.getEmail());
 		res.setNickname(user.getNickname());
-
-		String profileImg = user.getProfileImg();
-		if(profileImg == null)
-			profileImg = "";
-		else if( !profileImg.contains("http") )
-			profileImg = ProjectDirectoryPathUtil.getProfileImagePath(profileImg);
-		res.setProfileImg(profileImg);
-
+		res.setProfileImg(user.getProfileImg());
 		res.setPointTot(user.getPointTot());
 		res.setReportCnt(user.getReportCnt());
 		res.setPenalty(user.isPenalty());
 		res.setConsultant(user.isConsultant());
-
 		res.setMaskId(user.getMaskId());
+		res.setBackId(user.getMaskBack());
 		res.setRole(user.getRole());
 
 		return res;
