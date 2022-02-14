@@ -57,13 +57,38 @@ export function PROFILE_CONSULTANT_LIKE(state, data) {
 }
 
 export function PROFILE_GET_HISTORY_CONFESSION_MEETING(state, data) {
+  state.profileHistoryConfessionLastPageNum = data.totalPages
   state.profileHistoryConfession = []
-  state.profileHistoryConfession = data
+  let min = Math.min(3, data.content.length)
+  for (let i = 0; i < min; i++) {
+    state.profileHistoryConfession.push({
+      nickname: data.content[i].userNickname,
+      userMaskId: data.content[i].userMaskId,
+      userProfileImg: data.content[i].userProfileImg,
+      topicCategoryId: data.content[i].topicCategoryId,
+      description: data.content[i].meeting.description,
+      title: data.content[i].meeting.title,
+      createdDate: data.content[i].meetingHistory.createdDate,
+      endDate: data.content[i].meetingHistory.modifiedDate,
+      participants: data.content[i].meeting.participants
+    })
+  }
 }
 
 export function PROFILE_GET_HISTORY_ADVICE_MEETING(state, data) {
+  state.profileHistoryAdviceLastPageNum = data.totalPages
   state.profileHistoryAdvice = []
-  state.profileHistoryAdvice = data
+  let min = Math.min(3, data.content.length)
+  for (let i = 0; i < min; i++) {
+    state.profileHistoryAdvice.push({
+      nickname: data.content[i].userNickname,
+      userMaskId: data.content[i].userMaskId,
+      userProfileImg: data.content[i].userProfileImg,
+      topicCategoryId: data.content[i].topicCategoryId,
+      createdDate: data.content[i].meetingHistory.createdDate,
+      endDate: data.content[i].meeting.callEndTime,
+    })
+  }
 }
 
 export function PROFILE_GET_HISTORY_RECEIVED_REVIEW(state, data) {
@@ -77,11 +102,13 @@ export function PROFILE_GET_HISTORY_WRITTEN_REVIEW(state, data) {
 }
 
 export function PROFILE_GET_HISTORY_COMMUNITY(state, data) {
-  state.profileHistoryCommunity = data
+  state.profileHistoryCommunityLastPageNum = data.totalPages
+  state.profileHistoryCommunity = data.content
 }
 
 export function PROFILE_GET_HISTORY_COMMENT(state, data) {
-  state.profileHistoryComment = data
+  state.profileHistoryComment = data.content
+  state.profileHistoryCommentLastPageNum = data.totalPages
 }
 
 export function CONFESSION_GET_LAST_PAGE_NUM(state, data) {

@@ -48,7 +48,7 @@ export default {
     --start: 15%;
     
     height: 130px;
-    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, 0.33) 10%, rgba(54, 89, 219, 0.33) 17%), linear-gradient(to right, #7e97fa, #c2d6f8);
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, #c2d6f8, #c2d6f8), linear-gradient(to right, #c2d6f8, #c2d6f8);
     color: #fff;
     position: relative;
     border-radius: 12px 12px 0 0;
@@ -62,9 +62,12 @@ export default {
       transform: translateY(-50%);
       text-transform: uppercase;
       margin: 0;
+      margin-right: 14%;
+      
       
       span {
         display: block;
+        
       }
       
       &--top {
