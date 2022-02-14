@@ -5,8 +5,11 @@ import com.ssafy.db.entity.ConsultantProfile;
 import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.ReviewRepository;
+import com.ssafy.db.repository.ReviewRepositorySupport;
 import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,6 +30,9 @@ public class ReviewServiceImpl implements ReviewService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ReviewRepositorySupport reviewRepositorySupport;
+
     @Override
     public Review createReview(ReviewPostReq reviewPostReq) {
         User user = userService.getUserById(reviewPostReq.getUserId());
@@ -45,5 +51,17 @@ public class ReviewServiceImpl implements ReviewService{
         userRepository.save(consultant);
 
         return reviewRepository.save(review);
+    }
+
+    @Override
+    public Page<Review> getWrittenReviewList(Long userId, Pageable pageable) {
+        Page<Review> reviews = reviewRepositorySupport.findAllByUserId(userId,pageable);
+        return reviews;
+    }
+
+    @Override
+    public Page<Review> getReceivedReviewList(Long consultantId, Pageable pageable) {
+        Page<Review> reviews = reviewRepositorySupport.findAllByConsultantId(consultantId,pageable);
+        return reviews;
     }
 }

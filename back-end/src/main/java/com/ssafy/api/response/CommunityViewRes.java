@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -36,7 +37,8 @@ public class CommunityViewRes {
     int viewCnt;
     @ApiModelProperty(name = "Community viewCnt")
     boolean isLike;
-
+    @ApiModelProperty(name = "Community createdDate")
+    LocalDateTime createdDate;
     @ApiModelProperty(name = "Comment List")
     List<CommentListRes> commentListRes;
 
@@ -56,6 +58,7 @@ public class CommunityViewRes {
         clr.setLikeCnt(c.getLikeCnt());
         clr.setViewCnt(c.getViewCnt());
         clr.setLike(isLike);
+        clr.setCreatedDate(c.getCreatedDate());
 
         return clr;
     }

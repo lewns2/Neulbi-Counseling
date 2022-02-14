@@ -7,8 +7,6 @@ import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -38,6 +35,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             user.resetPassword(new BCryptPasswordEncoder().encode(userSocialId));
             userRepository.save(user);
         }
+
+        String targetUrl = determineTargetUrl(request, response, authentication);
 
         String url = makeRedirectUrl(JwtTokenUtil.getToken(user.getEmail()));
 
