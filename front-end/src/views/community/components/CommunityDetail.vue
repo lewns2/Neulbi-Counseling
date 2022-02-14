@@ -1,37 +1,47 @@
 <template>
+<div>
   <main-header></main-header>
   <div class="container">
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 
     <!--페이지 헤더-->
-    <div class="inner-main-header">
+    <div class="row inner-main-header" style="margin-top: 5%">
       <!-- 목록/이전글/다음글 -->
-      <span class="dropdown col-lg-3 row text-center op-7"> 
-        <div class="col px-1">
-          <button>목록</button>
-        </div>
-        <div class="col px-1">
-          <button>이전글</button>
-        </div>
-        <div class="col px-1">
-          <button>다음글</button>
-        </div>
-      </span>
-      
+      <div class="row mb-3">
+        <span class="dropdown col-lg-3 row text-center op-7"> 
+          <div class="col-4">
+            <button @click="goToCommunity" class="form-control form-control-md col-lg-2" id="input">목록</button>
+          </div>
+          <!-- <div class="col px-1">
+            <button>이전글</button>
+          </div>
+          <div class="col px-1">
+            <button>다음글</button>
+          </div> -->
+        </span>
+      <div class="col-7"></div>
       <!-- 해당 글의 작성자일 경우, 수정, 삭제 버튼이 보임-->
-      <span class="col-lg-5"></span>
-      <span v-if="state.userInfo.id == state.communityDetail.user_id">
-        <div >
-      <button type="button" >
-        수정하기
-      </button>
-      <button type="button" >
-        삭제하기
-      </button>
-    </div>
-        <button @click="clickModifyCommunity">수정</button>
-        <button @click="clickDeleteCommunity">삭제</button>
-      </span>
+        <div class="col-1">
+          <span v-if="state.userInfo.id == state.communityDetail.user_id">
+            <div>
+              <button type="button" @click="clickModifyCommunity" class="form-control form-control-md col-lg-2" id="input">
+                수정하기
+              </button>
+            </div>
+          </span>
+        </div>
+        
+        <div class="col-1">
+          <span v-if="state.userInfo.id == state.communityDetail.user_id">
+            <div>
+              <button type="button" @click="clickDeleteCommunity" class="custom-form-control-red form-control-md col-lg-2" id="input">
+                삭제하기
+              </button>
+            </div>
+          </span>
+        </div>
+
+      </div>
     </div>
 
     <!--본문 헤더-->
@@ -45,6 +55,8 @@
         <div class="col-md-8 op-7" id="leftalign">
           <h5>{{state.communityDetail.userNickname}} | 1999-99-99</h5>
         </div>
+        
+        <!-- {{{{ notice.date.substr(0, 10) }}}} -->
         <!-- <div class="col-md-4 op-7" id="leftalign">
           <h5>1999-99-99</h5>
         </div> -->
@@ -76,18 +88,17 @@
         <div class="col-md-2" @click="clickCommunityLike">
           <div v-if="state.communityDetail.like" class="form-control form-control-md col-lg-2">
             <div class="align-items-center" id="likebtn">
-              <i class="ion-ios-heart icon-1x"></i>
-              <span>공감 누르기</span>
+              <span><i class="ion-ios-heart icon-1x"></i> 공감 취소</span>
             </div>
           </div>
           <div v-else class="form-control form-control-md col-lg-2" id="likebtn">
-            <i class="ion-ios-heart-outline icon-1x"></i>
-            <span>공감 취소</span>
+            
+            <span><i class="ion-ios-heart-outline icon-1x"></i> 공감 누르기</span>
           </div>
         </div>
 
         <div class="col-md-2">
-          <button @click="state.reportBool = !state.reportBool" class="form-control form-control-md col-lg-2" id="input">신고</button>
+          <button @click="state.reportBool = !state.reportBool" class="custom-form-control-red form-control-md col-lg-2" id="input">신고</button>
         </div>
         <div v-if="state.reportBool">
           <textarea
@@ -116,16 +127,17 @@
       </comment-view>
     
       <!-- 작성자일 때 나오는 수정, 삭제 버튼 -->
-      <div v-if="state.userInfo.id == state.communityDetail.user_id">
+      <!-- <div v-if="state.userInfo.id == state.communityDetail.user_id">
         <button type="button" @click="clickModifyCommunity">
           수정하기
         </button>
         <button type="button" @click="clickDeleteCommunity">
           삭제하기
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -190,6 +202,10 @@ export default {
       })
     }
 
+    const goToCommunity = function() {
+      router.push({ name: "Community" });
+    }
+
     return {
       state,
       router,
@@ -197,6 +213,7 @@ export default {
       clickDeleteCommunity,
       clickCommunityReportDetail,
       clickCommunityLike,
+      goToCommunity,
     };
   },
 };
@@ -253,5 +270,44 @@ export default {
   font-weight: bolder;
 }
 
+.custom-form-control {
+    color: black;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.custom-form-control-red {
+  // color: red;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: red;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
 
 </style>
