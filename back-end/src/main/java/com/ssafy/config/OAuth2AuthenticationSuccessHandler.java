@@ -6,8 +6,6 @@ import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,7 +13,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -38,6 +35,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             userRepository.save(user);
         }
 
+        String targetUrl = determineTargetUrl(request, response, authentication);
+
         String url = makeRedirectUrl(JwtTokenUtil.getToken(user.getEmail()));
 
         if (response.isCommitted()) {
@@ -49,7 +48,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String makeRedirectUrl(String token) {
-        return UriComponentsBuilder.fromUriString("/oauth/success")
+        return UriComponentsBuilder.fromUriString("https://i6e202.p.ssafy.io:443/oauth/success")
                 .queryParam("accessToken", token)
                 .build().toUriString();
     }

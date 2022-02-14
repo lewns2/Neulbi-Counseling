@@ -53,7 +53,7 @@
       </div>
       <div class="row align-items-center">
         <div class="col-md-8 op-7" id="leftalign">
-          <h5>{{state.communityDetail.userNickname}} | 1999-99-99</h5>
+          <h5>{{state.communityDetail.userNickname}} | {{ state.communityDetail.createdDate.substr(0, 10) }}</h5>
         </div>
         
         <!-- {{{{ notice.date.substr(0, 10) }}}} -->

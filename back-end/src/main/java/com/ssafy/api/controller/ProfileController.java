@@ -1,11 +1,11 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.*;
+import com.ssafy.api.request.ProfileCheckPostReq;
+import com.ssafy.api.request.ProfileModifyMaskPostReq;
+import com.ssafy.api.request.ProfileModifyNicknamePostReq;
+import com.ssafy.api.request.ProfileModifyPasswordPutReq;
 import com.ssafy.api.response.*;
-import com.ssafy.api.service.ConsultantService;
-import com.ssafy.api.service.MeetingHistoryService;
-import com.ssafy.api.service.ProfileService;
-import com.ssafy.api.service.UserService;
+import com.ssafy.api.service.*;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.ProjectDirectoryPathUtil;
 import com.ssafy.db.entity.*;
@@ -13,22 +13,23 @@ import com.ssafy.db.repository.ConsultantRepository;
 import com.ssafy.db.repository.MyConsultantRepositorySupport;
 import com.ssafy.db.repository.UserRepository;
 import io.swagger.annotations.*;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import retrofit2.http.Multipart;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 유저 정보관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -37,7 +38,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
-
+    // 리뷰, 미팅, 작성한 글정보, 리뷰정보
     @Autowired
     ProfileService profileService;
 
@@ -45,19 +46,14 @@ public class ProfileController {
     ConsultantService consultantService;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
-    ConsultantRepository consultantRepository;
+    ReviewService reviewService;
 
     @Autowired
     MeetingHistoryService meetingHistoryService;
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    MyConsultantRepositorySupport myConsultantRepositorySupport;
 
     @PostMapping("/check/nickname")
     @ApiOperation(value = "닉네임 중복 확인", notes = "<strong>닉네임</strong>이 이미 존재하는지 확인한다.")
@@ -188,9 +184,8 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공")
     })
     public ResponseEntity<Page<CommunityListRes>> getCommunityList(@PathVariable("user_id") Long userId,
-                                                                   @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                                                   @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
-        System.out.println("내가 작성한 글 정보의 아이디 : "+userId);
         // 유저 아이디를 입력해서 해당하는 내가 작성한 글 정보들을 받아온다.
         Page<Community> CommunityList = profileService.getCommunityList(pageable, userId);
 
@@ -203,9 +198,8 @@ public class ProfileController {
             @ApiResponse(code = 200, message = "성공")
     })
     public ResponseEntity<Page<CommentListRes>> getCommentList(@PathVariable("user_id") Long userId,
-                                                               @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                                               @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
-        System.out.println("내가 작성한 댓글 정보의 아이디 : "+userId);
         // 유저 아이디를 입력해서 해당하는 작성자가 작성한 댓글 정보들을 받아온다.
         Page<Comment> commentList = profileService.getCommentList(pageable,userId);
 
@@ -239,7 +233,7 @@ public class ProfileController {
     public ResponseEntity<? extends BaseResponseBody> changeMaskBackground(
             @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 배경 변경", required = true) ProfileModifyMaskPostReq maskBack) {
 
-        profileService.modifyMask(id, maskBack.getMask_id());
+        profileService.modifyMaskBack(id, maskBack.getMask_id());
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -323,78 +317,102 @@ public class ProfileController {
         return ResponseEntity.status(200).body(ConsultantProfileRes.of(con));
     }
 
-    @GetMapping("/{user_id}/meeting")
-    @ApiOperation(value = "내 미팅 정보", notes = "<strong>내 미팅 정보</strong>불러오기")
+    @GetMapping("/{user_id}/meeting/advice")
+    @ApiOperation(value = "내 고민상담 정보", notes = "<strong>내 고민상담 정보</strong>불러오기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, List<AdviceAndConfessionListRes>>> userMeetingHistory(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryAdvice(@PathVariable("user_id") Long userId,
+                                                                                            @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
         // 내가 참가했던 meeting History 정보, meeting 정보
 
-        List<MeetingHistory> meetingHistoryList = profileService.findByUserId(userId).get().getMeetingHistoryList();
-        List<Meeting> meetings = profileService.findByUserId(userId).get().getMeetingList();
+        Page<MeetingHistory> meetingHistories = meetingHistoryService.getAdviceByUserId(userId, pageable);
 
-        List<AdviceAndConfessionListRes> confession = new LinkedList<>();
-        List<AdviceAndConfessionListRes> advice = new LinkedList<>();
+        Map<String, Page<AdviceAndConfessionListRes>> map = new HashMap<>();
 
-        AdviceAndConfessionListRes adviceAndConfessionListRes;
-
-        // 미팅아이디가 1이면 고해성사 2면 고민상담으로 추가
-        for(MeetingHistory meetingHistory : meetingHistoryList) {
-
-            if(meetingHistory.getMeeting().getMeetingCategory().getId().equals(Long.valueOf(1))) {
-                // confession
-                adviceAndConfessionListRes = new AdviceAndConfessionListRes(meetingHistory.getMeeting(), meetingHistory);
-                confession.add(adviceAndConfessionListRes);
-            }
-            else {
-                // advice
-                adviceAndConfessionListRes = new AdviceAndConfessionListRes(meetingHistory.getMeeting(), meetingHistory);
-                advice.add(adviceAndConfessionListRes);
-            }
-        }
-
-        Map<String, List<AdviceAndConfessionListRes>> map = new HashMap<>();
-
-        map.put("confession", confession);
-        map.put("advice", advice);
+        map.put("advice", AdviceAndConfessionListRes.of(meetingHistories));
 
         return ResponseEntity.status(200).body(map);
     }
 
-    @GetMapping("/{user_id}/review")
-    @ApiOperation(value = "내 리뷰 정보", notes = "<strong>내 리뷰 정보</strong>불러오기")
+    @GetMapping("/{user_id}/meeting/confession")
+    @ApiOperation(value = "내 고해성사 정보", notes = "<strong>내 고해성사 정보</strong>불러오기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<Map<String, Page<AdviceAndConfessionListRes>>> userMeetingHistoryConfession(@PathVariable("user_id") Long userId,
+                                                                                            @PageableDefault(page = 0, size = 3) Pageable pageable) {
+
+        // 내가 참가했던 meeting History 정보, meeting 정보
+
+        Page<MeetingHistory> meetingHistories = meetingHistoryService.getConfessionByUserId(userId, pageable);
+
+        Map<String, Page<AdviceAndConfessionListRes>> map = new HashMap<>();
+
+        map.put("advice", AdviceAndConfessionListRes.of(meetingHistories));
+
+        return ResponseEntity.status(200).body(map);
+    }
+
+    @GetMapping("/{user_id}/review/written")
+    @ApiOperation(value = "내가 쓴 리뷰 정보", notes = "<strong>내가 쓴 리뷰 정보</strong>불러오기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Map<String, List<Review>>> userReview(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Map<String, Page<Review>>> userWrittenReview(@PathVariable("user_id") Long userId,
+                                                                @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
-        System.out.println(userId);
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
         if(user == null) return ResponseEntity.status(500).body(null);
 
-        Map<String, List<Review>> map = new HashMap<>();
+        Map<String, Page<Review>> map = new HashMap<>();
 
         // 내가 쓴 리뷰
-        List<Review> writtenReview = user.getReviewList();
-        map.put("writtenReview", writtenReview);
+        Page<Review> writtenReviewList = reviewService.getWrittenReviewList(userId, pageable);
+        map.put("writtenReview", writtenReviewList);
         
-        // 유저가 상담가로 신청했으면 받은 리뷰
-        if(user.isConsultant()) {
-            ConsultantProfile consultantProfile = profileService.getConsultantProfile(user.getId()).orElse(null);
-            List<Review> receivedReview = consultantProfile.getReviewList();
-            map.put("receivedReview", receivedReview);
-        }
         return ResponseEntity.status(200).body(map);
     }
 
+    @GetMapping("/{user_id}/review/receive")
+    @ApiOperation(value = "내가 받은 리뷰 정보", notes = "<strong>내가 받은 리뷰 정보</strong>불러오기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<Map<String, Page<Review>>> userReceivedReview(@PathVariable("user_id") Long userId,
+                                                                @PageableDefault(page = 0, size = 3) Pageable pageable) {
 
+        User user = profileService.findByUserId(userId).orElse(null);
 
+        // 사용자 없음
+        if(user == null) return ResponseEntity.status(500).body(null);
+
+        Map<String, Page<Review>> map = new HashMap<>();
+
+        // 유저가 상담가로 신청했으면 받은 리뷰
+        if(user.isConsultant()) {
+            ConsultantProfile consultantProfile = profileService.getConsultantProfile(user.getId()).orElse(null);
+            Long consultantId = consultantProfile.getId();
+            Page<Review> receivedReviewList = reviewService.getReceivedReviewList(consultantId, pageable);
+
+            map.put("receivedReview", receivedReviewList);
+        }
+        // 유저가 상담가로 신청 안했으면
+        else {
+            // 500 코드와 null 값 반환
+            return ResponseEntity.status(500).body(null);
+        }
+        return ResponseEntity.status(200).body(map);
+    }
 }

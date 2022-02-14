@@ -108,4 +108,16 @@ public class MeetingHistoryServiceImpl implements MeetingHistoryService {
 
         meetingHistoryRepository.save(meetingHistory);
     }
+
+    @Override
+    public Page<MeetingHistory> getAdviceByUserId(Long userId, Pageable pageable) {
+        Page<MeetingHistory> meetingHistories = meetingHistoryRepositorySupport.findAdviceMeetingHistoriesByUserId(userId, pageable);
+        return meetingHistories;
+    }
+
+    @Override
+    public Page<MeetingHistory> getConfessionByUserId(Long userId, Pageable pageable) {
+        Page<MeetingHistory> meetingHistories = meetingHistoryRepositorySupport.findConfessionMeetingHistoriesByUserId(userId, pageable);
+        return meetingHistories;
+    }
 }
