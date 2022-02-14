@@ -261,7 +261,21 @@ export async function profileGetHistoryConfessionMeeting({ state, commit }, payl
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res)
+      commit("PROFILE_GET_HISTORY_CONFESSION_MEETING", res.data.confession);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 미팅 정보 조회");
+    });
+}
+
+export async function profileGetHistoryConfessionMeetingPageSearch({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const page = payload.page
+  const size = payload.size
+  const url = `profile/${user_id}/meeting/confession?page=${page}&size=${size}`;
+  await $axios
+    .get(url)
+    .then((res) => {
       commit("PROFILE_GET_HISTORY_CONFESSION_MEETING", res.data.confession);
     })
     .catch((err) => {
@@ -275,7 +289,21 @@ export async function profileGetHistoryAdviceMeeting({ state, commit }, payload)
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res)
+      commit("PROFILE_GET_HISTORY_ADVICE_MEETING", res.data.advice);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 미팅 정보 조회");
+    });
+}
+
+export async function profileGetHistoryAdviceMeetingPageSearch({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const page = payload.page
+  const size = payload.size
+  const url = `profile/${user_id}/meeting/advice?page=${page}&size=${size}`;
+  await $axios
+    .get(url)
+    .then((res) => {
       commit("PROFILE_GET_HISTORY_ADVICE_MEETING", res.data.advice);
     })
     .catch((err) => {
@@ -289,7 +317,6 @@ export async function profileGetHistoryReceivedReview({ state, commit }, payload
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res)
       commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
     })
     .catch((err) => {
@@ -305,7 +332,6 @@ export async function profileGetHistoryReceivedReviewPageSearch({ state, commit 
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res)
       commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
     })
     .catch((err) => {
@@ -328,7 +354,10 @@ export async function profileGetHistoryWrittenReview({ state, commit }, payload)
 
 export async function profileGetHistoryWrittenReviewPageSearch({ state, commit }, payload) {
   const user_id = payload.user_id;
-  const url = `profile/${user_id}/review/written`;
+  const page = payload.page
+  const size = payload.size
+  const url = `profile/${user_id}/review/written?page=${page}&size=${size}`;
+  console.log(url)
   await $axios
     .get(url)
     .then((res) => {
@@ -345,7 +374,22 @@ export async function profileGetHistoryCommunity({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
-      commit("PROFILE_GET_HISTORY_COMMUNITY", res.data.content);
+      commit("PROFILE_GET_HISTORY_COMMUNITY", res.data);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 작성한 게시글 조회");
+    });
+}
+
+export async function profileGetHistoryCommunityPageSearch({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const page = payload.page
+  const size = payload.size
+  const url = `profile/${user_id}/community?page=${page}&size=${size}`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      commit("PROFILE_GET_HISTORY_COMMUNITY", res.data);
     })
     .catch((err) => {
       console.log(err, "프로필 작성한 게시글 조회");
@@ -358,7 +402,23 @@ export async function profileGetHistoryComment({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
-      commit("PROFILE_GET_HISTORY_COMMENT", res.data.content);
+      console.log(res)
+      commit("PROFILE_GET_HISTORY_COMMENT", res.data);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 작성한 댓글 조회");
+    });
+}
+
+export async function profileGetHistoryCommentPageSearch({ state, commit }, payload) {
+  const user_id = payload.user_id;
+  const page = payload.page
+  const size = payload.size
+  const url = `profile/${user_id}/comment?page=${page}&size=${size}`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      commit("PROFILE_GET_HISTORY_COMMENT", res.data);
     })
     .catch((err) => {
       console.log(err, "프로필 작성한 댓글 조회");
@@ -371,7 +431,6 @@ export async function confessionGetMeetingList({ state, commit }, payload) {
     .get(url)
     .then((res) => {
       if (res.status == 200) {
-        console.log(res);
         commit("CONFESSION_GET_LAST_PAGE_NUM", res.data.totalPages);
         commit("CONFESSION_GET_CONSULTANT_LIST", res.data.content);
       } else {
@@ -409,7 +468,6 @@ export async function confessionGetSearchList({ state, commit }, payload) {
     .get(url)
     .then((res) => {
       if (res.status == 200) {
-        console.log(res);
         commit("CONFESSION_GET_LAST_PAGE_NUM", res.data.totalPages);
         commit("CONFESSION_GET_CONSULTANT_LIST", res.data.content);
       } else {
@@ -472,7 +530,6 @@ export async function confessionCreateMeeting({ state, commit }, payload) {
   await $axios
     .post(url, body)
     .then((res) => {
-      console.log(res);
       commit("CONFESSION_CREATE_MEETING_INFO", res.data);
       commit("MEETING_PARTICIPANT_LIMIT", true);
     })
@@ -487,7 +544,6 @@ export async function confessionEnterMeeting({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res);
       commit("CONFESSION_CREATE_MEETING_INFO", res.data);
     })
     .catch((err) => {
@@ -501,7 +557,6 @@ export async function confessionReviewList({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res);
       commit("CONFESSION_REVIEW_LIST", res.data);
     })
     .catch((err) => {
@@ -516,7 +571,6 @@ export async function adviceGetConsultantList({ commit }, payload) {
     .get(url)
     .then((res) => {
       if (res.status == 200) {
-        console.log(res);
         commit("ADVICE_GET_LAST_PAGE_NUM", res.data.totalPages);
         commit("ADVICE_GET_CONSULTANT_LIST", res.data.content);
       } else {
@@ -550,7 +604,6 @@ export async function adviceCreateConsultant({ state, dispatch }, payload) {
     .post(url, payload)
     .then((res) => {
       if (res.status == 200) {
-        console.log(res);
       } else {
         console.log("오류 발생");
       }
@@ -568,7 +621,6 @@ export async function adviceGetCategoryList({ commit }, payload) {
     .get(url)
     .then((res) => {
       if (res.status == 200) {
-        console.log(res);
         commit("ADVICE_GET_LAST_PAGE_NUM", res.data.totalPages);
         commit("ADVICE_GET_CONSULTANT_LIST", res.data.content);
       } else {
@@ -935,7 +987,6 @@ export async function chatRoomGetList({ state, commit, dispatch }, payload) {
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res);
       commit("CHATROOM_GET_LIST", res.data);
       commit("CHATROOM_GET_DETAIL_ID", res.data[0].consultantNickName);
       dispatch("chatRoomGetDetail", {
@@ -955,7 +1006,6 @@ export function chatRoomGetDetail({ state, commit }, payload) {
   $axios
     .get(url)
     .then((res) => {
-      console.log(res);
       commit("CHATROOM_GET_DETAIL_ID", []);
       commit("CHATROOM_GET_DETAIL_ID", chatRoom_id);
       commit("CHATROOM_GET_DETAIL_MESSAGE", []);
@@ -1053,7 +1103,6 @@ export async function noticeGetNoticeList({ state, commit }, payload) {
     .get(url)
     .then((res) => {
       if (res.status == 200) {
-        console.log(res);
         commit("NOTICE_GET_LAST_PAGE_NUM", res.data.totalPages);
         commit("NOTICE_GET_NOTICE_LIST", res.data.content);
       } else {

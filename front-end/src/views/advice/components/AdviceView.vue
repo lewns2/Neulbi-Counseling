@@ -52,11 +52,10 @@
   <hr>
 
   <!-- 상담가 리스트 -->
-  {{ state.adviceConsultantList }}
   <div class="row d-flex justify-content-start">
     <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 mx-5 my-5">
       <div class="card">
-        <img :src="'/profile/image/'+adviceConsultant.id" class="card__image" alt="" />
+        <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+adviceConsultant.profileImg" class="card__image">
         <div class="card__overlay">
           <div class="card__header">
             <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     

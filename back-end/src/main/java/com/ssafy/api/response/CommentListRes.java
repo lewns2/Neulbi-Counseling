@@ -55,7 +55,7 @@ public class CommentListRes {
         Pageable pageable = commentList.getPageable();
         long total = commentList.getTotalElements();
 
-        for (Comment c : commentList.getContent()) {
+        for (Comment c : commentList) {
 
             if(c.isDeleted())continue;
 
@@ -70,6 +70,7 @@ public class CommentListRes {
             cr.setUserNickname(user.getNickname());
             cr.setUserPointTot(user.getPointTot());
             cr.setCommunityId(c.getCommunity().getId());
+            cr.setCommunityTitle(c.getCommunity().getTitle());
             temp.add(cr);
         }
         Page<CommentListRes> res = new PageImpl<>(temp,pageable,total);

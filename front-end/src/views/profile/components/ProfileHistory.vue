@@ -1,6 +1,7 @@
 <template>
   <div>
-    <profile-history-meeting></profile-history-meeting>
+    <profile-history-confession></profile-history-confession>
+    <profile-history-advice></profile-history-advice>
     <profile-history-community></profile-history-community>
     <profile-history-comment></profile-history-comment>
     <profile-history-review :userInfo="state.userInfo"></profile-history-review>
@@ -8,7 +9,8 @@
 </template>
 
 <script>
-import ProfileHistoryMeeting from './ProfileHistoryMeeting.vue'
+import ProfileHistoryConfession from './ProfileHistoryConfession.vue'
+import ProfileHistoryAdvice from './ProfileHistoryAdvice.vue'
 import ProfileHistoryReview from './ProfileHistoryReview.vue'
 import ProfileHistoryCommunity from './ProfileHistoryCommunity.vue'
 import ProfileHistoryComment from './ProfileHistoryComment.vue'
@@ -18,7 +20,8 @@ import { reactive } from 'vue'
 export default {
   name: 'ProfileHistory',
   components: {
-    ProfileHistoryMeeting,
+    ProfileHistoryConfession,
+    ProfileHistoryAdvice,
     ProfileHistoryReview,
     ProfileHistoryCommunity,
     ProfileHistoryComment

@@ -51,7 +51,9 @@ public class CommentRepositorySupport {
         QueryResults<Comment> comment = jpaQueryFactory
                 .select(qComment)
                 .from(qComment)
-                .where(qComment.user.id.eq(userId))
+                .where(qComment.user.id.eq(userId)
+                        .and(qComment.isDeleted.eq(false)))
+                .orderBy(qComment.id.asc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetchResults();
