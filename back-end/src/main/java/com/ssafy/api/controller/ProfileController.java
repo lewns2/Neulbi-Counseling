@@ -258,9 +258,11 @@ public class ProfileController {
         if(user == null) return null;
         // 기본 이미지 내려줄 것
         if(user.getProfileImg() == null || user.getProfileImg().equals(""))
-            ProjectDirectoryPathUtil.getProfileImagePath("default_profile_image.jpg");
+            s3FileUploadService.findImg("default_profile_image.jpg");
 
-        return new UrlResource("file:" + ProjectDirectoryPathUtil.getProfileImagePath(user.getProfileImg()));
+
+
+        return new UrlResource("file:" + s3FileUploadService.findImg(user.getProfileImg()));
     }
 
     @PostMapping("/image/{user_id}")
