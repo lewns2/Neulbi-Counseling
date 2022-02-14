@@ -46,14 +46,7 @@ public class UserRes{
 		res.setId(user.getId());
 		res.setEmail(user.getEmail());
 		res.setNickname(user.getNickname());
-
-		String profileImg = user.getProfileImg();
-		if(profileImg == null)
-			profileImg = "";
-		else if( !profileImg.contains("http") )
-			profileImg = ProjectDirectoryPathUtil.getProfileImagePath(profileImg);
-		res.setProfileImg(profileImg);
-
+		res.setProfileImg(user.getProfileImg());
 		res.setPointTot(user.getPointTot());
 		res.setReportCnt(user.getReportCnt());
 		res.setPenalty(user.isPenalty());
