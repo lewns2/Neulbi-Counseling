@@ -33,6 +33,10 @@ public class ConsultantListRes {
 	Long id;
 	@ApiModelProperty(name="User nickname")
 	String nickname;
+	@ApiModelProperty(name="User maskId")
+	int maskId;
+	@ApiModelProperty(name="User maskBack")
+	int backId;
 	@ApiModelProperty(name="User ProfileImg")
 	String profileImg;
 	@ApiModelProperty(name="User pointTot")
@@ -64,9 +68,11 @@ public class ConsultantListRes {
 			TopicCategory topicCategory = c.getTopicCategory();
 
 			r.setId(user.getId());
+			r.setNickname(user.getNickname());
+			r.setMaskId(user.getMaskId());
+			r.setBackId(user.getMaskBack());
 			r.setProfileImg(user.getProfileImg());
 			r.setPointTot(user.getPointTot());
-			r.setNickname(user.getNickname());
 			r.setTopicCategoryName(topicCategory.getName());
 			r.setDescription(c.getDescription());
 			r.setConsultingCnt(c.getConsultingCnt());
@@ -99,9 +105,11 @@ public class ConsultantListRes {
 			TopicCategory topicCategory = c.getTopicCategory();
 
 			r.setId(user.getId());
+			r.setNickname(user.getNickname());
+			r.setMaskId(user.getMaskId());
+			r.setBackId(user.getMaskBack());
 			r.setProfileImg(user.getProfileImg());
 			r.setPointTot(user.getPointTot());
-			r.setNickname(user.getNickname());
 			r.setTopicCategoryName(topicCategory.getName());
 			r.setDescription(c.getDescription());
 			r.setConsultingCnt(c.getConsultingCnt());
