@@ -19,6 +19,7 @@ public interface MeetingService {
     void updateMeetingRoomIsActiveTrueByMeetingRoomId(Long meetingRoomId);
 
     Page<Meeting> getAllMeetings(Pageable pageable);
+    Page<Meeting> getAllMeetingsByUserId(Long userId, Pageable pageable);
 
     Page<Meeting> getMeetingsByTopicCategory(Pageable pageable, Long topicCategoryId);
 
