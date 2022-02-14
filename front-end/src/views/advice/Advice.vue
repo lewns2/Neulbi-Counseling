@@ -1,25 +1,12 @@
 <template>
   <main-header></main-header>
+  <advice-view :userInfo="state.userInfo"></advice-view>
   
-  
-  <div class="row">
-    <div class="col-sm-9" align="left">
-      <advice-view :userInfo="state.userInfo"></advice-view>
-      <!-- <advice-pagination></advice-pagination> -->
-    </div>
-    <div class="col-sm-3">
-      <advice-user :userInfo="state.userInfo"></advice-user>
-      <advice-create :userInfo="state.userInfo"></advice-create>
-      <advice-rank></advice-rank>
-    </div>
-  </div>
 </template>
 
 <script>
 import AdviceCreate from "./components/AdviceCreate.vue";
 // import AdvicePagination from "./components/AdvicePagination.vue";
-import AdviceRank from "./components/AdviceRank.vue";
-import AdviceUser from "./components/AdviceUser.vue";
 import AdviceView from "./components/AdviceView.vue";
 import MainHeader from "../main/components/MainHeader.vue";
 
@@ -30,10 +17,7 @@ export default {
   name: "Advice",
   components: {
     MainHeader,
-    AdviceCreate,
     // AdvicePagination,
-    AdviceRank,
-    AdviceUser,
     AdviceView,
   },
   setup () {

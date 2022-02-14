@@ -53,7 +53,7 @@
 <script>
 import { reactive, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ProfileUser from './components/ProfileUser.vue'
 import ProfileConsultant from './components/ProfileConsultant.vue'
 import ProfileHistory from './components/ProfileHistory.vue'
@@ -68,6 +68,7 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
     const state = reactive({
       userInfo: computed(() => store.getters['root/userInfo']),
       select: 'User',
@@ -91,6 +92,10 @@ export default {
     }
 
     onMounted(async() => {
+      if(route.query.value==='AdviceUser') {
+        state.select = 'Consultant'
+      } 
+
       const body = { user_id: state.userInfo.id }
       if (state.userInfo.consultant) {
         await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)

@@ -289,6 +289,7 @@ export async function profileGetHistoryAdviceMeeting({ state, commit }, payload)
   await $axios
     .get(url)
     .then((res) => {
+      console.log(res)
       commit("PROFILE_GET_HISTORY_ADVICE_MEETING", res.data.advice);
     })
     .catch((err) => {
@@ -402,7 +403,6 @@ export async function profileGetHistoryComment({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
-      console.log(res)
       commit("PROFILE_GET_HISTORY_COMMENT", res.data);
     })
     .catch((err) => {
