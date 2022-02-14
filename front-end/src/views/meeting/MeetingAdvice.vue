@@ -95,7 +95,10 @@
           class="jumbotron vertical-center"
           style="padding-top: 50px"
         >
-          <div class="d-flex" style="border-bottom: 3px solid #a6c0fe">
+          <div
+            class="d-flex justify-content-center"
+            style="border-bottom: 3px solid #a6c0fe"
+          >
             <i class="fas fa-quote-left" style="font-size: 20px"></i>
             <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
               {{ data.adviceMeetingInfo.ownerId }}님의 미팅룸
