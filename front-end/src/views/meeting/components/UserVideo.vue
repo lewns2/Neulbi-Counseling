@@ -13,21 +13,25 @@
           <i class="fas fa-video-slash" style="color: red; font-size: 15px"></i>
         </p>
         <p v-if="streamManager.stream.audioActive">
-          <i class="fas fa-microphone" style="color: green; font-size: 15px"></i>
+          <i
+            class="fas fa-microphone"
+            style="color: green; font-size: 15px"
+          ></i>
         </p>
         <p v-else>
           <i
             class="fas fa-microphone-slash"
             style="color: red; font-size: 15px"
           ></i>
-        </p> 
+        </p>
       </div>
       <div id="maskimg" v-if="!streamManager.stream.videoActive">
-        <img
+        <!-- <img
           :src="streamManager.stream.connection.data.split('%/%')[1]"
           alt=""
-        />
-      </div> 
+        /> -->
+        <img src="@/assets/back1.jpg" alt="" />
+      </div>
     </div>
   </div>
 </template>
@@ -64,10 +68,9 @@ export default {
 </script>
 
 <style scoped>
-
 #maskimg {
   position: relative;
-  width: 50%;
+  width: 100%;
   cursor: pointer;
 }
 
