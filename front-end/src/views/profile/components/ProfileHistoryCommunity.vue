@@ -1,7 +1,8 @@
 <template>
   <div>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <h1>My Communities</h1>
+    <h3 style="text-align: left;">내가 작성한 게시글</h3>
+    <br>
     <div class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(community, idx) in state.profileHistoryCommunity" :key="idx">
         <a href="#" class="data-card">
@@ -285,7 +286,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatecommunity.right {
-  left: 63%;
+  left: 64%;
 }
 .paginatecommunity.right i {
   transform-origin: 100% 50%;

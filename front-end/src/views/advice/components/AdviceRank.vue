@@ -9,7 +9,8 @@
       </header>
       
       <main class="leaderboard__profiles">
-        <article class="leaderboard__profile" v-for="(adviceRank, index) in state.adviceRankList" :key="index">
+        <article class="leaderboard__profile d-flex justify-content-around" v-for="(adviceRank, index) in state.adviceRankList" :key="index"
+        >
           <!-- <img :src="adviceRank.profileImg" alt="Mark Zuckerberg" class="leaderboard__picture"> -->
           <span class="leaderboard__name">{{ adviceRank.nickname }}</span>
           <span class="leaderboard__value">{{ adviceRank.pointTot }}점</span>
@@ -41,8 +42,8 @@ export default {
 <style scoped lang="scss">
 .leaderboard {
   max-width: 75%;
-  width: 75%;
-  border-radius: 12px;
+  width: 70%;
+  border-radius: 30px;
   
   header {
     --start: 15%;
@@ -51,19 +52,18 @@ export default {
     background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, #c2d6f8, #c2d6f8), linear-gradient(to right, #c2d6f8, #c2d6f8);
     color: #fff;
     position: relative;
-    border-radius: 12px 12px 0 0;
+    border-radius: 30px 30px 0 0;
     overflow: hidden;
+    display: flex;    
+    justify-content: center;
     
     .leaderboard__title {
       position: absolute;
       z-index: 2;
       top: 50%;
-      right: calc(var(--start) * .75);
       transform: translateY(-50%);
       text-transform: uppercase;
       margin: 0;
-      margin-right: 14%;
-      
       
       span {
         display: block;
@@ -98,7 +98,7 @@ export default {
   
   &__profiles {
     background-color: #fff;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 30px 30px;
     padding: 15px 15px 20px;
     display: grid;
     row-gap: 8px;
@@ -127,12 +127,10 @@ export default {
     color: #979cb0;
     font-weight: 600;
     font-size: 20px;
-    letter-spacing: 0.64px;
-    margin-left: 12px;
   }
   
   &__value {
-    color: #35d8ac;
+    color: #9d9cb0;
     font-weight: 700;
     font-size: 25px;
     text-align: right;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>My Consultant</h1>
+    <h3>찜한 상담가</h3>
     <br>
     <div v-if="(state.profileConsultantLikeActive)">
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">

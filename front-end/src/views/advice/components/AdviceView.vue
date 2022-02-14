@@ -1,114 +1,131 @@
 <template>
-  <!-- 카테고리 선택 -->
-  <span class="mt-4 mb-4 row" style="line-height: 40px;">
-    <div class="col-8 d-flex justify-content-evenly" style="width: 60%;">
-      <div @click="clickAdviceList">
-        <a href="#" class="cta">
-          <span>모두</span>
-        </a>
+  <div>
+    <!-- 카테고리 선택 -->
+    <span class="mt-4 mb-4 row justify-content-evenly" style="line-height: 40px;">
+      <div class="container col-1">
+        <h1>고민상담</h1> 
       </div>
-      <div
-        v-for="(category, index) in state.categories"
-        :key="index"
-        @click="clickAdviceCategory(category.number)"
-      >
-        <a href="#" class="cta">
-          <span>{{ category.value }}</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- 검색 후 결과 얻기 -->
-    <div class="col-4 d-flex justify-content-end">
-      <div class="dropdown me-3">
-        <input type="checkbox" id="dropdown" @click="clickChange">
-
-        <label class="dropdown__face" for="dropdown">
-          <div class="dropdown__text ps-3">{{ state.showKey }}</div>
-
-          <div class="dropdown__arrow"></div>
-        </label>
-
-        <ul class="dropdown__items" id="drop1">
-          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(1)">닉네임</button></li>
-          <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(2)">설명</button></li>
-        </ul>
-      </div>
-      
-      <div class="searchBox">
-        <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
-      </div>
-      <button
-        type="button"
-        class="search-btn ms-2"
-        @click="clickSearch"
-      >
-        검색
-      </button>
-    </div>
-  </span>
-
-
-  <hr>
-
-  <!-- 상담가 리스트 -->
-  <div class="row d-flex justify-content-start">
-    <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 mx-5 my-5">
-      <div class="card">
-        <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+adviceConsultant.profileImg" class="card__image">
-        <div class="card__overlay">
-          <div class="card__header">
-            <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-            <img class="card__thumb" :src="require('@/assets/mask/mask'+adviceConsultant.maskId+'.png')" alt="" />
-            <div class="card__header-text">
-              <h3 class="card__title">{{ adviceConsultant.nickname }}</h3>            
-              <span class="card__status">주제: {{ adviceConsultant.topicCategoryName }}</span>
-            </div>
-            <label class="like" v-if="adviceConsultant.favConsultant">
-              <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)" checked>
-              <div class="hearth"/>
-            </label>
-            <label class="like" v-else>
-              <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)">
-              <div class="hearth"/>
-            </label>
-          </div>
-          <p class="card__description">
-            포인트 : {{ adviceConsultant.pointTot }}<br>
-            상담횟수 : {{ adviceConsultant.consultingCnt }}<br>
-            한 줄 소개 : <br>
-            {{ adviceConsultant.description }} <br><br>
-            <button
-              type="button"
-              class="front__text-hover"
-              @click="clickCreateChatRoom(adviceConsultant.id)"
-            >
-              1:1 채팅하기
-            </button>
-          </p>
-
+      <div class="col-5 d-flex justify-content-evenly" style="width: 40%;">
+        <div @click="clickAdviceList">
+          <a href="#" class="cta">
+            <span>모두</span>
+          </a>
         </div>
-      </div>      
+        <div
+          v-for="(category, index) in state.categories"
+          :key="index"
+          @click="clickAdviceCategory(category.number)"
+        >
+          <a href="#" class="cta">
+            <span>{{ category.value }}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 검색 후 결과 얻기 -->
+      <div class="col-4 d-flex justify-content-end">
+        <div class="dropdown me-3">
+          <input type="checkbox" id="dropdown" @click="clickChange">
+
+          <label class="dropdown__face" for="dropdown">
+            <div class="dropdown__text ps-3" style="text-align: left;">{{ state.showKey }}</div>
+
+            <div class="dropdown__arrow"></div>
+          </label>
+
+          <ul class="dropdown__items" id="drop1">
+            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(1)">닉네임</button></li>
+            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(2)">설명</button></li>
+          </ul>
+        </div>
+        
+        <div class="searchBox">
+          <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+        </div>
+        <button
+          type="button"
+          class="search-btn ms-2"
+          @click="clickSearch"
+        >
+          검색
+        </button>
+      </div>
+    </span>
+
+
+    <hr>
+    <div class="row">
+      <div class="col-sm-9" align="left">
+        <!-- 상담가 리스트 -->
+        <div class="row d-flex justify-content-start">
+          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 mx-5 mt-5" style="margin-bottom: 10%;">
+            <div class="card">
+              <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+adviceConsultant.profileImg" class="card__image">
+              <div class="card__overlay">
+                <div class="card__header">
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                  <img class="card__thumb" :src="require('@/assets/mask/mask'+adviceConsultant.maskId+'.png')" alt="" />
+                  <div class="card__header-text">
+                    <h3 class="card__title">{{ adviceConsultant.nickname }}</h3>            
+                    <span class="card__status">주제: {{ adviceConsultant.topicCategoryName }}</span>
+                  </div>
+                  <label class="like" v-if="adviceConsultant.favConsultant">
+                    <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)" checked>
+                    <div class="hearth"/>
+                  </label>
+                  <label class="like" v-else>
+                    <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)">
+                    <div class="hearth"/>
+                  </label>
+                </div>
+                <p class="card__description">
+                  포인트 : {{ adviceConsultant.pointTot }}<br>
+                  상담횟수 : {{ adviceConsultant.consultingCnt }}<br>
+                  한 줄 소개 : <br>
+                  {{ adviceConsultant.description }} <br><br>
+                  <button
+                    type="button"
+                    class="front__text-hover"
+                    @click="clickCreateChatRoom(adviceConsultant.id)"
+                  >
+                    1:1 채팅하기
+                  </button>
+                </p>
+
+              </div>
+            </div>      
+          </div>
+        </div>
+        <br>
+
+        <!-- pagination -->
+        <br>
+        <div class="d-flex justify-content-center mb-5">
+          <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
+          <div class="counter">{{state.page}}페이지 / {{ state.adviceLastPageNum }}페이지 </div>
+          <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <advice-user :userInfo="state.userInfo"></advice-user>
+        <advice-rank></advice-rank>
+      </div>
     </div>
   </div>
-  <br>
-
-  <!-- pagination -->
-  <br>
-  <div class="d-flex justify-content-center mb-5">
-    <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
-    <div class="counter">{{state.page}}페이지 / {{ state.adviceLastPageNum }}페이지 </div>
-    <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
-  </div>
-
 </template>
 
 <script>
 import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import AdviceRank from "./AdviceRank.vue";
+import AdviceUser from "./AdviceUser.vue";
 import router from "@/router";
 export default {
   name: "AdviceView",
+  components: {
+    AdviceRank,
+    AdviceUser,
+  },
   props: {
     userInfo: Object,
   },
@@ -345,6 +362,33 @@ export default {
 
 * {
   box-sizing: border-box;
+}
+
+// 고해성사 글자
+.container {
+	position: relative;
+  margin-left: 0pt;
+  margin-right: 0pt;
+	width: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+// End Codepen spesific styling
+
+
+h1 {
+	color: #c2d6f8;
+	font-size: 30pt ;  
+	font-weight: 900;
+  text-shadow: -0.0075em 0.0075em 0 #f8fafe,
+    0.005em 0.005em 0 #ceddf8,
+    0.01em 0.01em 0 #d1dff8,
+    0.015em 0.015em #d3e1f9,
+    0.02em 0.02em 0 #d6e2f9, 
+    0.025em 0.025em 0 #d8e4f9, 
+    0.03em 0.03em 0 #dae6fa, 
+    0.035em 0.035em 0 #dde7fa;
 }
 
 body {
@@ -713,7 +757,7 @@ button {
   position: relative;
   // transform:  translate(-50%,50%);
   background: white;
-  height: 100%;
+  height: 80%;
   width: 50%;
   border-radius: 40px;
   padding: 10px;
@@ -751,6 +795,7 @@ button {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .4px;
+  height: 80%;
 
   border: 2px solid #bbd2f9;
   // padding: 8px 15px;
@@ -783,8 +828,8 @@ button {
 // dropdown
 .dropdown {
   position: relative;
-  height: 100%;
-  width: 45%;
+  height: 80%;
+  width: 30%;
   // letter-spacing: 0.4px;
   // border: 2px solid #bbd2f9;
   // border-radius: 30px;

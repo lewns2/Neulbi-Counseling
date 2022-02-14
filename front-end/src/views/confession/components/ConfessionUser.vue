@@ -16,7 +16,7 @@
             등급: {{ state.grade }} / 포인트: {{ state.userInfo.pointTot }}</p>
                     
             <button @click="goToAdvice" class="front__text-hover mb-4">고민상담 페이지</button><br>
-            <button class="front__text-hover">내 프로필 페이지</button>
+            <button class="front__text-hover" @click="goToProfile">내 프로필 페이지</button>
           </div>
         </div>
       </div>
@@ -48,7 +48,16 @@ export default {
       router.push({ name: 'Advice' })
     }
 
-    return { state, profile, goToAdvice };
+    const goToProfile = function () {
+      router.push({
+        name: 'Profile',
+        params: {
+          user_id: state.userInfo.id
+        },
+      })
+    }
+
+    return { state, profile, goToAdvice, goToProfile };
   },
 };
 </script>
@@ -57,7 +66,7 @@ export default {
 
 .outer-div,
 .inner-div {
-  height: 85%;
+  height: 70%;
   max-width: 85%;
   margin: 0 auto;
   position: relative;

@@ -20,7 +20,7 @@
       </h6>
     </div>
 
-    <div class="inner-main-header">
+    <div class="inner-main-header d-flex justify-content-between">
       <button
         @click="goToCreateQna"
         class="form-control form-control-md col-lg-2"
@@ -28,6 +28,12 @@
       >
         등록
       </button>
+      <div style="display: flex; justify-content: around;">
+        <span class="input-icon input-icon-sm ml-auto" style="width: 100%;">
+          <input type="text" v-model="state.searchWord" class="form-control form-control-md bg-gray-200 border-gray-200 shadow-none" placeholder="찾으시는 게시글이 있으신가요?" />
+        </span>
+        <button @click="clickSearchQna" class="form-control form-control-md col-lg-2" id="input">찾기</button>
+      </div>
     </div>
 
     <!-- <div class="col-lg-9 mb-3">  -->
@@ -152,16 +158,20 @@
     </div>
 
     <!--페이지-->
-    <div style="margin: 3%">
-      <button id="prev" @click="checkPage($event)">이전</button>
-      {{ state.page }} 페이지 / {{ state.qnaLastPageNum }} 페이지
-      <button id="next" @click="checkPage($event)">다음</button>
+    <div id="app" class="pagecontainer">  
+      <ul class="page">
+        <li class="page__btn me-4" @click="checkPage($event)"><span class="material-icons">◀</span></li>
+        <li class="page__numbers" :id="'page'+idx" v-for="(num, idx) in state.qnaLastPageNum" :key="idx" @click="checkPage($event)">
+          {{ num }}
+        </li>
+        <li class="page__btn ms-4"><span class="material-icons" @click="checkPage($event)">▶</span></li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, computed } from "@vue/reactivity";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
@@ -182,6 +192,11 @@ export default {
       pageSearchTopic: "main",
     });
 
+    onMounted(() => {
+      let first = document.getElementById('page0')
+      first.classList.add('active')
+    })
+
     const clickSearchQna = async function () {
       state.page = 1;
       state.pageSearchTopic = "search";
@@ -198,13 +213,12 @@ export default {
     };
 
     const checkPage = async function (event) {
-      let targetId = event.currentTarget.id;
-      if (targetId == "prev") {
-        state.page -= 1;
-        if (state.page < 1) state.page = 1;
-      } else if (targetId == "next") {
-        state.page += 1;
+      for (var i=0; i < state.qnaLastPageNum; i++) {
+        const sub = document.getElementById('page'+i)
+        sub.classList.remove('active')
       }
+      event.target.classList.add('active')
+      state.page = Number(event.target.id.substr(4,6))+1
       if (state.pageSearchTopic === "main") {
         await store.dispatch("root/qnaPageSearch", {
           user_id: state.userInfo.id,
@@ -266,6 +280,7 @@ export default {
 
     return {
       state,
+      onMounted,
       clickSearchQna,
       clickOnMounted,
       checkPage,
@@ -354,5 +369,118 @@ a:hover {
 
 .intro {
   background-color: #fafbfc;
+}
+/// pagination
+
+
+ul {
+  list-style-type: none;
+}
+
+.items-list {
+  max-width: 90vw;
+  margin: 2rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 3rem;
+  justify-content: center;
+  align-content: center;
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.item {
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2d4848;
+  cursor: pointer;
+
+  span {
+    background: #ffffff;
+    box-shadow: 0 0.8rem 2rem rgba(#5a6181, 0.05);
+    border-radius: 0.6rem;
+    padding: 2rem;
+    font-size: 3rem;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    span {
+      transform: scale(1.2);
+      color: #23adad;
+    }
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: #23adade1;
+  }
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  margin: 3rem;
+  border-radius: 0.6rem;
+  background: #ffffff;
+  box-shadow: 0 0.8rem 2rem rgba(#5a6181, 0.05);
+
+  &__numbers,
+  &__btn,
+  &__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.8rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+
+  &__dots {
+    width: 2.6rem;
+    height: 2.6rem;
+    color: #23adade1;
+    cursor: initial;
+  }
+
+  &__numbers {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.4rem;
+
+    &:hover {
+      color: #23adad;
+    }
+
+    &.active {
+      color: #ffffff;
+      background: #23adad;
+      font-weight: 600;
+      border: 1px solid #23adad;
+    }
+  }
+
+  &__btn {
+    color: #23adade1;
+    pointer-events: none;
+
+    &.active {
+      color: #2d4848;
+      pointer-events: initial;
+
+      &:hover {
+        color: #23adad;
+      }
+    }
+  }
 }
 </style>
