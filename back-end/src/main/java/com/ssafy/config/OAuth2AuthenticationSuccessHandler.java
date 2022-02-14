@@ -50,10 +50,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String makeRedirectUrl(String token) {
-        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        connector.setRedirectPort(443);
-
-        return UriComponentsBuilder.fromUriString("/oauth/success")
+        return UriComponentsBuilder.fromUriString("https://i6e202.p.ssafy.io:443/oauth/success")
                 .queryParam("accessToken", token)
                 .build().toUriString();
     }
