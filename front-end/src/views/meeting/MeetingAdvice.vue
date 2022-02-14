@@ -1,5 +1,89 @@
 <template id="wrapper">
-  <div style="background-color: rgb(0 0 0/20%); height: 800px">
+  <div style="background-color: rgb(225 236 255); height: 800px">
+    <!-- session 연결됐을 때 상담 도구 모음 -->
+    <div id="meetingheader" v-if="state.session">
+      <ul style="text-align: left">
+        <li style="float: left">
+          <img
+            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
+            alt=""
+            style="width: 50px"
+          />
+          <span>CONFESSION/ADVICE</span>
+        </li>
+        <li>
+          <i
+            @click="leaveSession"
+            class="far fa-times-circle"
+            style="color: red; margin-left: 50px"
+            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
+              >종료</span
+            ></i
+          >
+        </li>
+        <li>
+          <i
+            v-if="!state.audioEcho"
+            type="button"
+            @click="clickFilter"
+            class="fab fa-creative-commons-sampling"
+            style="color: blue"
+          ></i
+          ><i
+            v-else
+            type="button"
+            @click="clickFilter"
+            class="fas fa-times"
+            style="color: blue"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="!state.maskState"
+            type="button"
+            @click="addMask"
+            class="fas fa-theater-masks"
+            style="color: orange"
+          ></i>
+          <i
+            v-else
+            type="button"
+            @click="addMask"
+            class="fas fa-user-circle"
+            style="color: orange"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="state.audioState"
+            @click="hideMyAudio(state.audioState)"
+            class="fas fa-microphone-slash"
+            style="color: red"
+          ></i>
+          <i
+            v-else
+            @click="hideMyAudio(state.audioState)"
+            class="fas fa-microphone"
+            style="color: green"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="state.videoState"
+            @click="hideMyVideo(state.videoState)"
+            class="fas fa-video-slash"
+            style="color: green"
+          ></i>
+
+          <i
+            v-else
+            @click="hideMyVideo(state.videoState)"
+            class="fas fa-video"
+            style="color: green"
+          ></i>
+        </li>
+      </ul>
+    </div>
     <div id="main-container" class="container">
       <!-- meeting 입장 초기 화면 -->
       <div id="join" v-if="!state.session">
@@ -22,8 +106,6 @@
               Owner
             </h3>
             <h3 v-else>Guest</h3>
-            <!-- <p>Participant : {{ state.myUserName }}</p> -->
-            <!-- <p>Session : {{ state.mySessionId }}</p> -->
 
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
@@ -130,142 +212,16 @@
                 </div>
               </div>
             </div>
-            <div id="chatroom" class="col-md-4" style="display: none">
+            <div id="chatroom" class="col-md-3" style="display: none">
               <meeting-chat-room :session="state.session"></meeting-chat-room>
             </div>
           </div>
         </div>
 
-        <!-- 화상 채팅 하단에 넣을 도구 모음 -->
+        <!-- 채팅 -->
+
         <footer id="session-footer" class="container">
-          <!-- 화면 ON/OFF && 음성 ON / OFF -->
-          <div>
-            <ul style="text-align: left">
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="state.videoState"
-                  @click="hideMyVideo(state.videoState)"
-                >
-                  <i
-                    class="fas fa-video-slash"
-                    style="color: green; font-size: 15px"
-                  ></i>
-                  비디오 중지
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  @click="hideMyVideo(state.videoState)"
-                >
-                  <i
-                    class="fas fa-video"
-                    style="color: green; font-size: 15px"
-                  ></i>
-                  비디오 시작
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="state.audioState"
-                  @click="hideMyAudio(state.audioState)"
-                >
-                  <i
-                    class="fas fa-microphone-slash"
-                    style="color: red; font-size: 15px"
-                  ></i>
-                  음소거
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  @click="hideMyAudio(state.audioState)"
-                >
-                  <i
-                    class="fas fa-microphone"
-                    style="color: green; font-size: 15px"
-                  ></i>
-                  말하기
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="!state.maskState"
-                  type="button"
-                  @click="addMask"
-                >
-                  <i
-                    class="fas fa-theater-masks"
-                    style="color: orange; font-size: 15px"
-                  ></i>
-                  Mask ON
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  type="button"
-                  @click="addMask"
-                >
-                  <i
-                    class="fas fa-user-circle"
-                    style="color: orange; font-size: 15px"
-                  ></i>
-                  Mask OFF
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="!state.audioEcho"
-                  type="button"
-                  @click="clickFilter"
-                >
-                  <i
-                    class="fab fa-creative-commons-sampling"
-                    style="color: blue; font-size: 15px"
-                  ></i>
-                  echo ON
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  type="button"
-                  @click="clickFilter"
-                >
-                  <i
-                    class="fas fa-times"
-                    style="color: blue; font-size: 15px"
-                  ></i>
-                  echo OFF
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  type="button"
-                  @click="leaveSession"
-                >
-                  <i
-                    class="far fa-times-circle"
-                    style="color: red; font-size: 15px"
-                  ></i>
-                  종료
-                </button>
-              </li>
-              <li style="float: right">
-                <button
-                  class="front__text-hover"
-                  type="button"
-                  @click="chatroomShow"
-                >
-                  <i class="fas fa-comment-alt" style="font-size: 15px"></i>
-                  채팅
-                </button>
-              </li>
-            </ul>
-          </div>
+          <i @click="chatroomShow" class="fas fa-comment-alt"></i>
         </footer>
       </div>
     </div>
@@ -591,7 +547,7 @@ export default {
         document.getElementById("chatroom").style.display = "none";
         state.chatState = false;
       } else {
-        document.getElementById("stream").className = "col-md-8";
+        document.getElementById("stream").className = "col-md-9";
         document.getElementById("chatroom").style.display = "block";
         state.chatState = true;
       }
@@ -656,23 +612,11 @@ export default {
   height: 500px;
   object-fit: cover;
 }
-.front__text-hover {
-  position: relative;
-  /* top: 10px; */
-  font-size: 15px;
-  backface-visibility: hidden;
-
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-
-  border: 2px solid;
-  padding: 8px 15px;
-  margin-top: 0px;
-  border-radius: 30px;
-
-  background: #1d1e22;
-  color: #f0f0f0;
+#meetingheader {
+  padding-top: 20px;
+  border-bottom: 3px solid #a6c0fe;
+  padding-right: 50px;
+  height: 60px;
 }
 
 ul {
@@ -680,9 +624,21 @@ ul {
 }
 ul li {
   display: inline;
-  margin-left: 20px;
+  margin-left: 30px;
+  float: right;
 }
-
+ul li i {
+  font-size: 20px;
+}
+ul li i:hover {
+  cursor: pointer;
+}
+footer i {
+  font-size: 40px;
+}
+footer i:hover {
+  cursor: pointer;
+}
 button {
   font-family: inherit;
   font-family: "Roboto Mono", monospace;
@@ -735,6 +691,7 @@ nav i.fa:hover {
 
 #main-container {
   padding-bottom: 80px;
+  padding-top: 5%;
 }
 
 /*vertical-center {
@@ -855,8 +812,9 @@ a:hover .demo-logo {
 
   position: relative;
   float: left;
-  width: 50%;
+  width: 47%;
   cursor: pointer;
+  margin-left: 25px;
 }
 
 #video-container video + div {
@@ -927,12 +885,9 @@ video {
 }
 
 #session-footer {
-  /* display: inline; */
-  position: absolute;
-  float: left;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 3%;
 }
 
 @media only screen and (max-height: 767px) and (orientation: landscape) {

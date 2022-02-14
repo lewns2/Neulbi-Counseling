@@ -27,6 +27,10 @@ public class AdviceAndConfessionListRes {
     String userProfileImg;
     // 방장의 마스크 이미지 아이디
     int userMaskId;
+    // 방장의 닉네임
+    String userNickname;
+    // 방장 ID번호
+    Long userId;
     Long topicCategoryId;
 
     public AdviceAndConfessionListRes(Meeting meetings, MeetingHistory history) {
@@ -49,6 +53,8 @@ public class AdviceAndConfessionListRes {
             AdviceAndConfessionListRes aclr = new AdviceAndConfessionListRes();
             aclr.setMeeting(meetingHistory.getMeeting());
             aclr.setMeetingHistory(meetingHistory);
+            aclr.setUserId(meetingHistory.getMeeting().getUser().getId());
+            aclr.setUserNickname(meetingHistory.getMeeting().getUser().getNickname());
             aclr.setUserMaskId(meetingHistory.getMeeting().getUser().getMaskId());
             aclr.setUserProfileImg(meetingHistory.getMeeting().getUser().getProfileImg());
             aclr.setTopicCategoryId(meetingHistory.getMeeting().getTopicCategory().getId());

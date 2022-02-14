@@ -149,6 +149,8 @@ public class ConsultantServiceImpl implements ConsultantService {
             r.setProfileImg(user.getProfileImg());
             r.setPointTot(user.getPointTot());
             r.setNickname(user.getNickname());
+            r.setMaskId(user.getMaskId());
+            r.setBackId(user.getMaskBack());
             r.setTopicCategoryName(topicCategory.getName());
             r.setDescription(c.getDescription());
             r.setConsultingCnt(c.getConsultingCnt());
