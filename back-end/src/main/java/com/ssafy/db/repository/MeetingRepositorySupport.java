@@ -35,6 +35,21 @@ public class MeetingRepositorySupport {
         return new PageImpl<>(meetings.getResults(), pageable, meetings.getTotal());
     }
 
+    public Page<Meeting> findAllByUserId(Long userId, Pageable pageable) {
+
+        QueryResults<Meeting> meetings = jpaQueryFactory
+                .select(qMeeting)
+                .from(qMeeting)
+                .where(qMeeting.isActive.eq(true).and(qMeeting.meetingCategory.id.eq(categoryid))
+                        .and(qMeeting.user.id.eq(userId)))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
+
+        if (meetings == null) return Page.empty();
+
+        return new PageImpl<>(meetings.getResults(), pageable, meetings.getTotal());
+    }
+
     public Page<Meeting> findByTopicCategoryId(Pageable pageable, Long topicCategoryId) {
 
         QueryResults<Meeting> meetings = jpaQueryFactory

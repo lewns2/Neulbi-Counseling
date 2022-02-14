@@ -81,6 +81,7 @@ public class CommunityRepositorySupport {
                 .select(qCommunity)
                 .from(qCommunity)
                 .where(qCommunity.isDeleted.eq(false).and(qCommunity.description.contains(value)))
+                .orderBy(qCommunity.id.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetchResults();
@@ -96,6 +97,7 @@ public class CommunityRepositorySupport {
                 .select(qCommunity)
                 .from(qCommunity)
                 .where(qCommunity.isDeleted.eq(false).and(qCommunity.title.contains(value)))
+                .orderBy(qCommunity.id.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetchResults();
@@ -112,6 +114,7 @@ public class CommunityRepositorySupport {
                 .select(qCommunity)
                 .from(qCommunity)
                 .where(qCommunity.isDeleted.eq(false).and(qCommunity.user.nickname.contains(value)))
+                .orderBy(qCommunity.id.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetchResults();
@@ -143,6 +146,7 @@ public class CommunityRepositorySupport {
                 .select(qCommunity)
                 .from(qCommunity)
                 .where(qCommunity.user.id.eq(userId))
+                .orderBy(qCommunity.id.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetchResults();

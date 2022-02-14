@@ -31,7 +31,7 @@
       
       <span class="col-lg-5"></span>
       
-      <span>  
+      <span class="px-1">  
         <button class="form-control form-control-md dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{ state.categoryselect }}
         </button>
@@ -62,7 +62,7 @@
         </div>
         <div class="col-md-4 op-7">
           <div class="row text-center op-7">
-            <div class="col px-1"> <i class="ion-connection-bars icon-1x"></i> <span class="d-block text-sm">투표수</span> </div>
+            <div class="col px-1"> <i class="ion-ios-heart-outline icon-1x"></i> <span class="d-block text-sm">공감수</span> </div>
             <div class="col px-1"> <i class="ion-ios-chatboxes-outline icon-1x"></i> <span class="d-block text-sm">댓글수</span> </div>
             <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">조회수</span> </div>
           </div>
@@ -90,9 +90,9 @@
         
         <div class="col-md-4 op-7">
           <div class="row text-center op-7">
-            <div class="col px-1"><span class="d-block text-sm">141 Votes</span> </div>
+            <div class="col px-1"><span class="d-block text-sm">{{community.likeCnt}} Votes</span> </div>
             <div class="col px-1"><span class="d-block text-sm">122 Replys</span> </div>
-            <div class="col px-1"><span class="d-block text-sm">290 Views</span> </div>
+            <div class="col px-1"><span class="d-block text-sm">{{community.viewCnt}} Views</span> </div>
             <!-- <div class="col px-1"> <i class="ion-connection-bars icon-1x"></i> <span class="d-block text-sm">141 Votes</span> </div>
             <div class="col px-1"> <i class="ion-ios-chatboxes-outline icon-1x"></i> <span class="d-block text-sm">122 Replys</span> </div>
             <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">290 Views</span> </div> -->
@@ -301,6 +301,11 @@ a:hover {
 
 .intro {
   background-color: #eceff3;
+}
+
+.custom-form-control {
+    color: black;
+    font-weight: bold;
 }
 
 </style>

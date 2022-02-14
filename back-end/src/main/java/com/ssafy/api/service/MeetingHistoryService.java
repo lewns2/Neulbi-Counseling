@@ -21,4 +21,7 @@ public interface MeetingHistoryService {
     void createMeetingHistoryByUserAndMeetingRoom(User user, Meeting meetingRoom);
     void updateMeetingHistoryExitByUserAndMeetingRoom(User user, Meeting meetingRoom);
     void updateMeetingHistoryExitWhenOwnerByUserAndMeetingRoom(User user, Meeting meetingRoom);
+
+    Page<MeetingHistory> getAdviceByUserId(Long userId, Pageable pageable);
+    Page<MeetingHistory> getConfessionByUserId(Long userId, Pageable pageable);
 }
