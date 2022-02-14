@@ -4,9 +4,12 @@
       <div class="inner-div">
         <div class="front">
           <div class="front__bkg-photo">
-            <img :src="state.profileImgThumbnail" style="width: 100%;">
+            <img :src="profile.profileImgThumbnail" style="width: 100%;">
           </div>
-          <div class="front__face-photo">{{ state.userInfo.mask_id }}</div>
+          <div class="front__face-photo">
+            <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')" style="position: relative; width: 100%; z-index: 71;">
+            <img :src="require('@/assets/back/back'+state.userInfo.backId+'.png')" style="position: relative; width: 150%; top: -120%; z-index: 70;">
+          </div>
           <div class="front__text">
             <h3 class="front__text-header">{{ state.userInfo.nickname }}</h3>
             <p>이메일: {{ state.userInfo.email }}<br>
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { useRouter } from 'vue-router'
 export default {
   name: "ConfessionUser",
@@ -37,15 +40,15 @@ export default {
       grade: 'None',
     });
 
-    const clickModifyMask = function () {
-      // store.dispatch("root/modifyMask", state.userInfo.id);
-    }
+    const profile = reactive({
+      profileImgThumbnail : computed(() => `https://e202.s3.ap-northeast-2.amazonaws.com/${state.userInfo.profileImg}`),
+    })
 
     const goToAdvice = function () {
       router.push({ name: 'Advice' })
     }
 
-    return { state, clickModifyMask, goToAdvice };
+    return { state, profile, goToAdvice };
   },
 };
 </script>
@@ -115,7 +118,8 @@ export default {
   // background-size: cover;
   backface-visibility: hidden;
   overflow: hidden;
-  border-radius: calc(var(--curve) * 1px);
+  border-top-left-radius: calc(var(--curve) * 1px);
+  border-top-right-radius: calc(var(--curve) * 1px);
   --surface-color: #fff;
   --curve: 40;
 
