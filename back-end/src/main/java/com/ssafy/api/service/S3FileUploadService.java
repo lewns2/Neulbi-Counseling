@@ -87,6 +87,7 @@ public class S3FileUploadService {
 
     public String findImg(String img) {
         String imgPath = amazonS3Client.getUrl(bucket, img).toString();
+        System.out.println(imgPath);
         log.info(imgPath);
         return imgPath;
     }
