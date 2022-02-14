@@ -233,7 +233,7 @@ public class ProfileController {
     public ResponseEntity<? extends BaseResponseBody> changeMaskBackground(
             @PathVariable("user_id") Long id, @RequestBody @ApiParam(value = "마스크 배경 변경", required = true) ProfileModifyMaskPostReq maskBack) {
 
-        profileService.modifyMask(id, maskBack.getMask_id());
+        profileService.modifyMaskBack(id, maskBack.getMask_id());
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
