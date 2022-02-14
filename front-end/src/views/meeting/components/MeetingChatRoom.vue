@@ -4,10 +4,21 @@
       <div class="title">Chat</div>
     </div>
     <ul class="messages" id="mymsg">
-      <li class="message" v-for="(msg, index) in state.messages" :key="index">
+      <li
+        class="message"
+        v-for="(msg, index) in state.messages"
+        :key="index"
+        :style="
+          msg.from == state.userInfo.nickname ? 'float:right;' : 'float:left;'
+        "
+      >
         <div class="text_wrapper">
-          <div class="text">{{ msg.text }}</div>
-          <div class="from">FROM.{{ msg.from }}</div>
+          <div class="text">
+            {{ msg.text }}
+          </div>
+          <div class="from">
+            <!-- FROM.{{ msg.from }} {{ state.userInfo.nickname }} -->
+          </div>
         </div>
       </li>
     </ul>
@@ -28,29 +39,33 @@
 </template>
 
 <script>
-import { reactive } from "@vue/reactivity";
+import { computed, reactive } from "@vue/reactivity";
+import { useStore } from "vuex";
+
 export default {
   name: "MeetingChatRoom",
   props: {
     session: Object,
   },
   setup(props) {
+    const store = useStore();
     const state = reactive({
       message: "",
       messages: [],
+      userInfo: computed(() => store.getters["root/userInfo"]),
     });
 
-    props.session.on("signal:chat", (event) => {
+    props.session.on("signal:chat", async (event) => {
+      const objMessage = document.getElementById("mymsg");
       console.log(event.data);
       console.log(JSON.parse(event.from.data.split("%/%")[0]).clientData);
       console.log(event.type);
-      state.messages.push({
+      await state.messages.push({
         text: event.data,
         from: JSON.parse(event.from.data.split("%/%")[0]).clientData,
       });
-      const obj = document.getElementById("mymsg");
-      console.log(obj);
-      obj.scrollTop = obj.scrollHeight;
+
+      objMessage.scrollTop = objMessage.scrollHeight;
     });
 
     const sendMessage = function () {
@@ -74,7 +89,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 * {
   box-sizing: border-box;
 }
@@ -84,15 +99,23 @@ body {
   font-family: "Calibri", "Roboto", sans-serif;
 }
 
+ul {
+  list-style: none;
+}
+ul li {
+  display: inline;
+  margin-left: 10px;
+}
+
 .chat_window {
   /* position: absolute; */
   width: calc(100% - 10px);
   max-width: 800px;
-  height: 500px;
+  height: 600px;
   border-radius: 10px;
   background-color: #fff;
-  /* left: 50%;
-  top: 50%; */
+  left: 50%;
+  top: 50%;
   transform: translateX(-1%) translateY(-1%);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
   background-color: #f8f8f8;
@@ -118,12 +141,12 @@ body {
   list-style: none;
   padding: 20px 10px 0 10px;
   padding-top: 10px;
-  /* margin: 0; */
-  height: 405px;
+  margin: 0;
+  height: 503px;
   overflow-y: scroll;
 }
 .messages .message {
-  /* clear: both; */
+  clear: both;
   overflow: hidden;
   margin-bottom: 5px;
   transition: all 0.5s linear;
