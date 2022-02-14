@@ -2,10 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.*;
 import com.ssafy.api.response.*;
-import com.ssafy.api.service.ConsultantService;
-import com.ssafy.api.service.MeetingHistoryService;
-import com.ssafy.api.service.ProfileService;
-import com.ssafy.api.service.UserService;
+import com.ssafy.api.service.*;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.ProjectDirectoryPathUtil;
 import com.ssafy.db.entity.*;
@@ -55,6 +52,10 @@ public class ProfileController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    S3FileUploadService s3FileUploadService;
+
 
     @Autowired
     MyConsultantRepositorySupport myConsultantRepositorySupport;
