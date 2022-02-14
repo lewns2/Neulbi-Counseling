@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Advice History</h3>
+    <h3 style="text-align: left;">고민상담 기록</h3>
     <br>
     <div class="row d-flex justify-content-start ms-3">
     <div v-for="(advice, index) in state.profileHistoryAdvice" :key="index" class="col-4">
@@ -11,7 +11,7 @@
             <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
             <img class="card__thumb" :src="require('@/assets/mask/mask'+advice.userMaskId+'.png')" alt="" />
             <div class="card__header-text">
-              <h3 class="card__title">{{ advice.nickname }}</h3>            
+              <h3 class="card__title">상담가 : {{ advice.nickname }}</h3> 
               <span class="card__status">주제: {{ state.topicCategoryName[advice.topicCategoryId] }}</span>
             </div>
           </div>
@@ -112,7 +112,18 @@ export default {
       })
     }
 
-    return { state, onMounted, checkAdvicePage }
+    const clickCreateChatRoom = async function (consultant_id) {
+      const body = { userId: state.userInfo.id, consultantId: consultant_id }
+      await store.dispatch("root/adviceCreateChatRoom", body)
+      await router.push({
+        name: "ChatRoom",
+        params: {
+          user_id: props.userInfo.id,
+        }
+      })
+    }
+
+    return { state, onMounted, checkAdvicePage, clickCreateChatRoom }
   }
 }
 </script>
@@ -315,7 +326,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginateadv.right {
-  left: 63%;
+  left: 64%;
 }
 .paginateadv.right i {
   transform-origin: 100% 50%;

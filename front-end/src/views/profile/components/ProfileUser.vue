@@ -53,16 +53,16 @@
             </div>
             <div class="modal-body">
               <form>
-                <div class="mb-3 row d-flex">
-                  <img src="@/assets/mask/mask1.png" alt="" @click="clickSelectMask(1)" class="col-4">
-                  <img src="@/assets/mask/mask2.png" alt="" @click="clickSelectMask(2)" class="col-4">
-                  <img src="@/assets/mask/mask3.png" alt="" @click="clickSelectMask(3)" class="col-4">
-                  <img src="@/assets/mask/mask4.png" alt="" @click="clickSelectMask(4)" class="col-4">
-                  <img src="@/assets/mask/mask5.png" alt="" @click="clickSelectMask(5)" class="col-4">
-                  <img src="@/assets/mask/mask6.png" alt="" @click="clickSelectMask(6)" class="col-4">
-                  <img src="@/assets/mask/mask7.png" alt="" @click="clickSelectMask(7)" class="col-4">
-                  <img src="@/assets/mask/mask8.png" alt="" @click="clickSelectMask(8)" class="col-4">
-                  <img src="@/assets/mask/mask9.png" alt="" @click="clickSelectMask(9)" class="col-4">
+                <div class="modalmask mb-3 row d-flex">
+                  <img src="@/assets/mask/mask1.png" @click="clickSelectMask(1, $event)" class="col-4" id="mask-1">
+                  <img src="@/assets/mask/mask2.png" @click="clickSelectMask(2, $event)" class="col-4" id="mask-2">
+                  <img src="@/assets/mask/mask3.png" @click="clickSelectMask(3, $event)" class="col-4" id="mask-3">
+                  <img src="@/assets/mask/mask4.png" @click="clickSelectMask(4, $event)" class="col-4" id="mask-4">
+                  <img src="@/assets/mask/mask5.png" @click="clickSelectMask(5, $event)" class="col-4" id="mask-5">
+                  <img src="@/assets/mask/mask6.png" @click="clickSelectMask(6, $event)" class="col-4" id="mask-6">
+                  <img src="@/assets/mask/mask7.png" @click="clickSelectMask(7, $event)" class="col-4" id="mask-7">
+                  <img src="@/assets/mask/mask8.png" @click="clickSelectMask(8, $event)" class="col-4" id="mask-8">
+                  <img src="@/assets/mask/mask9.png" @click="clickSelectMask(9, $event)" class="col-4" id="mask-9">
                 </div>
               </form>
             </div>
@@ -84,11 +84,11 @@
             </div>
             <div class="modal-body">
               <form>
-                <div class="mb-3 row d-flex">
-                  <img src="@/assets/back/back1.png" alt="" @click="clickSelectBack(1)" class="col-6 mb-3">
-                  <img src="@/assets/back/back2.png" alt="" @click="clickSelectBack(2)" class="col-6 mb-3">
-                  <img src="@/assets/back/back3.png" alt="" @click="clickSelectBack(3)" class="col-6">
-                  <img src="@/assets/back/back4.png" alt="" @click="clickSelectBack(4)" class="col-6">
+                <div class="modalback mb-3 row d-flex">
+                  <img src="@/assets/back/back1.png" alt="" @click="clickSelectBack(1, $event)" class="col-6 mb-3" id="back-1">
+                  <img src="@/assets/back/back2.png" alt="" @click="clickSelectBack(2, $event)" class="col-6 mb-3" id="back-2">
+                  <img src="@/assets/back/back3.png" alt="" @click="clickSelectBack(3, $event)" class="col-6" id="back-3">
+                  <img src="@/assets/back/back4.png" alt="" @click="clickSelectBack(4, $event)" class="col-6" id="back-4">
                 </div>
               </form>
             </div>
@@ -211,12 +211,31 @@ export default {
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
-    const clickSelectMask = async function (event) {
-      mask.maskId = event
+    const clickSelectMask = async function (num, event) {
+      mask.maskId = num
+      let targetId = event.currentTarget.id
+      const topic_tag = document.getElementById(targetId)
+      document.getElementById('mask-1').setAttribute('data-state', '')
+      document.getElementById('mask-2').setAttribute('data-state', '')
+      document.getElementById('mask-3').setAttribute('data-state', '')
+      document.getElementById('mask-4').setAttribute('data-state', '')
+      document.getElementById('mask-5').setAttribute('data-state', '')
+      document.getElementById('mask-6').setAttribute('data-state', '')
+      document.getElementById('mask-7').setAttribute('data-state', '')
+      document.getElementById('mask-8').setAttribute('data-state', '')
+      document.getElementById('mask-9').setAttribute('data-state', '')
+      topic_tag.setAttribute('data-state', 'active')
     }
 
-    const clickSelectBack = async function (event) {
-      mask.backId = event
+    const clickSelectBack = async function (num, event) {
+      mask.backId = num
+      let targetId = event.currentTarget.id
+      const topic_tag = document.getElementById(targetId)
+      document.getElementById('back-1').setAttribute('data-state', '')
+      document.getElementById('back-2').setAttribute('data-state', '')
+      document.getElementById('back-3').setAttribute('data-state', '')
+      document.getElementById('back-4').setAttribute('data-state', '')
+      topic_tag.setAttribute('data-state', 'active')
     }
 
     const clickmodifyMask = async function () {
@@ -271,6 +290,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.modalmask img[data-state=active] {
+  // border: 4px solid green;
+  background: grey;
+}
+
+.modalback img[data-state=active] {
+  border: 10px solid grey;
+  background: grey;
+}
+
 .searchBox {
   position: relative;
   // transform:  translate(-50%,50%);

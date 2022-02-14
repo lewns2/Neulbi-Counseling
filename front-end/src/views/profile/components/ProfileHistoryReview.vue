@@ -1,7 +1,6 @@
 <template>
   <div>
-    <br>
-    <h3>Received Review</h3>
+    <h3 style="text-align: left">내가 받은 리뷰</h3>
     <br>
     <div class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(receivedReview, idx) in state.profileHistoryReceivedReview" :key="idx">
@@ -21,7 +20,7 @@
     <br>
     <hr>
     <br>
-    <h3>Written Review</h3>
+    <h3 style="text-align: left;">내가 적은 리뷰</h3>
     <br>
     <div class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(writtenReview, idx) in state.profileHistoryWrittenReview" :key="idx">
@@ -339,7 +338,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginaterec.right {
-  left: 63%;
+  left: 64%;
 }
 .paginaterec.right i {
   transform-origin: 100% 50%;
@@ -437,7 +436,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatewri.right {
-  left: 63%;
+  left: 64%;
 }
 .paginatewri.right i {
   transform-origin: 100% 50%;

@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h1>Meeting History</h1>
     <br>
-    <h3>Confession History</h3><br>
+    <h3 style="text-align: left;">고해성사 기록</h3><br>
     <div class="row d-flex justify-content-start ms-3">
       <div v-for="(confession, index) in state.profileHistoryConfession" :key="index" class="col-4">
         <div class="card">
@@ -12,7 +11,7 @@
               <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
               <img class="card__thumb" :src="require('@/assets/mask/mask'+confession.userMaskId+'.png')" alt="" />
               <div class="card__header-text">
-                <h3 class="card__title">{{ confession.nickname }}</h3>            
+                <h3 class="card__title">방장 : {{ confession.nickname }}</h3>            
                 <span class="card__status">주제: {{ state.topicCategoryName[confession.topicCategoryId] }}</span>
               </div>
             </div>
@@ -311,7 +310,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 63%;
+  left: 64%;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
