@@ -95,9 +95,16 @@
           class="jumbotron vertical-center"
           style="padding-top: 50px"
         >
-          <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
-            {{ data.adviceMeetingInfo.ownerId }}님의 미팅룸
-          </h1>
+          <div class="d-flex" style="border-bottom: 3px solid #a6c0fe">
+            <i class="fas fa-quote-left" style="font-size: 20px"></i>
+            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+              {{ data.adviceMeetingInfo.ownerId }}님의 미팅룸
+            </h1>
+            <i class="fas fa-quote-right" style="font-size: 20px"></i>
+          </div>
+
+          <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
+          <br />
           <div
             class="form-group"
             style="color: #333333; font-family: Century Gothic, sans-serif"
@@ -212,7 +219,7 @@
                 </div>
               </div>
             </div>
-            <div id="chatroom" class="col-md-3" style="display: none">
+            <div id="chatroom" class="col-md-4" style="display: none">
               <meeting-chat-room :session="state.session"></meeting-chat-room>
             </div>
           </div>
@@ -221,7 +228,74 @@
         <!-- 채팅 -->
 
         <footer id="session-footer" class="container">
-          <i @click="chatroomShow" class="fas fa-comment-alt"></i>
+          <div class="habit habit4" @click="chatroomShow">
+            <div class="icon communicate-collaborate">
+              <svg
+                version="1.1"
+                id="communicate-collaborate"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 75 75"
+                enable-background="new 0 0 75 75"
+                xml:space="preserve"
+              >
+                <path
+                  id="orange-chat"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  fill="#F68832"
+                  d="M59.77,17H29.23C27.45,17,26,18.45,26,20.23
+	v18.53c0,1.79,1.45,3.23,3.23,3.23h19.5l5.38,6.23c0.65,0.76,1.89,0.29,1.89-0.7V42h3.77c1.79,0,3.23-1.45,3.23-3.23V20.23
+	C63,18.45,61.55,17,59.77,17z"
+                />
+                <g id="yellow-chat">
+                  <path
+                    id="yellow"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    fill="#F7BE07"
+                    d="M46.77,26H16.23C14.45,26,13,27.45,13,29.23v18.53
+		c0,1.79,1.45,3.23,3.23,3.23H21v5.58c0,0.98,1.21,1.45,1.87,0.73L28.66,51h18.1c1.79,0,3.23-1.45,3.23-3.23V29.23
+		C50,27.45,48.55,26,46.77,26z"
+                  />
+                  <g id="circles">
+                    <circle
+                      id="circ1"
+                      opacity="0"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      fill="#FFFFFF"
+                      cx="23"
+                      cy="38.65"
+                      r="2.74"
+                    />
+                    <circle
+                      id="circ2"
+                      opacity="0"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      fill="#FFFFFF"
+                      cx="31.5"
+                      cy="38.65"
+                      r="2.74"
+                    />
+                    <circle
+                      id="circ3"
+                      opacity="0"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      fill="#FFFFFF"
+                      cx="40"
+                      cy="38.65"
+                      r="2.74"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
@@ -547,7 +621,7 @@ export default {
         document.getElementById("chatroom").style.display = "none";
         state.chatState = false;
       } else {
-        document.getElementById("stream").className = "col-md-9";
+        document.getElementById("stream").className = "col-md-8";
         document.getElementById("chatroom").style.display = "block";
         state.chatState = true;
       }
@@ -605,7 +679,86 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.icon {
+  width: 75px;
+  height: 75px;
+}
+
+.habit4:hover .communicate-collaborate #orange-chat {
+  /*   animation-play-state: running; */
+  animation: move-orange-chat 2s ease-in infinite forwards;
+  -webkit-animation: move-orange-chat 2s ease-in infinite forwards;
+  transform-origin: 50% 50%;
+  /*   transform-origin: 38px 39px;
+  -webkit-transform-origin: 38px 39px; */
+}
+
+.habit4:hover .communicate-collaborate #yellow-chat {
+  /*   animation-play-state: running; */
+  animation: move-yellow-chat 2s ease-in infinite forwards;
+  -webkit-animation: move-yellow-chat 2s ease-in infinite forwards;
+  transform-origin: 50% 50%;
+  /*   transform-origin: 38px 39px;
+  -webkit-transform-origin: 38px 39px; */
+}
+
+.habit4:hover .communicate-collaborate #circ1 {
+  animation: show-dots 2s ease infinite forwards;
+  -webkit-animation: show-dots 2s ease infinite forwards;
+}
+
+.habit4:hover .communicate-collaborate #circ2 {
+  animation: show-dots 2s 0.3s ease infinite forwards;
+  -webkit-animation: show-dots 2s 0.3s ease infinite forwards;
+}
+
+.habit4:hover .communicate-collaborate #circ3 {
+  animation: show-dots 2s 0.5s ease infinite forwards;
+  -webkit-animation: show-dots 2s 0.5s ease infinite forwards;
+}
+
+@keyframes move-yellow-chat {
+  0%,
+  20% {
+    -webkit-transform: rotate(0) translate(0);
+    transform: rotate(0) translate(0);
+  }
+
+  30%,
+  75% {
+    -webkit-transform: rotate(-7deg) translate(-3px, 2px);
+    transform: rotate(-7deg) translate(-3px, 2px);
+  }
+
+  85%,
+  100% {
+    -webkit-transform: rotate(0) translate(0);
+    transform: rotate(0) translate(0);
+  }
+}
+
+@keyframes show-dots {
+  0%,
+  20% {
+    opacity: 0;
+    transform: translate(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(0px, 1px);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(0px, -2px);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate(0);
+  }
+}
+
 #myVideo {
   background-color: #1d1e22;
   width: 600px;
@@ -633,10 +786,10 @@ ul li i {
 ul li i:hover {
   cursor: pointer;
 }
-footer i {
+footer .habit habit4 {
   font-size: 40px;
 }
-footer i:hover {
+footer .habit habit4:hover {
   cursor: pointer;
 }
 button {
@@ -691,7 +844,7 @@ nav i.fa:hover {
 
 #main-container {
   padding-bottom: 80px;
-  padding-top: 5%;
+  padding-top: 1%;
 }
 
 /*vertical-center {
@@ -724,16 +877,6 @@ input.btn {
 
 .btn {
   font-weight: bold !important;
-}
-
-.btn-success {
-  background-color: #06d362 !important;
-  border-color: #06d362;
-}
-
-.btn-success:hover {
-  background-color: #1abd61 !important;
-  border-color: #1abd61;
 }
 
 .openvidu-logo {
@@ -815,6 +958,7 @@ a:hover .demo-logo {
   width: 47%;
   cursor: pointer;
   margin-left: 25px;
+  padding-top: 5%;
 }
 
 #video-container video + div {
@@ -843,7 +987,6 @@ video {
 
 #session img {
   width: 100%;
-  height: 150%;
   display: inline-block;
   object-fit: contain;
   vertical-align: baseline;
@@ -887,7 +1030,7 @@ video {
 #session-footer {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 3%;
+  margin-bottom: 2%;
 }
 
 @media only screen and (max-height: 767px) and (orientation: landscape) {
@@ -898,5 +1041,24 @@ video {
   #join-dialog {
     max-width: inherit;
   }
+}
+
+.front__text-hover {
+  position: relative;
+  /* top: 10px; */
+  font-size: 15px;
+  backface-visibility: hidden;
+
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+
+  border: 2px solid;
+  padding: 8px 15px;
+  margin-top: 0px;
+  border-radius: 30px;
+
+  background: #454242;
+  color: #fff;
 }
 </style>
