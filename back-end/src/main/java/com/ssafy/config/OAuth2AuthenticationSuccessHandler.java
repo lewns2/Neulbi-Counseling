@@ -51,7 +51,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private String makeRedirectUrl(String token) {
         return UriComponentsBuilder.fromUriString("https://i6e202.p.ssafy.io:443/oauth/success")
-                .port(443)
                 .queryParam("accessToken", token)
                 .build().toUriString();
     }

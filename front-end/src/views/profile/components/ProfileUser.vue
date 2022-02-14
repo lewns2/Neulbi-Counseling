@@ -128,7 +128,7 @@ export default {
       nicknameValid: false,
       maskId : null,
       profileImg : null,
-      profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
+      profileImgThumbnail : `https://e202.s3.ap-northeast-2.amazonaws.com/${props.userInfo.profileImg}`,
 			profileNicknameBool: computed(() => store.getters['root/profileNicknameBool']),
       password: null,
       newPassword: null,
