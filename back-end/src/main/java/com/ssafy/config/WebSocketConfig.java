@@ -21,6 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat")
                 .setAllowedOrigins("https://i6e202.p.ssafy.io:8443")
+                .setAllowedOrigins("https://i6e202.p.ssafy.io:443")
                 .setAllowedOrigins("http://localhost:8083")
                 .withSockJS();
     }
