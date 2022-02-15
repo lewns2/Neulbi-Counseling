@@ -142,6 +142,7 @@ export function CONFESSION_CREATE_MEETING_INFO(state, data) {
   state.confessionMeetingInfo.push({
     meetingId: data.meeting.id,
     ownerId: data.ownerId,
+    ownerNickname: data.ownerNickname,
     topicCategoryId: data.topicCategoryId,
     title: data.meeting.title,
     description: data.meeting.description,
@@ -241,6 +242,7 @@ export function ADVICE_CREATE_MEETING_INFO(state, data) {
   state.adviceMeetingInfo.push({
     meetingId: data.meeting.id,
     ownerId: data.ownerId,
+    ownerNickname: data.ownerNickname,
     topicCategoryId: data.topicCategoryId,
     title: data.meeting.title,
     description: data.meeting.description,

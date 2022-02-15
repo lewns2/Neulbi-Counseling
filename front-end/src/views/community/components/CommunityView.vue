@@ -16,16 +16,16 @@
       <!-- 검색부분 -->
       <span class="dropdown col-lg-3 row text-center op-7">
       <!-- 카테고리별 정렬 -->
-        <div class="col px-1">
+        <div class="col px-1" style="cursor: pointer;">
           <a @click="clickCommunityList">최신순</a>  
         </div>
-        <div class="col px-1" v-for="(type, idx) in (['공감순', '조회순'])" :key="idx">
+        <div class="col px-1" v-for="(type, idx) in (['공감순', '조회순'])" :key="idx" style="cursor: pointer;">
           <!-- <span v-for="(type, idx) in (['공감순', '조회순'])" :key="idx"> -->
             <a @click="clickSelectList(idx)">{{ type }}</a>
           <!-- </span>   -->
         </div>
-        <div class="col px-1" @click="goToCreateCommunity">
-          등록&nbsp; <a><i class="ion-edit"></i></a>
+        <div class="col px-1" @click="goToCreateCommunity" style="cursor: pointer;">
+          <a>등록&nbsp; <i class="ion-edit"></i></a>
         </div>
       </span>
       
@@ -75,7 +75,7 @@
         <div class="col-md-2 mb-3 mb-sm-0">
           <h6>{{community.id}}</h6>
         </div>
-        <div class="col-md-4 mb-3 mb-sm-0" @click="goToCommunityDetail(community.id)">
+        <div class="col-md-4 mb-3 mb-sm-0" @click="goToCommunityDetail(community.id)" style="cursor: pointer;">
           <h6>
             {{community.title}}
           </h6>

@@ -78,10 +78,10 @@ export default {
       message: "",
     })
     
-    const connect = function () {
+    const connect = async function () {
       let socket = new SockJS("http://localhost:8080/chat");
       state.stompClient = Stomp.over(socket);
-      state.stompClient.connect({},
+      await state.stompClient.connect({},
         frame => {
           state.socketConnected = TextTrackCue
           state.stompClient.subscribe("/send", res => {

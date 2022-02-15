@@ -26,7 +26,7 @@
     </div>
     <br>
     <div class="d-flex justify-content-start">
-      <label class="front__text-hover" for="input-file">업로드</label>
+      <label class="front__text-hover" for="input-file" style="cursor: pointer;">업로드</label>
       <input @change="changeImgFile" type="file" id="input-file" style="display: none;"><!-- C -->
       <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickmodifyProfileImg">변경하기</button>
     </div>
