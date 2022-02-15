@@ -49,19 +49,8 @@ export default {
   box-sizing: border-box;
 }
 
-// :root {
-//   —white: #fff;
-//   —black: #000;
-//   —bg: #f8f8f8;
-//   —grey: #999;
-//   —dark: #1a1a1a;
-//   —light: #e6e6e6;
-//   —wrapper: 1000px;
-//   —blue: #00b0ff;
-// }
-
 .wrapper {
-  position: relative;
+  position: absolute;
   left: 50%;
   width: 100%;
   height: 800px;
@@ -70,8 +59,8 @@ export default {
 
 .container {
   position: relative;
-  top: 60%;
-  left: 40%;
+  margin-top: 400pt;
+  margin-left: 50%;
   width: 80%;
   height: 100%;
   background-color: var(#fff);

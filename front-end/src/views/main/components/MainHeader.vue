@@ -4,13 +4,13 @@
       <span class="col-1">
       </span>
       <span class="col-1" style="text-align: left;">
-        <router-link :to="{ name: 'Home' }" style="font-size: 25px;">Home</router-link>
+        <router-link :to="{ name: 'Home' }" style="font-size: 25px;">홈</router-link>
       </span>
       <span class="col-4 d-flex justify-content-around">
-        <router-link :to="{ name: 'Confession' }" style="font-size: 25px;">Confession</router-link>
-        <router-link :to="{ name: 'Advice' }" style="font-size: 25px;">Advice</router-link>
-        <router-link :to="{ name: 'Community' }" style="font-size: 25px;">Community</router-link>
-        <p @click="goToChatRoom" style="font-size: 25px;">ChatRoom</p>
+        <router-link :to="{ name: 'Confession' }" style="font-size: 25px;">고해성사</router-link>
+        <router-link :to="{ name: 'Advice' }" style="font-size: 25px;">고민상담</router-link>
+        <router-link :to="{ name: 'Community' }" style="font-size: 25px;">게시판</router-link>
+        <p @click="goToChatRoom" style="font-size: 25px;">채팅방</p>
       </span>
       <span class="col-1">
       </span>

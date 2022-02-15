@@ -72,7 +72,7 @@
                 </div>
                 <div class="card__description" style="text-align: center;">
                   <span style="font-weight: bold;">{{ confessionMeeting.description }}</span><br><hr>
-                  <span>{{ confessionMeeting.currJoinParticipants }} / {{ confessionMeeting.participants }}</span><br><br>
+                  <span>{{ confessionMeeting.currJoinParticipants+1 }} / {{ confessionMeeting.participants }}</span><br><br>
                   <button
                     type="button"
                     class="front__text-hover"
@@ -813,7 +813,7 @@ button {
   list-style: none;
   list-style-type: none;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   visibility: hidden;
   z-index: -1;
   opacity: 1;
@@ -835,7 +835,7 @@ button {
   display: none;
 }
 .dropdown input:checked ~ .dropdown__items {
-  top: calc(100% + 25px);
+  top: calc(100% + 35px);
   visibility: visible;
   opacity: 1;
 }
