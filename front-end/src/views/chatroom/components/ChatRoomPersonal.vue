@@ -115,7 +115,6 @@ export default {
         };
         await state.stompClient.send("/receive", JSON.stringify(body), {});
         await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })
-
       }
     }
 

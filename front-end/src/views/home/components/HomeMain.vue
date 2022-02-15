@@ -1,9 +1,6 @@
 <template>
   <div class="homemain1">
   </div>
-  <div class="homemain2 py-4 mb-5" v-if="state.userInfo">
-    <button type="button" class="btn btn-light btn-lg" @click="clickProfile">시작하기</button>
-  </div>
 </template>
 
 <script>
@@ -47,9 +44,9 @@ h1 {
 
 .homemain1 {
   /* width: 100%; */
-  height: 100%;
+  height: 88%;
 
-  background-image: url("캡처-removebg-preview.png");
+  background-image: url("main.png");
   background-color: #c2d6f8;
   /* width: 50vw; */
   background-position: center;
@@ -57,7 +54,4 @@ h1 {
   background-size: 100% 100%;
 }
 
-.homemain2 {
-  background-color: #c2d6f8;
-}
 </style>

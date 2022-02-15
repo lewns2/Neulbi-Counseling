@@ -46,7 +46,6 @@ export default {
       await store.dispatch("root/chatRoomGetDetail",
         { user_id: state.userInfo.id, chatRoom_id: chatRoom_id }
       )
-      await store.dispatch('root/chatRoomGetList', { userId: state.userInfo.id })
     }
 
     return { state, chatRoomGetDetail }

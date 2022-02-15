@@ -56,7 +56,7 @@ public class ConfessionController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = MeetingListRes.class)
     })
-    public ResponseEntity<Page<ConfessionRes>> findConfession(@PageableDefault(page = 0, size = 6) Pageable pageable) {
+    public ResponseEntity<Page<ConfessionRes>> findConfession(@PageableDefault(page = 0, size = 8) Pageable pageable) {
 
         Page<Meeting> meetings = meetingService.getAllMeetings(pageable);
 
@@ -68,7 +68,7 @@ public class ConfessionController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = MeetingListRes.class)
     })
-    public ResponseEntity<Page<ConfessionRes>> findTopicCategoryConfession(@PageableDefault(page = 0, size = 6) Pageable pageable
+    public ResponseEntity<Page<ConfessionRes>> findTopicCategoryConfession(@PageableDefault(page = 0, size = 8) Pageable pageable
                                                                             , @PathVariable Long topicCategoryId) {
 
         Page<Meeting> meetings = meetingService.getMeetingsByTopicCategory(pageable, topicCategoryId);
@@ -81,7 +81,7 @@ public class ConfessionController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = MeetingListRes.class)
     })
-    public ResponseEntity<Page<ConfessionRes>> findSearchConfession(@PageableDefault(page = 0, size = 6) Pageable pageable
+    public ResponseEntity<Page<ConfessionRes>> findSearchConfession(@PageableDefault(page = 0, size = 8) Pageable pageable
                                                                     , @PathVariable String key
                                                                     , @PathVariable String value) {
 

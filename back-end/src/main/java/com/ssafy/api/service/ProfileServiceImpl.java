@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.PageImpl;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -121,19 +122,17 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
-	public List<ConsultantProfile> getMyConsultantList(Long userId) {
+	public Page<ConsultantProfile> getMyConsultantList(Long userId, Pageable pageable) {
 
-		List<MyConsultant> myConsultantList = myConsultantRepositorySupport.findMyConsultantListByUserId(userId);
+		Page<MyConsultant> myConsultantList = myConsultantRepositorySupport.findMyConsultantListByUserId(userId, pageable);
 
-		List<ConsultantProfile> consultantProfileList = new ArrayList<>();
+		List<ConsultantProfile> temp = new ArrayList<>();
 
-		for(MyConsultant myConsultant : myConsultantList) {
-			Long consultantId = myConsultant.getConsultant().getId();
-			System.out.println("이번 녀석의 UserID는"+consultantId);
-			consultantProfileList.add(consultantRepositorySupport.findByUserIdOne(consultantId));
+		for(MyConsultant myConsultant : myConsultantList.getContent()) {
+			temp.add(consultantRepositorySupport.findByUserIdOne(myConsultant.getUser().getId()));
 		}
 
-		return consultantProfileList;
+		return  new PageImpl<ConsultantProfile>(temp,myConsultantList.getPageable(),myConsultantList.getTotalElements());
 	}
 
 	@Override

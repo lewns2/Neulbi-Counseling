@@ -1,85 +1,52 @@
 <template>
   <div>
-    <h3>찜한 상담가</h3>
+    <h3 style="text-align: left;">찜한 상담가</h3>
     <br>
-    <div v-if="(state.profileConsultantLikeActive)">
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="card">
-              <img :src="'/profile/image/'+state.profileConsultantLikeActive.id" class="card__image" alt="" />
-              <div class="card__overlay">
-                <div class="card__header">
-                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-                  <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-                  <div class="card__header-text">
-                    <h3 class="card__title">{{ state.profileConsultantLikeActive.nickname }}</h3>            
-                    <span class="card__status">주제: {{ state.profileConsultantLikeActive.topicCategoryName }}</span>
-                  </div>
+    <div v-if="(state.profileConsultantLike)">
+      <div class="row d-flex justify-content-start">
+        <div v-for="(consultant, index) in state.profileConsultantLike" :key="index" class="col-3 pe-5">
+          <div class="card">
+            <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+consultant.profileImg" class="card__image">
+            <div class="card__overlay">
+              <div class="card__header">
+                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                <img class="card__thumb" :src="require('@/assets/mask/mask'+consultant.maskId+'.png')" alt="" />
+                <div class="card__header-text">
+                  <h3 class="card__title">상담가 : {{ consultant.nickname }}</h3> 
+                  <span class="card__status">주제: {{ consultant.topicCategoryName }}</span>
                 </div>
-                <p class="card__description">
-                  포인트 : {{ state.profileConsultantLikeActive.pointTot }}<br>
-                  상담횟수 : {{ state.profileConsultantLikeActive.consultingCnt }}<br>
-                  한 줄 소개 : <br>
-                  {{ state.profileConsultantLikeActive.description }} <br><br>
-                  <button
-                    type="button"
-                    class="front__text-hover"
-                    @click="clickCreateChatRoom(state.profileConsultantLikeActive.id)"
-                  >
-                    1:1 채팅하기
-                  </button>
-                </p>
               </div>
-            </div>   
-          </div>
-          <div class="carousel-item" v-for="(consultant, index) in state.profileConsultantLike" :key="index">
-            <div class="card">
-              <img :src="'/profile/image/'+consultant.id" class="card__image" alt="" />
-              <div class="card__overlay">
-                <div class="card__header">
-                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-                  <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-                  <div class="card__header-text">
-                    <h3 class="card__title">{{ consultant.nickname }}</h3>            
-                    <span class="card__status">주제: {{ consultant.topicCategoryName }}</span>
-                  </div>
-                </div>
-                <p class="card__description">
-                  포인트 : {{ consultant.pointTot }}<br>
-                  상담횟수 : {{ consultant.consultingCnt }}<br>
-                  한 줄 소개 : <br>
-                  {{ consultant.description }} <br><br>
-                  <button
-                    type="button"
-                    class="front__text-hover"
-                    @click="clickCreateChatRoom(consultant.id)"
-                  >
-                    1:1 채팅하기
-                  </button>
-                </p>
+              <p class="card__description">
+                {{ consultant.description }}
+                상담횟수 : {{ consultant.consultingCnt }}
+                <button
+                  type="button"
+                  class="front__text-hover"
+                  @click="clickCreateChatRoom(consultant.id)"
+                >
+                  1:1 채팅하기
+                </button>
+              </p>
 
-              </div>
-            </div>   
-          </div>
+            </div>
+          </div>      
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: #c2d6f8;"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true" id="next-button" style="background-color: #c2d6f8;"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+        <br>
+        <div class="d-flex justify-content-center mt-5 pt-3 mb-3">
+          <button id="prev" class="paginate left" @click="checkAdvicePage($event)"><i></i><i></i></button>
+          <div class="counter">{{state.profilepage}}페이지 / {{ state.profileConsultantLastPageNum }}페이지 </div>
+          <button id="next" class="paginate right" @click="checkAdvicePage($event)"><i></i><i></i></button>
+        </div>
       </div>
     </div>
     <div v-else>없습니다.</div>
   </div>
+  <br><br><br>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 
 export default {
   name: "ProfileConsultantList",
@@ -90,12 +57,67 @@ export default {
     const store = useStore()
     const state = reactive ({
       userInfo: props.userInfo,
-      profileConsultantLikeActive: computed(() => store.getters['root/profileConsultantLikeActive']),
       profileConsultantLike: computed(() => store.getters['root/profileConsultantLike']),
+      profileConsultantLastPageNum: computed(() => store.getters['root/profileConsultantLastPageNum']),
+      topicCategoryName: [
+        '학업', '가정', '취업', '진로', '연애', '결혼',
+      ],
+      profilepage: 1,
     })
+
+    onMounted(async () => {
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
+      await pr.setAttribute('data-state', state.profilepage===1 ? 'disabled' : '')
+      if (state.profilepage===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      await pl.setAttribute('data-state', state.profilepage===state.profileConsultantLastPageNum ? 'disabled' : '')
+      if (state.profilepage === state.profileConsultantLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+    })
+
+    const checkProfilePage = async function(event) {
+      let targetId = event.currentTarget.id;
+      if(targetId == "prev") {
+        state.profilepage -= 1;
+      }
+      else if(targetId == "next") {
+        state.profilepage += 1;
+      }
+
+      const pr = document.querySelector('.paginate.left')
+      const pl = document.querySelector('.paginate.right')
+
+      pr.setAttribute('data-state', state.profilepage===1 ? 'disabled' : '')
+      if (state.profilepage===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.profilepage===state.profileConsultantLastPageNum ? 'disabled' : '')
+      if (state.profilepage === state.profileConsultantLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+
+      await store.dispatch("root/profileGetConsultantLikePageSearch", {
+        user_id: state.userInfo.id,
+        page: state.profilepage,
+        size: 4,
+      })
+    }
 
     return { 
       state,
+      onMounted,
+      checkProfilePage,
     }
   }
 }
@@ -167,9 +189,8 @@ input:checked + .hearth {
 .card {
   position: relative;
   display: flex;
-  width: 50%;
-  height: 40vh;
-  left: 26%;
+  width: 100%;
+  height: 30vh;
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -284,5 +305,125 @@ input:checked + .hearth {
     background: #bbd2f9;
     color: #fff;
   }
+}
+
+// pagination
+
+button {
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.paginate {
+  position: relative;
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  position: absolute;
+  margin-top: -25px;
+  -webkit-filter: drop-shadow(0 2px 0px rgba(0, 0, 0, 0.2));
+}
+.paginate i {
+  position: absolute;
+  left: 0;
+  width: 60%;
+  height: 5px;
+  border-radius: 2.5px;
+  background: #708bef;
+  transition: all 0.15s ease;
+}
+.paginate.left {
+  right: 63%;
+}
+.paginate.left i {
+  transform-origin: 0% 50%;
+}
+.paginate.left i:first-child {
+  transform: translate(0, -1px) rotate(40deg);
+}
+.paginate.left i:last-child {
+  transform: translate(0, 1px) rotate(-40deg);
+}
+.paginate.left:hover i:first-child {
+  transform: translate(0, -1px) rotate(30deg);
+}
+.paginate.left:hover i:last-child {
+  transform: translate(0, 1px) rotate(-30deg);
+}
+.paginate.left:active i:first-child {
+  transform: translate(1px, -1px) rotate(25deg);
+}
+.paginate.left:active i:last-child {
+  transform: translate(1px, 1px) rotate(-25deg);
+}
+.paginate.left[data-state=disabled] i:first-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.left[data-state=disabled] i:last-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.left[data-state=disabled]:hover i:first-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.left[data-state=disabled]:hover i:last-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.right {
+  left: 48%;
+}
+.paginate.right i {
+  transform-origin: 100% 50%;
+}
+.paginate.right i:first-child {
+  transform: translate(0, 1px) rotate(40deg);
+}
+.paginate.right i:last-child {
+  transform: translate(0, -1px) rotate(-40deg);
+}
+.paginate.right:hover i:first-child {
+  transform: translate(0, 1px) rotate(30deg);
+}
+.paginate.right:hover i:last-child {
+  transform: translate(0, -1px) rotate(-30deg);
+}
+.paginate.right:active i:first-child {
+  transform: translate(1px, 1px) rotate(25deg);
+}
+.paginate.right:active i:last-child {
+  transform: translate(1px, -1px) rotate(-25deg);
+}
+.paginate.right[data-state=disabled] i:first-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.right[data-state=disabled] i:last-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.right[data-state=disabled]:hover i:first-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.right[data-state=disabled]:hover i:last-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate[data-state=disabled] {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.counter {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  margin-top: -15px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Helvetica, sans-serif;
+  text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
+  color: #708bef;
+  z-index: -1;
+  margin-right: 4%;
 }
 </style>

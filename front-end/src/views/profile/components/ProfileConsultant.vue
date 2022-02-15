@@ -1,58 +1,50 @@
 <template>
-  <div class="row" style="height: 80vh; width:100%; display: flex; align-content: center;">
-    <div class="col-5" style="border-right: 1px solid black;">
-      <h3 class="py-3" style="text-align: left;">상담가 프로필 변경</h3>
+  <div class="container">
+    <h3 class="py-3" style="text-align: left;">상담가 프로필 변경</h3>
       <!-- 선택하여 정수를 반환하도록 수정해야함 -->
-      <div>
-        <div class="pagination d-flex justify-content-start my-3 mx-2">
-          <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;">
-            <p>
-              학업
-            </p>
-          </div>
-          <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;">
-            <p>
-              가정
-            </p>
-          </div>
-          <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;">
-            <p>
-              취업
-            </p>
-          </div>
+    <div>
+      <div class="pagination d-flex justify-content-start my-3 mx-2">
+        <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;" class="me-2">
+          <p>
+            학업
+          </p>
         </div>
-        <div class="pagination my-3 mx-2 d-flex justify-content-start">
-          <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;">
-            <p>
-              진로
-            </p>
-          </div>
-          <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;">
-            <p>
-              연애
-            </p>
-          </div>
-          <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;">
-            <p>
-              결혼
-            </p>
-          </div>
+        <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;" class="mx-2">
+          <p>
+            가정
+          </p>
+        </div>
+        <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;" class="mx-2">
+          <p>
+            취업
+          </p>
+        </div>
+        <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;" class="mx-2">
+          <p>
+            진로
+          </p>
+        </div>
+        <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;" class="mx-2">
+          <p>
+            연애
+          </p>
+        </div>
+        <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;" class="mx-2">
+          <p>
+            결혼
+          </p>
         </div>
       </div>
-      <br>
-      <div class="d-flex justify-content-start my-3">
-        <div class="searchBox">
-          <input class="searchInput" type="text" placeholder="Description" v-model="consultant.description">
-        </div>
-      </div>
-      <br>
-      <button class="front__text-hover mt-3 mb-4 d-flex justify-content-start" @click="clickProfileModifyDescription">상담가 정보 변경</button>
-      </div>
-    <div class="col-1"></div>
-    <div class="col-6">
-      <profile-consultant-list :userInfo="state.userInfo">
-      </profile-consultant-list>
     </div>
+    <div class="d-flex justify-content-start py-3">
+      <div class="searchBox">
+        <input class="searchInput" type="text" placeholder="Description" v-model="consultant.description">
+      </div>
+      <button class="front__text-hover d-flex justify-content-start mx-3" @click="clickProfileModifyDescription">상담가 정보 변경</button>
+    </div>
+    <br><br><br><br>
+    <profile-consultant-list :userInfo="state.userInfo">
+    </profile-consultant-list>
   </div>
 </template>
 
@@ -171,7 +163,6 @@ export default {
 
 .front__text-hover {
   position: relative;
-  top: 10px;
   font-size: 15px;
   color: #bbd2f9;
   backface-visibility: hidden;
@@ -199,7 +190,7 @@ export default {
   margin: 0px 5px;
   background: #dde1e7;
   border-radius: 3px;
-  width: 20%;
+  width: 7%;
   box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
 }
 .pagination div p {
@@ -227,7 +218,7 @@ export default {
   // transform:  translate(-50%,50%);
   background: white;
   height: 10%;
-  width: 65%;
+  width: 30%;
   // right: 10%;
   border-radius: 40px;
   padding: 10px;

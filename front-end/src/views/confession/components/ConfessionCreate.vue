@@ -3,7 +3,7 @@
     <div class="inner-div">
       <div class="front__text">
         <div class="front">
-        <h1 class="py-3">방생성</h1>
+        <h3 class="py-3">방생성</h3>
         <div class="d-flex justify-content-center my-3">
           <div class="searchBox">
               <input class="searchInput" type="text" placeholder="Title" v-model="confessionChatRoom.title">
@@ -50,7 +50,7 @@
         <!-- 제한 인원 수 : 정수형 -->
         <div class="d-flex justify-content-center my-3">
           <div class="searchBox">
-              <input class="searchInput" type="text" placeholder="Participants" v-model="confessionChatRoom.participants">
+              <input class="searchInput" type="number" placeholder="Participants" v-model="confessionChatRoom.participants">
           </div>
         </div>
         <br>
@@ -142,7 +142,7 @@ export default {
 
 .outer-div,
 .inner-div {
-  max-width: 85%;
+  max-width: 75%;
   margin: 0 auto;
   position: relative;
 }
