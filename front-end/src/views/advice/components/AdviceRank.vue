@@ -3,7 +3,8 @@
     <article class="leaderboard">
       <header>
         <h1 class="leaderboard__title">
-          <span class="me-1 leaderboard__title--top">고민상담</span>
+          <span class="mb-2 leaderboard__title--top">고민상담</span>
+          <span class="mb-3 leaderboard__title--top">최고의 상담가</span>
           <span class="leaderboard__title--bottom">RankingBoard</span>
         </h1>
       </header>

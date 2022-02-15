@@ -25,8 +25,8 @@ export default {
   color: #2c3e50;
   height: auto;
   width: 100%;
-  padding-left: 10px;
-  margin-right: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 body {

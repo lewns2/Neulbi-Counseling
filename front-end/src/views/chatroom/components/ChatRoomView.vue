@@ -40,12 +40,13 @@ export default {
       chatRoomList: computed(() => props.chatRoomList),
       userInfo: store.getters['root/userInfo'],
     })
-    const chatRoomGetDetail = function (chatRoom_id, consultantNickName) {
+    const chatRoomGetDetail = async function (chatRoom_id, consultantNickName) {
       console.log(chatRoom_id)
       store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', consultantNickName)
-      store.dispatch("root/chatRoomGetDetail",
+      await store.dispatch("root/chatRoomGetDetail",
         { user_id: state.userInfo.id, chatRoom_id: chatRoom_id }
       )
+      await store.dispatch('root/chatRoomGetList', { userId: state.userInfo.id })
     }
 
     return { state, chatRoomGetDetail }

@@ -861,7 +861,7 @@ button {
   list-style-type: none;
   display: flex;
   visibility: hidden;
-  justify-content: space-between;
+  justify-content: space-evenly;
   z-index: -1;
   opacity: 1;
   transition: all 0.4s cubic-bezier(0.93, 0.88, 0.1, 0.8);
@@ -883,7 +883,7 @@ button {
 }
 
 .dropdown input:checked ~ .dropdown__items {
-  top: calc(100% + 25px);
+  top: calc(100% + 35px);
   visibility: visible;
   opacity: 1;
 }

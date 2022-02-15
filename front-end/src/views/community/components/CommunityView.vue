@@ -36,7 +36,7 @@
           {{ state.categoryselect }}
         </button>
 
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 12rem;">
           <li v-for="(category,idx) in state.categories" :key="idx" @click="clickSearchList(category)">{{ category.value }}</li>
         </ul>
       </span>
