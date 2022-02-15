@@ -102,5 +102,6 @@ a, p {
 
 a:hover, p:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 </style>

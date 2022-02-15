@@ -5,34 +5,34 @@
       <!-- 선택하여 정수를 반환하도록 수정해야함 -->
       <div>
         <div class="pagination d-flex justify-content-start my-3 mx-2">
-          <div id="topic_div_1" @click="clickSearchList(1, $event)">
+          <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;">
             <p>
               학업
             </p>
           </div>
-          <div id="topic_div_2" @click="clickSearchList(2, $event)">
+          <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;">
             <p>
               가정
             </p>
           </div>
-          <div id="topic_div_3" @click="clickSearchList(3, $event)">
+          <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;">
             <p>
               취업
             </p>
           </div>
         </div>
         <div class="pagination my-3 mx-2 d-flex justify-content-start">
-          <div id="topic_div_4" @click="clickSearchList(4, $event)">
+          <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;">
             <p>
               진로
             </p>
           </div>
-          <div id="topic_div_5" @click="clickSearchList(5, $event)">
+          <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;">
             <p>
               연애
             </p>
           </div>
-          <div id="topic_div_6" @click="clickSearchList(6, $event)">
+          <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;">
             <p>
               결혼
             </p>

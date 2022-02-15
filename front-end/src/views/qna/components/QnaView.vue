@@ -81,7 +81,7 @@
           </div>
           <div
             class="col-md-5 mb-3 mb-sm-0"
-            style="text-align: left"
+            style="text-align: left; cursor: pointer;"
             @click="showQnaAnswer(qna, idx)"
           >
             <h6>

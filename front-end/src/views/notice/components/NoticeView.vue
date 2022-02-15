@@ -60,7 +60,7 @@
         <div
           class="col-md-6 mb-3 mb-sm-0"
           @click="goToNoticeDetail(notice.noticeId)"
-          style="text-align: left"
+          style="text-align: left; cursor: pointer;"
         >
           <h6>
             {{ notice.title }}

@@ -2,10 +2,16 @@ import $axios from "axios";
 // import { useRouter } from 'vue-router'
 // import jwt_decode from "jwt-decode"
 
-export function mainSingUp({ state }, payload) {
+export async function mainSingUp({ state }, payload) {
   const url = "/user/signup";
   let body = payload;
-  $axios.post(url, body);
+  await $axios.post(url, body)
+    .then((res) => {
+      alert('회원가입에 성공했습니다.')
+    })
+    .catch((err) => {
+      console.log(err, '회원가입')
+    })
 }
 
 export async function mainUserInfoCheck({ commit }, payload) {
@@ -987,6 +993,7 @@ export async function chatRoomGetList({ state, commit, dispatch }, payload) {
   await $axios
     .get(url)
     .then((res) => {
+      console.log(res.data)
       commit("CHATROOM_GET_LIST", res.data);
       commit("CHATROOM_GET_DETAIL_ID", res.data[0].consultantNickName);
       dispatch("chatRoomGetDetail", {
