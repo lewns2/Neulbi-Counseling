@@ -1,6 +1,6 @@
 <template>
   <main-header></main-header>
-  <div class="container" style="width: 60%">
+  <div class="container">
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
@@ -195,5 +195,12 @@ export default {
 
 #leftalign {
   text-align: left;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    resize: none;
 }
 </style>

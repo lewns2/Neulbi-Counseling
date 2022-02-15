@@ -33,9 +33,9 @@
         </div>
         <br>
         <div class="d-flex justify-content-center mt-5 pt-3 mb-3">
-          <button id="prev" class="paginate left" @click="checkAdvicePage($event)"><i></i><i></i></button>
+          <button id="prev" class="paginate left" @click="checkProfilePage($event)"><i></i><i></i></button>
           <div class="counter">{{state.profilepage}}페이지 / {{ state.profileConsultantLastPageNum }}페이지 </div>
-          <button id="next" class="paginate right" @click="checkAdvicePage($event)"><i></i><i></i></button>
+          <button id="next" class="paginate right" @click="checkProfilePage($event)"><i></i><i></i></button>
         </div>
       </div>
     </div>
@@ -190,7 +190,7 @@ input:checked + .hearth {
   position: relative;
   display: flex;
   width: 100%;
-  height: 30vh;
+  height: 32vh;
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -337,7 +337,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 63%;
+  right: 60%;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -373,7 +373,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 48%;
+  left: 51%;
 }
 .paginate.right i {
   transform-origin: 100% 50%;

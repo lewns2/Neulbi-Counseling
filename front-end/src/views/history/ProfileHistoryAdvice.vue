@@ -290,7 +290,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginateadv.left {
-  right: 48%;
+  right: 55%;
 }
 .paginateadv.left i {
   transform-origin: 0% 50%;
@@ -326,7 +326,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginateadv.right {
-  left: 64%;
+  left: 55%;
 }
 .paginateadv.right i {
   transform-origin: 100% 50%;

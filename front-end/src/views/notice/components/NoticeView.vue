@@ -1,22 +1,33 @@
 <template bgcolor="white">
-  <div class="container" style="width: 1000px">
+  <div class="container">
     <div class="row"></div>
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
     />
 
-    <div style="margin-top: 5%">
+    <div style="margin-top: 3%">
       <h2>공지사항</h2>
     </div>
 
     <div
-      class="column intro row-hover pos-relative py-4 px-4 mt-5 mb-5 row text-center"
+      class="column intro row-hover pos-relative py-4 px-4 mt-4 mb-4 row text-center" style="background-color: #eaf1ff;"
     >
       <h6 style="color: #6c8093">
         '공지사항'는 운영자가 사용자들에게 알리고자 하는 내용이 작성된
         공간입니다.
       </h6>
+    </div>
+
+    <!-- 커뮤니티와 공간 맞추기 용  -->
+    <div class="inner-main-header" style="border-bottom: 0;">
+      <span class="dropdown col-lg-3 row text-center op-7">
+      </span>
+      <span class="col-lg-5"></span>
+      <span class="px-1">  
+      </span>
+      <span class="input-icon input-icon-sm ml-auto col-lg-3 display: flex">
+      </span>
     </div>
 
     <!-- <div class="col-lg-9 mb-3">  -->
@@ -30,7 +41,7 @@
       </button>
     </div>
 
-    <div class="cardheader row-hover pos-relative py-3 px-3">
+    <div class="cardheader row-hover pos-relative py-3 px-3" style="background-color: #eaf1ff;">
       <div class="row align-items-center">
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5>번호</h5>
@@ -341,5 +352,19 @@ ul {
       }
     }
   }
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    resize: none;
 }
 </style>

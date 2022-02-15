@@ -207,4 +207,11 @@ export default {
   position: sticky;
 }
 
+.customtextarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    resize: none;
+}
+
 </style>

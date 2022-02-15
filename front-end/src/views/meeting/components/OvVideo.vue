@@ -25,6 +25,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#main-video video {
+  position: relative;
+  float: left;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
 #video-container video {
   display: flex;
   justify-content: center;
@@ -32,7 +40,7 @@ export default {
 
   position: relative;
   float: left;
-  width: 47%;
+  // width: 45%;
   cursor: pointer;
   // margin-left: 25px;
   border-radius: 10px;

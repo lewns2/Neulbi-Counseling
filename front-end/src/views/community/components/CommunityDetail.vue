@@ -86,21 +86,47 @@
         <div class="col-md-4"></div>
         
         <div class="col-md-2" @click="clickCommunityLike">
-          <div v-if="state.communityDetail.like" class="form-control form-control-md col-lg-2">
+          <div v-if="state.communityDetail.like" class="form-control form-control-md col-lg-2" style="cursor: pointer;">
             <div class="align-items-center" id="likebtn">
               <span><i class="ion-ios-heart icon-1x"></i> 공감 취소</span>
             </div>
           </div>
           <div v-else class="form-control form-control-md col-lg-2" id="likebtn">
-            
             <span><i class="ion-ios-heart-outline icon-1x"></i> 공감 누르기</span>
           </div>
         </div>
 
         <div class="col-md-2">
-          <button @click="state.reportBool = !state.reportBool" class="custom-form-control-red form-control-md col-lg-2" id="input">신고</button>
+          <button @click="state.reportBool = !state.reportBool" class="custom-form-control-red form-control-md col-lg-2" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="input">신고</button>
         </div>
-        <div v-if="state.reportBool">
+        <!-- 신고 모달 -->
+        <div class="modal fade" id="exampleModal2" v-if="state.reportBool" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">신고하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                 <textarea
+                    cols="30"
+                    rows="5"
+                    v-model="state.reportMsg"
+                    placeholder="신고 내용을 작성해주세요."
+                  ></textarea
+                  ><br />
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="custom-form-control-red" type="button" @click="clickCommunityReportDetail">보내기</button> 
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div v-if="state.reportBool">
           <textarea
             cols="30"
             rows="5"
@@ -109,7 +135,7 @@
           ></textarea
           ><br />
           <button type="button" @click="clickCommunityReportDetail">보내기</button>
-        </div>
+        </div> -->
 
         <div class="col-md-4"></div>
 
@@ -310,6 +336,13 @@ export default {
     appearance: none;
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    resize: none;
 }
 
 </style>
