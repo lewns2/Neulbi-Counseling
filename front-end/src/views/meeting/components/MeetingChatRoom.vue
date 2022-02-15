@@ -8,16 +8,11 @@
         class="message"
         v-for="(msg, index) in state.messages"
         :key="index"
-        :style="
-          msg.from == state.userInfo.nickname ? 'float:right;' : 'float:left;'
-        "
+        :id="msg.from == state.userInfo.nickname ? 'right' : 'left'"
       >
         <div class="text_wrapper">
           <div class="text">
             {{ msg.text }}
-          </div>
-          <div class="from">
-            <!-- FROM.{{ msg.from }} {{ state.userInfo.nickname }} -->
           </div>
         </div>
       </li>
@@ -30,10 +25,7 @@
           placeholder="Type your message"
         />
       </div>
-      <div class="send_message" @click="sendMessage">
-        <!-- <div class="icon"></div> -->
-        <i class="far fa-paper-plane"></i>
-      </div>
+      <div class="send_message" @click="sendMessage">전송</div>
     </div>
   </div>
 </template>
@@ -99,6 +91,32 @@ body {
   font-family: "Calibri", "Roboto", sans-serif;
 }
 
+#right {
+  float: right;
+}
+
+#right .text_wrapper {
+  background-color: #c2d6f8;
+}
+
+#right .text {
+  text-align: right;
+  color: white;
+}
+
+#left {
+  float: left;
+}
+
+#left .text_wrapper {
+  background-color: #cbcfd4;
+}
+
+#left .text {
+  text-align: left;
+  color: black;
+}
+
 ul {
   list-style: none;
 }
@@ -155,7 +173,6 @@ ul li {
 }
 
 .messages .message .text_wrapper {
-  background-color: #ffe6cb;
   margin-bottom: 1px;
 }
 /* .messages .message .text_wrapper::after,
@@ -164,13 +181,11 @@ ul li {
   border-right-color: #ffe6cb;
 } */
 .messages .message .text {
-  color: #c48843;
   /* margin-left: 10px; */
-  text-align: left;
+
   font-size: 1px;
 }
 .messages .message .from {
-  color: #815854;
   margin-right: 5px;
   text-align: right;
 }
@@ -180,34 +195,12 @@ ul li {
   padding: 10px;
   border-radius: 15px;
   width: calc(100% - 0px);
-  min-width: 100px;
+  min-width: 60px;
   position: relative;
 }
-/* .messages .message .text_wrapper::after,
-.messages .message .text_wrapper:before {
-  top: 18px;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-} */
-/* .messages .message .text_wrapper::after {
-  border-width: 13px;
-  margin-top: 0px;
-}
-.messages .message .text_wrapper::before {
-  border-width: 15px;
-  margin-top: -2px;
-} */
+
 .messages .message .text_wrapper .text {
   font-size: 15px;
-  font-weight: 100;
-}
-
-.messages .message .text_wrapper .from {
-  font-size: 13px;
   font-weight: 100;
 }
 
@@ -243,8 +236,8 @@ ul li {
   height: 30px;
   display: inline;
   border-radius: 50px;
-  background-color: #a3d063;
-  border: 2px solid #a3d063;
+  background-color: #809fd6;
+  border: 2px solid #809fd6;
   color: #fff;
   cursor: pointer;
   transition: all 0.2s linear;
@@ -252,7 +245,7 @@ ul li {
   float: right;
 }
 .bottom_wrapper .send_message:hover {
-  color: #a3d063;
+  color: #809fd6;
   background-color: #fff;
 }
 .bottom_wrapper .send_message i {
