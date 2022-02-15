@@ -22,7 +22,10 @@ import java.util.List;
 public class ReviewListRes {
 
     Review review;
+    // 받은 리뷰에서 누가 나한테 썻는지에 사용되는 닉네임(상담자 닉네임)
     String userNickname;
+    // 내가 쓴 리뷰에서 누구한테 썻는지에 사용되는 닉네임(상담가 닉네임)
+    String consultantNickname;
 
     public static Page<ReviewListRes> of (Page<Review> reviews) {
         List<ReviewListRes> temp = new ArrayList<>();
@@ -34,6 +37,7 @@ public class ReviewListRes {
             ReviewListRes res = new ReviewListRes();
             res.setReview(review);
             res.setUserNickname(review.getUser().getNickname());
+            res.setConsultantNickname(review.getConsultantProfile().getUser().getNickname());
             temp.add(res);
         }
         Page<ReviewListRes> res = new PageImpl<>(temp, pageable, total);

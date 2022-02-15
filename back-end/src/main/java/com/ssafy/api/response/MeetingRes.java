@@ -21,6 +21,8 @@ public class MeetingRes {
     Long ownerId;
     @ApiModelProperty(name = "해당 미팅방의 토픽 카테고리 Id", example = "2")
     Long topicCategoryId;
+    @ApiModelProperty(name = "해당 미팅방 방장의 닉네임", example = "꼬부기")
+    String ownerNickname;
 
     public static MeetingRes of(Meeting meeting) {
         MeetingRes res = new MeetingRes();
@@ -28,6 +30,7 @@ public class MeetingRes {
         res.setMeeting(meeting);
         res.setOwnerId(meeting.getUser().getId());
         res.setTopicCategoryId(meeting.getTopicCategory().getId());
+        res.setOwnerNickname(meeting.getUser().getNickname());
         return res;
     }
 }
