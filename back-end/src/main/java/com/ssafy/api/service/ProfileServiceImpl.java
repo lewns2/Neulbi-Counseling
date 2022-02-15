@@ -87,7 +87,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 		// 사용자 이미지가 존재하면
 		if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
-			s3FileUploadService.deleteFile(user.getProfileImg());
+			if(!user.getProfileImg().equals("default-profile-image.jpg")){
+				s3FileUploadService.deleteFile(user.getProfileImg());
+			}
 		}
 
 		String savingFileName = s3FileUploadService.upload(profileImgInfo);
