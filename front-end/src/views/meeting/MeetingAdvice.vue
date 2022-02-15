@@ -9,7 +9,7 @@
             alt=""
             style="width: 50px"
           />
-          <span>CONFESSION/ADVICE</span>
+          <span style="font-size: 15px"> &nbsp;&nbsp;ADVICE</span>
         </li>
         <li>
           <i
@@ -213,12 +213,17 @@
               <!-- 스트림 화면 -->
               <div class="row">
                 <div id="video-container" class="col-md-12">
-                  <user-video :stream-manager="state.publisher" />
-                  <user-video
-                    v-for="sub in state.subscribers"
-                    :key="sub.stream.connection.connectionId"
-                    :stream-manager="sub"
-                  />
+                  <div style="height: 80px"></div>
+                  <div style="width: 90%">
+                    <user-video :stream-manager="state.publisher" />
+                  </div>
+                  <div style="width: 90%">
+                    <user-video
+                      v-for="sub in state.subscribers"
+                      :key="sub.stream.connection.connectionId"
+                      :stream-manager="sub"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -769,7 +774,7 @@ export default {
   object-fit: cover;
 }
 #meetingheader {
-  padding-top: 20px;
+  padding-top: 5px;
   border-bottom: 3px solid #a6c0fe;
   padding-right: 50px;
   height: 60px;
@@ -784,7 +789,8 @@ ul li {
   float: right;
 }
 ul li i {
-  font-size: 20px;
+  padding-top: 15px;
+  font-size: 22px;
 }
 ul li i:hover {
   cursor: pointer;
@@ -960,8 +966,8 @@ a:hover .demo-logo {
   float: left;
   width: 47%;
   cursor: pointer;
-  margin-left: 25px;
-  padding-top: 5%;
+  // margin-left: 25px;
+  // padding-top: 5%;
 }
 
 #video-container video + div {
