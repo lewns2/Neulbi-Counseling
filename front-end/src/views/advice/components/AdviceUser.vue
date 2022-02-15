@@ -16,8 +16,8 @@
             등급: {{ state.grade }} / 포인트: {{ state.userInfo.pointTot }}</p>
                     
             <button @click="goToConfession" class="front__text-hover mb-4">고해성사 페이지</button><br>
-            <button v-if="!state.userInfo.consultant" class="front__text-hover">상담가 신청</button>
-            <button v-else class="front__text-hover">내 프로필 페이지</button>
+            <button v-if="!state.userInfo.consultant" class="front__text-hover" @click="goToProfileConsultant">상담가 신청</button>
+            <button v-else class="front__text-hover" @click="goToProfile">내 프로필 페이지</button>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
 
 <script>
 import { reactive, computed } from "vue";
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 export default {
   name: "AdviceUser",
   props: {
@@ -35,11 +35,13 @@ export default {
   },
   setup(props) {
     const router = useRouter()
+    const route = useRoute()
     const state = reactive({
       userInfo: props.userInfo,
       profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
       grade: 'None',
     });
+
     const profile = reactive({
       profileImgThumbnail : computed(() => `https://e202.s3.ap-northeast-2.amazonaws.com/${state.userInfo.profileImg}`),
     })
@@ -48,7 +50,28 @@ export default {
       router.push({ name: 'Confession' })
     }
 
-    return { state, profile, goToConfession };
+    const goToProfileConsultant = function () {
+      router.push({
+        name: 'Profile',
+        params: {
+          user_id: state.userInfo.id
+        },
+        query: {
+          value: 'AdviceUser'
+        }
+      })
+    }
+
+    const goToProfile = function () {
+      router.push({
+        name: 'Profile',
+        params: {
+          user_id: state.userInfo.id
+        },
+      })
+    }
+
+    return { state, profile, goToConfession, goToProfileConsultant, goToProfile };
   },
 };
 </script>

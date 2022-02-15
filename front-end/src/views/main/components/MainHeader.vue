@@ -7,8 +7,8 @@
         <router-link :to="{ name: 'Home' }" style="font-size: 25px;">Home</router-link>
       </span>
       <span class="col-4 d-flex justify-content-around">
-        <router-link :to="{ name: 'Advice' }" style="font-size: 25px;">Advice</router-link>
         <router-link :to="{ name: 'Confession' }" style="font-size: 25px;">Confession</router-link>
+        <router-link :to="{ name: 'Advice' }" style="font-size: 25px;">Advice</router-link>
         <router-link :to="{ name: 'Community' }" style="font-size: 25px;">Community</router-link>
         <p @click="goToChatRoom" style="font-size: 25px;">ChatRoom</p>
       </span>

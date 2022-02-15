@@ -25,12 +25,18 @@
           ></i>
         </p>
       </div>
-      <div id="maskimg" v-if="!streamManager.stream.videoActive">
+
+      <div v-if="!streamManager.stream.videoActive">
         <!-- <img
           :src="streamManager.stream.connection.data.split('%/%')[1]"
           alt=""
         /> -->
-        <img src="@/assets/back1.jpg" alt="" />
+        <div id="bgimg">
+          <img src="@/assets/back1.jpg" alt="" />
+          <div id="maskimg-2">
+            <img src="@/assets/mask/mask1.png" alt="" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -67,7 +73,49 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+#video-container video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  float: left;
+  width: 47%;
+  cursor: pointer;
+  margin-left: 25px;
+  padding-top: 5%;
+}
+
+#video-container video + div {
+  float: left;
+  width: 50%;
+  position: relative;
+  margin-left: -50%;
+  display: grid;
+}
+
+#video-container p {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #ffe54c;
+  font-weight: bold;
+  border-bottom-right-radius: 4px;
+}
+
+video {
+  width: 100%;
+  height: auto;
+}
+
+#session img {
+  width: 100%;
+  display: inline-block;
+  object-fit: contain;
+  vertical-align: baseline;
+}
+
 #maskimg {
   position: relative;
   width: 100%;
@@ -88,9 +136,26 @@ export default {
 }
 
 #whatis {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
+  position: relative;
+  padding-top: 5%;
+}
+
+#bgimg {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  left: 6%;
+  right: 0;
+  bottom: 0;
+  padding-top: 2%;
+}
+
+#maskimg-2 {
+  position: absolute;
+  top: 40%;
+  left: 22%;
+  z-index: 99;
+  right: 24%;
+  bottom: 0;
 }
 </style>

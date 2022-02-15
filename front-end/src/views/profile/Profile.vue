@@ -6,7 +6,7 @@
         <a href="#">My Profile</a>
       </header> -->
       <ul class="nav">
-        <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='Main'>
+        <li class="px-5 py-5" style="margin-left: 0;" @click="goToConfession">
           <div>
             Main
           </div>
@@ -29,10 +29,7 @@
       </ul>
     </div>
     <!-- Content -->
-    <div id="content" class="col-9" v-if="state.select=='Main'">
-      <profile-main :userInfo="state.userInfo" class="container-fluid"></profile-main>
-    </div>
-    <div id="content" class="col-9" v-else-if="state.select=='User'">
+    <div id="content" class="col-9" v-if="state.select=='User'">
       <profile-user :userInfo="state.userInfo" class="container-fluid"></profile-user>
     </div>
     <div id="content" class="col-9" v-else-if="state.select=='Consultant'">
@@ -56,7 +53,7 @@
 <script>
 import { reactive, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import ProfileMain from './components/ProfileMain.vue'
+import { useRoute, useRouter } from 'vue-router'
 import ProfileUser from './components/ProfileUser.vue'
 import ProfileConsultant from './components/ProfileConsultant.vue'
 import ProfileHistory from './components/ProfileHistory.vue'
@@ -64,23 +61,21 @@ import ProfileHistory from './components/ProfileHistory.vue'
 export default {
   name: 'Profile',
   components: {
-    ProfileMain,
     ProfileUser,
     ProfileConsultant,
     ProfileHistory,
   },
   setup() {
     const store = useStore()
-
+    const router = useRouter()
+    const route = useRoute()
     const state = reactive({
       userInfo: computed(() => store.getters['root/userInfo']),
-      select: 'Main',
+      select: 'User',
     })
 
     const selectProfile = async function (event) {
       state.select = event.target.innerText
-      console.log(event)
-      console.log(state.select)
       const body = { user_id: state.userInfo.id }
       if (state.userInfo.consultant) {
         await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
@@ -97,6 +92,10 @@ export default {
     }
 
     onMounted(async() => {
+      if(route.query.value==='AdviceUser') {
+        state.select = 'Consultant'
+      } 
+
       const body = { user_id: state.userInfo.id }
       if (state.userInfo.consultant) {
         await store.dispatch("root/profileGetConsultantProfile", state.userInfo.id)
@@ -112,7 +111,13 @@ export default {
       await store.dispatch('root/profileGetHistoryComment', body)
     })
 
-    return { state, selectProfile, onMounted }
+    const goToConfession = function () {
+      router.push({
+        name: 'Confession'
+      })
+    }
+
+    return { state, selectProfile, onMounted, goToConfession }
   }
 }
 </script>
@@ -126,13 +131,14 @@ export default {
   // position: absolute;
   height: 80vh;
   margin-top: 30px;
+  margin-left: 20%;
 }
 
 /* Sidebar Styles */
 
 #sidebar {
   z-index: 1000;
-  // position: absolute;
+  position: fixed;
   // left: 20%
   margin-left: 12px;
   // margin-right: 12px;

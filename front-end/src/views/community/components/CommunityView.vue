@@ -25,7 +25,7 @@
           <!-- </span>   -->
         </div>
         <div class="col px-1" @click="goToCreateCommunity">
-          <a><i class="ion-edit"></i></a>
+          등록&nbsp; <a><i class="ion-edit"></i></a>
         </div>
       </span>
       
@@ -102,16 +102,20 @@
     </div>
 
     <!--페이지-->
-    <div style="margin:3%">
-      <button id="prev" @click="checkPage($event)" >이전</button>
-        {{state.page}} 페이지 / {{ state.communityLastPageNum }} 페이지
-      <button id="next" @click="checkPage($event)">다음</button>
+    <div id="app" class="pagecontainer">  
+      <ul class="page">
+        <li class="page__btn me-4" @click="checkPage($event)"><span class="material-icons">◀</span></li>
+        <li class="page__numbers" :id="'page'+idx" v-for="(num, idx) in state.communityLastPageNum" :key="idx" @click="checkPage($event)">
+          {{ num }}
+        </li>
+        <li class="page__btn ms-4"><span class="material-icons" @click="checkPage($event)">▶</span></li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { computed, reactive } from '@vue/runtime-core'
+import { computed, reactive, onMounted } from '@vue/runtime-core'
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router'
 
@@ -138,6 +142,11 @@ export default {
       page: 1,
       topic: null,
       pageSearchTopic: 'main',
+    })
+
+    onMounted(() => {
+      let first = document.getElementById('page0')
+      first.classList.add('active')
     })
 
     const clickCommunityList = async function () {
@@ -170,14 +179,12 @@ export default {
     }
 
     const checkPage = async function(event) {
-      let targetId = event.currentTarget.id;
-      if(targetId == "prev") {
-          state.page -= 1;
-          if(state.page < 1) state.page = 1;
+      for (var i=0; i < state.communityLastPageNum; i++) {
+        const sub = document.getElementById('page'+i)
+        sub.classList.remove('active')
       }
-      else if(targetId == "next") {
-          state.page += 1;   
-      }
+      event.target.classList.add('active')
+      state.page = Number(event.target.id.substr(4,6))+1
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/communityPageSearch",{
           size: 8,
@@ -215,7 +222,7 @@ export default {
       router.push({ name : "CommunityCreate" })
     }
 
-    return { state,
+    return { state, onMounted,
     clickCommunityList,
     goToCommunityDetail,
     clickSelectList,
@@ -307,5 +314,121 @@ a:hover {
     color: black;
     font-weight: bold;
 }
+
+
+/// pagination
+
+
+ul {
+  list-style-type: none;
+}
+
+.items-list {
+  max-width: 90vw;
+  margin: 2rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 3rem;
+  justify-content: center;
+  align-content: center;
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.item {
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2d4848;
+  cursor: pointer;
+
+  span {
+    background: #ffffff;
+    box-shadow: 0 0.8rem 2rem rgba(#5a6181, 0.05);
+    border-radius: 0.6rem;
+    padding: 2rem;
+    font-size: 3rem;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    span {
+      transform: scale(1.2);
+      color: #23adad;
+    }
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: #23adade1;
+  }
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  margin: 3rem;
+  border-radius: 0.6rem;
+  background: #ffffff;
+  box-shadow: 0 0.8rem 2rem rgba(#5a6181, 0.05);
+
+  &__numbers,
+  &__btn,
+  &__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.8rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+
+  &__dots {
+    width: 2.6rem;
+    height: 2.6rem;
+    color: #23adade1;
+    cursor: initial;
+  }
+
+  &__numbers {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.4rem;
+
+    &:hover {
+      color: #23adad;
+    }
+
+    &.active {
+      color: #ffffff;
+      background: #23adad;
+      font-weight: 600;
+      border: 1px solid #23adad;
+    }
+  }
+
+  &__btn {
+    color: #23adade1;
+    pointer-events: none;
+
+    &.active {
+      color: #2d4848;
+      pointer-events: initial;
+
+      &:hover {
+        color: #23adad;
+      }
+    }
+  }
+}
+
 
 </style>

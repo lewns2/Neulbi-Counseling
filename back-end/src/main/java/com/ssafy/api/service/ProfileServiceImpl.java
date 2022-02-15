@@ -58,6 +58,10 @@ public class ProfileServiceImpl implements ProfileService {
 	@Autowired
 	CommentRepositorySupport commentRepositorySupport;
 
+	@Autowired
+	S3FileUploadService s3FileUploadService;
+
+
 	@Override
 	public Integer getUserByNickname(String nickname) {
 
@@ -80,36 +84,18 @@ public class ProfileServiceImpl implements ProfileService {
 		// 사용자 없음
 		if(user == null) return 500;
 
-		// 프로젝트 이미지 폴더 경로
-		String projectImageDirectoryPath = ProjectDirectoryPathUtil.getProfileImageDirectoryPath();
-
-		File uploadDir = new File(projectImageDirectoryPath);
-		if (!uploadDir.exists()) uploadDir.mkdir(); // 폴더가 없으면 만들어준다.
-
-		String originalFileName = profileImgInfo.getOriginalFilename(); // 실제 파일명
-		String extension = FilenameUtils.getExtension(originalFileName); // 확장자명 가져오기
-
-		UUID uuid = UUID.randomUUID(); //Random File Id
-		String savingFileName = uuid + "." + extension; // randomId.jpg 같이 만들어준다.
-
-		// 이미지 실제 저장 경로 및 파일 명
-		String imagePath = ProjectDirectoryPathUtil.getProfileImagePath(savingFileName);
-
-		// 서버에 저장될 새로운 파일을 만들고저장
-		File destFile = new File(imagePath);
-		profileImgInfo.transferTo(destFile);
 
 		// 사용자 이미지가 존재하면
 		if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
-			String oldImagePath = ProjectDirectoryPathUtil.getProfileImagePath(user.getProfileImg());
-			File oldFile = new File(oldImagePath); // 파일 찾기
-			if(oldFile.exists()) oldFile.delete(); // 파일이 존재하면 삭제
+			s3FileUploadService.deleteFile(user.getProfileImg());
 		}
-		
+
+		String savingFileName = s3FileUploadService.upload(profileImgInfo);
+
 		// 유저 이미지 변경 저장
 		user.modifyProfileImg(savingFileName);
 		userRepository.save(user);
-		
+
 		return 200;
 	}
 

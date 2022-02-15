@@ -1,47 +1,48 @@
 <template>
   <div>
+    <h3 style="text-align: left">내가 받은 리뷰</h3>
     <br>
-    <h3>Received Review</h3>
-    <br>
-    <main class="d-flex">
-      <a class="card mx-4" v-for="(receivedReview, idx) in state.profileHistoryReceivedReview" :key="idx">
-        <div class="inner">
-          <h2 class="title">{{ receivedReview.description }}</h2>
-          <p class="subtitle">Point : {{ receivedReview.point }} pt</p>
-            <p style="color: black;">asd</p>
-        </div>
-      </a>
-    </main>
+    <div class="row d-flex justify-content-start ms-3">
+      <div class="col-4" v-for="(receivedReview, idx) in state.profileHistoryReceivedReview" :key="idx">
+        <a href="#" class="data-card">
+          <h3>작성자 : {{ receivedReview.userNickname }}</h3><br>
+          <h4>Point : {{ receivedReview.review.point }} pt</h4><br>
+          <p>{{ receivedReview.review.description }}</p>
+        </a>
+      </div>
+    </div>
     <br>
     <div class="d-flex justify-content-center mb-5">
-      <button id="rec_prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
+      <button id="rec_prev" class="paginaterec left" @click="checkReceivedPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.receivedpage}}페이지 / {{ state.profileHistoryReceivedReviewLastPageNum }}페이지 </div>
-      <button id="rec_next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+      <button id="rec_next" class="paginaterec right" @click="checkReceivedPage($event)"><i></i><i></i></button>
     </div>
-
+    <br>
     <hr>
-    <h3>Written Review</h3>
-    <main class="d-flex">
-      <a class="card mx-4" v-for="(writtenReview, idx) in state.profileHistoryWrittenReview" :key="idx">
-        <div class="inner">
-          <h2 class="title">{{ writtenReview.description }}</h2>
-          <p class="subtitle" style="text-align: left;">Point : {{ writtenReview.point }} pt</p>
-          <p style="color: black;">Nickname : </p>
-        </div>
-      </a>
-    </main>
+    <br>
+    <h3 style="text-align: left;">내가 적은 리뷰</h3>
+    <br>
+    <div class="row d-flex justify-content-start ms-3">
+      <div class="col-4" v-for="(writtenReview, idx) in state.profileHistoryWrittenReview" :key="idx">
+        <a href="#" class="data-card">
+          <h3>작성자 : {{ writtenReview.userNickname }}</h3><br>
+          <h4>Point : {{ writtenReview.review.point }} pt</h4><br>
+          <p>{{ writtenReview.review.description }}</p>
+        </a>
+      </div>
+    </div>
     <br>
     <div class="d-flex justify-content-center mb-5">
-      <button id="wri_prev" class="paginated left" @click="checkPage($event)"><i></i><i></i></button>
+      <button id="wri_prev" class="paginatewri left" @click="checkWrittenPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.writtenpage}}페이지 / {{ state.profileHistoryWrittenReviewLastPageNum }}페이지 </div>
-      <button id="wri_next" class="paginated right" @click="checkPage($event)"><i></i><i></i></button>
+      <button id="wri_next" class="paginatewri right" @click="checkWrittenPage($event)"><i></i><i></i></button>
     </div>
-    <hr>
+    <br><br>
   </div>
 </template>
 
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -61,6 +62,39 @@ export default {
       writtenpage: 1,
     })
 
+    onMounted(() => {
+      const pr = document.querySelector('.paginaterec.left')
+      const pl = document.querySelector('.paginaterec.right')
+
+      pr.setAttribute('data-state', state.receivedpage===1 ? 'disabled' : '')
+      if (state.receivedpage===1) {
+        pr.disabled = true
+      } else {
+        pr.disabled = false
+      }
+      pl.setAttribute('data-state', state.receivedpage===state.profileHistoryReceivedReviewLastPageNum ? 'disabled' : '')
+      if (state.receivedpage === state.profileHistoryReceivedReviewLastPageNum) {
+        pl.disabled = true
+      } else {
+        pl.disabled = false
+      }
+      const prwr = document.querySelector('.paginatewri.left')
+      const plwr = document.querySelector('.paginatewri.right')
+
+      prwr.setAttribute('data-state', state.writtenpage===1 ? 'disabled' : '')
+      if (state.writtenpage===1) {
+        prwr.disabled = true
+      } else {
+        prwr.disabled = false
+      }
+      plwr.setAttribute('data-state', state.writtenpage===state.profileHistoryWrittenReviewLastPageNum ? 'disabled' : '')
+      if (state.writtenpage === state.profileHistoryWrittenReviewLastPageNum) {
+        plwr.disabled = true
+      } else {
+        plwr.disabled = false
+      }
+    })
+
     const checkReceivedPage = async function(event) {
       let targetId = event.currentTarget.id;
       if(targetId == "rec_prev") {
@@ -70,10 +104,10 @@ export default {
         state.receivedpage += 1;
       }
 
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      const pr = document.querySelector('.paginaterec.left')
+      const pl = document.querySelector('.paginaterec.right')
 
-      pr.setAttribute('data-state', state.receivedpage===1 ? 'disabled': '')
+      pr.setAttribute('data-state', state.receivedpage===1 ? 'disabled' : '')
       if (state.receivedpage===1) {
         pr.disabled = true
       } else {
@@ -102,20 +136,20 @@ export default {
         state.writtenpage += 1;
       }
 
-      const pr = document.querySelector('.paginated.left')
-      const pl = document.querySelector('.paginated.right')
+      const prwr = document.querySelector('.paginatewri.left')
+      const plwr = document.querySelector('.paginatewri.right')
 
-      pr.setAttribute('data-state', state.writtenpage===1 ? 'disabled': '')
+      prwr.setAttribute('data-state', state.writtenpage===1 ? 'disabled' : '')
       if (state.writtenpage===1) {
-        pr.disabled = true
+        prwr.disabled = true
       } else {
-        pr.disabled = false
+        prwr.disabled = false
       }
-      pl.setAttribute('data-state', state.writtenpage===state.profileHistoryReceivedReviewLastPageNum ? 'disabled' : '')
+      plwr.setAttribute('data-state', state.writtenpage===state.profileHistoryWrittenReviewLastPageNum ? 'disabled' : '')
       if (state.writtenpage === state.profileHistoryWrittenReviewLastPageNum) {
-        pl.disabled = true
+        plwr.disabled = true
       } else {
-        pl.disabled = false
+        plwr.disabled = false
       }
 
       await store.dispatch("root/profileGetHistoryWrittenReviewPageSearch", {
@@ -125,58 +159,116 @@ export default {
       })
     }
 
-    return { state, checkReceivedPage, checkWrittenPage }
+    return { state, onMounted, checkReceivedPage, checkWrittenPage }
   }
 }
 </script>
 
 <style scoped lang="scss">
-main {
-  width: 100%;
-  margin: 0 auto;
-}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&display=swap');
 
-.card {
-  // height: 400px;
-  width: 30%;
-  position: relative;
-  padding: 20px;
+* {
   box-sizing: border-box;
-  display: flex;
-  align-items: flex-end;
-  text-decoration: none;
-  border-radius: 30px;
-  margin-bottom: 20px;
-  background: #c2d6f8;
-  background-size: cover;
 }
 
-.inner {
-  height: 250px;
-  width: 100%;
+.page-contain {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #E7F3F1;
+  border: .75em solid white;
+  padding: 2em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.data-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center; 
+  max-width: 20.75em;
+  max-height: 15em;
+  overflow: hidden;
+  border: 1px solid #c2d6f8;
+  border-radius: 30px;
+  text-decoration: none;
   background: white;
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 40px;
+  margin: 1em;
+  padding: 2.75em 2.5em;
+  box-shadow: 0 1.5em 2.5em -.5em rgba(#000000, .1);
+  transition: transform .45s ease, background .45s ease;
+  
+  h3 {
+    color: #2E3C40;
+    font-size: 1.3em;
+    font-weight: 600;
+    line-height: 1;
+    padding-bottom: .5em;
+    margin: 0 0 0.142857143em;
+    border-bottom: 2px solid #c2d6f8;
+    transition: color .45s ease, border .45s ease;
+  }
+
+  h4 {
+    color: #627084;
+    text-transform: uppercase;
+    font-size: 1.125em;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    margin: 0 0 1em;
+    transition: color .45s ease;
+  }
+
+  p {
+    // opacity: 0;
+    color: #627084;
+    font-weight: 600;
+    line-height: 1.8;
+    margin-bottom: 5px;
+    transform: translateY(-1em);
+    // transition: opacity .45s ease, transform .5s ease;
+  }
+
+  .link-text {
+    display: block;
+    color: #c2d6f8;
+    font-size: 1.125em;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: auto 0 0;
+    transition: color .45s ease;
+  }
+  
+  &:hover {
+    background: #c2d6f8;
+    transform: scale(1.02);
+    
+    h3 {
+      color: #FFFFFF;
+      border-bottom-color: white;
+    }
+
+    h4 {
+      color: #FFFFFF;
+    }
+
+    p {
+      color: #FFFFFF
+    }
+
+    .link-text {
+      color: black;
+    }
+  }
 }
 
-.title {
-  font-size: 24px;
-  color: black;  
-  text-align: center;
-  font-weight: 700;
-  color: #181818;
-  position: relative;
-  margin: 0 0 20px 0;
-}
-
-.subtitle {
-  color: #b0215e;
-  text-align: center;
+@keyframes point {
+  0% {
+   transform: translateX(0);
+  }
+  100% {
+    transform: translateX(.125em);
+  }
 }
 
 
@@ -189,7 +281,7 @@ button {
   outline: 0;
 }
 
-.paginate {
+.paginaterec {
   position: relative;
   margin: 10px;
   width: 50px;
@@ -200,7 +292,7 @@ button {
   margin-top: -25px;
   -webkit-filter: drop-shadow(0 2px 0px rgba(0, 0, 0, 0.2));
 }
-.paginate i {
+.paginaterec i {
   position: absolute;
   left: 0;
   width: 60%;
@@ -209,85 +301,85 @@ button {
   background: #708bef;
   transition: all 0.15s ease;
 }
-.paginate.left {
-  right: 50%;
+.paginaterec.left {
+  right: 48%;
 }
-.paginate.left i {
+.paginaterec.left i {
   transform-origin: 0% 50%;
 }
-.paginate.left i:first-child {
+.paginaterec.left i:first-child {
   transform: translate(0, -1px) rotate(40deg);
 }
-.paginate.left i:last-child {
+.paginaterec.left i:last-child {
   transform: translate(0, 1px) rotate(-40deg);
 }
-.paginate.left:hover i:first-child {
+.paginaterec.left:hover i:first-child {
   transform: translate(0, -1px) rotate(30deg);
 }
-.paginate.left:hover i:last-child {
+.paginaterec.left:hover i:last-child {
   transform: translate(0, 1px) rotate(-30deg);
 }
-.paginate.left:active i:first-child {
+.paginaterec.left:active i:first-child {
   transform: translate(1px, -1px) rotate(25deg);
 }
-.paginate.left:active i:last-child {
+.paginaterec.left:active i:last-child {
   transform: translate(1px, 1px) rotate(-25deg);
 }
-.paginate.left[data-state=disabled] i:first-child {
+.paginaterec.left[data-state=disabled] i:first-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.left[data-state=disabled] i:last-child {
+.paginaterec.left[data-state=disabled] i:last-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.left[data-state=disabled]:hover i:first-child {
+.paginaterec.left[data-state=disabled]:hover i:first-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.left[data-state=disabled]:hover i:last-child {
+.paginaterec.left[data-state=disabled]:hover i:last-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.right {
-  left: 60%;
+.paginaterec.right {
+  left: 64%;
 }
-.paginate.right i {
+.paginaterec.right i {
   transform-origin: 100% 50%;
 }
-.paginate.right i:first-child {
+.paginaterec.right i:first-child {
   transform: translate(0, 1px) rotate(40deg);
 }
-.paginate.right i:last-child {
+.paginaterec.right i:last-child {
   transform: translate(0, -1px) rotate(-40deg);
 }
-.paginate.right:hover i:first-child {
+.paginaterec.right:hover i:first-child {
   transform: translate(0, 1px) rotate(30deg);
 }
-.paginate.right:hover i:last-child {
+.paginaterec.right:hover i:last-child {
   transform: translate(0, -1px) rotate(-30deg);
 }
-.paginate.right:active i:first-child {
+.paginaterec.right:active i:first-child {
   transform: translate(1px, 1px) rotate(25deg);
 }
-.paginate.right:active i:last-child {
+.paginaterec.right:active i:last-child {
   transform: translate(1px, -1px) rotate(-25deg);
 }
-.paginate.right[data-state=disabled] i:first-child {
+.paginaterec.right[data-state=disabled] i:first-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate.right[data-state=disabled] i:last-child {
+.paginaterec.right[data-state=disabled] i:last-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate.right[data-state=disabled]:hover i:first-child {
+.paginaterec.right[data-state=disabled]:hover i:first-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate.right[data-state=disabled]:hover i:last-child {
+.paginaterec.right[data-state=disabled]:hover i:last-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate[data-state=disabled] {
+.paginaterec[data-state=disabled] {
   opacity: 0.3;
   cursor: default;
 }
 
 
-.paginated {
+.paginatewri {
   position: relative;
   margin: 10px;
   width: 50px;
@@ -298,7 +390,7 @@ button {
   margin-top: -25px;
   -webkit-filter: drop-shadow(0 2px 0px rgba(0, 0, 0, 0.2));
 }
-.paginated i {
+.paginatewri i {
   position: absolute;
   left: 0;
   width: 60%;
@@ -307,79 +399,79 @@ button {
   background: #708bef;
   transition: all 0.15s ease;
 }
-.paginated.left {
-  right: 50%;
+.paginatewri.left {
+  right: 48%;
 }
-.paginated.left i {
+.paginatewri.left i {
   transform-origin: 0% 50%;
 }
-.paginated.left i:first-child {
+.paginatewri.left i:first-child {
   transform: translate(0, -1px) rotate(40deg);
 }
-.paginated.left i:last-child {
+.paginatewri.left i:last-child {
   transform: translate(0, 1px) rotate(-40deg);
 }
-.paginated.left:hover i:first-child {
+.paginatewri.left:hover i:first-child {
   transform: translate(0, -1px) rotate(30deg);
 }
-.paginated.left:hover i:last-child {
+.paginatewri.left:hover i:last-child {
   transform: translate(0, 1px) rotate(-30deg);
 }
-.paginated.left:active i:first-child {
+.paginatewri.left:active i:first-child {
   transform: translate(1px, -1px) rotate(25deg);
 }
-.paginated.left:active i:last-child {
+.paginatewri.left:active i:last-child {
   transform: translate(1px, 1px) rotate(-25deg);
 }
-.paginated.left[data-state=disabled] i:first-child {
+.paginatewri.left[data-state=disabled] i:first-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginated.left[data-state=disabled] i:last-child {
+.paginatewri.left[data-state=disabled] i:last-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginated.left[data-state=disabled]:hover i:first-child {
+.paginatewri.left[data-state=disabled]:hover i:first-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginated.left[data-state=disabled]:hover i:last-child {
+.paginatewri.left[data-state=disabled]:hover i:last-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginated.right {
-  left: 60%;
+.paginatewri.right {
+  left: 64%;
 }
-.paginated.right i {
+.paginatewri.right i {
   transform-origin: 100% 50%;
 }
-.paginated.right i:first-child {
+.paginatewri.right i:first-child {
   transform: translate(0, 1px) rotate(40deg);
 }
-.paginated.right i:last-child {
+.paginatewri.right i:last-child {
   transform: translate(0, -1px) rotate(-40deg);
 }
-.paginated.right:hover i:first-child {
+.paginatewri.right:hover i:first-child {
   transform: translate(0, 1px) rotate(30deg);
 }
-.paginated.right:hover i:last-child {
+.paginatewri.right:hover i:last-child {
   transform: translate(0, -1px) rotate(-30deg);
 }
-.paginated.right:active i:first-child {
+.paginatewri.right:active i:first-child {
   transform: translate(1px, 1px) rotate(25deg);
 }
-.paginated.right:active i:last-child {
+.paginatewri.right:active i:last-child {
   transform: translate(1px, -1px) rotate(-25deg);
 }
-.paginated.right[data-state=disabled] i:first-child {
+.paginatewri.right[data-state=disabled] i:first-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginated.right[data-state=disabled] i:last-child {
+.paginatewri.right[data-state=disabled] i:last-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginated.right[data-state=disabled]:hover i:first-child {
+.paginatewri.right[data-state=disabled]:hover i:first-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginated.right[data-state=disabled]:hover i:last-child {
+.paginatewri.right[data-state=disabled]:hover i:last-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginated[data-state=disabled] {
+.paginatewri[data-state=disabled] {
   opacity: 0.3;
   cursor: default;
 }
@@ -395,6 +487,7 @@ button {
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
+  margin-right: 3%;
 }
 
 </style>

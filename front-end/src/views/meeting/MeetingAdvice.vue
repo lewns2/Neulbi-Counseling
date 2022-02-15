@@ -1,5 +1,89 @@
 <template id="wrapper">
-  <div style="background-color: rgb(0 0 0/20%); height: 800px">
+  <div style="background-color: rgb(225 236 255); height: 800px">
+    <!-- session 연결됐을 때 상담 도구 모음 -->
+    <div id="meetingheader" v-if="state.session">
+      <ul style="text-align: left">
+        <li style="float: left">
+          <img
+            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
+            alt=""
+            style="width: 50px"
+          />
+          <span>CONFESSION/ADVICE</span>
+        </li>
+        <li>
+          <i
+            @click="leaveSession"
+            class="far fa-times-circle"
+            style="color: red; margin-left: 50px"
+            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
+              >종료</span
+            ></i
+          >
+        </li>
+        <li>
+          <i
+            v-if="!state.audioEcho"
+            type="button"
+            @click="clickFilter"
+            class="fab fa-creative-commons-sampling"
+            style="color: blue"
+          ></i
+          ><i
+            v-else
+            type="button"
+            @click="clickFilter"
+            class="fas fa-times"
+            style="color: blue"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="!state.maskState"
+            type="button"
+            @click="addMask"
+            class="fas fa-theater-masks"
+            style="color: orange"
+          ></i>
+          <i
+            v-else
+            type="button"
+            @click="addMask"
+            class="fas fa-user-circle"
+            style="color: orange"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="state.audioState"
+            @click="hideMyAudio(state.audioState)"
+            class="fas fa-microphone-slash"
+            style="color: red"
+          ></i>
+          <i
+            v-else
+            @click="hideMyAudio(state.audioState)"
+            class="fas fa-microphone"
+            style="color: green"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="state.videoState"
+            @click="hideMyVideo(state.videoState)"
+            class="fas fa-video-slash"
+            style="color: green"
+          ></i>
+
+          <i
+            v-else
+            @click="hideMyVideo(state.videoState)"
+            class="fas fa-video"
+            style="color: green"
+          ></i>
+        </li>
+      </ul>
+    </div>
     <div id="main-container" class="container">
       <!-- meeting 입장 초기 화면 -->
       <div id="join" v-if="!state.session">
@@ -11,9 +95,19 @@
           class="jumbotron vertical-center"
           style="padding-top: 50px"
         >
-          <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
-            {{ data.adviceMeetingInfo.ownerId }}님의 미팅룸
-          </h1>
+          <div
+            class="d-flex justify-content-center"
+            style="border-bottom: 3px solid #a6c0fe"
+          >
+            <i class="fas fa-quote-left" style="font-size: 20px"></i>
+            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+              {{ data.adviceMeetingInfo.ownerId }}님의 미팅룸
+            </h1>
+            <i class="fas fa-quote-right" style="font-size: 20px"></i>
+          </div>
+
+          <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
+          <br />
           <div
             class="form-group"
             style="color: #333333; font-family: Century Gothic, sans-serif"
@@ -22,8 +116,6 @@
               Owner
             </h3>
             <h3 v-else>Guest</h3>
-            <!-- <p>Participant : {{ state.myUserName }}</p> -->
-            <!-- <p>Session : {{ state.mySessionId }}</p> -->
 
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
@@ -136,135 +228,76 @@
           </div>
         </div>
 
-        <!-- 화상 채팅 하단에 넣을 도구 모음 -->
+        <!-- 채팅 -->
+
         <footer id="session-footer" class="container">
-          <!-- 화면 ON/OFF && 음성 ON / OFF -->
-          <div>
-            <ul style="text-align: left">
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="state.videoState"
-                  @click="hideMyVideo(state.videoState)"
-                >
-                  <i
-                    class="fas fa-video-slash"
-                    style="color: green; font-size: 15px"
-                  ></i>
-                  비디오 중지
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  @click="hideMyVideo(state.videoState)"
-                >
-                  <i
-                    class="fas fa-video"
-                    style="color: green; font-size: 15px"
-                  ></i>
-                  비디오 시작
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="state.audioState"
-                  @click="hideMyAudio(state.audioState)"
-                >
-                  <i
-                    class="fas fa-microphone-slash"
-                    style="color: red; font-size: 15px"
-                  ></i>
-                  음소거
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  @click="hideMyAudio(state.audioState)"
-                >
-                  <i
-                    class="fas fa-microphone"
-                    style="color: green; font-size: 15px"
-                  ></i>
-                  말하기
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="!state.maskState"
-                  type="button"
-                  @click="addMask"
-                >
-                  <i
-                    class="fas fa-theater-masks"
-                    style="color: orange; font-size: 15px"
-                  ></i>
-                  Mask ON
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  type="button"
-                  @click="addMask"
-                >
-                  <i
-                    class="fas fa-user-circle"
-                    style="color: orange; font-size: 15px"
-                  ></i>
-                  Mask OFF
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  v-if="!state.audioEcho"
-                  type="button"
-                  @click="clickFilter"
-                >
-                  <i
-                    class="fab fa-creative-commons-sampling"
-                    style="color: blue; font-size: 15px"
-                  ></i>
-                  echo ON
-                </button>
-                <button
-                  class="front__text-hover"
-                  v-else
-                  type="button"
-                  @click="clickFilter"
-                >
-                  <i
-                    class="fas fa-times"
-                    style="color: blue; font-size: 15px"
-                  ></i>
-                  echo OFF
-                </button>
-              </li>
-              <li>
-                <button
-                  class="front__text-hover"
-                  type="button"
-                  @click="leaveSession"
-                >
-                  <i
-                    class="far fa-times-circle"
-                    style="color: red; font-size: 15px"
-                  ></i>
-                  종료
-                </button>
-              </li>
-              <li style="float: right">
-                <button
-                  class="front__text-hover"
-                  type="button"
-                  @click="chatroomShow"
-                >
-                  <i class="fas fa-comment-alt" style="font-size: 15px"></i>
-                  채팅
-                </button>
-              </li>
-            </ul>
+          <div class="habit habit4" @click="chatroomShow">
+            <div class="icon communicate-collaborate">
+              <svg
+                version="1.1"
+                id="communicate-collaborate"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 75 75"
+                enable-background="new 0 0 75 75"
+                xml:space="preserve"
+              >
+                <path
+                  id="orange-chat"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  fill="#F68832"
+                  d="M59.77,17H29.23C27.45,17,26,18.45,26,20.23
+	v18.53c0,1.79,1.45,3.23,3.23,3.23h19.5l5.38,6.23c0.65,0.76,1.89,0.29,1.89-0.7V42h3.77c1.79,0,3.23-1.45,3.23-3.23V20.23
+	C63,18.45,61.55,17,59.77,17z"
+                />
+                <g id="yellow-chat">
+                  <path
+                    id="yellow"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    fill="#F7BE07"
+                    d="M46.77,26H16.23C14.45,26,13,27.45,13,29.23v18.53
+		c0,1.79,1.45,3.23,3.23,3.23H21v5.58c0,0.98,1.21,1.45,1.87,0.73L28.66,51h18.1c1.79,0,3.23-1.45,3.23-3.23V29.23
+		C50,27.45,48.55,26,46.77,26z"
+                  />
+                  <g id="circles">
+                    <circle
+                      id="circ1"
+                      opacity="0"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      fill="#FFFFFF"
+                      cx="23"
+                      cy="38.65"
+                      r="2.74"
+                    />
+                    <circle
+                      id="circ2"
+                      opacity="0"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      fill="#FFFFFF"
+                      cx="31.5"
+                      cy="38.65"
+                      r="2.74"
+                    />
+                    <circle
+                      id="circ3"
+                      opacity="0"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      fill="#FFFFFF"
+                      cx="40"
+                      cy="38.65"
+                      r="2.74"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </div>
           </div>
         </footer>
       </div>
@@ -649,30 +682,97 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.icon {
+  width: 75px;
+  height: 75px;
+}
+
+.habit4:hover .communicate-collaborate #orange-chat {
+  /*   animation-play-state: running; */
+  animation: move-orange-chat 2s ease-in infinite forwards;
+  -webkit-animation: move-orange-chat 2s ease-in infinite forwards;
+  transform-origin: 50% 50%;
+  /*   transform-origin: 38px 39px;
+  -webkit-transform-origin: 38px 39px; */
+}
+
+.habit4:hover .communicate-collaborate #yellow-chat {
+  /*   animation-play-state: running; */
+  animation: move-yellow-chat 2s ease-in infinite forwards;
+  -webkit-animation: move-yellow-chat 2s ease-in infinite forwards;
+  transform-origin: 50% 50%;
+  /*   transform-origin: 38px 39px;
+  -webkit-transform-origin: 38px 39px; */
+}
+
+.habit4:hover .communicate-collaborate #circ1 {
+  animation: show-dots 2s ease infinite forwards;
+  -webkit-animation: show-dots 2s ease infinite forwards;
+}
+
+.habit4:hover .communicate-collaborate #circ2 {
+  animation: show-dots 2s 0.3s ease infinite forwards;
+  -webkit-animation: show-dots 2s 0.3s ease infinite forwards;
+}
+
+.habit4:hover .communicate-collaborate #circ3 {
+  animation: show-dots 2s 0.5s ease infinite forwards;
+  -webkit-animation: show-dots 2s 0.5s ease infinite forwards;
+}
+
+@keyframes move-yellow-chat {
+  0%,
+  20% {
+    -webkit-transform: rotate(0) translate(0);
+    transform: rotate(0) translate(0);
+  }
+
+  30%,
+  75% {
+    -webkit-transform: rotate(-7deg) translate(-3px, 2px);
+    transform: rotate(-7deg) translate(-3px, 2px);
+  }
+
+  85%,
+  100% {
+    -webkit-transform: rotate(0) translate(0);
+    transform: rotate(0) translate(0);
+  }
+}
+
+@keyframes show-dots {
+  0%,
+  20% {
+    opacity: 0;
+    transform: translate(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(0px, 1px);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(0px, -2px);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate(0);
+  }
+}
+
 #myVideo {
   background-color: #1d1e22;
   width: 600px;
   height: 500px;
   object-fit: cover;
 }
-.front__text-hover {
-  position: relative;
-  /* top: 10px; */
-  font-size: 15px;
-  backface-visibility: hidden;
-
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-
-  border: 2px solid;
-  padding: 8px 15px;
-  margin-top: 0px;
-  border-radius: 30px;
-
-  background: #1d1e22;
-  color: #f0f0f0;
+#meetingheader {
+  padding-top: 20px;
+  border-bottom: 3px solid #a6c0fe;
+  padding-right: 50px;
+  height: 60px;
 }
 
 ul {
@@ -680,9 +780,21 @@ ul {
 }
 ul li {
   display: inline;
-  margin-left: 20px;
+  margin-left: 30px;
+  float: right;
 }
-
+ul li i {
+  font-size: 20px;
+}
+ul li i:hover {
+  cursor: pointer;
+}
+footer .habit habit4 {
+  font-size: 40px;
+}
+footer .habit habit4:hover {
+  cursor: pointer;
+}
 button {
   font-family: inherit;
   font-family: "Roboto Mono", monospace;
@@ -735,6 +847,7 @@ nav i.fa:hover {
 
 #main-container {
   padding-bottom: 80px;
+  padding-top: 1%;
 }
 
 /*vertical-center {
@@ -767,16 +880,6 @@ input.btn {
 
 .btn {
   font-weight: bold !important;
-}
-
-.btn-success {
-  background-color: #06d362 !important;
-  border-color: #06d362;
-}
-
-.btn-success:hover {
-  background-color: #1abd61 !important;
-  border-color: #1abd61;
 }
 
 .openvidu-logo {
@@ -855,8 +958,10 @@ a:hover .demo-logo {
 
   position: relative;
   float: left;
-  width: 50%;
+  width: 47%;
   cursor: pointer;
+  margin-left: 25px;
+  padding-top: 5%;
 }
 
 #video-container video + div {
@@ -885,7 +990,6 @@ video {
 
 #session img {
   width: 100%;
-  height: 150%;
   display: inline-block;
   object-fit: contain;
   vertical-align: baseline;
@@ -927,12 +1031,9 @@ video {
 }
 
 #session-footer {
-  /* display: inline; */
-  position: absolute;
-  float: left;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2%;
 }
 
 @media only screen and (max-height: 767px) and (orientation: landscape) {
@@ -943,5 +1044,24 @@ video {
   #join-dialog {
     max-width: inherit;
   }
+}
+
+.front__text-hover {
+  position: relative;
+  /* top: 10px; */
+  font-size: 15px;
+  backface-visibility: hidden;
+
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+
+  border: 2px solid;
+  padding: 8px 15px;
+  margin-top: 0px;
+  border-radius: 30px;
+
+  background: #454242;
+  color: #fff;
 }
 </style>
