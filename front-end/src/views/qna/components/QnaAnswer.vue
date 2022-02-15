@@ -132,4 +132,11 @@ export default {
   width: auto;
   display: inline;
 }
+
+textarea {
+    width: 100%;
+    height: 150px;
+    border: none;
+    resize: none;
+}
 </style>

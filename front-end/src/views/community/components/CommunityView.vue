@@ -3,12 +3,12 @@
     <div class="row"> </div>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 
-    <div style="margin-top: 5%">
+    <div style="margin-top: 3%">
       <h2>커뮤니티</h2>
     </div>
 
-     <div class="column intro row-hover pos-relative py-4 px-4 mt-5 mb-5 row text-center">      
-      <h6 style="color:black">'열린게시판'는 사용자들 간의 유용한 정보를 공유하고 서로 도움을 받을 수 있는 소통하는 공간입니다. 다양한 의견과 글을 자유롭게 게시하고 공유해주세요.</h6>
+     <div class="column intro row-hover pos-relative py-4 px-4 mt-4 mb-4 row text-center" style="background-color: #eaf1ff;">      
+      <h6 style="color: #6c8093">'열린게시판'는 사용자들 간의 유용한 정보를 공유하고 서로 도움을 받을 수 있는 소통하는 공간입니다. 다양한 의견과 글을 자유롭게 게시하고 공유해주세요.</h6>
      </div>
 
     <!-- <div class="col-lg-9 mb-3">  -->
@@ -49,7 +49,7 @@
     </div>
 
     <!--게시판 헤더-->
-    <div class="cardheader row-hover pos-relative py-3 px-3">
+    <div class="cardheader row-hover pos-relative py-3 px-3" style="background-color: #eaf1ff;">
       <div class="row align-items-center">
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5>번호</h5>
@@ -429,6 +429,14 @@ ul {
     }
   }
 }
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
 
 
 </style>
