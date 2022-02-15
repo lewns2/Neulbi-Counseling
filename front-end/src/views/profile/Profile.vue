@@ -7,22 +7,22 @@
       </header> -->
       <ul class="nav">
         <li class="px-5 py-5" style="margin-left: 0;" @click="goToConfession">
-          <div>
+          <div style="cursor: pointer;">
             Main
           </div>
         </li>
         <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='User'>
-          <div>
+          <div style="cursor: pointer;">
             User
           </div>
         </li>
         <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='Consultant'>
-          <div>
+          <div style="cursor: pointer;">
             Consultant
           </div>
         </li>
         <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='History'>
-          <div>
+          <div style="cursor: pointer;">
             History
           </div>
         </li>

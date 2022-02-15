@@ -18,9 +18,11 @@
             <div class="card__description" style="text-align: center;">
               <span style="font-weight: bold;">{{ confession.description }}</span><br><hr>
               <span>총 참가자 수 : {{ confession.participants }}</span><br><br>
-              <span>{{ confession.createdDate.substr(0, 16) }}</span><br>
-              <span> ~ </span><br>
-              <span>{{ confession.endDate.substr(0, 16) }}</span><br>
+              <div v-if="confession.createdDate!=null&confession.endDate!=null">
+                <span>{{ confession.createdDate.substr(0, 16) }}</span><br>
+                <span> ~ </span><br>
+                <span>{{ confession.endDate.substr(0, 16) }}</span><br>
+              </div>
             </div>
           </div>
         </div>      
