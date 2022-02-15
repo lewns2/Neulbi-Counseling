@@ -24,8 +24,8 @@ export function profileConsultantProfile(state) {
   return state.profileConsultantProfile;
 }
 
-export function profileConsultantLikeActive(state) {
-  return state.profileConsultantLikeActive
+export function profileConsultantLastPageNum(state) {
+  return state.profileConsultantLastPageNum
 }
 
 export function profileConsultantLike(state) {

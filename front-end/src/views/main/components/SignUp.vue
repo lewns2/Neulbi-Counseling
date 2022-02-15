@@ -5,7 +5,7 @@
 			<form action="#">
 				<div class="field">
 					<span class="fa fa-user"></span>
-					<input type="text" class="pass-key-email" required placeholder="Email" v-model="credentials.email" @keyup="clickValidateEmail">
+					<input type="text" class="pass-key-email" required placeholder="이메일" v-model="credentials.email" @keyup="clickValidateEmail">
           <span v-if="state.emailValid===true" class="show-email" @click="checkEmail">중복확인</span>
 				</div>
         <div v-if="state.emailValid===false">
@@ -13,7 +13,7 @@
         </div>
         <div class="field space">
 					<span class="fa fa-user"></span>
-					<input type="text" class="pass-key-nickname" required placeholder="Nickname" v-model="credentials.nickname" @keyup="clickValidateNickname">
+					<input type="text" class="pass-key-nickname" required placeholder="닉네임" v-model="credentials.nickname" @keyup="clickValidateNickname">
           <span v-if="state.nicknameValid===true" class="show-nickname" @click="checkNickname">중복확인</span>
 				</div>
         <div v-if="state.nicknameValid===false">
@@ -21,30 +21,30 @@
         </div>
 				<div class="field space">
 					<span class="fa fa-lock"></span>
-					<input type="password" class="pass-key" required placeholder="Password" v-model="credentials.password" @keyup="clickValidatePassword">
-					<span class="show" @click="clickShow">SHOW</span>
+					<input type="password" class="pass-key" required placeholder="비밀번호" v-model="credentials.password" @keyup="clickValidatePassword">
+					<span class="show" @click="clickShow">숫자보기</span>
 				</div>
         <div v-if="state.passwordValid===false">
           <p style="color: red;">{{ state.passwordMessage }}</p>
         </div>
         <div class="field space">
 					<span class="fa fa-lock"></span>
-					<input type="password" class="pass-key-confirm" required placeholder="Password Confirmation" v-model="credentials.passwordConfirmation">
-					<span class="show-confirm" @click="clickShow1">SHOW</span>
+					<input type="password" class="pass-key-confirm" required placeholder="비밀번호 확인" v-model="credentials.passwordConfirmation">
+					<span class="show-confirm" @click="clickShow1">숫자보기</span>
 				</div>
         <div v-if="credentials.password != credentials.passwordConfirmation">
           <p style="color: red;">비밀번호가 일치하지 않습니다.</p>
         </div>
 				<br>
 				<div class="field">
-					<input type="button" value="SIGNUP" @click="clickSignUp">
+					<input type="button" value="회원가입" @click="clickSignUp">
 				</div>
 			</form>
       <br>
 			<br>
 			<div class="signup">
-					Do you have account?
-					<router-link :to="{ name: 'SignIn' }">SignIn Now</router-link>
+					이미 회원이신가요?&nbsp;&nbsp;
+					<router-link :to="{ name: 'SignIn' }">로그인으로 이동</router-link>
 			</div>
 		</div>
 	</div>
@@ -143,11 +143,11 @@ export default {
 			const showBtn = document.querySelector('.show')
 			if(pass_field.type === 'password') {
 				pass_field.type = "text"
-				showBtn.textContent = "HIDE"
+				showBtn.textContent = "숨기기"
 				showBtn.color = "#3498db"
 			} else {
 				pass_field.type = "password"
-				showBtn.textContent = "SHOW"
+				showBtn.textContent = "숫자보기"
 				showBtn.color = "#222"
 			}
 		}
@@ -157,11 +157,11 @@ export default {
 			const showBtn = document.querySelector('.show-confirm')
 			if(pass_field.type === 'password') {
 				pass_field.type = "text"
-				showBtn.textContent = "HIDE"
+				showBtn.textContent = "숨기기"
 				showBtn.color = "#3498db"
 			} else {
 				pass_field.type = "password"
-				showBtn.textContent = "SHOW"
+				showBtn.textContent = "숫자보기"
 				showBtn.color = "#222"
 			}
 		}

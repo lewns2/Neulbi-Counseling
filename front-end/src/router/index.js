@@ -5,6 +5,7 @@ import SignIn from "../views/main/components/SignIn.vue";
 import OAuthSuccess from "../views/main/components/OAuthSuccess.vue";
 import OAuthFailure from "../views/main/components/OAuthFailure.vue";
 import Profile from "../views/profile/Profile.vue";
+import History from "../views/history/ProfileHistory.vue"
 import Confession from "../views/confession/Confession.vue";
 import Advice from "../views/advice/Advice.vue";
 import Community from "../views/community/Community.vue";
@@ -53,6 +54,11 @@ const routes = [
     path: "/user/:user_id",
     name: "Profile",
     component: Profile,
+  },
+  {
+    path: "/history/:user_id",
+    name: "History",
+    component: History,
   },
   {
     path: "/confession",

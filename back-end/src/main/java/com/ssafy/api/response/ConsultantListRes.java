@@ -56,7 +56,7 @@ public class ConsultantListRes {
 	// myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId();
 	// 존재하면 True, 없으면 False 값 같이 res에 담아서 반환.
 
-	public static Page<ConsultantListRes> of(Page<ConsultantProfile> cons, Long userId) {
+	public static Page<ConsultantListRes> of(Page<ConsultantProfile> cons) {
 		List<ConsultantListRes> temp = new ArrayList<>();
 
 		Pageable pageable = cons.getPageable();

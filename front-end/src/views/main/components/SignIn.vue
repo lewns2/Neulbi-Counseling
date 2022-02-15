@@ -2,26 +2,6 @@
 	<div class="bg-img">
 		<div class="content">
 			<header>로그인</header>
-			<form action="#">
-				<div class="field">
-					<span class="fa fa-user"></span>
-					<input type="text" required placeholder="Email" v-model="credentialsIn.email">
-				</div>
-				<div class="field space">
-					<span class="fa fa-lock"></span>
-					<input type="password" class="pass-key" required placeholder="Password" v-model="credentialsIn.password">
-					<span class="show" @click="clickShow">SHOW</span>
-				</div>
-				<div class="pass">
-					<a href="#">Forgot Password?</a>
-				</div>
-				<div class="field">
-					<input type="button" value="LOGIN" @click="clickSignIn">
-				</div>
-			</form>
-			<div class="login">
-					Or login with
-			</div>
 			<div class="links d-flex justify-content-evenly">
 				<a class="social_btn" href="https://i6e202.p.ssafy.io:8443/oauth2/authorization/google?redirect_uri=https://i6e202.p.ssafy.io/oauth/redirect">
 					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAArlBMVEVHcEw/hfbvgxs6ic4yqlQ/gvJAhvhhepCmcULsQjPsQjPqQjPsQjQzqVPrQjPxeSAyq1QyqlQxp1PnQTL8vwAzqVTrQjMyqlQ5qVE/hPU/hPYyqlQ+g/X9wAA/h/TtQjP7vADqQTP9wAA/hPU/hff7uQXzhxk3l5zAth4+g/P8wAA5k7LeuhPnQTM+gvEyp1P5uwAxplM/hPUyp1H3rAjtaCSIsDI6i8w0n3RXq0M974clAAAALXRSTlMAjQ8P7TDhAwjwcUbYSKE0gNAdHr1rup0x8Lm1SomBgmBf6c2gpff892Rt4qhtntK7AAACRUlEQVRYw+1XaXeiMBRFgg1r2GQTq7XaTjszGiitM/P//9gQljSWABFPv3nVox+89928Je8gSTfc8M1QfdsgsH11Als2dGSaGoFpIt2QL6P7eqgdWGjh1r8gum4eugi3oi6ML9EpkC2UOm74GqYxnk51ox36YdrX8TVdHfV/HV/anvE1M0QIhaYmyoc+mz8TGb4MJSj7BtLE4quIiY5sVYKNsGqEInzJ0JjjnneNvBHgy08flL+FX04H4Sgf2o/vz218OGH+4H2WZbUCmjK/UF6UAtn7h0i/cWE/Zo3CZsoBJPiQNXhmDEAw5wD0pqDCgqkgXN9xsOZZVJ9agXtWdnbs4m3PFVi0Aj9HBZa8KslU4GFM4LgE3yFw0RHAlUnk5qCnjLO3TwxXQaKN9BIzAqvZJ3atArcPYNPK2Qk7kB1jCrBsBV7510GVxZd/OXZj7h9WScNP5v3jTPgYR9wk7VsDO9A7jqeC8LESwAEDx1nPtMq/TznOq3dXAc5pCpNV30RbCq4MYKJwbhOudsN9WPdSVAnUp4hixoQX/DqOG5Ck2K3jk1cpYXmgXCyqZzkuzn+0AnswcCtZSpUDAuLCTaMoSl2l/F0Uf/9U/Lv54G5ylAJ3QfTyWiF5Hb4wS4UunSgQD+UxkjUYuVtBR6Gg36XCKL/0ECiV57YlmqrUpXGAyP1upZj2Q+2++mDsWoIbywtcGhRTI4rjiW8ZL0gVNollRZ34sn0FLKdsgBpu6ljehHUHvdgiiD110rJsbqTbU8sNAvgPj0mre8ZWN6oAAAAASUVORK5CYII=" 
@@ -39,9 +19,29 @@
 				</a>
 			</div>
 			<br>
+			<form action="#">
+				<div class="field">
+					<span class="fa fa-user"></span>
+					<input type="text" required placeholder="이메일" v-model="credentialsIn.email">
+				</div>
+				<div class="field space">
+					<span class="fa fa-lock"></span>
+					<input type="password" class="pass-key" required placeholder="비밀번호" v-model="credentialsIn.password">
+					<span class="show" @click="clickShow">숫자보기</span>
+				</div>
+				<div class="pass">
+					<a @click="findPassword">비밀번호 찾기</a>
+				</div>
+				<div class="field">
+					<input type="button" value="로그인" @click="clickSignIn">
+				</div>
+			</form>
+			<br>
+			
+			<br>
 			<div class="signup">
-					Don't you have account?
-					<router-link :to="{ name: 'SignUp' }">SignUp Now</router-link>
+					아직 회원이 아니신가요?&nbsp;&nbsp;
+					<router-link :to="{ name: 'SignUp' }">회원가입으로 이동</router-link>
 			</div>
 		</div>
 	</div>
@@ -99,11 +99,11 @@ export default {
 			const showBtn = document.querySelector('.show')
 			if(pass_field.type === 'password') {
 				pass_field.type = "text"
-				showBtn.textContent = "HIDE"
+				showBtn.textContent = "숨기기"
 				showBtn.color = "#3498db"
 			} else {
 				pass_field.type = "password"
-				showBtn.textContent = "SHOW"
+				showBtn.textContent = "숫자보기"
 				showBtn.color = "#222"
 			}
 		}
@@ -118,8 +118,13 @@ export default {
 			}
 		}
 
-		const findPassword = function () {
-			store.dispatch('root/mainFindPassword', { email: state.email })
+		const findPassword = async function () {
+			if (state.email == null) {
+				alert('이메일 작성란에 이메일을 기입해주세요')
+			} else {
+				await store.dispatch('root/mainFindPassword', { email: state.email })
+				alert("해당 이메일에 성공적으로 임시 비밀번호를 전송했습니다.")
+			}
 		}
 
     return { credentialsIn, state, clickShow, clickSignIn, findPassword }
@@ -180,7 +185,7 @@ export default {
 }
 .field span{
   color: #222;
-  width: 40px;
+  width: 60px;
   line-height: 45px;
 }
 .field input{

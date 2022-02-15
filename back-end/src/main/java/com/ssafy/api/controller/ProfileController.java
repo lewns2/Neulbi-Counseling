@@ -173,11 +173,11 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<ConsultantListRes>> getMyConsultantList(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Page<ConsultantListRes>> getMyConsultantList(@PathVariable("user_id") Long userId,  @PageableDefault(page = 0, size = 4) Pageable pageable) {
 
         System.out.println(userId);
         // 유저 아이디를 입력해서 해당하는 상담가 정보들을 받아온다.
-        List<ConsultantProfile> consultantProfileList = profileService.getMyConsultantList(userId);
+        Page<ConsultantProfile> consultantProfileList = profileService.getMyConsultantList(userId, pageable);
 
         return ResponseEntity.status(200).body(ConsultantListRes.of(consultantProfileList));
     }

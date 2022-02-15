@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5 mb-5 d-flex justify-content-center">
+  <div class="mb-4 d-flex justify-content-center">
     <div class="outer-div">
       <div class="inner-div">
         <div class="front">
@@ -67,7 +67,7 @@ export default {
 .outer-div,
 .inner-div {
   height: 70%;
-  max-width: 85%;
+  max-width: 75%;
   margin: 0 auto;
   position: relative;
 }
@@ -120,7 +120,7 @@ export default {
 
 .front__bkg-photo {
   position: relative;
-  height: 20vh;
+  height: 8vh;
   width: 100%;
   // background: url("https://images.unsplash.com/photo-1511207538754-e8555f2bc187?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=88672068827eaeeab540f584b883cc66&auto=format&fit=crop&w=1164&q=80")
   //   no-repeat;

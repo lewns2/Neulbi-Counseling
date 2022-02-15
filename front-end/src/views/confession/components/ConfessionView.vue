@@ -55,10 +55,11 @@
     <hr>
 
     <div class="row">
-      <div class="col-sm-9" align="left">
+      <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 mx-5 mt-5" style="margin-bottom: 10%;">
+          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 px-5" style="margin-bottom: 3%;">
+            {{ confessionMeeting }}
             <div class="card">
               <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confessionMeeting.profileImg" class="card__image">
               <div class="card__overlay">
@@ -66,12 +67,13 @@
                   <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
                   <img class="card__thumb" :src="require('@/assets/mask/mask'+confessionMeeting.maskId+'.png')" alt="" />
                   <div class="card__header-text">
-                    <h3 class="card__title">{{ confessionMeeting.ownerNickname }}</h3>            
+                    <h3 class="card__title">{{ confessionMeeting.title }}</h3>            
                     <span class="card__status">주제: {{ confessionMeeting.topicCategoryName }}</span>
                   </div>
                 </div>
                 <div class="card__description" style="text-align: center;">
                   <span style="font-weight: bold;">{{ confessionMeeting.description }}</span><br><hr>
+                  <span>{{ confessionMeeting.ownerNickname }}</span>
                   <span>{{ confessionMeeting.currJoinParticipants+1 }} / {{ confessionMeeting.participants }}</span><br><br>
                   <button
                     type="button"
@@ -96,7 +98,7 @@
           <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-3">
         <confession-user :userInfo="state.userInfo"></confession-user>
         <br>
         <br>
@@ -269,20 +271,20 @@ export default {
 
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/confessionPageSearch",{
-          size: 6,
+          size: 8,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'topic') {
         await store.dispatch("root/confessionTopicPageSearch",{
           topicCategoryId: state.topic,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'search') {
         await store.dispatch("root/confessionSearchPageSearch",{
           key: state.key,
           value: state.word,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       }
@@ -469,7 +471,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 40vh;  
+  height: 32vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
