@@ -16,7 +16,7 @@
       <button type="button" class="front__text-hover_red mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal1">비밀번호 변경</button>
         <!-- modal -->
         <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel1">Password를 변경하세요.</h5>
@@ -35,7 +35,7 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyPassword">비밀번호 변경</button>
               </div>
             </div>
@@ -94,8 +94,8 @@
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyMask">Select</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyMask">변경</button>
                 </div>
               </div>
             </div>
@@ -120,8 +120,8 @@
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyBack">Select</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyBack">변경</button>
                 </div>
               </div>
             </div>

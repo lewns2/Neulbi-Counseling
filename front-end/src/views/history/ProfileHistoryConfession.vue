@@ -276,7 +276,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 48%;
+  right: 55%;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -312,7 +312,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 64%;
+  left: 55%;
 }
 .paginate.right i {
   transform-origin: 100% 50%;

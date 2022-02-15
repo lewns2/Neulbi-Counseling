@@ -1,70 +1,84 @@
 <template>
-  <div class="outer-div">
-    <div class="inner-div">
-      <div class="front__text">
-        <div class="front">
-        <h3 class="py-3">방생성</h3>
-        <div class="d-flex justify-content-center my-3">
-          <div class="searchBox">
-              <input class="searchInput" type="text" placeholder="Title" v-model="confessionChatRoom.title">
+  <div class="d-flex justify-content-center">
+    <button class="front__text-hover"  data-bs-toggle="modal" data-bs-target="#exampleModal">고해성사 생성하기</button>
+    <!-- 마스크 모달 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">고해성사 방을 생성하세요.</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        </div>
-        <br>
-        <!-- 선택하여 정수를 반환하도록 수정해야함 -->
-        <div>
-          <div class="pagination my-3 mx-2">
-            <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;">
-              <p>
-                학업
-              </p>
-            </div>
-            <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;">
-              <p>
-                가정
-              </p>
-            </div>
-            <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;">
-              <p>
-                취업
-              </p>
-            </div>
+          <div class="modal-body">
+            <form>
+              <h3 class="py-3">방생성</h3>
+              <div class="d-flex justify-content-center my-3">
+                <div class="searchBox">
+                    <input class="searchInput" type="text" placeholder="Title" v-model="confessionChatRoom.title">
+                </div>
+              </div>
+              <br>
+              <!-- 선택하여 정수를 반환하도록 수정해야함 -->
+              <div>
+                <div class="pagination my-3 mx-2">
+                  <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;">
+                    <p>
+                      학업
+                    </p>
+                  </div>
+                  <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;">
+                    <p>
+                      가정
+                    </p>
+                  </div>
+                  <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;">
+                    <p>
+                      취업
+                    </p>
+                  </div>
+                </div>
+                <div class="pagination my-3 mx-2">
+                  <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;">
+                    <p>
+                      진로
+                    </p>
+                  </div>
+                  <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;">
+                    <p>
+                      연애
+                    </p>
+                  </div>
+                  <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;">
+                    <p>
+                      결혼
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- 제한 인원 수 : 정수형 -->
+              <div class="d-flex justify-content-center my-3">
+                <div class="searchBox">
+                    <input class="searchInput" type="number" placeholder="Participants" v-model="confessionChatRoom.participants">
+                </div>
+              </div>
+              <br>
+              <div class="d-flex justify-content-center my-3">
+                <div class="searchBox">
+                  <input class="searchInput" type="text" placeholder="Description" v-model="confessionChatRoom.description">
+                </div>
+              </div>
+              <br><br>
+            </form>
           </div>
-          <div class="pagination my-3 mx-2">
-            <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;">
-              <p>
-                진로
-              </p>
-            </div>
-            <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;">
-              <p>
-                연애
-              </p>
-            </div>
-            <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;">
-              <p>
-                결혼
-              </p>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickCreateMeeting">생성</button>
           </div>
-        </div>
-        <!-- 제한 인원 수 : 정수형 -->
-        <div class="d-flex justify-content-center my-3">
-          <div class="searchBox">
-              <input class="searchInput" type="number" placeholder="Participants" v-model="confessionChatRoom.participants">
-          </div>
-        </div>
-        <br>
-        <div class="d-flex justify-content-center my-3">
-          <div class="searchBox">
-            <input class="searchInput" type="text" placeholder="Description" v-model="confessionChatRoom.description">
-          </div>
-        </div>
-        <br>
-        <button class="front__text-hover mt-3 mb-4" @click="clickCreateMeeting">고해성사 미팅방 생성</button>
         </div>
       </div>
     </div>
   </div>
+      
 </template>
 
 <script>
@@ -140,100 +154,52 @@ export default {
 // 전체 틀
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 
-.outer-div,
-.inner-div {
-  max-width: 75%;
-  margin: 0 auto;
+.front__text-header {
+  font-weight: 700;
+  font-family: "Oswald";
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+.front__text-para {
   position: relative;
-}
+  top: -5px;
 
-.outer-div {
-  perspective: 900px;
-  perspective-origin: 50% calc(50% - 18em);
-}
-
-.inner-div {
-  margin: 0 auto;
-  border-radius: 5px;
+  color: #000;
+  font-size: 14px;
+  letter-spacing: 0.4px;
   font-weight: 400;
-  color: #071011;
-  font-size: 1rem;
-  text-align: center;
-  transition: all 0.6s cubic-bezier(0.8, -0.4, 0.2, 1.7);
-  transform-style: preserve-3d;
+  font-family: "Montserrat", sans-serif;
 }
 
-.front {
+.front-icons {
   position: relative;
-  top: 20px;
-  left: 0;
-  backface-visibility: hidden;
+  top: 0;
+  font-size: 14px;
+  margin-right: 6px;
+  color: gray;
 }
 
-.front {
-  height: 100%;
-  background: #fff;
-  backface-visibility: hidden;
-  border-radius: calc(var(--curve) * 1px);
-  --surface-color: #fff;
-  --curve: 40;
-  box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-}
-
-.front__text {
+.front__text-hover {
   position: relative;
-  top: -55px;
-  margin: 0 auto;
-  font-family: "Montserrat";
-  font-size: 18px;
+  top: 10px;
+  font-size: 15px;
+  color: #bbd2f9;
   backface-visibility: hidden;
+  font-family: "Binggrae-Taom";
 
-  .front__text-header {
-    font-weight: 700;
-    font-family: "Oswald";
-    text-transform: uppercase;
-    font-size: 20px;
-  }
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
 
-  .front__text-para {
-    position: relative;
-    top: -5px;
+  border: 2px solid #bbd2f9;
+  padding: 8px 15px;
+  border-radius: 30px;
 
-    color: #000;
-    font-size: 14px;
-    letter-spacing: 0.4px;
-    font-weight: 400;
-    font-family: "Montserrat", sans-serif;
-  }
-
-  .front-icons {
-    position: relative;
-    top: 0;
-    font-size: 14px;
-    margin-right: 6px;
-    color: gray;
-  }
-
-  .front__text-hover {
-    position: relative;
-    top: 10px;
-    font-size: 15px;
-    color: #bbd2f9;
-    backface-visibility: hidden;
-
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .4px;
-
-    border: 2px solid #bbd2f9;
-    padding: 8px 15px;
-    border-radius: 30px;
-
-    background: #bbd2f9;
-    color: #fff;
-  }
+  background: #bbd2f9;
+  color: #fff;
 }
+
 
 // 버튼들
 

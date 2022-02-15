@@ -250,7 +250,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecommunity.left {
-  right: 48%;
+  right: 55%;
 }
 .paginatecommunity.left i {
   transform-origin: 0% 50%;
@@ -286,7 +286,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatecommunity.right {
-  left: 64%;
+  left: 55%;
 }
 .paginatecommunity.right i {
   transform-origin: 100% 50%;

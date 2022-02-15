@@ -1,11 +1,13 @@
 <template>
   <div>
     <main-header></main-header>
-    <profile-history-confession></profile-history-confession>
-    <profile-history-advice></profile-history-advice>
-    <profile-history-community></profile-history-community>
-    <profile-history-comment></profile-history-comment>
-    <profile-history-review :userInfo="state.userInfo"></profile-history-review>
+    <div class="container">
+      <profile-history-confession></profile-history-confession>
+      <profile-history-advice></profile-history-advice>
+      <profile-history-community></profile-history-community>
+      <profile-history-comment></profile-history-comment>
+      <profile-history-review :userInfo="state.userInfo"></profile-history-review>
+    </div>
   </div>
 </template>
 

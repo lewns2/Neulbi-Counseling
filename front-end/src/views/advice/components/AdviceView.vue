@@ -1,14 +1,15 @@
 <template>
   <div>
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <!-- 카테고리 선택 -->
     <span class="mt-4 mb-4 row justify-content-evenly" style="line-height: 40px;">
-      <div class="container col-1">
+      <div class="container col-1" style="font-family: Binggrae-Taom;">
         <h1>고민상담</h1> 
       </div>
       <div class="col-5 d-flex justify-content-evenly" style="width: 40%;">
         <div @click="clickAdviceList">
           <a href="#" class="cta">
-            <span>모두</span>
+            <span style="font-family: Binggrae-Taom;">모두</span>
           </a>
         </div>
         <div
@@ -17,27 +18,27 @@
           @click="clickAdviceCategory(category.number)"
         >
           <a href="#" class="cta">
-            <span>{{ category.value }}</span>
+            <span style="font-family: Binggrae-Taom;">{{ category.value }}</span>
           </a>
         </div>
       </div>
 
       <!-- 검색 후 결과 얻기 -->
-      <div class="col-4 d-flex justify-content-end">
-        <div class="dropdown me-3">
-          <input type="checkbox" id="dropdown" @click="clickChange">
+      <div class="col-4 d-flex justify-content-end" style="font-family: Binggrae-Taom;">
+        <span class="pe-3">  
+          <button class="form-control form-control-md dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+            style="border: 2px solid #bbd2f9; box-shadow: none; border-radius: 30px; height: 80%; color: black; font-family: Binggrae-Taom;"
+          >
+            {{ state.showKey }}
+          </button>
 
-          <label class="dropdown__face" for="dropdown">
-            <div class="dropdown__text ps-3" style="text-align: left;">{{ state.showKey }}</div>
-
-            <div class="dropdown__arrow"></div>
-          </label>
-
-          <ul class="dropdown__items" id="drop1">
-            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(1)">닉네임</button></li>
-            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickModifyShowCategory(2)">설명</button></li>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
+            style="min-width: 12rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+          >
+            <li class="px-4" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(1)">닉네임</button></li>
+            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(2)">설명</button></li>
           </ul>
-        </div>
+        </span>
         
         <div class="searchBox">
           <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
@@ -67,11 +68,11 @@
                   <img class="card__thumb" :src="require('@/assets/mask/mask'+adviceConsultant.maskId+'.png')" alt="" />
                   <div class="card__header-text">
                     <h3 class="card__title">{{ adviceConsultant.nickname }}</h3>            
-                    <span class="card__status">주제: {{ adviceConsultant.topicCategoryName }}</span>
+                    <p class="card__status">{{ adviceConsultant.topicCategoryName }}</p>
                   </div>
                   <label class="like" v-if="adviceConsultant.favConsultant">
                     <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)" checked>
-                    <div class="hearth"/>
+                    <div class="hearth" />
                   </label>
                   <label class="like" v-else>
                     <input type="checkbox" @click="clickMyConsultant(adviceConsultant.id)">
@@ -108,6 +109,7 @@
       </div>
       <div class="col-sm-3">
         <advice-user :userInfo="state.userInfo"></advice-user>
+        <button class="front__text-hover_chat px-5" @click="goToChatRoom">채팅방 이동</button><br><br>
         <advice-rank></advice-rank>
       </div>
     </div>
@@ -147,7 +149,7 @@ export default {
         { value: "닉네임", backValue: "nickname" },
         { value: "설명", backValue: "description" },
       ],
-      showKey: 'Select',
+      showKey: '선택',
       key: "Select",
       word: null,
       page: 1,
@@ -341,6 +343,15 @@ export default {
       // console.log(ref)
     }
 
+    const goToChatRoom = function () {
+      router.push({
+        name: 'ChatRoom',
+        params: {
+          user_id: state.userInfo.id
+        }
+      })
+    }
+
 
     return { 
       state,
@@ -352,6 +363,7 @@ export default {
       checkPage,
       clickMyConsultant,
       clickModifyShowCategory,
+      goToChatRoom,
     }
   }
 }
@@ -465,7 +477,7 @@ a {
     display: block;
     border-radius: 28px;
     background: rgba(#bbd2f9,.5);
-    width: 56px;
+    width: 100%;
     height: 56px;
     transition: all .3s ease;
   }
@@ -586,7 +598,7 @@ a {
 }
 
 .card__title {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0 0 .3em;
   color: #6A515E;
 }
@@ -600,15 +612,15 @@ a {
 }
 
 .card__status {
-  font-size: .8em;
+  font-size: 1.1em;
   color: #D7BDCA;
 }
 
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
+  color: #6A515E;
+  font-family: "Binggrae-Taom";   
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
@@ -616,10 +628,11 @@ a {
 
   .front__text-hover {
     position: relative;
-    top: 10px;
+    // top: 10px;
     font-size: 15px;
     color: #bbd2f9;
     backface-visibility: hidden;
+    font-family: "Binggrae-Taom";
 
     font-weight: 700;
     text-transform: uppercase;
@@ -632,6 +645,26 @@ a {
     background: #bbd2f9;
     color: #fff;
   }
+}
+
+.front__text-hover_chat {
+  position: relative;
+  // top: 10px;
+  font-size: 15px;
+  color: #bbd2f9;
+  backface-visibility: hidden;
+  font-family: "Binggrae-Taom";
+
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #bbd2f9;
+  padding: 8px 15px;
+  border-radius: 30px;
+
+  background: #bbd2f9;
+  color: #fff;
 }
 
 // pagination
@@ -887,5 +920,6 @@ button {
   visibility: visible;
   opacity: 1;
 }
+
 
 </style>
