@@ -34,8 +34,7 @@ export default {
   float: left;
   width: 47%;
   cursor: pointer;
-  margin-left: 25px;
-  padding-top: 5%;
+  // margin-left: 25px;
   border-radius: 10px;
 }
 

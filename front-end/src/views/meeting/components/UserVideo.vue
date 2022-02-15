@@ -83,8 +83,7 @@ export default {
   float: left;
   width: 47%;
   cursor: pointer;
-  margin-left: 25px;
-  padding-top: 5%;
+  // margin-left: 25px;
 }
 
 #video-container video + div {
@@ -143,7 +142,7 @@ video {
 #bgimg {
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 10%;
   left: 6%;
   right: 0;
   bottom: 0;
@@ -152,7 +151,7 @@ video {
 
 #maskimg-2 {
   position: absolute;
-  top: 40%;
+  top: 18%;
   left: 22%;
   z-index: 99;
   right: 24%;
