@@ -114,7 +114,7 @@ export function CONFESSION_GET_CONSULTANT_LIST(state, data) {
     state.confessionMeetingList.push({
       ownerId: data[i].ownerId,
       ownerNickname: data[i].ownerNickname,
-      title: data[i].nickntitleame,
+      title: data[i].title,
       description: data[i].description,
       meetingId: data[i].meetingId,
       participants: data[i].participants,
@@ -150,14 +150,15 @@ export function CONFESSION_REVIEW_LIST(state, data) {
 
 export function ADVICE_GET_RANK_LIST(state, data) {
   state.adviceRankList = []
-  data.forEach((rank) => {
+  let min = Math.min(3, data.length)
+  for (let i = 0; i < min; i++) {
     state.adviceRankList.push({
-      id: rank.id,
-      nickname: rank.nickname,
-      pointTot: rank.pointTot,
-      profileImg: rank.profileImg,
-    });
-  });
+      id: data[i].id,
+      nickname: data[i].nickname,
+      pointTot: data[i].pointTot,
+      profileImg: data[i].profileImg,
+    })
+  }
 }
 
 export function ADVICE_GET_LAST_PAGE_NUM(state, data) {

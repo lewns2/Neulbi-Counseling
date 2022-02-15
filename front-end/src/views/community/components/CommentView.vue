@@ -10,7 +10,8 @@
             <div class="row align-items-center mt-3">
                 <div class="col-1">
                   <div class="img-center">
-                  <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
+                  <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')">
+                  <!-- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" /> -->
                   </div>
                   <!-- <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""> -->
                 </div>
@@ -18,7 +19,7 @@
                   <textarea class="form-control" v-model="state.commentDescription" id="message" placeholder="댓글을 작성해주세요" required=""></textarea>
                 </div>
                 <div class="col-2">
-                  <button type="button" @click="clickCreateComment(0)" class="btn btn-normal">Submit</button>
+                  <button type="button" @click="clickCreateComment(0)" class="btn btn-normal">작성</button>
                 </div>
             </div>  	
         </fieldset>
@@ -30,13 +31,15 @@
     <!-- 댓글 보여주기 -->
     <div v-for="(comment, idx) in state.communityComment" :key=idx class="card row-hover pos-relative" id="board-style1"> 
       <div v-if="comment.layer==0" class="row align-items-center py-1 px-3">
+        <!-- {{state.communityComment}} -->
         <div class="col-1">
+          <!-- <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')"> -->
           <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
         </div>
         <div class="col-8" id="leftalign">
           <div>
-            {{comment.userNickname}} | 
-            <span>2주 전</span>
+            {{comment.userNickname}}
+            <!-- <span>2주 전</span> -->
           </div>
           <div class="mt-2">
             <div v-if="idx!=state.commentIsUpdateNumber">
@@ -49,21 +52,23 @@
             </div>
           </div>
           <!--대댓글에 관한-->
-          <span @click="clickCommentIsComment(idx, comment.groupNum)" v-if="state.commentIsCommentNumber!=idx" id="cocomment"><i class="ion-arrow-down-b"></i> 답글 보기</span>
+          <span @click="clickCommentIsComment(idx, comment.groupNum)" v-if="state.commentIsCommentNumber!=idx" id="cocomment">
+            <span style="cursor: pointer;"><i class="ion-arrow-down-b"></i> 답글 보기</span>
+          </span>
           
         </div>
         <div class="col-1"></div>
         <!--root 댓글의 수정/삭제-->
         <div class="col-1" v-if="state.userInfo.id === comment.userId">
-          <span @click="clickIsUpdate(idx)" v-if="state.commentIsUpdateNumber!=idx">수정</span>
+          <button class="form-control form-control-md col-lg-2" @click="clickIsUpdate(idx)" v-if="state.commentIsUpdateNumber!=idx">수정</button>
           <div v-if="idx==state.commentIsUpdateNumber">
             <!-- <textarea class="form-control" v-model="comment.description" id="message" placeholder="댓글을 작성해주세요" required=""></textarea> -->
-            <button @click="clickModifyComment(comment)">수정</button>
+            <button class="form-control form-control-md col-lg-2" @click="clickModifyComment(comment)">수정</button>
           </div>
         </div>
 
         <div class="col-1" v-if="state.userInfo.id === comment.userId">
-            <span @click="clickDeleteComment(comment.commentId)">삭제</span>
+            <button class="custom-form-control-red form-control-md col-lg-2" @click="clickDeleteComment(comment.commentId)">삭제</button>
         </div>
         <hr class="mt-3">
       </div>
@@ -75,12 +80,13 @@
             <!-- {{ coComment }} -->
             <div class="col-1">L</div>
             <div class="col-1" id="customimg">
+              <!-- <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')"> -->
               <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
             </div>
             <div class="col-6" id="leftalign">
               <div>
-                {{ coComment.userNickname }} |
-                <span>방금 전</span>
+                {{ coComment.userNickname }}
+                <!-- <span>방금 전</span> -->
               </div>
               <div class="mt-2">
                 <div v-if="index!=state.commentIsCommentUpdateNumber">
@@ -97,7 +103,7 @@
             <!--대댓글 수정/삭제하기-->
             <div class="col-1"></div>
             <div class="col-1" v-if="state.userInfo.id === coComment.userId">
-              <span @click="clickCommentUpdate(index)" v-if="state.commentIsCommentUpdateNumber!=index">수정</span>
+              <button class="form-control form-control-md col-lg-2" @click="clickCommentUpdate(index)" v-if="state.commentIsCommentUpdateNumber!=index">수정</button>
               <div v-if="index==state.commentIsCommentUpdateNumber">
                 <!-- <textarea class="form-control" v-model="coComment.description" id="message" placeholder="댓글을 작성해주세요" required=""></textarea> -->
                 <button @click="clickModifyComment(coComment)" class="form-control form-control-md col-lg-2" id="input">수정</button>
@@ -105,7 +111,7 @@
             </div>
                 
             <div class="col-1" v-if="state.userInfo.id === coComment.userId">
-                <span @click="clickDeleteComment(coComment.commentId)">삭제</span>
+                <button class="custom-form-control-red form-control-md col-lg-2" @click="clickDeleteComment(coComment.commentId)">삭제</button>
             </div>
             <br><br>
         </div>
@@ -117,17 +123,18 @@
             <fieldset>
                 <div class="row">
                     <div class="col-2 text-center">
-                      <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
+                      <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')">
+                      <!-- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" /> -->
                       <!-- <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""> -->
                     </div>
                     <div class="form-group col-8">
                       <textarea class="form-control" v-model="state.commentCommentDescription" id="message" placeholder="댓글을 작성해주세요" required=""></textarea>
                     </div>
                     <div class="col-1">
-                      <button type="button" @click="clickCreateComment(comment.commentId)" class="btn btn-normal">Submit</button>
+                      <button type="button" @click="clickCreateComment(comment.commentId)" class="btn btn-normal">작성</button>
                     </div>
                     <div class="col-1">
-                      <button type="button" @click="clickCommentIsComment(-1, '')" class="btn btn-normal">취소</button> 
+                      <button type="button" @click="clickCommentIsComment(-1, '')" class="btn btn-normal">닫기</button> 
                     </div>
                 </div> 
                 <hr>	
@@ -228,6 +235,7 @@ export default {
         state.commentIsCommentNumber = idx
         state.commentGroupNum = groupNum
       }
+      
     }
 
     const clickCommentUpdate = function (index) {
@@ -299,6 +307,26 @@ img {
 #cocomment {
   color: blue;
   // text-decoration: underline;
+}
+
+.custom-form-control-red {
+  // color: red;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: red;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 </style>

@@ -302,7 +302,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginaterec.left {
-  right: 48%;
+  right: 55%;
 }
 .paginaterec.left i {
   transform-origin: 0% 50%;
@@ -338,7 +338,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginaterec.right {
-  left: 64%;
+  left: 55%;
 }
 .paginaterec.right i {
   transform-origin: 100% 50%;
@@ -400,7 +400,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatewri.left {
-  right: 48%;
+  right: 55%;
 }
 .paginatewri.left i {
   transform-origin: 0% 50%;
@@ -436,7 +436,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatewri.right {
-  left: 64%;
+  left: 55%;
 }
 .paginatewri.right i {
   transform-origin: 100% 50%;

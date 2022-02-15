@@ -10,7 +10,7 @@
             <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')" style="position: relative; width: 100%; z-index: 71;">
             <img :src="require('@/assets/back/back'+state.userInfo.backId+'.png')" style="position: relative; width: 150%; top: -120%; z-index: 70;">
           </div>
-          <div class="front__text">
+          <div class="front__text" style="font-family: Binggrae;">
             <h3 class="front__text-header">{{ state.userInfo.nickname }}</h3>
             <p>이메일: {{ state.userInfo.email }}<br>
             등급: {{ state.grade }} / 포인트: {{ state.userInfo.pointTot }}</p>
@@ -176,7 +176,7 @@ export default {
   top: -55px;
   margin: 0 auto;
   font-family: "Montserrat";
-  font-size: 18px;
+  font-size: 22px;
   backface-visibility: hidden;
 
   .front__text-header {
@@ -211,6 +211,7 @@ export default {
     font-size: 15px;
     color: #bbd2f9;
     backface-visibility: hidden;
+    font-family: "Binggrae-Taom";
 
     font-weight: 700;
     text-transform: uppercase;

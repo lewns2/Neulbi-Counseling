@@ -2,6 +2,29 @@
   <div v-if="streamManager">
     <ov-video :stream-manager="streamManager" />
     <div id="whatis">
+      <div v-if="!streamManager.stream.videoActive">
+        <div id="bgimg">
+          <img
+            :src="
+              require('@/assets/back/back' +
+                streamManager.stream.connection.data.split('%/%')[2] +
+                '.png')
+            "
+            alt=""
+          />
+          <div id="maskimg-2">
+            <img
+              :src="
+                require('@/assets/mask/mask' +
+                  streamManager.stream.connection.data.split('%/%')[1] +
+                  '.png')
+              "
+              alt=""
+              style="width: 103%"
+            />
+          </div>
+        </div>
+      </div>
       <div id="nameismute">
         <p>
           {{ state.clientData.clientData }}
@@ -24,19 +47,6 @@
             style="color: red; font-size: 15px"
           ></i>
         </p>
-      </div>
-
-      <div v-if="!streamManager.stream.videoActive">
-        <!-- <img
-          :src="streamManager.stream.connection.data.split('%/%')[1]"
-          alt=""
-        /> -->
-        <div id="bgimg">
-          <img src="@/assets/back1.jpg" alt="" />
-          <div id="maskimg-2">
-            <img src="@/assets/mask/mask1.png" alt="" />
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -74,6 +84,44 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#main-video video {
+  position: relative;
+  float: left;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+#main-video p {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: grey;
+  font-weight: bold;
+  border-bottom-right-radius: 4px;
+  // margin-top: 10%;
+  position: relative;
+  top: -40%;
+}
+
+#main-video #nameismute {
+  // display: inline-block;
+  justify-content: center;
+  align-items: center;
+  padding-right: 10%;
+  height: 10vh;
+}
+
+#main-video #bgimg {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  left: 0%;
+  right: 0;
+  bottom: 0;
+  padding-top: 2%;
+}
+
 #video-container video {
   display: flex;
   justify-content: center;
@@ -81,9 +129,10 @@ export default {
 
   position: relative;
   float: left;
-  width: 47%;
+  width: 45%;
   cursor: pointer;
-  // margin-left: 25px;
+  margin-left: 20px;
+  margin-bottom: 15px;
 }
 
 #video-container video + div {
@@ -98,9 +147,10 @@ export default {
   display: inline-block;
   padding-left: 5px;
   padding-right: 5px;
-  color: #ffe54c;
+  color: grey;
   font-weight: bold;
   border-bottom-right-radius: 4px;
+  // margin-top: 10%;
 }
 
 video {
@@ -122,10 +172,11 @@ video {
 }
 
 #nameismute {
-  margin-top: 20px;
-  display: inline-block;
+  margin-top: 48%;
+  // display: inline-block;
   justify-content: center;
   align-items: center;
+  padding-left: 10%;
 }
 
 #maskimg {
@@ -142,16 +193,20 @@ video {
 #bgimg {
   position: absolute;
   left: 50%;
-  top: 10%;
-  left: 6%;
+  top: 0%;
+  left: 10%;
   right: 0;
   bottom: 0;
   padding-top: 2%;
 }
 
+#main-video #maskimg-2 {
+  // width: 103%;
+}
+
 #maskimg-2 {
   position: absolute;
-  top: 18%;
+  top: 10%;
   left: 22%;
   z-index: 99;
   right: 24%;

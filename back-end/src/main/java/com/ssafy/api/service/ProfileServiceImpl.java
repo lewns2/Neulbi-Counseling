@@ -129,7 +129,7 @@ public class ProfileServiceImpl implements ProfileService {
 		List<ConsultantProfile> temp = new ArrayList<>();
 
 		for(MyConsultant myConsultant : myConsultantList.getContent()) {
-			temp.add(consultantRepositorySupport.findByUserIdOne(myConsultant.getUser().getId()));
+			temp.add(consultantRepositorySupport.findByUserIdOne(myConsultant.getConsultant().getId()));
 		}
 
 		return  new PageImpl<ConsultantProfile>(temp,myConsultantList.getPageable(),myConsultantList.getTotalElements());

@@ -23,18 +23,34 @@
         </li>
         <li>
           <i
+            @click="chatroomShow"
+            class="far fa-comments"
+            style="color: red; margin-left: 50px"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="채팅방"
+          ></i>
+        </li>
+        <li>
+          <i
             v-if="!state.audioEcho"
             type="button"
             @click="clickFilter"
             class="fab fa-creative-commons-sampling"
-            style="color: blue"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="노래방모드"
           ></i
           ><i
             v-else
             type="button"
             @click="clickFilter"
-            class="fas fa-times"
-            style="color: blue"
+            class="fab fa-creative-commons-sampling"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="노래방모드"
           ></i>
         </li>
         <li>
@@ -43,43 +59,61 @@
             type="button"
             @click="addMask"
             class="fas fa-theater-masks"
-            style="color: orange"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="모자씌우기"
           ></i>
           <i
             v-else
             type="button"
             @click="addMask"
-            class="fas fa-user-circle"
-            style="color: orange"
+            class="fas fa-theater-masks"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="모자씌우기"
           ></i>
         </li>
         <li>
           <i
             v-if="state.audioState"
             @click="hideMyAudio(state.audioState)"
-            class="fas fa-microphone-slash"
-            style="color: red"
+            class="fas fa-microphone"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="오디오 ON/OFF"
           ></i>
           <i
             v-else
             @click="hideMyAudio(state.audioState)"
-            class="fas fa-microphone"
-            style="color: green"
+            class="fas fa-microphone-slash"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="오디오 ON/OFF"
           ></i>
         </li>
         <li>
           <i
             v-if="state.videoState"
             @click="hideMyVideo(state.videoState)"
-            class="fas fa-video-slash"
+            class="fas fa-video"
             style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="비디오 ON/OFF"
           ></i>
 
           <i
             v-else
             @click="hideMyVideo(state.videoState)"
-            class="fas fa-video"
-            style="color: green"
+            class="fas fa-video-slash"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="비디오 ON/OFF"
           ></i>
         </li>
       </ul>
@@ -87,9 +121,6 @@
     <div id="main-container" class="container">
       <!-- meeting 입장 초기 화면 -->
       <div id="join" v-if="!state.session">
-        <!-- <div id="img-div">
-        <img src="@/assets/ssafy.png" />
-      </div> -->
         <div
           id="join-dialog"
           class="jumbotron vertical-center"
@@ -101,7 +132,7 @@
           >
             <i class="fas fa-quote-left" style="font-size: 20px"></i>
             <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
-              {{ data.adviceMeetingInfo.ownerId }}님의 미팅룸
+              {{ data.adviceMeetingInfo.ownerNickname }}님의 미팅룸
             </h1>
             <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
@@ -148,7 +179,7 @@
                 >
                   <i
                     class="fas fa-video-slash"
-                    style="color: green; font-size: 15px"
+                    style="color: red; font-size: 15px"
                   ></i>
                   비디오 중지
                 </button>
@@ -213,17 +244,13 @@
               <!-- 스트림 화면 -->
               <div class="row">
                 <div id="video-container" class="col-md-12">
-                  <div style="height: 80px"></div>
-                  <div style="width: 90%">
-                    <user-video :stream-manager="state.publisher" />
-                  </div>
-                  <div style="width: 90%">
-                    <user-video
-                      v-for="sub in state.subscribers"
-                      :key="sub.stream.connection.connectionId"
-                      :stream-manager="sub"
-                    />
-                  </div>
+                  <div style="height: 120px"></div>
+                  <user-video :stream-manager="state.publisher" />
+                  <user-video
+                    v-for="sub in state.subscribers"
+                    :key="sub.stream.connection.connectionId"
+                    :stream-manager="sub"
+                  />
                 </div>
               </div>
             </div>
@@ -232,79 +259,6 @@
             </div>
           </div>
         </div>
-
-        <!-- 채팅 -->
-
-        <footer id="session-footer" class="container">
-          <div class="habit habit4" @click="chatroomShow">
-            <div class="icon communicate-collaborate">
-              <svg
-                version="1.1"
-                id="communicate-collaborate"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px"
-                y="0px"
-                viewBox="0 0 75 75"
-                enable-background="new 0 0 75 75"
-                xml:space="preserve"
-              >
-                <path
-                  id="orange-chat"
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  fill="#F68832"
-                  d="M59.77,17H29.23C27.45,17,26,18.45,26,20.23
-	v18.53c0,1.79,1.45,3.23,3.23,3.23h19.5l5.38,6.23c0.65,0.76,1.89,0.29,1.89-0.7V42h3.77c1.79,0,3.23-1.45,3.23-3.23V20.23
-	C63,18.45,61.55,17,59.77,17z"
-                />
-                <g id="yellow-chat">
-                  <path
-                    id="yellow"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    fill="#F7BE07"
-                    d="M46.77,26H16.23C14.45,26,13,27.45,13,29.23v18.53
-		c0,1.79,1.45,3.23,3.23,3.23H21v5.58c0,0.98,1.21,1.45,1.87,0.73L28.66,51h18.1c1.79,0,3.23-1.45,3.23-3.23V29.23
-		C50,27.45,48.55,26,46.77,26z"
-                  />
-                  <g id="circles">
-                    <circle
-                      id="circ1"
-                      opacity="0"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      fill="#FFFFFF"
-                      cx="23"
-                      cy="38.65"
-                      r="2.74"
-                    />
-                    <circle
-                      id="circ2"
-                      opacity="0"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      fill="#FFFFFF"
-                      cx="31.5"
-                      cy="38.65"
-                      r="2.74"
-                    />
-                    <circle
-                      id="circ3"
-                      opacity="0"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      fill="#FFFFFF"
-                      cx="40"
-                      cy="38.65"
-                      r="2.74"
-                    />
-                  </g>
-                </g>
-              </svg>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   </div>
@@ -369,7 +323,12 @@ export default {
     });
 
     const joinSession = async function () {
-      if (state.videoState) offVideo();
+      if (state.videoState) {
+        const myVideoStream = document.getElementById("myVideo");
+        myVideoStream.pause();
+        myVideoStream.src = "";
+        state.localstream.getTracks()[0].stop();
+      }
       if (data.userInfo.id != data.adviceMeetingInfo.ownerId) {
         await store.dispatch("root/meetingJoinRoom", {
           meeting_id: data.adviceMeetingInfo.meetingId,
@@ -456,8 +415,8 @@ export default {
       state.publisher = undefined;
       state.subscribers = [];
       state.OV = undefined;
-      state.videoState = true;
-      state.audioState = true;
+      state.videoState = false;
+      state.audioState = false;
       state.maskState = false;
       state.audioEcho = false;
       state.chatState = false;
@@ -543,15 +502,15 @@ export default {
           });
       });
     };
-
     const createToken = function (sessionId) {
+      const maskback = data.userInfo.maskId + "%/%" + data.userInfo.backId;
       return new Promise((resolve, reject) => {
         axios
           .post(
             `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`,
             JSON.stringify({
               type: "WEBRTC",
-              data: "https://placeimg.com/200/100/any",
+              data: maskback,
               role: "PUBLISHER",
               kurentoOptions: {
                 allowedFilters: ["GStreamerFilter", "FaceOverlayFilter"],
@@ -688,83 +647,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.icon {
-  width: 75px;
-  height: 75px;
+// .icon {
+//   width: 75px;
+//   height: 75px;
+// }
+.tooltip-inner {
+  background-color: #2f4fff;
+  box-shadow: 0px 0px 4px black;
+  opacity: 1 !important;
+}
+.tooltip.bs-tooltip-right .tooltip-arrow::before {
+  border-right-color: #2f4fff !important;
+}
+.tooltip.bs-tooltip-left .tooltip-arrow::before {
+  border-left-color: #2f4fff !important;
+}
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+  border-bottom-color: #2f4fff !important;
+}
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: #2f4fff !important;
 }
 
-.habit4:hover .communicate-collaborate #orange-chat {
-  /*   animation-play-state: running; */
-  animation: move-orange-chat 2s ease-in infinite forwards;
-  -webkit-animation: move-orange-chat 2s ease-in infinite forwards;
-  transform-origin: 50% 50%;
-  /*   transform-origin: 38px 39px;
-  -webkit-transform-origin: 38px 39px; */
-}
-
-.habit4:hover .communicate-collaborate #yellow-chat {
-  /*   animation-play-state: running; */
-  animation: move-yellow-chat 2s ease-in infinite forwards;
-  -webkit-animation: move-yellow-chat 2s ease-in infinite forwards;
-  transform-origin: 50% 50%;
-  /*   transform-origin: 38px 39px;
-  -webkit-transform-origin: 38px 39px; */
-}
-
-.habit4:hover .communicate-collaborate #circ1 {
-  animation: show-dots 2s ease infinite forwards;
-  -webkit-animation: show-dots 2s ease infinite forwards;
-}
-
-.habit4:hover .communicate-collaborate #circ2 {
-  animation: show-dots 2s 0.3s ease infinite forwards;
-  -webkit-animation: show-dots 2s 0.3s ease infinite forwards;
-}
-
-.habit4:hover .communicate-collaborate #circ3 {
-  animation: show-dots 2s 0.5s ease infinite forwards;
-  -webkit-animation: show-dots 2s 0.5s ease infinite forwards;
-}
-
-@keyframes move-yellow-chat {
-  0%,
-  20% {
-    -webkit-transform: rotate(0) translate(0);
-    transform: rotate(0) translate(0);
-  }
-
-  30%,
-  75% {
-    -webkit-transform: rotate(-7deg) translate(-3px, 2px);
-    transform: rotate(-7deg) translate(-3px, 2px);
-  }
-
-  85%,
-  100% {
-    -webkit-transform: rotate(0) translate(0);
-    transform: rotate(0) translate(0);
-  }
-}
-
-@keyframes show-dots {
-  0%,
-  20% {
-    opacity: 0;
-    transform: translate(0);
-  }
-  30% {
-    opacity: 1;
-    transform: translate(0px, 1px);
-  }
-  45% {
-    opacity: 1;
-    transform: translate(0px, -2px);
-  }
-  90%,
-  100% {
-    opacity: 0;
-    transform: translate(0);
-  }
+#chatroom {
+  position: relative;
+  left: 10%;
+  margin-top: 5%;
 }
 
 #myVideo {
@@ -795,12 +703,7 @@ ul li i {
 ul li i:hover {
   cursor: pointer;
 }
-footer .habit habit4 {
-  font-size: 40px;
-}
-footer .habit habit4:hover {
-  cursor: pointer;
-}
+
 button {
   font-family: inherit;
   font-family: "Roboto Mono", monospace;
@@ -964,7 +867,7 @@ a:hover .demo-logo {
 
   position: relative;
   float: left;
-  width: 47%;
+  // width: 45%;
   cursor: pointer;
   // margin-left: 25px;
   // padding-top: 5%;

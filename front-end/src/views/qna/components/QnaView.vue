@@ -1,17 +1,19 @@
 <template bgcolor="white">
-  <div class="container" style="width: 1000px">
+  <div class="container">
     <div class="row"></div>
     <link
       href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
       rel="stylesheet"
     />
 
-    <div style="margin-top: 5%">
+    <div style="margin-top: 3%">
       <h2>Q&amp;A</h2>
     </div>
 
+    
+
     <div
-      class="column intro row-hover pos-relative py-4 px-4 mt-5 mb-5 row text-center"
+      class="column intro row-hover pos-relative py-4 px-4 mt-4 mb-4 row text-center" style="background-color: #eaf1ff;"
     >
       <h6 style="color: #6c8093">
         'Q&amp;A'는 궁금증을 해소하는 공간입니다. 운영자에게 궁금한 점이나
@@ -20,7 +22,33 @@
       </h6>
     </div>
 
-    <div class="inner-main-header d-flex justify-content-between">
+    <div class="inner-main-header">
+      <!-- 검색부분 -->
+      <span class="dropdown col-lg-3 row text-center op-7">
+      <!-- 카테고리별 정렬 -->
+        <div class="col px-1" @click="goToCreateQna" style="cursor: pointer;">
+          <a>등록&nbsp; <i class="ion-edit"></i></a>
+        </div>
+        <div class="col px-1" style="cursor: pointer;">  
+        </div>
+        <div class="col px-1" v-for="(type, idx) in (['공감순', '조회순'])" :key="idx" style="cursor: pointer;">
+        </div>
+      </span>
+      
+      <span class="col-lg-5"></span>
+      
+      <span class="px-1"></span>
+
+      <span class="input-icon input-icon-sm ml-auto col-lg-3 display: flex">
+        <input type="text" v-model="state.searchWord" class="form-control form-control-md bg-gray-200 border-gray-200 shadow-none" placeholder="찾으시는 게시글이 있으신가요?" />
+      </span>
+
+      <button @click="clickSearchQna" class="form-control form-control-md col-lg-2" id="input">찾기</button>
+    </div>
+
+
+    <!-- 수정 이전 코드 -->
+    <!-- <div class="inner-main-header d-flex justify-content-between">
       <button
         @click="goToCreateQna"
         class="form-control form-control-md col-lg-2"
@@ -34,11 +62,11 @@
         </span>
         <button @click="clickSearchQna" class="form-control form-control-md col-lg-2" id="input">찾기</button>
       </div>
-    </div>
+    </div> -->
 
-    <!-- <div class="col-lg-9 mb-3">  -->
+
     <!--게시판 헤더-->
-    <div class="cardheader row-hover pos-relative py-3 px-3">
+    <div class="cardheader row-hover pos-relative py-3 px-3" style="background-color: #eaf1ff;">
       <div class="row align-items-center">
         <div class="col-md-2 mb-3 mb-sm-0">
           <h5></h5>
@@ -144,8 +172,14 @@
           </div>
           <div class="col-md-8 mb-3 mb-sm-0" style="text-align: left">
             <h6 v-if="state.qnaAnswerList[0]">
-              <i class="fas fa-arrow-right"></i>&nbsp;&nbsp;&nbsp;
-              {{ state.qnaAnswerList[0].description }}
+              <div>
+                {{state.qnaDetail.description}}
+               </div>
+                <br>
+              <div>
+                <i class="fas fa-arrow-right"></i>&nbsp;&nbsp;&nbsp;  
+                 {{ state.qnaAnswerList[0].description }}
+              </div>
             </h6>
           </div>
           <div class="col-md-2 mb-3 mb-sm-0">
@@ -187,6 +221,7 @@ export default {
       qnaList: computed(() => store.getters["root/qnaList"]),
       qnaLastPageNum: computed(() => store.getters["root/qnaLastPageNum"]),
       qnaAnswerList: computed(() => store.getters["root/qnaAnswerList"]),
+      qnaDetail: computed(()=> store.getters["root/qnaDetail"]),
       searchWord: "",
       page: 1,
       pageSearchTopic: "main",
@@ -483,4 +518,12 @@ ul {
     }
   }
 }
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
 </style>
