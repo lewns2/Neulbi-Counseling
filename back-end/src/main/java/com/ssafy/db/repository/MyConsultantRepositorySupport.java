@@ -1,13 +1,15 @@
 package com.ssafy.db.repository;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.db.entity.MyConsultant;
 import com.ssafy.db.entity.QMyConsultant;
 import com.ssafy.db.entity.QUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 @Repository
@@ -19,14 +21,16 @@ public class MyConsultantRepositorySupport {
     QUser qUser = QUser.user;
     QMyConsultant qMyConsultant = QMyConsultant.myConsultant;
 
-    public List<MyConsultant> findMyConsultantListByUserId(Long userId) {
+    public Page<MyConsultant> findMyConsultantListByUserId(Long userId, Pageable pageable) {
 
-        List<MyConsultant> myConsultantList = jpaQueryFactory.select(qMyConsultant)
+        QueryResults<MyConsultant> myConsultantList = jpaQueryFactory.select(qMyConsultant)
                 .from(qMyConsultant)
                 .where(qMyConsultant.user.id.eq(userId))
-                .fetch();
+                .orderBy(qMyConsultant.id.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset()).fetchResults();
 
-        return myConsultantList;
+        return new PageImpl<MyConsultant>(myConsultantList.getResults(), pageable, myConsultantList.getTotal());
     }
 
     public void deleteMyConsultantByUserIdAndConsultantId(Long userId, Long consultantId){

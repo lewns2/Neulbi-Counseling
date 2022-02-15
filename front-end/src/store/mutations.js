@@ -42,18 +42,9 @@ export function PROFILE_GET_CONSULTANT_PROFILE(state, data) {
 }
 
 export function PROFILE_CONSULTANT_LIKE(state, data) {
-  state.profileConsultantLikeActive = data[0]
+  state.profileConsultantLastPageNum = data.totalPages
   state.profileConsultantLike = []
-  for (let i = 1; i < data.length; i++) {
-    state.profileConsultantLike.push({
-      id: data[i].id,
-      nickname: data[i].nickname,
-      topicCategoryName: data[i].topicCategoryName,
-      pointTot: data[i].pointTot,
-      consultingCnt: data[i].consultingCnt,
-      description: data[i].description,
-    })
-  }
+  state.profileConsultantLike = data.content
 }
 
 export function PROFILE_GET_HISTORY_CONFESSION_MEETING(state, data) {
@@ -118,7 +109,7 @@ export function CONFESSION_GET_LAST_PAGE_NUM(state, data) {
 
 export function CONFESSION_GET_CONSULTANT_LIST(state, data) {
   state.confessionMeetingList = []
-  let min = Math.min(6, data.length)
+  let min = Math.min(8, data.length)
   for (let i = 0; i < min; i++) {
     state.confessionMeetingList.push({
       ownerId: data[i].ownerId,
@@ -176,7 +167,7 @@ export function ADVICE_GET_LAST_PAGE_NUM(state, data) {
 
 export function ADVICE_GET_CONSULTANT_LIST(state, data) {
   state.adviceConsultantList = []
-  let min = Math.min(6, data.length)
+  let min = Math.min(8, data.length)
   for (let i = 0; i < min; i++) {
     state.adviceConsultantList.push({
       id: data[i].id,

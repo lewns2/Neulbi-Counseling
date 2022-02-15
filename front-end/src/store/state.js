@@ -8,8 +8,8 @@ export default {
   // profile
   profileNicknameBool: false,
   profileConsultantProfile: [],
-  profileConsultantLikeActive: [],
   profileConsultantLike: [],
+  profileConsultantLastPageNum: 0,
   profileHistoryConfession: [],
   profileHistoryConfessionLastPageNum: 0,
   profileHistoryAdvice: [],

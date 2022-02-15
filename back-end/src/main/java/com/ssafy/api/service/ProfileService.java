@@ -1,14 +1,15 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.ProfileModifyPasswordPutReq;
-import com.ssafy.db.entity.*;
+import com.ssafy.db.entity.Comment;
+import com.ssafy.db.entity.Community;
+import com.ssafy.db.entity.ConsultantProfile;
+import com.ssafy.db.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,7 +21,7 @@ public interface ProfileService {
 	int modifyProfileImg(Long userId, MultipartFile profileImgInfo) throws IOException;
 	void modifyPasswordByUserId(ProfileModifyPasswordPutReq profileModifyPassword, Long id);
 	Optional<ConsultantProfile> getConsultantProfile(Long userId);
-	List<ConsultantProfile> getMyConsultantList(Long userId);
+	Page<ConsultantProfile> getMyConsultantList(Long userId, Pageable pageable);
 	Page<Community> getCommunityList(Pageable pageable, Long userId);
 	Page<Comment> getCommentList(Pageable pageable, Long userId);
 	void createMyConsultant(Long userId, Long consultantId);

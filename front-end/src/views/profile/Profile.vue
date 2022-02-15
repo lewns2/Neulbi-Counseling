@@ -1,52 +1,15 @@
 <template>
-  <div class="row">
-    <!-- Sidebar -->
-    <div id="sidebar" class="col-3">
-      <!-- <header class="px-5 py-5">
-        <a href="#">My Profile</a>
-      </header> -->
-      <ul class="nav">
-        <li class="px-5 py-5" style="margin-left: 0;" @click="goToConfession">
-          <div style="cursor: pointer;">
-            Main
-          </div>
-        </li>
-        <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='User'>
-          <div style="cursor: pointer;">
-            User
-          </div>
-        </li>
-        <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='Consultant'>
-          <div style="cursor: pointer;">
-            Consultant
-          </div>
-        </li>
-        <li class="px-5 py-5" style="margin-left: 0;" @click="selectProfile" value='History'>
-          <div style="cursor: pointer;">
-            History
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!-- Content -->
-    <div id="content" class="col-9" v-if="state.select=='User'">
+  <div>
+    <main-header></main-header>
+    <div class="row container" style="margin-top: 3%; margin-left: 10%;">
+      <!-- Content -->
       <profile-user :userInfo="state.userInfo" class="container-fluid"></profile-user>
-    </div>
-    <div id="content" class="col-9" v-else-if="state.select=='Consultant'">
       <profile-consultant
           :userInfo="state.userInfo"
           class="container-fluid"
         >
-        </profile-consultant>
+      </profile-consultant>
     </div>
-    <div id="content" class="col-9" v-else-if="state.select=='History'">
-      <profile-history
-          :userInfo="state.userInfo"
-          class="container-fluid"
-        >
-        </profile-history>
-    </div>
-
   </div>
 </template>
 
@@ -54,16 +17,16 @@
 import { reactive, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
+import MainHeader from "../main/components/MainHeader.vue";
 import ProfileUser from './components/ProfileUser.vue'
 import ProfileConsultant from './components/ProfileConsultant.vue'
-import ProfileHistory from './components/ProfileHistory.vue'
 
 export default {
   name: 'Profile',
   components: {
+    MainHeader,
     ProfileUser,
     ProfileConsultant,
-    ProfileHistory,
   },
   setup() {
     const store = useStore()

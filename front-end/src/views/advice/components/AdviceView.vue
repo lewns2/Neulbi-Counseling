@@ -55,10 +55,10 @@
 
     <hr>
     <div class="row">
-      <div class="col-sm-9" align="left">
+      <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 mx-5 mt-5" style="margin-bottom: 10%;">
+          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 px-5" style="margin-bottom: 3%;">
             <div class="card">
               <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+adviceConsultant.profileImg" class="card__image">
               <div class="card__overlay">
@@ -517,7 +517,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 40vh;  
+  height: 32vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;

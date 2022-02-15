@@ -10,135 +10,126 @@
       <button v-if="state.profileNicknameBool == true" class="front__text-hover d-flex justify-content-start" @click="clickmodifyNickname">
         닉네임 변경
       </button>
+      <div v-if="state.nicknameValid===false" class="ms-3 mt-2">
+        <p style="color: red;">{{ state.nicknameMessage }}</p>
+      </div>
+      <button type="button" class="front__text-hover_red mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal1">비밀번호 변경</button>
+        <!-- modal -->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Password를 변경하세요.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="message-password" class="col-form-label">현재 비밀번호:</label>
+                    <input type="password" class="form-control" id="message-password" v-model="state.password">
+                    <label for="message-newPassword" class="col-form-label">새로운 비밀번호:</label>
+                    <input type="password" class="form-control" id="message-newPassword" v-model="state.newPassword">
+                    <label for="message-newPasswordConfirmation" class="col-form-label">새로운 비밀번호 확인:</label>
+                    <input type="password" class="form-control" id="message-newPasswordConfirmation" v-model="state.newPasswordConfirmation">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyPassword">비밀번호 변경</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="front__text-hover_red" @click="clickresignUser">회원탈퇴</button>
     </div>
-    <div v-if="state.nicknameValid===false" class="ms-3 mt-2">
-      <p style="color: red;">{{ state.nicknameMessage }}</p>
-    </div>
-    <br>
-    <hr>
-    <br>
-    <h3>프로필 이미지 변경</h3>
+    
+    <br><br><br>
+    <h3>프로필 이미지 및 마스크 변경</h3>
     <br>
     <!-- 내가 추가한 부분 -->
-    <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-      <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-      <img class="card__thumb" v-bind:src="profile.profileImgThumbnail">
-    </div>
-    <br>
-    <div class="d-flex justify-content-start">
-      <label class="front__text-hover" for="input-file" style="cursor: pointer;">업로드</label>
-      <input @change="changeImgFile" type="file" id="input-file" style="display: none;"><!-- C -->
-      <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickmodifyProfileImg">변경하기</button>
-    </div>
-    <br>
-    <hr>
-    <br>
-    <h3>마스크 변경</h3>
-    <br>
-    <div id="mask_id" class="mask-wrapper">
-      <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-      <img class="card__back" :src="mask.backUrl">
-      <img class="card__mask" :src="mask.maskUrl">
-    </div>
-    <br>
-    <div class="d-flex justify-content-start">
-      <button class="front__text-hover d-flex justify-content-start"  data-bs-toggle="modal" data-bs-target="#exampleModal">마스크 선택하기</button>
-      <!-- 마스크 모달 -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">마스크를 선택하세요.</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="modalmask mb-3 row d-flex">
-                  <img src="@/assets/mask/mask1.png" @click="clickSelectMask(1, $event)" class="col-4" id="mask-1">
-                  <img src="@/assets/mask/mask2.png" @click="clickSelectMask(2, $event)" class="col-4" id="mask-2">
-                  <img src="@/assets/mask/mask3.png" @click="clickSelectMask(3, $event)" class="col-4" id="mask-3">
-                  <img src="@/assets/mask/mask4.png" @click="clickSelectMask(4, $event)" class="col-4" id="mask-4">
-                  <img src="@/assets/mask/mask5.png" @click="clickSelectMask(5, $event)" class="col-4" id="mask-5">
-                  <img src="@/assets/mask/mask6.png" @click="clickSelectMask(6, $event)" class="col-4" id="mask-6">
-                  <img src="@/assets/mask/mask7.png" @click="clickSelectMask(7, $event)" class="col-4" id="mask-7">
-                  <img src="@/assets/mask/mask8.png" @click="clickSelectMask(8, $event)" class="col-4" id="mask-8">
-                  <img src="@/assets/mask/mask9.png" @click="clickSelectMask(9, $event)" class="col-4" id="mask-9">
+    <div class="d-flex">
+      <div style="margin-right: 10%;">
+        <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper mb-5">
+          <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
+          <img class="card__thumb" v-bind:src="profile.profileImgThumbnail">
+        </div>
+        <div class="d-flex justify-content-center">
+          <label class="front__text-hover" for="input-file" style="cursor: pointer;">업로드</label>
+          <input @change="changeImgFile" type="file" id="input-file" style="display: none;"><!-- C -->
+        </div>
+      </div>
+      <br><br><br>
+      <br>
+      <div class="ms-5">
+        <div id="mask_id" class="mask-wrapper mb-4">
+          <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
+          <img class="card__back" :src="mask.backUrl">
+          <img class="card__mask" :src="mask.maskUrl">
+        </div>
+        <br>
+        <div class="d-flex justify-content-start">
+          <button class="front__text-hover d-flex justify-content-start me-4"  data-bs-toggle="modal" data-bs-target="#exampleModal">마스크 선택하기</button>
+          <!-- 마스크 모달 -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">마스크를 선택하세요.</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              </form>
+                <div class="modal-body">
+                  <form>
+                    <div class="modalmask mb-3 row d-flex">
+                      <img src="@/assets/mask/mask1.png" @click="clickSelectMask(1, $event)" class="col-4" id="mask-1">
+                      <img src="@/assets/mask/mask2.png" @click="clickSelectMask(2, $event)" class="col-4" id="mask-2">
+                      <img src="@/assets/mask/mask3.png" @click="clickSelectMask(3, $event)" class="col-4" id="mask-3">
+                      <img src="@/assets/mask/mask4.png" @click="clickSelectMask(4, $event)" class="col-4" id="mask-4">
+                      <img src="@/assets/mask/mask5.png" @click="clickSelectMask(5, $event)" class="col-4" id="mask-5">
+                      <img src="@/assets/mask/mask6.png" @click="clickSelectMask(6, $event)" class="col-4" id="mask-6">
+                      <img src="@/assets/mask/mask7.png" @click="clickSelectMask(7, $event)" class="col-4" id="mask-7">
+                      <img src="@/assets/mask/mask8.png" @click="clickSelectMask(8, $event)" class="col-4" id="mask-8">
+                      <img src="@/assets/mask/mask9.png" @click="clickSelectMask(9, $event)" class="col-4" id="mask-9">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyMask">Select</button>
+                </div>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+          </div>
+          <button class="front__text-hover d-flex justify-content-start ms-3"  data-bs-toggle="modal" data-bs-target="#exampleModal2">배경 선택하기</button>
+          <!-- 마스크 모달 -->
+          <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel2">마스크를 선택하세요.</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="modalback mb-3 row d-flex">
+                      <img src="@/assets/back/back1.png" alt="" @click="clickSelectBack(1, $event)" class="col-6 mb-3" id="back-1">
+                      <img src="@/assets/back/back2.png" alt="" @click="clickSelectBack(2, $event)" class="col-6 mb-3" id="back-2">
+                      <img src="@/assets/back/back3.png" alt="" @click="clickSelectBack(3, $event)" class="col-6" id="back-3">
+                      <img src="@/assets/back/back4.png" alt="" @click="clickSelectBack(4, $event)" class="col-6" id="back-4">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyBack">Select</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <button class="front__text-hover d-flex justify-content-start ms-3"  data-bs-toggle="modal" data-bs-target="#exampleModal2">배경 선택하기</button>
-      <!-- 마스크 모달 -->
-      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel2">마스크를 선택하세요.</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="modalback mb-3 row d-flex">
-                  <img src="@/assets/back/back1.png" alt="" @click="clickSelectBack(1, $event)" class="col-6 mb-3" id="back-1">
-                  <img src="@/assets/back/back2.png" alt="" @click="clickSelectBack(2, $event)" class="col-6 mb-3" id="back-2">
-                  <img src="@/assets/back/back3.png" alt="" @click="clickSelectBack(3, $event)" class="col-6" id="back-3">
-                  <img src="@/assets/back/back4.png" alt="" @click="clickSelectBack(4, $event)" class="col-6" id="back-4">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickmodifyMask">변경하기</button>
     </div>
-    <br>
-    <hr>
-    <br>
-    
-    <br>
-    <h3></h3>
-    <!-- modal button -->
-    <div class="d-flex justify-content-end">
-      <button type="button" class="front__text-hover mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal1">비밀번호 변경</button>
-      <!-- modal -->
-      <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel1">Password를 변경하세요.</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="message-password" class="col-form-label">현재 비밀번호:</label>
-                  <input type="password" class="form-control" id="message-password" v-model="state.password">
-                  <label for="message-newPassword" class="col-form-label">새로운 비밀번호:</label>
-                  <input type="password" class="form-control" id="message-newPassword" v-model="state.newPassword">
-                  <label for="message-newPasswordConfirmation" class="col-form-label">새로운 비밀번호 확인:</label>
-                  <input type="password" class="form-control" id="message-newPasswordConfirmation" v-model="state.newPasswordConfirmation">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickmodifyPassword">비밀번호 변경</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="front__text-hover" @click="clickresignUser">회원탈퇴</button>
-    </div>
+    <br><br><br>
   </div>
 </template>
 
@@ -240,6 +231,10 @@ export default {
 
     const clickmodifyMask = async function () {
       await store.dispatch('root/profileModifyMask', { user_id: state.userInfo.id, mask_id: mask.maskId})
+      await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
+    }
+
+    const clickmodifyBack = async function () {
       await store.dispatch('root/profileModifyBack', { user_id: state.userInfo.id, mask_id: mask.backId})
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
@@ -250,14 +245,10 @@ export default {
         const file = event.target.files[0];
         state.profileImg = file;
         profile.profileImgThumbnail = URL.createObjectURL(file); // 파일 경로로 바꿔서 추가
+        await store.dispatch('root/profileModifyProfileImg', { user_id: state.userInfo.id, profile_img: state.profileImg })
+        await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
       }
     }
-
-    const clickmodifyProfileImg = async function () {
-      await store.dispatch('root/profileModifyProfileImg', { user_id: state.userInfo.id, profile_img: state.profileImg })
-      await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
-    }
-    ////////////////////
 
     const clickmodifyPassword = async function () {
       await store.dispatch('root/profileModifyPassword', { user_id: state.userInfo.id, password: state.newPassword})
@@ -280,8 +271,8 @@ export default {
       clickSelectBack,
       clickmodifyNickname, 
       clickmodifyMask, 
+      clickmodifyBack,
       changeImgFile, // 수정
-      clickmodifyProfileImg, 
       clickmodifyPassword, 
       clickresignUser
     }
@@ -356,9 +347,28 @@ export default {
   color: #fff;
 }
 
+.front__text-hover_red {
+  position: relative;
+  // top: 10px;
+  font-size: 15px;
+  backface-visibility: hidden;
+
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+
+  border: 2px solid #f77373;
+  padding: 8px 15px;
+  margin-top: 0px;
+  border-radius: 30px;
+
+  background: #f77373;
+  color: #fff;
+}
+
 .thumbnail-wrapper{
-  width: 100px;
-  height: 100px;
+  width: 250px;
+  height: 250px;
 }
 
 .card__thumb {
@@ -369,14 +379,14 @@ export default {
 }
 
 .mask-wrapper{
-  width: 300px;
-  height: 100px;
+  // width: 100%;
+  height: 250px;
 }
 
 .card__back {
   flex-shrink: 0;
-  width: 160px;
-  height: 110px;      
+  // width: 100%;
+  height: 100%;      
   border: 1px solid grey;
   // border-radius: 50%;      
 }
@@ -384,8 +394,8 @@ export default {
 .card__mask {
   position: relative;
   flex-shrink: 0;
-  height: 105px;
-  left: -120px;
+  height: 100%;
+  left: -280px;
   // border-radius: 50%;      
 }
 </style>

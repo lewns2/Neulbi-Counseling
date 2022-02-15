@@ -225,6 +225,22 @@ export async function profileGetConsultantLike({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
+      console.log(res)
+      commit("PROFILE_CONSULTANT_LIKE", res.data);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 내가 찜한 상담가");
+    });
+}
+
+export async function profileGetConsultantLikePageSearch({ state, commit }, payload) {
+  const page = payload.page
+  const size = payload.size
+  const user_id = payload.user_id;
+  const url = `profile/${user_id}/myConsultant?page=${page}&size=${size}`;
+  await $axios
+    .get(url)
+    .then((res) => {
       commit("PROFILE_CONSULTANT_LIKE", res.data);
     })
     .catch((err) => {
