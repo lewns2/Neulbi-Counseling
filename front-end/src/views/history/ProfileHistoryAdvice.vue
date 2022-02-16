@@ -63,19 +63,22 @@ export default {
     })
 
     onMounted(async () => {
-      const pr = document.querySelector('.paginateadv.left')
-      const pl = document.querySelector('.paginateadv.right')
-      await pr.setAttribute('data-state', state.advicepage===1 ? 'disabled' : '')
-      if (state.advicepage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      await pl.setAttribute('data-state', state.advicepage===state.profileHistoryAdviceLastPageNum ? 'disabled' : '')
-      if (state.advicepage === state.profileHistoryAdviceLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+      if (state.profileHistoryAdviceLastPageNum != 0) {
+        const pr = document.querySelector('.paginateadv.left')
+        const pl = document.querySelector('.paginateadv.right')
+        console.log(pr, pl)
+        await pr.setAttribute('data-state', state.advicepage===1 ? 'disabled' : '')
+        if (state.advicepage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        await pl.setAttribute('data-state', state.advicepage===state.profileHistoryAdviceLastPageNum ? 'disabled' : '')
+        if (state.advicepage === state.profileHistoryAdviceLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -289,7 +292,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginateadv.left {
-  right: 57%;
+  position: relative;
 }
 .paginateadv.left i {
   transform-origin: 0% 50%;
@@ -325,7 +328,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginateadv.right {
-  left: 55%;
+  position: relative;
 }
 .paginateadv.right i {
   transform-origin: 100% 50%;
@@ -367,15 +370,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-weight: bold;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 4%;
 }
 </style>

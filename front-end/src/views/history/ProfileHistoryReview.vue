@@ -71,35 +71,40 @@ export default {
     })
 
     onMounted(() => {
-      const pr = document.querySelector('.paginaterec.left')
-      const pl = document.querySelector('.paginaterec.right')
+      if (state.profileHistoryReceivedReviewLastPageNum != 0) {
+        const pr = document.querySelector('.paginaterec.left')
+        const pl = document.querySelector('.paginaterec.right')
 
-      pr.setAttribute('data-state', state.receivedpage===1 ? 'disabled' : '')
-      if (state.receivedpage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
+        pr.setAttribute('data-state', state.receivedpage===1 ? 'disabled' : '')
+        if (state.receivedpage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        pl.setAttribute('data-state', state.receivedpage===state.profileHistoryReceivedReviewLastPageNum ? 'disabled' : '')
+        if (state.receivedpage === state.profileHistoryReceivedReviewLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
-      pl.setAttribute('data-state', state.receivedpage===state.profileHistoryReceivedReviewLastPageNum ? 'disabled' : '')
-      if (state.receivedpage === state.profileHistoryReceivedReviewLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
-      }
-      const prwr = document.querySelector('.paginatewri.left')
-      const plwr = document.querySelector('.paginatewri.right')
 
-      prwr.setAttribute('data-state', state.writtenpage===1 ? 'disabled' : '')
-      if (state.writtenpage===1) {
-        prwr.disabled = true
-      } else {
-        prwr.disabled = false
-      }
-      plwr.setAttribute('data-state', state.writtenpage===state.profileHistoryWrittenReviewLastPageNum ? 'disabled' : '')
-      if (state.writtenpage === state.profileHistoryWrittenReviewLastPageNum) {
-        plwr.disabled = true
-      } else {
-        plwr.disabled = false
+      if (state.profileHistoryWrittenReviewLastPageNum != 0) {
+        const prwr = document.querySelector('.paginatewri.left')
+        const plwr = document.querySelector('.paginatewri.right')
+
+        prwr.setAttribute('data-state', state.writtenpage===1 ? 'disabled' : '')
+        if (state.writtenpage===1) {
+          prwr.disabled = true
+        } else {
+          prwr.disabled = false
+        }
+        plwr.setAttribute('data-state', state.writtenpage===state.profileHistoryWrittenReviewLastPageNum ? 'disabled' : '')
+        if (state.writtenpage === state.profileHistoryWrittenReviewLastPageNum) {
+          plwr.disabled = true
+        } else {
+          plwr.disabled = false
+        }
       }
     })
 
@@ -310,7 +315,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginaterec.left {
-  right: 57%;
+  position: relative;
 }
 .paginaterec.left i {
   transform-origin: 0% 50%;
@@ -346,7 +351,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginaterec.right {
-  left: 55%;
+  position: relative;
 }
 .paginaterec.right i {
   transform-origin: 100% 50%;
@@ -408,7 +413,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatewri.left {
-  right: 57%;
+  position: relative;
 }
 .paginatewri.left i {
   transform-origin: 0% 50%;
@@ -444,7 +449,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatewri.right {
-  left: 55%;
+  position: relative;
 }
 .paginatewri.right i {
   transform-origin: 100% 50%;
@@ -486,16 +491,15 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-weight: bold;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 
 </style>
