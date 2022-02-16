@@ -183,18 +183,17 @@ public class ProfileServiceImpl implements ProfileService {
 		Optional<User> user = findByUserId(userId);
 
 		user.ifPresent(user1 -> {
-			user1.modifyMask(maskId);
+			user1.modifyMask(maskId == 0 ? user1.getMaskId() : maskId);
 			userRepository.save(user1);
 		});
 	}
 
 	@Override
 	public void modifyMaskBack(Long userId, int maskBackId) {
-
 		Optional<User> user = findByUserId(userId);
 
 		user.ifPresent(user1 -> {
-			user1.modifyMaskBack(maskBackId);
+			user1.modifyMaskBack(maskBackId == 0 ? user1.getMaskBack() : maskBackId);
 			userRepository.save(user1);
 		});
 	}

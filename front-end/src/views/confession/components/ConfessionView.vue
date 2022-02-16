@@ -73,7 +73,7 @@
                 <div class="card__description" style="text-align: center;">
                   <span style="font-weight: bold;">설명 : {{ confessionMeeting.description }}</span><br><hr>
                   <span>방장 : {{ confessionMeeting.ownerNickname }}</span><br>
-                  <span>{{ confessionMeeting.currJoinParticipants+1 }} / {{ confessionMeeting.participants }}</span><br><br>
+                  <span>{{ confessionMeeting.currJoinParticipants }} / {{ confessionMeeting.participants }}</span><br><br>
                   <button
                     type="button"
                     class="front__text-hover"

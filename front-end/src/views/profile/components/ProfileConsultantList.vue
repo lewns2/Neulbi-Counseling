@@ -72,19 +72,21 @@ export default {
     })
 
     onMounted(async () => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
-      await pr.setAttribute('data-state', state.profilepage===1 ? 'disabled' : '')
-      if (state.profilepage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      await pl.setAttribute('data-state', state.profilepage===state.profileConsultantLastPageNum ? 'disabled' : '')
-      if (state.profilepage === state.profileConsultantLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+      if (state.profileConsultantLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
+        await pr.setAttribute('data-state', state.profilepage===1 ? 'disabled' : '')
+        if (state.profilepage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        await pl.setAttribute('data-state', state.profilepage===state.profileConsultantLastPageNum ? 'disabled' : '')
+        if (state.profilepage === state.profileConsultantLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 

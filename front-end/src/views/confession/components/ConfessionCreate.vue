@@ -14,7 +14,7 @@
               <h3 class="py-3">방생성</h3>
               <div class="d-flex justify-content-center my-3">
                 <div class="searchBox">
-                    <input class="searchInput" type="text" placeholder="Title" v-model="confessionChatRoom.title">
+                    <input class="searchInput" type="text" placeholder="방 제목" v-model="confessionChatRoom.title">
                 </div>
               </div>
               <br>
@@ -58,13 +58,13 @@
               <!-- 제한 인원 수 : 정수형 -->
               <div class="d-flex justify-content-center my-3">
                 <div class="searchBox">
-                    <input class="searchInput" type="number" placeholder="Participants" v-model="confessionChatRoom.participants">
+                    <input class="searchInput" type="number" placeholder="참가자 수" v-model="confessionChatRoom.participants" @keyup="checkParticipants">
                 </div>
               </div>
               <br>
               <div class="d-flex justify-content-center my-3">
                 <div class="searchBox">
-                  <input class="searchInput" type="text" placeholder="Description" v-model="confessionChatRoom.description">
+                  <input class="searchInput" type="text" placeholder="방 설명" v-model="confessionChatRoom.description">
                 </div>
               </div>
               <br><br>
@@ -145,7 +145,14 @@ export default {
       })
     }
 
-    return { state, confessionChatRoom, clickSearchList, clickCreateMeeting }
+    const checkParticipants = function () {
+      if (confessionChatRoom.participants > 6) {
+        alert('6명을 초과한 인원으로 방을 생성할 수 없습니다.')
+        confessionChatRoom.participants = 0
+      }
+    }
+
+    return { state, confessionChatRoom, clickSearchList, clickCreateMeeting, checkParticipants }
   }
 }
 </script>
@@ -269,6 +276,11 @@ export default {
   }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 
 </style>

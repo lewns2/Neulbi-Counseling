@@ -4,7 +4,8 @@
     <h3 style="text-align: left;">내가 작성한 댓글</h3>
     <br>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryComment==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(comment, idx) in state.profileHistoryComment" :key="idx">
         <a href="#" class="data-card">
           <!-- <h3 v-if="comment.communityTitle.length > 8">커뮤니티 : {{ comment.communityTitle.substr(0,8) }}···</h3>
