@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: rgb(225 236 255); height: 800px">
+  <div style="background-color: rgb(225 236 255); height: 100vh">
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">
         <li style="float: left">
@@ -41,7 +41,7 @@
               style="
                 position: absolute;
                 display: flex;
-                top: 100%;
+                top: 120%;
                 left: 0px;
                 transform: translateX(calc(-50% + 26px));
                 z-index: 99;
@@ -160,7 +160,7 @@
         >
           <div
             class="d-flex justify-content-center"
-            style="border-bottom: 3px solid #a6c0fe"
+            style="border-bottom: 3px solid #a6c0fe; padding-bottom: 20px"
           >
             <i class="fas fa-quote-left" style="font-size: 20px"></i>
             <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
@@ -176,12 +176,13 @@
             style="color: #333333; font-family: Century Gothic, sans-serif"
           >
             <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
-              Owner
+              방장
             </h3>
-            <h3 v-else>Guest</h3>
-
+            <h3 v-else>게스트</h3>
+            <br>
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
+              <br><br>
               <div class="d-flex" style="justify-content: center">
                 <button
                   v-if="!state.videoState"
@@ -258,7 +259,7 @@
                     font-weight: lighter;
                   "
                 >
-                  Join!
+                  참가하기
                 </button>
               </div>
             </div>
@@ -657,8 +658,8 @@ export default {
 
     const handleDisplayFlyingEmoji = function (emoji) {
       console.log(`⭐ Displaying flying emoji: ${emoji}`);
-
-      const node = document.createElement("mydiv");
+      const app = document.getElementById('app')
+      const node = app.createElement("mydiv");
       console.log(node);
       node.appendChild(document.createTextNode(emoji));
       console.log(node);
@@ -899,7 +900,7 @@ a:hover .demo-logo {
 
 #main-container {
   padding-bottom: 80px;
-  padding-top: 1%;
+  padding-top: 5%;
 }
 video {
   width: 100%;
@@ -1055,7 +1056,7 @@ mydiv {
 
 .front__text-hover {
   position: relative;
-  /* top: 10px; */
+  top: 3px;
   font-size: 15px;
   backface-visibility: hidden;
 

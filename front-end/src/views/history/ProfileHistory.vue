@@ -19,7 +19,7 @@ import ProfileHistoryReview from './ProfileHistoryReview.vue'
 import ProfileHistoryCommunity from './ProfileHistoryCommunity.vue'
 import ProfileHistoryComment from './ProfileHistoryComment.vue'
 
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 
 export default {
   name: 'ProfileHistory',
@@ -39,7 +39,16 @@ export default {
       userInfo: props.userInfo,
     })
 
-    return { state }
+    onMounted(async() => {
+      await store.dispatch('root/profileGetHistoryConfessionMeeting', body)
+      await store.dispatch('root/profileGetHistoryAdviceMeeting', body)
+      await store.dispatch('root/profileGetHistoryReceivedReview', body)
+      await store.dispatch('root/profileGetHistoryWrittenReview', body)
+      await store.dispatch('root/profileGetHistoryCommunity', body)
+      await store.dispatch('root/profileGetHistoryComment', body)
+    })
+
+    return { state, onMounted }
   }
 }
 </script>

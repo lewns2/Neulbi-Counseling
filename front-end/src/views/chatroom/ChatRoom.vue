@@ -1,5 +1,6 @@
-<template>
-  <main-header></main-header>
+<template style="background: #c2d6f8;">
+  <main-header style="transform: translate(-1%, 0);"></main-header>
+  <h1 style="background: rgb(225 236 255); margin-bottom: 0px; padding-top: 2%;">{{ state.userInfo.nickname }}의 채팅방</h1>
   <div class="wrapper">
     <div class="container">
       <div class="left">
@@ -51,20 +52,20 @@ export default {
 
 .wrapper {
   position: absolute;
-  left: 50%;
+  // left: 50%;
   width: 100%;
-  height: 800px;
-  transform: translate(-50%, 0);
+  height: 90vh;
+  // transform: translate(-50%, 0);
+  background: rgb(225 236 255);
 }
 
 .container {
   position: relative;
-  margin-top: 400pt;
+  margin-top: 300pt;
   margin-left: 50%;
-  width: 80%;
-  height: 100%;
-  background-color: var(#fff);
-  border: 1px solid black;
+  width: 65%;
+  height: 85%;
+  background-color: #fff;
   border-radius: 30px;
   transform: translate(-50%, -50%);
   padding-left: 0px;
@@ -73,14 +74,18 @@ export default {
 .container .left {
   float: left;
   width: 37.6%;
+  background: #fff;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
   height: 100%;
-  border: 1px solid var(#e6e6e6);
-  background-color: var(#fff);
 }
 
 .container .right {
   position: relative;
+  background: #fff;
   border-left: 1px solid #eceff1;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
   float: left;
   width: 62.4%;
   height: 100%;

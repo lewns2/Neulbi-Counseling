@@ -16,21 +16,28 @@
       </div>
     </div>
   </div>
-  <div class="write">
-    <!-- <a href="javascript:;" class="write-link attach"></a> -->
-    <input type="text" id="searchInChatRoom" v-model="data.message" @keyup="sendMessage">
-    
-
-    <div v-if="state.userInfo.id === state.chatRoomUserList[1]">
-      <button @click="clickCreateMeeting">화상채팅 생성</button>
+  <div class="write d-flex justify-content-around">
+    <div class="message_input_wrapper">
+      <input
+        type="text"
+        id="searchInChatRoom"
+        class="message_input"
+        v-model="data.message"
+        @keyup="sendMessage"
+      />
     </div>
-    <div v-else>
-      <div v-if="state.meetingIsActive">
-        <button @click="clickEnterMeeting">화상채팅 참가</button>
+
+    <div class="d-flex">
+      <button @click="clickSendMessage">전송</button>
+      <div v-if="state.userInfo.id === state.chatRoomUserList[1]">
+        <button @click="clickCreateMeeting">화상채팅 생성</button>
+      </div>
+      <div v-else>
+        <div v-if="state.meetingIsActive">
+          <button @click="clickEnterMeeting">화상채팅 참가</button>
+        </div>
       </div>
     </div>
-
-    <button @click="clickSendMessage">전송</button> 
 
   </div>
 </template>
@@ -174,9 +181,8 @@ export default {
   width: 100%;
   height: 47px;
   padding: 15px 29px;
-  background-color: #e6e6e6;
+  background-color: #fff;
   border-top-right-radius: 30px;
-  border-bottom: 1px solid white;
 }
 .container .right .top span {
   font-size: 15px;
@@ -191,16 +197,14 @@ export default {
   position: relative;
   display: flex;
   overflow: hidden;
-  padding: 0 35px 92px;
-  border-width: 1px 1px 1px 0;
-  border-style: solid;
-  border-color: #e6e6e6;
+  padding: 20px 35px 20px;
   // height: calc(100% - 48px);
   // justify-content: flex-end;
+  border-left: 1px solid #999999;
   flex-direction: column-reverse;
   overflow-y: auto;
   height: 82%;
-  background-color: #c2d6f8;
+  background-color: rgb(248 248 248);
 }
 .container .right .chat.active-chat .bubble {
   transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
@@ -256,34 +260,15 @@ export default {
   width: calc(100% - 58px);
   border-radius: 5px;
 }
-@keyframes blink-effect {50% { opacity: 0; } }
 
-.container .right .write input {
-  font-size: 16px;
-  float: left;
-  width: 60%;
-  height: 40px;
-  padding: 0 10px;
-  color: #1a1a1a;
-  border: 0;
-  outline: none;
-  background-color: white;
-  font-family: "Source Sans Pro", sans-serif;
-  font-weight: 400;
-  animation: blink-effect 1s step-end infinite;
-
-  &:focus {
-    animation: none;
-  }
-}
 
 .container .right .write button {
   float: right;
   line-height: 220%;
   margin-left: 10px;
   margin-right: 10px;
-  background-color: #f9e000;
-  border: 1px solid #f9e000;
+  background-color: #809fd6;
+  border: 1px solid #809fd6;
   border-radius: 10px;
 }
 
@@ -340,26 +325,26 @@ export default {
 .container .right .bubble.you {
   float: left;
   color: black;
-  background-color: white;
+  background-color: #dedfdf;
   align-self: flex-start;
   -webkit-animation-name: slideFromLeft;
           animation-name: slideFromLeft;
 }
 .container .right .bubble.you:before {
   left: -3px;
-  background-color: white;
+  background-color: #dedfdf;
 }
 .container .right .bubble.me {
   float: right;
-  color: #1a1a1a;
-  background-color: #f9e000;
+  color: #fff;
+  background-color: #c2d6f8;
   align-self: flex-end;
   -webkit-animation-name: slideFromRight;
           animation-name: slideFromRight;
 }
 .container .right .bubble.me:before {
   right: -3px;
-  background-color: #f9e000;
+  background-color: #c2d6f8;
 }
 .container .right .conversation-start {
   position: relative;
@@ -432,14 +417,40 @@ export default {
 ::-webkit-scrollbar { width: 10px; }
 
 ::-webkit-scrollbar-track { 
-  background-color: #c2d6f8; 
+  background-color: #fff; 
   border-radius: 5px; 
 }
 
 ::-webkit-scrollbar-thumb { 
-    background: #f0f0f0; 
+    background: #cfcccc; 
     border-radius: 5px;
 }
+.message_input_wrapper {
+  display: inline-block;
+  height: 100%;
+  border-radius: 15px;
+  border: 1px solid #bcbdc0;
+  width: 60%;
+  position: relative;
+}
 
+@keyframes blink-effect {50% { opacity: 0; } }
+.message_input_wrapper .message_input {
+  border: none;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 30px;
+  width: 95%;
+  padding-left: 5%;
+  float: left;
+  outline-width: 0;
+  color: rgb(168, 168, 168);
+  font-family: Century Gothic, sans-serif;
+  animation: blink-effect 1s step-end infinite;
+
+  &:focus {
+    animation: none;
+  }
+}
 
 </style>
