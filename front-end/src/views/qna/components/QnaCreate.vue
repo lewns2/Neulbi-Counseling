@@ -54,7 +54,7 @@
           rows="5"
           v-model="state.description"
           placeholder="질문을 작성해주세요."
-          style="border: none"
+          style="border: none; font-size: 20px"
         ></textarea>
       </div>
       <div class="d-flex" style="justify-content: flex-end">
@@ -289,9 +289,9 @@ export default {
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    border: none;
-    resize: none;
+  width: 100%;
+  height: 150px;
+  border: none;
+  resize: none;
 }
 </style>
