@@ -21,39 +21,30 @@
           <br />
           <div
             class="form-group"
-            style="color: #333333; font-family: Century Gothic, sans-serif; margin-top: 20%;
-              display: flex;
-              align-content: flex-start;
-              justify-content: center;"
+            style="
+              color: #333333;
+              font-family: Century Gothic, sans-serif;
+              margin-top: 20%;
+            "
           >
-            <div class="col-md-2">
-              <button
-                @click="state.reportBool = !state.reportBool"
-                class="custom-form-control-red form-control-md col-lg-2"
+            <div>
+              <h1
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal2"
                 id="input"
               >
-                신고
-              </button>
-              <button
-                id="input"
-                class="form-control form-control-md col-lg-2"
-                @click="goToHome"
-              >
-                Home
-              </button>
+                신고하기
+              </h1>
+              <h1 id="input" @click="goToHome">홈으로</h1>
             </div>
             <!-- 신고 모달 -->
             <div
               class="modal fade"
               id="exampleModal2"
-              v-if="state.reportBool"
               tabindex="-1"
               aria-labelledby="exampleModalLabel2"
               aria-hidden="true"
             >
-
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -72,14 +63,15 @@
                       <div class="row">
                         <div class="col-md-3">
                           <span>
-                            
-                            <ul style="list-style:none; padding-left:0px">
+                            <ul style="list-style: none; padding-left: 0px">
                               <li
                                 v-for="(
                                   person, idx
                                 ) in state.confessionReviewList"
                                 :key="idx"
                                 @click="clickSelectNickname(person, idx)"
+                                id="nickname"
+                                name="lis"
                               >
                                 {{ person.nickName }}
                               </li>
@@ -93,7 +85,6 @@
                             rows="5"
                             v-model="state.reportMsg"
                             placeholder="신고 내용을 작성해주세요."
-                            
                           ></textarea>
                         </div>
                       </div>
@@ -161,6 +152,8 @@ export default {
       });
       state.reportMsg = "";
       state.reviewIndex = -1;
+      if (document.getElementById("unnickname"))
+        document.getElementById("unnickname").id = "nickname";
     };
 
     const goToHome = function () {
@@ -169,11 +162,13 @@ export default {
       });
     };
 
-    const clickSelectNickname = function (person) {
+    const clickSelectNickname = function (person, idx) {
+      if (document.getElementById("unnickname"))
+        document.getElementById("unnickname").id = "nickname";
       state.reportNickname = person.nickName;
       state.reportUserId = person.userId;
-      console.log(state.reportNickname);
-      
+      console.log(idx, state.reportNickname);
+      document.getElementsByName("lis")[idx].id = "unnickname";
     };
 
     return {
@@ -258,25 +253,27 @@ textarea {
   padding-top: 1%;
 }
 
-#click-nickname {
-  min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;
-  background-color: #bbd2f9;
-  color: white;
+#nickname {
+  min-width: 7rem;
+  border: 2px solid #bbd2f9;
+  border-radius: 30px;
+  padding: 0px;
   text-align: center;
   margin-bottom: 5px;
 }
 
-li {
-  min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;
+#unnickname {
+  min-width: 7rem;
+  border: 2px solid #bbd2f9;
+  border-radius: 30px;
+  padding: 0px;
   text-align: center;
   margin-bottom: 5px;
-}
-
-li.on {
-  min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;
   background-color: #bbd2f9;
   color: white;
-  text-align: center;
-  margin-bottom: 5px;
+}
+
+ul li {
+  cursor: pointer;
 }
 </style>
