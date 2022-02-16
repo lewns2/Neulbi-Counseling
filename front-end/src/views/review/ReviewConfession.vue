@@ -1,6 +1,6 @@
 <template>
-  <div style="background-color: rgb(225 236 255)">
-    <div id="main-container" class="container" style="height: 100vh">
+  <div style="background-color: rgb(225 236 255); height: 100vh">
+    <div id="main-container" class="container">
       <!-- meeting 입장 초기 화면 -->
       <div id="review">
         <div
@@ -10,32 +10,41 @@
         >
           <div
             class="d-flex justify-content-center"
-            style="border-bottom: 3px solid #a6c0fe"
+            style="
+              border-bottom: 3px solid #a6c0fe;
+              padding-bottom: 20px;
+              font-family: Binggrae;
+            "
           >
-            <i class="fas fa-quote-left" style="font-size: 20px"></i>
-            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+            <h1 style="color: #333333; font-family: Binggrae">
               미팅은 어떠셨나요?
             </h1>
-            <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
           <br />
           <div
             class="form-group"
-            style="
-              color: #333333;
-              font-family: Century Gothic, sans-serif;
-              margin-top: 20%;
-            "
+            style="color: #333333; margin-top: 20%; font-family: Binggrae"
           >
-            <div>
+            <div style="font-family: Binggrae">
               <h1
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal2"
                 id="input"
+                style="font-family: Binggrae"
               >
                 신고하기
               </h1>
-              <h1 id="input" @click="goToHome">홈으로</h1>
+              <h1
+                id="input"
+                @click="goToHome"
+                style="
+                  margin-left: 20%;
+                  margin-right: 5%;
+                  font-family: Binggrae;
+                "
+              >
+                홈으로
+              </h1>
             </div>
             <!-- 신고 모달 -->
             <div
@@ -47,8 +56,12 @@
             >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">
+                  <div class="modal-header" style="font-family: Binggrae">
+                    <h5
+                      class="modal-title"
+                      id="exampleModalLabel2"
+                      style="font-family: Binggrae"
+                    >
                       신고하기
                     </h5>
                     <button
@@ -72,6 +85,7 @@
                                 @click="clickSelectNickname(person, idx)"
                                 id="nickname"
                                 name="lis"
+                                style="font-family: Binggrae"
                               >
                                 {{ person.nickName }}
                               </li>
@@ -85,6 +99,7 @@
                             rows="5"
                             v-model="state.reportMsg"
                             placeholder="신고 내용을 작성해주세요."
+                            style="font-family: Binggrae"
                           ></textarea>
                         </div>
                       </div>
@@ -95,6 +110,7 @@
                       class="custom-form-control-red"
                       type="button"
                       @click="clickReviewReportDetail"
+                      style="font-family: Binggrae"
                     >
                       보내기
                     </button>
@@ -183,6 +199,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.form-group h1:hover {
+  cursor: pointer;
+}
+
 textarea {
   width: 100%;
   height: 150px;
@@ -250,7 +270,7 @@ textarea {
 
 #main-container {
   padding-bottom: 80px;
-  padding-top: 1%;
+  padding-top: 5%;
 }
 
 #nickname {

@@ -3,21 +3,17 @@
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">
         <li style="float: left">
-          <img
-            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
-            alt=""
-            style="width: 50px"
-          />
-          <span style="font-size: 15px"> &nbsp;&nbsp;CONFESSION</span>
+          <img src="@/assets/icon.png" alt="" style="width: 50px" />
+          <span style="font-size: 25px; font-family: Binggrae">
+            &nbsp;&nbsp;고해성사</span
+          >
         </li>
         <li>
           <i
             @click="leaveSession"
             class="far fa-times-circle"
             style="color: red; margin-left: 50px"
-            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
-              >종료</span
-            ></i
+            >&nbsp;<span style="font-family: Binggrae">종료</span></i
           >
         </li>
         <li>
@@ -32,7 +28,7 @@
             class="front__text-hover"
             type="button"
             @click="clickEmojiView"
-            style="position: relative; margin-left: 50px"
+            style="position: relative; margin-left: 50px; font-family: Binggrae"
           >
             반응
             <div
@@ -162,37 +158,29 @@
             class="d-flex justify-content-center"
             style="border-bottom: 3px solid #a6c0fe; padding-bottom: 20px"
           >
-            <i class="fas fa-quote-left" style="font-size: 20px"></i>
-            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+            <h1 style="color: #333333; font-family: Binggrae">
               {{ data.confessionMeetingInfo.title }} 미팅룸
             </h1>
-            <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
 
           <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
           <br />
-          <div
-            class="form-group"
-            style="color: #333333; font-family: Century Gothic, sans-serif"
-          >
+          <div class="form-group" style="color: #333333; font-family: Binggrae">
             <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
               방장
             </h3>
             <h3 v-else>게스트</h3>
-            <br>
+            <br />
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
-              <br><br>
+              <br /><br />
               <div class="d-flex" style="justify-content: center">
                 <button
                   v-if="!state.videoState"
                   class="front__text-hover"
                   type="button"
                   @click="getVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video"
@@ -205,10 +193,7 @@
                   class="front__text-hover"
                   type="button"
                   @click="offVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video-slash"
@@ -223,7 +208,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -240,7 +225,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -255,7 +240,7 @@
                   @click="joinSession()"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -457,8 +442,8 @@ export default {
             });
         });
 
-      window.addEventListener("beforeunload", leaveSession);
-      window.addEventListener("reaction_added", handleSendFlyingEmoji);
+        window.addEventListener("beforeunload", leaveSession);
+        window.addEventListener("reaction_added", handleSendFlyingEmoji);
       }
     };
 
@@ -668,7 +653,7 @@ export default {
       // const deg = 10;
       const leftper = 6;
       const topper = -40;
-      node.style.position = 'absolute'
+      node.style.position = "absolute";
       // node.style.transform = `translateX(${deg})`;
       // node.style.left = `${Math.random() * 100}%`;
       node.style.right = `${leftper}%`;
@@ -681,7 +666,6 @@ export default {
         console.log("지우기 함수 실행 중");
         // if (!document.body.contains) return;
         document.body.removeChild(node);
-
       });
     };
 
@@ -1023,19 +1007,17 @@ video {
 //   font-size: 60px;
 // }
 .flying-emojis :global(.emoji.wiggle-1) {
-  animation: emerge 3s forwards,
-  wiggle-1 3s ease-in-out infinite alternate;
+  animation: emerge 3s forwards, wiggle-1 3s ease-in-out infinite alternate;
   font-size: 60px;
 }
 .flying-emojis :global(.emoji.wiggle-2) {
-  animation: emerge 3s forwards,
-  wiggle-2 3s ease-in-out infinite alternate;
+  animation: emerge 3s forwards, wiggle-2 3s ease-in-out infinite alternate;
   font-size: 60px;
 }
 
 @keyframes emerge {
   to {
-    right:6%;
+    right: 6%;
     top: -30%;
     opacity: 0;
   }
