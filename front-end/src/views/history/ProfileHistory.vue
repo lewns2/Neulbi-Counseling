@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="history">
     <main-header></main-header>
     <div class="container">
       <profile-history-confession></profile-history-confession>
@@ -54,5 +54,7 @@ export default {
 </script>
 
 <style>
-
+#history {
+  font-family: "Binggrae"!important;
+}
 </style>

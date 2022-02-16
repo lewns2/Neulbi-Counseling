@@ -44,69 +44,11 @@
 			<br>
 			<div class="signup">
 					이미 회원이신가요?&nbsp;&nbsp;
-					<router-link :to="{ name: 'SignIn' }">로그인으로 이동</router-link>
+					<router-link :to="{ name: 'SignIn' }">로그인으로 이동</router-link><br><br>
+        <router-link :to="{ name: 'Home' }">뒤로가기</router-link>
 			</div>
 		</div>
 	</div>
-  <!-- <div>
-    <div align="left">
-      <form :model="credentials">
-        <input
-          type="email"
-          placeholder="이메일"
-          id="email"
-          v-model="credentials.email"
-        />
-        <button type="button" @click="checkEmail">Email중복체크</button>
-        <p>{{ state.emailBool }}</p>
-        <input
-          type="text"
-          placeholder="사용자 닉네임"
-          id="nickname"
-          v-model="credentials.nickname"
-          @keyup="clickValidateNickname"
-        />
-
-        <p id="nicknameState" class="red">{{ state.nicknameMessage }}</p>
-        <button type="button" @click="checkNickname">Nickname중복체크</button>
-        <br />
-        <p>{{ state.nicknameBool }}</p>
-        <input
-          type="password"
-          placeholder="비밀번호"
-          id="password"
-          v-model="credentials.password"
-          @keyup="clickValidatePassword"
-        />
-        <p id="passwordState" class="red">{{ state.passwordMessage }}</p>
-        <input
-          type="password"
-          placeholder="비밀번호 확인"
-          id="passwordConfirmation"
-          v-model="credentials.passwordConfirmation"
-        />
-        <p v-if="credentials.passwordConfirmation === null"></p>
-        <p
-          class="blue"
-          v-else-if="credentials.password == credentials.passwordConfirmation"
-        >
-          비밀번호가 일치합니다.
-        </p>
-        <p class="red" v-else>비밀번호가 일치하지 않습니다.</p>
-        <button
-          :disabled="
-            !state.nicknameValid ||
-            !state.passwordValid ||
-            credentials.password != credentials.passwordConfirmation
-          "
-          type="button"
-          @click="clickSignUp"
-        >
-          Sign Up
-        </button>
-      </form>
-    </div>
-  </div> -->
 </template>
 
 <script>

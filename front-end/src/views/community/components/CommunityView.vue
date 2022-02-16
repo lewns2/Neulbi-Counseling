@@ -64,9 +64,9 @@
           class="dropdown-menu"
           aria-labelledby="dropdownMenuButton1"
           style="
-            min-width: 7rem;
+            min-width: 4rem;
             border: 2px solid #bbd2f9;
-            border-radius: 30px;
+            border-radius: 10px;
             padding: 0px;
           "
         >
@@ -74,7 +74,7 @@
             v-for="(category, idx) in state.categories"
             :key="idx"
             @click="clickSearchList(category)"
-            style="text-align: center"
+            style="text-align: center;"
           >
             {{ category.value }}
           </li>

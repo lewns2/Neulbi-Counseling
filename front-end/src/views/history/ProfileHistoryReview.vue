@@ -12,10 +12,14 @@
       </div>
     </div>
     <br>
-    <div class="d-flex justify-content-center mb-5">
+    <div class="d-flex justify-content-center mb-5" v-if="state.profileHistoryReceivedReviewLastPageNum!=0">
       <button id="rec_prev" class="paginaterec left" @click="checkReceivedPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.receivedpage}}페이지 / {{ state.profileHistoryReceivedReviewLastPageNum }}페이지 </div>
       <button id="rec_next" class="paginaterec right" @click="checkReceivedPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 받은 리뷰가 없습니다.</span>
     </div>
     <br>
     <hr>
@@ -32,10 +36,14 @@
       </div>
     </div>
     <br>
-    <div class="d-flex justify-content-center mb-5">
+    <div class="d-flex justify-content-center mb-5" v-if="state.profileHistoryWrittenReviewLastPageNum!=0">
       <button id="wri_prev" class="paginatewri left" @click="checkWrittenPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.writtenpage}}페이지 / {{ state.profileHistoryWrittenReviewLastPageNum }}페이지 </div>
       <button id="wri_next" class="paginatewri right" @click="checkWrittenPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 작성한 리뷰가 없습니다.</span>
     </div>
     <br><br>
   </div>
@@ -481,9 +489,9 @@ button {
   position: absolute;
   width: 100%;
   margin-top: -15px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;

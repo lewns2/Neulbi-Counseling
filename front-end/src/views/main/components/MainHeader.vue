@@ -2,7 +2,7 @@
   <div id="nav">
     <span v-if="state.isSignIn" class="row">
       <div class="col-1" style="text-align: left; display: flex; flex-direction: column; justify-content: center;">
-        <img src="@/assets/icon.png" style="position: absolute; width: 4%; margin-left: 2%; margin-bottom: 1%; pointer: cursor;" @click="goToHome">
+        <img src="@/assets/icon.png" style="position: absolute; width: 4%; margin-left: 2%; margin-bottom: 1%; cursor: pointer;" @click="goToHome">
       </div>
       <span class="col-3 d-flex justify-content-around">
         <router-link :to="{ name: 'Confession' }" style="font-size: 30px;">고해성사</router-link>
