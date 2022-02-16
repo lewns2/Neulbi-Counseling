@@ -64,20 +64,22 @@ export default {
     })
 
     onMounted(async () => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
-      await pr.setAttribute('data-state', state.confessionpage===1 ? 'disabled' : '')
-      if (state.confessionpage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      
-      await pl.setAttribute('data-state', state.confessionpage===state.profileHistoryConfessionLastPageNum ? 'disabled' : '')
-      if (state.confessionpage === state.profileHistoryConfessionLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+      if (state.profileHistoryConfessionLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
+        await pr.setAttribute('data-state', state.confessionpage===1 ? 'disabled' : '')
+        if (state.confessionpage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        
+        await pl.setAttribute('data-state', state.confessionpage===state.profileHistoryConfessionLastPageNum ? 'disabled' : '')
+        if (state.confessionpage === state.profileHistoryConfessionLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -280,7 +282,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 57%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -316,7 +318,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 55%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -358,15 +360,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-weight: bold;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 </style>

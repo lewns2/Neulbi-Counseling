@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 style="text-align: left;">찜한 상담가</h3>
+    <h3 style="text-align: left;">공감한 상담가</h3>
     <br>
     <div v-if="(state.profileConsultantLike)">
       <div class="row d-flex justify-content-start">
@@ -32,10 +32,14 @@
           </div>      
         </div>
         <br>
-        <div class="d-flex justify-content-center mt-5 pt-3 mb-3">
+        <div class="d-flex justify-content-center mt-5 pt-3 mb-3" v-if="state.profileConsultantLastPageNum!=0">
           <button id="prev" class="paginate left" @click="checkProfilePage($event)"><i></i><i></i></button>
           <div class="counter">{{state.profilepage}}페이지 / {{ state.profileConsultantLastPageNum }}페이지 </div>
           <button id="next" class="paginate right" @click="checkProfilePage($event)"><i></i><i></i></button>
+        </div>
+        <div v-else>
+          <br><br>
+          <span style="font-size: 25px;">아직 공감한 상담가가 없습니다.</span>
         </div>
       </div>
     </div>
@@ -350,7 +354,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 60%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -386,7 +390,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 51%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -428,15 +432,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-weight: bold;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 4%;
 }
 </style>

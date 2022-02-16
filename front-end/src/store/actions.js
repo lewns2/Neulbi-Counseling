@@ -58,7 +58,7 @@ export async function mainSignIn({ state, commit, dispatch }, payload) {
       }
     })
     .catch((err) => {
-      alert('로그인에 실패했습니다.')
+      alert('로그인에 실패했습니다.\n 아이디와 비밀번호를 확인해주세요.')
       console.log(err, "로그인");
     });
 }

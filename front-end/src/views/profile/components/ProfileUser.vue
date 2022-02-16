@@ -4,7 +4,7 @@
     <br>
     <div class="d-flex justify-content-start">
       <div class="searchBox">
-        <input class="searchInput" type="text" placeholder="Nickname" v-model="state.nickname" @keyup="clickValidateNickname">
+        <input class="searchInput" type="text" placeholder="변경할 닉네임을 적어주세요." v-model="state.nickname" @keyup="clickValidateNickname">
       </div>
       <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickgetNickname">중복 확인</button>
       <button v-if="state.profileNicknameBool == true" class="front__text-hover d-flex justify-content-start" @click="clickmodifyNickname">

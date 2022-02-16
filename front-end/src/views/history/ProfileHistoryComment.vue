@@ -51,20 +51,22 @@ export default {
     })
 
     onMounted(async () => {
-      const prcommunity = document.querySelector('.paginatecomment.left')
-      const plcommunity = document.querySelector('.paginatecomment.right')
-      await prcommunity.setAttribute('data-state', state.commentpage===1 ? 'disabled' : '')
-      if (state.commentpage===1) {
-        prcommunity.disabled = true
-      } else {
-        prcommunity.disabled = false
-      }
-      
-      await plcommunity.setAttribute('data-state', state.commentpage===state.profileHistoryCommentLastPageNum ? 'disabled' : '')
-      if (state.commentpage === state.profileHistoryCommentLastPageNum) {
-        plcommunity.disabled = true
-      } else {
-        plcommunity.disabled = false
+      if (state.profileHistoryCommentLastPageNum != 0) {
+        const prcommunity = document.querySelector('.paginatecomment.left')
+        const plcommunity = document.querySelector('.paginatecomment.right')
+        await prcommunity.setAttribute('data-state', state.commentpage===1 ? 'disabled' : '')
+        if (state.commentpage===1) {
+          prcommunity.disabled = true
+        } else {
+          prcommunity.disabled = false
+        }
+        
+        await plcommunity.setAttribute('data-state', state.commentpage===state.profileHistoryCommentLastPageNum ? 'disabled' : '')
+        if (state.commentpage === state.profileHistoryCommentLastPageNum) {
+          plcommunity.disabled = true
+        } else {
+          plcommunity.disabled = false
+        }
       }
     })
 
@@ -255,7 +257,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecomment.left {
-  right: 57%;
+  position: relative;
 }
 .paginatecomment.left i {
   transform-origin: 0% 50%;
@@ -291,7 +293,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatecomment.right {
-  left: 55%;
+  position: relative;
 }
 .paginatecomment.right i {
   transform-origin: 100% 50%;
@@ -333,15 +335,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-weight: bold;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 </style>
