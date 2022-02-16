@@ -128,6 +128,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
             User user = userService.getUserById(chatRoom.getUserId());
             res.setUserId(chatRoom.getUserId());
             res.setUserNickName(user.getNickname());
+            res.setMaskId(user.getMaskId());
 
             // 컨설턴트
             User consultant = userService.getUserById(chatRoom.getConsultantId());
