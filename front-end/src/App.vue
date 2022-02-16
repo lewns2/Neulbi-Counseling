@@ -24,11 +24,13 @@ export default {
   color: #2c3e50;
   height: auto;
   width: 100%;
+  font-family: "Binggrae";
 }
 
 body {
   height: 100vh;
   margin-top: 0px!important;
   justify-content: center;
+  font-family: "Binggrae";
 }
 </style>

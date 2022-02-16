@@ -1,15 +1,11 @@
 <template id="wrapper">
-  <div style="background-color: rgb(225 236 255); height: 100vh;">
+  <div style="background-color: rgb(225 236 255); height: 100vh">
     <!-- session 연결됐을 때 상담 도구 모음 -->
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">
         <li style="float: left">
-          <img
-            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
-            alt=""
-            style="width: 50px"
-          />
-          <span style="font-size: 15px"> &nbsp;&nbsp;ADVICE</span>
+          <img src="@/assets/icon.png" alt="" style="width: 50px" />
+          <span style="font-size: 25px"> &nbsp;&nbsp;고민상담</span>
         </li>
         <li>
           <i
@@ -130,37 +126,32 @@
             class="d-flex justify-content-center"
             style="border-bottom: 3px solid #a6c0fe; padding-bottom: 20px"
           >
-            <i class="fas fa-quote-left" style="font-size: 20px"></i>
-            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+            <h1 style="color: #333333; font-family: Binggrae">
               {{ data.adviceMeetingInfo.ownerNickname }}님의 미팅룸
             </h1>
-            <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
 
           <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
           <br />
-          <div
-            class="form-group"
-            style="color: #333333; font-family: Century Gothic, sans-serif"
-          >
-            <h3 v-if="data.userInfo.id === data.adviceMeetingInfo.ownerId">
+          <div class="form-group" style="color: #333333; font-family: Binggrae">
+            <h3
+              v-if="data.userInfo.id === data.adviceMeetingInfo.ownerId"
+              style="font-family: Binggrae"
+            >
               상담가
             </h3>
-            <h3 v-else>상담자</h3>
-            <br>
+            <h3 v-else style="font-family: Binggrae">상담자</h3>
+            <br />
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
-              <br><br>
+              <br /><br />
               <div class="d-flex" style="justify-content: center">
                 <button
                   v-if="!state.videoState"
                   class="front__text-hover"
                   type="button"
                   @click="getVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video"
@@ -173,10 +164,7 @@
                   class="front__text-hover"
                   type="button"
                   @click="offVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video-slash"
@@ -191,7 +179,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -208,7 +196,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -223,7 +211,7 @@
                   @click="joinSession()"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >

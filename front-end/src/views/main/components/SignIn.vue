@@ -41,7 +41,8 @@
 			<br>
 			<div class="signup">
 					아직 회원이 아니신가요?&nbsp;&nbsp;
-					<router-link :to="{ name: 'SignUp' }">회원가입으로 이동</router-link>
+				<router-link :to="{ name: 'SignUp' }">회원가입으로 이동</router-link><br><br>
+				<router-link :to="{ name: 'Home' }">뒤로가기</router-link>
 			</div>
 		</div>
 	</div>

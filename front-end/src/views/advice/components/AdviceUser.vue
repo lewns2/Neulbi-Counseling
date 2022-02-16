@@ -427,7 +427,7 @@ export default {
   color: black;
   font-size: 16px;
   transition: 0.4s;
-  line-height: 20px;
+  line-height: 0px;
   width: 90%;
   padding: 0 6px;
 }

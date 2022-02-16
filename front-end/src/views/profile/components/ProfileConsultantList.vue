@@ -17,7 +17,7 @@
                 </div>
               </div>
               <p class="card__description">
-                {{ consultant.description }}
+                {{ consultant.description }}<br>
                 상담횟수 : {{ consultant.consultingCnt }}
                 <button
                   type="button"
@@ -47,6 +47,7 @@
 <script>
 import { useStore } from 'vuex'
 import { reactive, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: "ProfileConsultantList",
@@ -55,6 +56,7 @@ export default {
   },
   setup (props) {
     const store = useStore()
+    const router = useRouter()
     const state = reactive ({
       userInfo: props.userInfo,
       profileConsultantLike: computed(() => store.getters['root/profileConsultantLike']),
@@ -113,11 +115,22 @@ export default {
         size: 4,
       })
     }
+    const clickCreateChatRoom = async function (consultant_id) {
+      const body = { userId: state.userInfo.id, consultantId: consultant_id }
+      await store.dispatch("root/adviceCreateChatRoom", body)
+      await router.push({
+        name: "ChatRoom",
+        params: {
+          user_id: props.userInfo.id,
+        }
+      })
+    }
 
     return { 
       state,
       onMounted,
       checkProfilePage,
+      clickCreateChatRoom
     }
   }
 }
@@ -418,9 +431,9 @@ button {
   position: absolute;
   width: 100%;
   margin-top: -15px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;

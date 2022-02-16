@@ -18,10 +18,14 @@
         </a>
       </div>
     </div>
-    <div class="d-flex justify-content-center mb-5 mt-5">
+    <div class="d-flex justify-content-center mb-5 mt-5" v-if="state.profileHistoryCommunityLastPageNum!=0">
       <button id="community_prev" class="paginatecommunity left" @click="checkCommunityPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.communitypage}}페이지 / {{ state.profileHistoryCommunityLastPageNum }}페이지 </div>
       <button id="community_next" class="paginatecommunity right" @click="checkCommunityPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 작성한 게시글이 없습니다.</span>
     </div>
     <br>
     <hr>
@@ -331,9 +335,9 @@ button {
   position: absolute;
   width: 100%;
   margin-top: -15px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
