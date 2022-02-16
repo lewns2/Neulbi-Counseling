@@ -15,7 +15,7 @@
               <span class="card__status">주제: {{ state.topicCategoryName[advice.topicCategoryId] }}</span>
             </div>
           </div>
-          <p class="card__description">
+          <p class="card__description" v-if="advice.createdDate!=null&advice.endDate!=null">
             <span>{{ advice.createdDate.substr(0, 16) }}</span><br>
               <span> ~ </span><br>
             <span>{{ advice.endDate.substr(0, 16) }}</span><br><br>
@@ -290,7 +290,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginateadv.left {
-  right: 55%;
+  right: 57%;
 }
 .paginateadv.left i {
   transform-origin: 0% 50%;

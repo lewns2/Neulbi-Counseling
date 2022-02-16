@@ -276,7 +276,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 55%;
+  right: 57%;
 }
 .paginate.left i {
   transform-origin: 0% 50%;

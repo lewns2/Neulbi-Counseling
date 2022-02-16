@@ -2,22 +2,21 @@
   <div class="top"><span>
     <span class="name"></span></span>
   </div>
-  <br>
   <ul class="people">
-    <!-- {{ state.chatRoomList}} -->
     <li class="person" data-chat="person1" v-for="(chatRoom, idx) in state.chatRoomList" :key=idx @click="chatRoomGetDetail(chatRoom.id, consultantNickName)">
-      <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
-      <span class="name" v-if="chatRoom.consultantId == state.userInfo.id">{{ chatRoom.userNickName }}</span>
-      <span class="name" v-else>{{ chatRoom.consultantNickName }}</span>
-      <span class="iscon" v-if="chatRoom.consultantId == state.userInfo.id">상담가</span>
-      <span class="iscon" v-else>상담자</span>
-      <span class="time" v-if="chatRoom.createdDate!=null" @click="chatRoomGetDetail(chatRoom.id, chatRoom.consultantNickName)">
-        {{ chatRoom.createdDate.substr(5, 5) }}
-      </span>
-      <span class="time" v-else @click="chatRoomGetDetail(chatRoom.id, consultantNickName)">xx-xx</span>
+      <img :src="require('@/assets/mask/mask'+chatRoom.maskId+'.png')" alt="" />
+      <div class="d-flex row">
+        <span class="name row-5" v-if="chatRoom.consultantId == state.userInfo.id">{{ chatRoom.userNickName }}</span>
+        <span class="name row-5" v-else>{{ chatRoom.consultantNickName }}</span>
+        <span class="iscon row-2" v-if="chatRoom.consultantId == state.userInfo.id">상담가</span>
+        <span class="iscon row-2" v-else>상담자</span>
+        <span class="time row-2 ms-4" v-if="chatRoom.createdDate!=null" @click="chatRoomGetDetail(chatRoom.id, chatRoom.consultantNickName)">
+          {{ chatRoom.createdDate.substr(5, 5) }}
+        </span>
+        <span class="time row-2 ms-4" v-else @click="chatRoomGetDetail(chatRoom.id, consultantNickName)">xx-xx</span>
+      </div>
       <span class="preview" v-if="chatRoom.lastMessage!=null">{{ chatRoom.lastMessage }}</span>
       <span class="preview" v-else>메시지가 없습니다.</span>
-      <hr>
     </li>
   </ul>
     <!-- <div v-for="(chatRoom, idx) in state.chatRoomList" :key=idx>
@@ -63,22 +62,25 @@ export default {
   width: 100%;
   height: 47px;
   padding: 15px 29px;
-  background-color: #e6e6e6;
+  background-color: #fff;
   border-top-left-radius: 30px;
   border-bottom: 1px solid white;
 }
 .container .left .people {
   overflow-y: auto;
+  background: #f8f8f8;
   margin-left: -1px;
   padding-left: 0px;
   width: 100%;
+  height: 82%;
 }
 .container .left .people .person {
   position: relative;
   width: 100%;
-  padding: 12px 5% 16px 20%;
+  padding: 16px 5% 16px 5%;
   cursor: pointer;
-  background-color: #fff;
+  background-color: #dedfdf;
+  border-bottom: 1px solid #9c9d9f;
 }
 // .container .left .people .person:after {
 //   position: absolute;
@@ -97,34 +99,49 @@ export default {
   height: 40px;
   margin-left: 15px;
   margin-right: 12px;
+  margin-top: 5px;
   border-radius: 50%;
+  background: #fff;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .container .left .people .person .name {
-  float: left;
+  position: relative;
   font-size: 14px;
   line-height: 22px;
   display: inline-block;
   color: #1a1a1a;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 600;
-  padding-left: 30px;
+  width: 30%;
+  padding-left: 5px;
+}
+.container .left .people .person .iscon {
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  display: inline-block;
+  color: #6A515E;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  width: 30%;
+  padding-left: 5px;
 }
 .container .left .people .person .time {
   font-size: 14px;
   position: relative;
   // top: 16px;
-  width: 100%;
+  width: 30%;
   padding: 0 0 5px 5px;
   color: #999;
-  background-color: #fff;
+  // background-color: #fff;
 }
 .container .left .people .person .preview {
   font-size: 14px;
   display: inline-block;
   overflow: hidden !important;
   width: 70%;
+  padding-top: 1%;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;

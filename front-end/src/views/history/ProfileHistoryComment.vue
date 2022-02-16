@@ -251,7 +251,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecomment.left {
-  right: 55%;
+  right: 57%;
 }
 .paginatecomment.left i {
   transform-origin: 0% 50%;

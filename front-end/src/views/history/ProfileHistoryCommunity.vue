@@ -250,7 +250,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecommunity.left {
-  right: 55%;
+  right: 57%;
 }
 .paginatecommunity.left i {
   transform-origin: 0% 50%;

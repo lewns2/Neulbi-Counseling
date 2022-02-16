@@ -32,7 +32,7 @@
           </button>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-            style="min-width: 12rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+            style="min-width: 5rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
           >
             <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(1)">닉네임</button></li>
             <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방제목</button></li>
@@ -41,7 +41,7 @@
         </span>
 
         <div class="searchBox">
-          <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+          <input class="searchInput" type="text" placeholder="검색할 내용을 적어주세요" v-model="state.word">
         </div>
         <button
           type="button"
@@ -144,7 +144,7 @@ export default {
         { value: "방 제목", backValue: "title" },
         { value: "방 설명" , backValue: "description"},
       ],
-      showKey: 'Select',
+      showKey: '선택',
       key: "Select",
       word: null,
       page: 1,
@@ -618,7 +618,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 67%;
+  right: 68%;
 }
 .paginate.left i {
   transform-origin: 0% 50%;

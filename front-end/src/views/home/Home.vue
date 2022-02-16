@@ -38,5 +38,6 @@ export default {
 <style scoped>
 .home {
   height: 100vh;
+  width: 101%;
 }
 </style>

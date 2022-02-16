@@ -46,12 +46,6 @@ export default {
         store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", "No")
       }
       await store.dispatch('root/profileGetConsultantLike', state.userInfo.id)
-      await store.dispatch('root/profileGetHistoryConfessionMeeting', body)
-      await store.dispatch('root/profileGetHistoryAdviceMeeting', body)
-      await store.dispatch('root/profileGetHistoryReceivedReview', body)
-      await store.dispatch('root/profileGetHistoryWrittenReview', body)
-      await store.dispatch('root/profileGetHistoryCommunity', body)
-      await store.dispatch('root/profileGetHistoryComment', body)   
     }
 
     onMounted(async() => {
@@ -66,12 +60,6 @@ export default {
         store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", "No")
       }
       await store.dispatch('root/profileGetConsultantLike', state.userInfo.id)
-      await store.dispatch('root/profileGetHistoryConfessionMeeting', body)
-      await store.dispatch('root/profileGetHistoryAdviceMeeting', body)
-      await store.dispatch('root/profileGetHistoryReceivedReview', body)
-      await store.dispatch('root/profileGetHistoryWrittenReview', body)
-      await store.dispatch('root/profileGetHistoryCommunity', body)
-      await store.dispatch('root/profileGetHistoryComment', body)
     })
 
     const goToConfession = function () {

@@ -94,6 +94,7 @@ export default {
 #nav {
   position: fixed-top;
   background-color: #c2d6f8;
+  width: 101%;
 }
 
 a, p {
