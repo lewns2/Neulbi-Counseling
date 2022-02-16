@@ -58,6 +58,7 @@ export default {
       store.commit("root/MAIN_NICKNAME_BOOL", false)
       store.commit("root/PROFILE_GET_NICKNAME", false)
       store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", null)
+      localStorage.removeItem('vuex')
       localStorage.removeItem("jwt")
       router.push({ name: 'Home' })
     }
