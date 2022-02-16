@@ -2,7 +2,8 @@
   <div>
     <br>
     <h3 style="text-align: left;">고해성사 기록</h3><br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryConfession==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div v-for="(confession, index) in state.profileHistoryConfession" :key="index" class="col-4">
         <div class="card">
           <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confession.userProfileImg" class="card__image">
@@ -11,8 +12,8 @@
               <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
               <img class="card__thumb" :src="require('@/assets/mask/mask'+confession.userMaskId+'.png')" alt="" />
               <div class="card__header-text">
-                <h3 class="card__title">방장 : {{ confession.nickname }}</h3>            
-                <span class="card__status">주제: {{ state.topicCategoryName[confession.topicCategoryId] }}</span>
+                <h3 class="card__title">방장 : {{ confession.nickname }}</h3>
+                <span class="card__status">주제: {{ state.topicCategoryName[confession.topicCategoryId-1]}}</span>
               </div>
             </div>
             <div class="card__description" style="text-align: center;">

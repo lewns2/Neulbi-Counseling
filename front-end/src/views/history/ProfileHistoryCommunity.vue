@@ -2,8 +2,10 @@
   <div>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <h3 style="text-align: left;">내가 작성한 게시글</h3>
+    
     <br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryCommunity==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(community, idx) in state.profileHistoryCommunity" :key="idx">
         <a href="#" class="data-card">
           <h3 v-if="community.title.length > 8">{{ community.title.substr(0,8) }}···</h3>

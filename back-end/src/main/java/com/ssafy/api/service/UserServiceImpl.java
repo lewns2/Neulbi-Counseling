@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
                 .email(email)
                 .nickname(nickname)
                 .password(password)
+                .role("USER")
                 .maskId(1)
                 .maskBack(1)
                 .socialId("0")

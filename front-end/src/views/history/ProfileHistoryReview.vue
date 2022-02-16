@@ -2,7 +2,8 @@
   <div>
     <h3 style="text-align: left">내가 받은 리뷰</h3>
     <br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryReceivedReview==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(receivedReview, idx) in state.profileHistoryReceivedReview" :key="idx">
         <a href="#" class="data-card">
           <h3>작성자 : {{ receivedReview.userNickname }}</h3><br>
@@ -26,7 +27,8 @@
     <br>
     <h3 style="text-align: left;">내가 적은 리뷰</h3>
     <br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryWrittenReview==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(writtenReview, idx) in state.profileHistoryWrittenReview" :key="idx">
         <a href="#" class="data-card">
           <h3>작성자 : {{ writtenReview.userNickname }}</h3><br>

@@ -2,7 +2,8 @@
   <div>
     <h3 style="text-align: left;">고민상담 기록</h3>
     <br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryAdvice==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
     <div v-for="(advice, index) in state.profileHistoryAdvice" :key="index" class="col-4">
       <div class="card">
         <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+advice.userProfileImg" class="card__image">
@@ -12,7 +13,7 @@
             <img class="card__thumb" :src="require('@/assets/mask/mask'+advice.userMaskId+'.png')" alt="" />
             <div class="card__header-text">
               <h3 class="card__title">상담가 : {{ advice.nickname }}</h3> 
-              <span class="card__status">주제: {{ state.topicCategoryName[advice.topicCategoryId] }}</span>
+              <span class="card__status">주제: {{ state.topicCategoryName[advice.topicCategoryId-1] }}</span>
             </div>
           </div>
           <p class="card__description">
