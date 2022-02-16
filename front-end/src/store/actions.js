@@ -342,7 +342,11 @@ export async function profileGetHistoryReceivedReview({ state, commit }, payload
   await $axios
     .get(url)
     .then((res) => {
-      commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
+      if (res.data == "") {
+        commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data);
+      } else {
+        commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
+      }
     })
     .catch((err) => {
       console.log(err, "프로필 리뷰 정보 조회");

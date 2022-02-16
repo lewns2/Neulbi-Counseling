@@ -89,7 +89,7 @@ public class CommunityServiceImpl implements CommunityService {
         Community community = communityRepositorySupport.findByIdAndCommentListFalse(communityId).orElse(null);
 
         // 정렬
-        if(community.getCommentList() != null)
+        if (community.getCommentList() != null && !community.getCommentList().isEmpty())
             Collections.sort(community.getCommentList());
 
         // 한번 상세보기 할 때마다
