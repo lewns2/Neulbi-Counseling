@@ -30,6 +30,9 @@ public class ChatRoomRes extends BaseResponseBody {
     // 유저 닉네임
     String userNickName;
 
+    //마스크 id
+    int maskId;
+
     // 해당 컨설턴트 아이디 따로 받아옴
     Long consultantId;
     // 해당 컨설턴트의 닉네임
