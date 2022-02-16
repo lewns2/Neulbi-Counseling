@@ -55,7 +55,7 @@
           v-model="data.description"
           :placeholder="state.qnaDetail.description"
           :readonly="state.userInfo.nickname != state.qnaDetail.userNickname"
-          style="border: none"
+          style="border: none; font-size: 20px"
         ></textarea>
       </div>
       <div class="d-flex" style="justify-content: flex-end">
@@ -212,9 +212,9 @@ export default {
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    border: none;
-    resize: none;
+  width: 100%;
+  height: 150px;
+  border: none;
+  resize: none;
 }
 </style>
