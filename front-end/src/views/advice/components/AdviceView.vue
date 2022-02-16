@@ -312,14 +312,14 @@ export default {
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/advicePageSearch",{
           user_id: state.userInfo.id,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'topic') {
         await store.dispatch("root/adviceTopicPageSearch",{
           user_id: state.userInfo.id,
           topicCategoryId: state.topic,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'search') {
@@ -327,7 +327,7 @@ export default {
           user_id: state.userInfo.id,
           key: state.key,
           value: state.word,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       }
@@ -778,8 +778,8 @@ button {
   position: absolute;
   width: 100%;
   margin-top: -15px;
-  font-size: 20px;
-  font-family: Helvetica, sans-serif;
+  font-size: 30px;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;

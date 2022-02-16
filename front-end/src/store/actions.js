@@ -11,6 +11,7 @@ export async function mainSingUp({ state }, payload) {
     })
     .catch((err) => {
       console.log(err, '회원가입')
+      alert('회원가입에 실패했습니다.')
     })
 }
 
@@ -57,6 +58,7 @@ export async function mainSignIn({ state, commit, dispatch }, payload) {
       }
     })
     .catch((err) => {
+      alert('로그인에 실패했습니다.')
       console.log(err, "로그인");
     });
 }

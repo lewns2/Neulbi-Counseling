@@ -30,10 +30,14 @@
     </div>
     <br>
     <br>
-    <div class="d-flex justify-content-center mb-5 mt-2">
+    <div class="d-flex justify-content-center mb-5 mt-2" v-if="state.profileHistoryConfessionLastPageNum!=0">
       <button id="conf_prev" class="paginate left" @click="checkConfessionPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.confessionpage}}페이지 / {{ state.profileHistoryConfessionLastPageNum }}페이지 </div>
       <button id="conf_next" class="paginate right" @click="checkConfessionPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 고해성사 이력이 없습니다.</span>
     </div>
     <br>
     <hr>
@@ -198,7 +202,7 @@ export default {
 }
 
 .card__title {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0 0 .3em;
   color: #6A515E;
 }
@@ -212,15 +216,15 @@ export default {
 }
 
 .card__status {
-  font-size: .8em;
+  font-size: 1.1em;
   color: #D7BDCA;
 }
 
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
+  color: #6A515E;
+  font-family: "Binggrae-Taom";   
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
@@ -357,9 +361,9 @@ button {
   position: absolute;
   width: 100%;
   margin-top: -15px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
