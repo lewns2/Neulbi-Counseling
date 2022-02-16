@@ -7,21 +7,20 @@
     />
 
     <div style="margin-top: 3%">
-      <h2>Q&amp;A</h2>
+      <h2 style="font-size: 350%">Q&amp;A</h2>
     </div>
 
     <div
       class="column intro row-hover pos-relative py-4 px-4 mt-4 mb-4 row text-center"
       style="background-color: #eaf1ff"
     >
-      <h6 style="color: #6c8093">
+      <h5 style="color: #6c8093">
         'Q&amp;A'는 궁금증을 해소하는 공간입니다. 운영자에게 궁금한 점이나
-        제시할 사항이 있다면 자유롭게 작성해주세요. <br />비공개로 작성시 작성자
-        본인만 답글을 확인할 수 있습니다.
-      </h6>
+        제시할 사항이 있다면 자유롭게 작성해주세요.
+      </h5>
     </div>
 
-    <div class="inner-main-header">
+    <div class="inner-main-header" style="font-size: 120%">
       <!-- 검색부분 -->
       <span class="dropdown col-lg-3 row text-center op-7">
         <!-- 카테고리별 정렬 -->
@@ -83,24 +82,24 @@
     >
       <div class="row align-items-center">
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h5></h5>
+          <h4></h4>
         </div>
         <div class="col-md-5 mb-3 mb-sm-0">
-          <h5>제목</h5>
+          <h4>제목</h4>
         </div>
         <div class="col-md-1 mb-3 mb-sm-0">
-          <h5>상태</h5>
+          <h4>상태</h4>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h5>작성자</h5>
+          <h4>작성자</h4>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h5>작성일</h5>
+          <h4>작성일</h4>
         </div>
       </div>
     </div>
 
-    <div v-for="(qna, idx) in state.qnaList" :key="idx">
+    <div v-for="(qna, idx) in state.qnaList" :key="idx" style="font-size: 110%">
       <!-- QnA 리스트 -->
       <div class="card row-hover pos-relative py-3 px-3" id="board-style1">
         <div class="row align-items-center">
@@ -113,20 +112,20 @@
               @click="goToQnaDetail(qna)"
               class="form-control form-control-md col-lg-2"
               id="input"
-              style="font-size: 10px; margin-right: 50px"
+              style="font-size: 12px; margin-right: 50px"
             >
               답글관리
             </button>
           </div>
           <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
-            <h6 style="margin-left: 15px">Q</h6>
+            <h5 style="margin-left: 15px">Q</h5>
           </div>
           <div
             class="col-md-5 mb-3 mb-sm-0"
             style="text-align: left; cursor: pointer"
             @click="showQnaAnswer(qna, idx)"
           >
-            <h6>
+            <h5>
               <i
                 v-if="qna.rocked"
                 class="fas fa-lock"
@@ -135,14 +134,14 @@
               <i v-else class="fas fa-lock-open" style="color: gold"></i>
               &nbsp;&nbsp;
               {{ qna.title }}
-            </h6>
+            </h5>
           </div>
 
           <div class="d-flex col-md-1 mb-3 mb-sm-0">
             <span
               class="form-control form-control-md col-lg-2"
               id="input"
-              style="font-size: 10px"
+              style="font-size: 12px"
               v-if="qna.answered"
             >
               답변완료
@@ -150,22 +149,22 @@
             <span
               class="form-control form-control-md col-lg-2"
               id="input"
-              style="font-size: 10px"
+              style="font-size: 12px"
               v-else
             >
               답변대기
             </span>
           </div>
           <div class="col-md-2 mb-3 mb-sm-0">
-            <h6>
+            <h5>
               <p class="text-black">{{ qna.userNickname }}</p>
-            </h6>
+            </h5>
           </div>
 
           <div class="col-md-2 mb-3 mb-sm-0">
-            <h6>
+            <h5>
               {{ qna.date.substr(0, 10) }}
-            </h6>
+            </h5>
           </div>
         </div>
       </div>
@@ -173,19 +172,23 @@
       <!-- QnA 댓글 -->
       <div
         name="qnaAnswers"
-        style="background-color: rgb(250, 250, 250); display: none"
+        style="
+          font-size: 110%;
+          background-color: rgb(250, 250, 250);
+          display: none;
+        "
         class="card row-hover pos-relative py-3 px-3"
         id="board-style1"
       >
         <div class="row align-items-center">
           <div class="col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
-            <h6></h6>
+            <h5></h5>
           </div>
           <div class="d-flex col-md-1 mb-3 mb-sm-0" style="color: #3a6bff">
-            <h6 style="margin-left: 15px">A</h6>
+            <h5 style="margin-left: 15px">A</h5>
           </div>
           <div class="col-md-8 mb-3 mb-sm-0" style="text-align: left">
-            <h6 v-if="state.qnaAnswerList[0]">
+            <h5 v-if="state.qnaAnswerList[0]">
               <div>
                 {{ state.qnaDetail.description }}
               </div>
@@ -194,12 +197,12 @@
                 <i class="fas fa-arrow-right"></i>&nbsp;&nbsp;&nbsp;
                 {{ state.qnaAnswerList[0].description }}
               </div>
-            </h6>
+            </h5>
           </div>
           <div class="col-md-2 mb-3 mb-sm-0">
-            <h6 v-if="state.qnaAnswerList[0]">
+            <h5 v-if="state.qnaAnswerList[0]">
               {{ state.qnaAnswerList[0].date.substr(0, 10) }}
-            </h6>
+            </h5>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@
           : '답글이 아직 작성되지 않았습니다.😢'
       "
       :readonly="state.userInfo.role != 'ADMIN'"
-      style="border: none"
+      style="border: none; font-size: 20px"
     ></textarea
     ><br />
   </div>
@@ -134,9 +134,9 @@ export default {
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    border: none;
-    resize: none;
+  width: 100%;
+  height: 150px;
+  border: none;
+  resize: none;
 }
 </style>
