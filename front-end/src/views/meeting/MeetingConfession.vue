@@ -457,8 +457,8 @@ export default {
             });
         });
 
-        window.addEventListener("beforeunload", leaveSession);
-        window.addEventListener("reaction_added", handleSendFlyingEmoji);
+      window.addEventListener("beforeunload", leaveSession);
+      window.addEventListener("reaction_added", handleSendFlyingEmoji);
       }
     };
 
@@ -656,31 +656,32 @@ export default {
       state.emojiState ^= 1;
     };
 
-    const handleDisplayFlyingEmoji = function (emoji) {
+    const handleDisplayFlyingEmoji = async function (emoji) {
       console.log(`⭐ Displaying flying emoji: ${emoji}`);
-      const app = document.getElementById('app')
-      const node = app.createElement("mydiv");
+      const node = document.createElement("mydiv");
       console.log(node);
       node.appendChild(document.createTextNode(emoji));
       console.log(node);
       node.className =
         Math.random() * 1 > 0.5 ? "emoji wiggle-1" : "emoji wiggle-2";
       // node.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
-      const deg = 10;
-      const leftper = 20;
-      const topper = 60;
-      node.style.transform = `translateX(${deg})`;
+      // const deg = 10;
+      const leftper = 6;
+      const topper = -40;
+      node.style.position = 'absolute'
+      // node.style.transform = `translateX(${deg})`;
       // node.style.left = `${Math.random() * 100}%`;
       node.style.right = `${leftper}%`;
-      // node.style.top = `${topper}%`;
+      node.style.top = `${topper}%`;
       node.src = "";
       // + 이게 없으면 화면에 표시가 되지 않는다.
       document.body.appendChild(node);
       // overlayRef.current.appendChild(node);
       node.addEventListener("animationend", () => {
         console.log("지우기 함수 실행 중");
-        if (!document.body.contains) return;
+        // if (!document.body.contains) return;
         document.body.removeChild(node);
+
       });
     };
 
@@ -1001,56 +1002,58 @@ video {
   }
 }
 
-mydiv {
-  position: fixed;
-  top: 20%;
-  bottom: 0px;
-  left: 72%;
-  right: 0px;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  z-index: 99;
-}
+// mydiv {
+//   position: fixed;
+//   top: 20%;
+//   bottom: 0px;
+//   left: 72%;
+//   right: 0px;
+//   overflow: hidden;
+//   pointer-events: none;
+//   user-select: none;
+//   z-index: 99;
+// }
 
-.emoji.wiggle-1 {
-  animation: emerge 2s forwards, wiggle-1 2s ease-in-out infinite alternate;
-  font-size: 60px;
-}
-.emoji.wiggle-2 {
-  animation: emerge 2s forwards, wiggle-2 2s ease-in-out infinite alternate;
-  font-size: 60px;
-}
-/* .flying-emojis :global(.emoji.wiggle-1) {
+// .emoji.wiggle-1 {
+//   animation: emerge 2s forwards, wiggle-1 2s ease-in-out infinite alternate;
+//   font-size: 60px;
+// }
+// .emoji.wiggle-2 {
+//   animation: emerge 2s forwards, wiggle-2 2s ease-in-out infinite alternate;
+//   font-size: 60px;
+// }
+.flying-emojis :global(.emoji.wiggle-1) {
   animation: emerge 3s forwards,
-  wiggle-1 1s ease-in-out infinite alternate;
+  wiggle-1 3s ease-in-out infinite alternate;
+  font-size: 60px;
 }
 .flying-emojis :global(.emoji.wiggle-2) {
   animation: emerge 3s forwards,
-  wiggle-2 1s ease-in-out infinite alternate;
-} */
+  wiggle-2 3s ease-in-out infinite alternate;
+  font-size: 60px;
+}
 
 @keyframes emerge {
   to {
-    /* left:5%; */
-    /* bottom: 85%; */
+    right:6%;
+    top: -30%;
     opacity: 0;
   }
 }
 @keyframes wiggle-1 {
   from {
-    margin-top: 600px;
+    margin-top: 450px;
   }
   to {
-    margin-top: 450px;
+    margin-top: 600px;
   }
 }
 @keyframes wiggle-2 {
   from {
-    margin-top: 600px;
+    margin-top: 450px;
   }
   to {
-    margin-top: 450px;
+    margin-top: 600px;
   }
 }
 

@@ -7,8 +7,8 @@
     <div class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(comment, idx) in state.profileHistoryComment" :key="idx">
         <a href="#" class="data-card">
-          <h3 v-if="comment.communityTitle.length > 8">커뮤니티 : {{ comment.communityTitle.substr(0,8) }}···</h3>
-          <h3 v-else>커뮤니티 : {{ comment.communityTitle }}</h3><br>
+          <!-- <h3 v-if="comment.communityTitle.length > 8">커뮤니티 : {{ comment.communityTitle.substr(0,8) }}···</h3>
+          <h3 v-else>커뮤니티 : {{ comment.communityTitle }}</h3><br> -->
           <h4>작성자 : {{ comment.userNickname }}</h4><br>
           <p>댓글</p>
           <p>{{ comment.description }}</p>

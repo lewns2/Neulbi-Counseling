@@ -1,5 +1,5 @@
 <template id="wrapper">
-  <div style="background-color: rgb(225 236 255); height: 100vh">
+  <div style="background-color: rgb(225 236 255); height: 100vh;">
     <!-- session 연결됐을 때 상담 도구 모음 -->
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">

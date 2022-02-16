@@ -130,7 +130,7 @@ export default {
       page: 1,
     });
 
-    onMounted(() => {
+    onMounted(async () => {
       let first = document.getElementById("page0");
       first.classList.add("active");
     });

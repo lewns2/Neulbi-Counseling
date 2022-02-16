@@ -254,7 +254,7 @@ export default {
       pageSearchTopic: "main",
     });
 
-    onMounted(() => {
+    onMounted(async () => {
       let first = document.getElementById("page0");
       first.classList.add("active");
     });
