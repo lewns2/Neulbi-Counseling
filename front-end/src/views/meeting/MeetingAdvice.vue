@@ -5,23 +5,23 @@
       <ul style="text-align: left">
         <li style="float: left">
           <img src="@/assets/icon.png" alt="" style="width: 50px" />
-          <span style="font-size: 25px"> &nbsp;&nbsp;고민상담</span>
+          <span style="font-size: 25px; font-family: Binggrae">
+            &nbsp;&nbsp;고민상담</span
+          >
         </li>
         <li>
           <i
             @click="leaveSession"
             class="far fa-times-circle"
             style="color: red; margin-left: 50px"
-            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
-              >종료</span
-            ></i
+            >&nbsp;<span style="font-family: Binggrae">종료</span></i
           >
         </li>
         <li>
           <i
             @click="chatroomShow"
             class="far fa-comments"
-            style="color: red; margin-left: 50px"
+            style="color: red; margin-left: 50px; font-family: Binggrae"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title="채팅방"
@@ -263,8 +263,8 @@ import { useRouter } from "vue-router";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 import { computed, reactive } from "vue";
