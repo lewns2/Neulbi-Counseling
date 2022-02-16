@@ -49,7 +49,6 @@ public class CommunityViewRes {
         List<CommentListRes> commentListRes = CommentListRes.of(c.getCommentList());
 
         clr.setCommentListRes(commentListRes);
-
         clr.setUserId(user.getId());
         clr.setUserNickname(user.getNickname());
         clr.setId(c.getId());
