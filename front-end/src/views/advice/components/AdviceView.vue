@@ -697,7 +697,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 68%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -733,7 +733,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 44%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -775,9 +775,9 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);

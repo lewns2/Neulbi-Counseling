@@ -49,21 +49,23 @@ export default {
       communitypage: 1,
     })
 
-    onMounted(async () => {
-      const prcommunity = document.querySelector('.paginatecommunity.left')
-      const plcommunity = document.querySelector('.paginatecommunity.right')
-      await prcommunity.setAttribute('data-state', state.communitypage===1 ? 'disabled' : '')
-      if (state.communitypage===1) {
-        prcommunity.disabled = true
-      } else {
-        prcommunity.disabled = false
-      }
-      
-      await plcommunity.setAttribute('data-state', state.communitypage===state.profileHistoryCommunityLastPageNum ? 'disabled' : '')
-      if (state.communitypage === state.profileHistoryCommunityLastPageNum) {
-        plcommunity.disabled = true
-      } else {
-        plcommunity.disabled = false
+    onMounted(async() => {
+      if (state.profileHistoryCommunityLastPageNum != 0) {
+        const prcommunity = document.querySelector('.paginatecommunity.left')
+        const plcommunity = document.querySelector('.paginatecommunity.right')
+        prcommunity.setAttribute('data-state', state.communitypage===1 ? 'disabled' : '')
+        if (state.communitypage===1) {
+          prcommunity.disabled = true
+        } else {
+          prcommunity.disabled = false
+        }
+        
+        plcommunity.setAttribute('data-state', state.communitypage===state.profileHistoryCommunityLastPageNum ? 'disabled' : '')
+        if (state.communitypage === state.profileHistoryCommunityLastPageNum) {
+          plcommunity.disabled = true
+        } else {
+          plcommunity.disabled = false
+        }
       }
     })
 
@@ -254,7 +256,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecommunity.left {
-  right: 57%;
+  position: relative;
 }
 .paginatecommunity.left i {
   transform-origin: 0% 50%;
@@ -290,7 +292,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatecommunity.right {
-  left: 55%;
+  position: relative;
 }
 .paginatecommunity.right i {
   transform-origin: 100% 50%;
@@ -332,15 +334,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-weight: bold;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 </style>

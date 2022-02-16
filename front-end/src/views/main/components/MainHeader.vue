@@ -7,7 +7,7 @@
       <span class="col-3 d-flex justify-content-around">
         <router-link :to="{ name: 'Confession' }" style="font-size: 30px;">고해성사</router-link>
         <router-link :to="{ name: 'Advice' }" style="font-size: 30px;">고민상담</router-link>
-        <router-link :to="{ name: 'History', params: {user_id: state.userInfo.id} }" style="font-size: 30px;">과거이력</router-link>
+        <router-link :to="{ name: 'History', params: {user_id: state.userInfo.id} }" style="font-size: 30px;">발자취</router-link>
       </span>
       <span class="col-3">
       </span>
@@ -56,6 +56,8 @@ export default {
       store.commit("root/GET_USER_INFO", null)
       store.commit("root/MAIN_EMAIL_BOOL", false)
       store.commit("root/MAIN_NICKNAME_BOOL", false)
+      store.commit("root/PROFILE_GET_NICKNAME", false)
+      store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", null)
       localStorage.removeItem("jwt")
       router.push({ name: 'Home' })
     }
