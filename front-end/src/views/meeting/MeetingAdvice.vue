@@ -1,5 +1,5 @@
 <template id="wrapper">
-  <div style="background-color: rgb(225 236 255); height: 800px">
+  <div style="background-color: rgb(225 236 255); height: 100vh">
     <!-- session 연결됐을 때 상담 도구 모음 -->
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">
@@ -128,7 +128,7 @@
         >
           <div
             class="d-flex justify-content-center"
-            style="border-bottom: 3px solid #a6c0fe"
+            style="border-bottom: 3px solid #a6c0fe; padding-bottom: 20px"
           >
             <i class="fas fa-quote-left" style="font-size: 20px"></i>
             <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
@@ -144,12 +144,13 @@
             style="color: #333333; font-family: Century Gothic, sans-serif"
           >
             <h3 v-if="data.userInfo.id === data.adviceMeetingInfo.ownerId">
-              Owner
+              상담가
             </h3>
-            <h3 v-else>Guest</h3>
-
+            <h3 v-else>상담자</h3>
+            <br>
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
+              <br><br>
               <div class="d-flex" style="justify-content: center">
                 <button
                   v-if="!state.videoState"
@@ -226,7 +227,7 @@
                     font-weight: lighter;
                   "
                 >
-                  Join!
+                  참가하기
                 </button>
               </div>
             </div>
@@ -756,7 +757,7 @@ nav i.fa:hover {
 
 #main-container {
   padding-bottom: 80px;
-  padding-top: 1%;
+  padding-top: 5%;
 }
 
 /*vertical-center {
@@ -957,7 +958,7 @@ video {
 
 .front__text-hover {
   position: relative;
-  /* top: 10px; */
+  top: 3px;
   font-size: 15px;
   backface-visibility: hidden;
 

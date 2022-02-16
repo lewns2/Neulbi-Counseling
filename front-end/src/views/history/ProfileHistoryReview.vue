@@ -302,7 +302,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginaterec.left {
-  right: 55%;
+  right: 57%;
 }
 .paginaterec.left i {
   transform-origin: 0% 50%;
@@ -400,7 +400,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatewri.left {
-  right: 55%;
+  right: 57%;
 }
 .paginatewri.left i {
   transform-origin: 0% 50%;
