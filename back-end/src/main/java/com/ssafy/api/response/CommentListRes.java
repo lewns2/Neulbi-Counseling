@@ -4,6 +4,7 @@ import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,11 @@ public class CommentListRes {
     String userNickname;
     double userPointTot;
     String communityTitle;
+    @ApiModelProperty(name = "User mask_id")
+    int maskId;
+    @ApiModelProperty(name = "User profile_img")
+    String profileImg;
+
 
     public static List<CommentListRes> of(List<Comment> commentList) {
         List<CommentListRes> res = new LinkedList<>();
@@ -34,6 +40,9 @@ public class CommentListRes {
             if(c.isDeleted())continue;
             CommentListRes cr = new CommentListRes();
             User user = c.getUser();
+
+            cr.setProfileImg(user.getProfileImg());
+            cr.setMaskId(user.getMaskId());
             cr.setCommentId(c.getId());
             cr.setUserId(c.getUser().getId());
             cr.setDescription(c.getDescription());

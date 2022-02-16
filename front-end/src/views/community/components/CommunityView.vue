@@ -36,8 +36,8 @@
           {{ state.categoryselect }}
         </button>
 
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 12rem;">
-          <li v-for="(category,idx) in state.categories" :key="idx" @click="clickSearchList(category)">{{ category.value }}</li>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;" >
+          <li v-for="(category,idx) in state.categories" :key="idx" @click="clickSearchList(category)" style="text-align: center;"> {{ category.value }}</li>
         </ul>
       </span>
 
@@ -435,6 +435,26 @@ ul {
   margin-bottom: 0.25rem;
   font-weight: 500;
   line-height: 1.2;
+}
+
+.form-control {
+  // color: red;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #23adad;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 
