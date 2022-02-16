@@ -234,8 +234,10 @@ export default {
     });
 
     onMounted(() => {
-      let first = document.getElementById("page0");
-      first.classList.add("active");
+      if (state.communityLastPageNum != 0) {
+        let first = document.getElementById("page0");
+        first.classList.add("active");
+      }
     });
 
     const clickCommunityList = async function () {

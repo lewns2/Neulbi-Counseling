@@ -131,8 +131,10 @@ export default {
     });
 
     onMounted(async () => {
-      let first = document.getElementById("page0");
-      first.classList.add("active");
+      if (state.noticeLastPageNum != 0) {
+        let first = document.getElementById("page0");
+        first.classList.add("active");
+      }
     });
 
     const checkPage = async function (event) {

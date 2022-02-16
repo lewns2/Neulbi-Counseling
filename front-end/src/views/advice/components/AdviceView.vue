@@ -59,7 +59,7 @@
       <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 px-5" style="margin-bottom: 3%;">
+          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-4" style="margin-bottom: 3%; padding-left: 60px; padding-right: 60px;">
             <div class="card">
               <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+adviceConsultant.profileImg" class="card__image">
               <div class="card__overlay">
@@ -101,10 +101,13 @@
 
         <!-- pagination -->
         <br>
-        <div class="d-flex justify-content-center mb-5">
+        <div class="d-flex justify-content-center mb-5" v-if="state.adviceLastPageNum!=0">
           <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
           <div class="counter">{{state.page}}페이지 / {{ state.adviceLastPageNum }}페이지 </div>
           <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+        </div>
+        <div v-else style="text-align: center;">
+          <span style="font-size: 50px;">등록된 상담가가 없습니다.</span>
         </div>
       </div>
       <div class="col-sm-3">
@@ -158,20 +161,22 @@ export default {
     })
 
     onMounted(() => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      if (state.adviceLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
-      if (state.page === state.adviceLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+        pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+        if (state.page===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+        if (state.page === state.adviceLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -274,14 +279,14 @@ export default {
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/advicePageSearch",{
           user_id: state.userInfo.id,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'topic') {
         await store.dispatch("root/adviceTopicPageSearch",{
           user_id: state.userInfo.id,
           topicCategoryId: state.topic,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'search') {
@@ -289,7 +294,7 @@ export default {
           user_id: state.userInfo.id,
           key: state.key,
           value: state.word,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       }
@@ -312,14 +317,14 @@ export default {
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/advicePageSearch",{
           user_id: state.userInfo.id,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'topic') {
         await store.dispatch("root/adviceTopicPageSearch",{
           user_id: state.userInfo.id,
           topicCategoryId: state.topic,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'search') {
@@ -327,7 +332,7 @@ export default {
           user_id: state.userInfo.id,
           key: state.key,
           value: state.word,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       }
@@ -529,7 +534,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 32vh;  
+  height: 38vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
