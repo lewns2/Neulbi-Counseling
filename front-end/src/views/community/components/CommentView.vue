@@ -33,8 +33,9 @@
       <div v-if="comment.layer==0" class="row align-items-center py-1 px-3">
         <!-- {{state.communityComment}} -->
         <div class="col-1">
-          <!-- <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')"> -->
-          <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
+          <!-- {{comment.maskId}} -->
+          <img :src="require('@/assets/mask/mask'+comment.maskId+'.png')">
+          <!-- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" /> -->
         </div>
         <div class="col-8" id="leftalign">
           <div>
@@ -80,8 +81,8 @@
             <!-- {{ coComment }} -->
             <div class="col-1">L</div>
             <div class="col-1" id="customimg">
+              <img :src="require('@/assets/mask/mask'+comment.maskId+'.png')">
               <!-- <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')"> -->
-              <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzAxMTRfMjYy%2FMDAxNDg0MzcxOTkxNzA4._N73NTpWleCLp8M6gXR8vpdDAZoAQ2mTJLimKBYFtRwg.5LEqnsukFugxlrTdlYk5hkxEKoVdUbTVsjL6gqJ03vIg.PNG.koomarin%2F%253F%253F%253F%253F%257B%253F_%253F%253F%253F%253F%253F%253F%253F.png&type=sc960_832" alt="" />
             </div>
             <div class="col-6" id="leftalign">
               <div>
@@ -319,6 +320,26 @@ img {
     font-weight: 400;
     line-height: 1.5;
     color: red;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-control {
+  // color: red;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #23adad;
     background-color: white;
     background-clip: padding-box;
     border: 1px solid #ced4da;
