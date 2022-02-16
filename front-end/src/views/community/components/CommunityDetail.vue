@@ -63,8 +63,8 @@
         <div class="col-md-4 op-7">
           <div class="row"> 
             <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">{{state.communityDetail.viewCnt}}</span></div>
-            <div v-if="state.communityDetail.like" class="col px-1"> <i class="ion-ios-heart icon-1x"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
-            <div v-else class="col px-1"> <i class="ion-ios-heart-outline icon-1x"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
+            <div v-if="state.communityDetail.like" class="col px-1"> <i class="ion-ios-heart icon-2x"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
+            <div v-else class="col px-1"> <i class="ion-ios-heart-outline icon-2x"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
           </div>
         </div> 
       </div>
@@ -74,7 +74,7 @@
     <!-- <p>{{ state.communityDetail }}</p> -->
     <!--본문 내용-->
     <div class="card row-hover pos-relative mt-2 py-3 px-3 row-lg-4" id="maintext">
-      <div class="row align-items-left">
+      <div class="row align-items-left" style="font-size: 25px">
         {{state.communityDetail.description}}
       </div>
     </div>
