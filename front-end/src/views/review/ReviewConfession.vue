@@ -14,14 +14,17 @@
           >
             <i class="fas fa-quote-left" style="font-size: 20px"></i>
             <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
-              후기
+              미팅은 어떠셨나요?
             </h1>
             <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
           <br />
           <div
             class="form-group"
-            style="color: #333333; font-family: Century Gothic, sans-serif"
+            style="color: #333333; font-family: Century Gothic, sans-serif; margin-top: 20%;
+              display: flex;
+              align-content: flex-start;
+              justify-content: center;"
           >
             <div class="col-md-2">
               <button
@@ -50,6 +53,7 @@
               aria-labelledby="exampleModalLabel2"
               aria-hidden="true"
             >
+
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -68,32 +72,14 @@
                       <div class="row">
                         <div class="col-md-3">
                           <span>
-                            <button
-                              class="form-control form-control-md dropdown-toggle"
-                              type="button"
-                              id="dropdownMenuButton1"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              {{ state.reportNickname }}
-                            </button>
-
-                            <ul
-                              class="dropdown-menu"
-                              aria-labelledby="dropdownMenuButton1"
-                              style="
-                                min-width: 10rem;
-                                border: 2px solid #bbd2f9;
-                                border-radius: 30px;
-                                padding: 0px;
-                              "
-                            >
+                            
+                            <ul style="list-style:none; padding-left:0px">
                               <li
                                 v-for="(
                                   person, idx
                                 ) in state.confessionReviewList"
                                 :key="idx"
-                                @click="clickSelectNickname(person)"
+                                @click="clickSelectNickname(person, idx)"
                               >
                                 {{ person.nickName }}
                               </li>
@@ -107,6 +93,7 @@
                             rows="5"
                             v-model="state.reportMsg"
                             placeholder="신고 내용을 작성해주세요."
+                            
                           ></textarea>
                         </div>
                       </div>
@@ -183,10 +170,10 @@ export default {
     };
 
     const clickSelectNickname = function (person) {
-      console.log(person);
       state.reportNickname = person.nickName;
       state.reportUserId = person.userId;
       console.log(state.reportNickname);
+      
     };
 
     return {
@@ -269,5 +256,27 @@ textarea {
 #main-container {
   padding-bottom: 80px;
   padding-top: 1%;
+}
+
+#click-nickname {
+  min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;
+  background-color: #bbd2f9;
+  color: white;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+li {
+  min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+li.on {
+  min-width: 7rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;
+  background-color: #bbd2f9;
+  color: white;
+  text-align: center;
+  margin-bottom: 5px;
 }
 </style>
