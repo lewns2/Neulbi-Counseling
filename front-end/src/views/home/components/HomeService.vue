@@ -38,10 +38,12 @@
 						style="opacity: 0.5; width: 95%; height: 567.88px;"
 					>
           <figcaption class="card__caption">
+			
             <h2 class="card__title">고민상담</h2>
             <p class="card__snippet">“나의 고민은 너의 고민, 너의 고민은 나의 고민”<br><br>
 							쉽게 말하지 못했던 나의 마음을 가면 쓰고 속 시원히 말하자!!
 						</p>
+			
           </figcaption>
         </figure>
       </div>
@@ -102,6 +104,8 @@ body {
 
 	&:hover {
 		.card__caption {
+			display: flex;
+    		justify-content: center;
 			top: 50%;
 			transform: translateY(-50%);
 		}
@@ -170,13 +174,13 @@ body {
 	&__title {
 		display: -webkit-box;
 		max-height: 85px;
-    overflow: hidden;
+    	overflow: hidden;
 		// font-family: 'Lucida Console', Monaco, monospace;
 		font-size: 50px;
 		line-height: 50px;
 		text-shadow: 0px 1px 2px black;
 		text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
+    	-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 	}
 
@@ -236,4 +240,5 @@ body {
 		text-decoration: none;
 	}
 }
+
 </style>
