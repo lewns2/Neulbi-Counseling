@@ -255,8 +255,10 @@ export default {
     });
 
     onMounted(async () => {
-      let first = document.getElementById("page0");
-      first.classList.add("active");
+      if (state.qnaLastPageNum != 0) {
+        let first = document.getElementById("page0");
+        first.classList.add("active");
+      }
     });
 
     const clickSearchQna = async function () {

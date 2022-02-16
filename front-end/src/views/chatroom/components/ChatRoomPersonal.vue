@@ -120,8 +120,13 @@ export default {
           userId: data.userId,
           message: data.message 
         };
-        await state.stompClient.send("/receive", JSON.stringify(body), {});
-        await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })
+        console.log(chatRoom.chatRoomId)
+        if (typeof(chatRoom.chatRoomId)==Number) {
+          await state.stompClient.send("/receive", JSON.stringify(body), {});
+          await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })          
+        } else {
+          alert("채팅을 보내지 못합니다.")
+        }
       }
     }
 

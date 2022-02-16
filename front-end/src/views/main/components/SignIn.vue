@@ -120,7 +120,7 @@ export default {
 		}
 
 		const findPassword = async function () {
-			if (state.email == null) {
+			if (credentialsIn.email == null) {
 				alert('이메일 작성란에 이메일을 기입해주세요')
 			} else {
 				await store.dispatch('root/mainFindPassword', { email: state.email })

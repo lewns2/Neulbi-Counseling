@@ -271,7 +271,7 @@ public class ProfileController {
 
         int statusCode = profileService.modifyProfileImg(userId, profileImgInfo);
 
-        if(statusCode == 500) return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
+        if(statusCode == 500) return ResponseEntity.status(200).body(BaseResponseBody.of(200, "FAIL"));
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
     }
@@ -316,7 +316,7 @@ public class ProfileController {
         ConsultantProfile con = profileService.getConsultantProfile(userId).orElse(null);
 
         // 상담가 정보 없음
-        if(con == null) return ResponseEntity.status(500).body(null);
+        if(con == null) return ResponseEntity.status(200).body(null);
         
         return ResponseEntity.status(200).body(ConsultantProfileRes.of(con));
     }
@@ -377,7 +377,7 @@ public class ProfileController {
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
-        if(user == null) return ResponseEntity.status(500).body(null);
+        if(user == null) return ResponseEntity.status(200).body(null);
 
         Map<String, Page<ReviewListRes>> map = new HashMap<>();
 
@@ -400,7 +400,7 @@ public class ProfileController {
         User user = profileService.findByUserId(userId).orElse(null);
 
         // 사용자 없음
-        if(user == null) return ResponseEntity.status(500).body(null);
+        if(user == null) return ResponseEntity.status(200).body(null);
 
         Map<String, Page<ReviewListRes>> map = new HashMap<>();
 
@@ -415,7 +415,7 @@ public class ProfileController {
         // 유저가 상담가로 신청 안했으면
         else {
             // 500 코드와 null 값 반환
-            return ResponseEntity.status(500).body(null);
+            return ResponseEntity.status(200).body(null);
         }
         return ResponseEntity.status(200).body(map);
     }

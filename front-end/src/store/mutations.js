@@ -83,8 +83,13 @@ export function PROFILE_GET_HISTORY_ADVICE_MEETING(state, data) {
 }
 
 export function PROFILE_GET_HISTORY_RECEIVED_REVIEW(state, data) {
-  state.profileHistoryReceivedReview = data.content
-  state.profileHistoryReceivedReviewLastPageNum = data.totalPages
+  if (data=="") {
+    state.profileHistoryReceivedReview = data
+  state.profileHistoryReceivedReviewLastPageNum = data
+  } else {
+    state.profileHistoryReceivedReview = data.content
+    state.profileHistoryReceivedReviewLastPageNum = data.totalPages
+  }
 }
 
 export function PROFILE_GET_HISTORY_WRITTEN_REVIEW(state, data) {
@@ -109,7 +114,7 @@ export function CONFESSION_GET_LAST_PAGE_NUM(state, data) {
 
 export function CONFESSION_GET_CONSULTANT_LIST(state, data) {
   state.confessionMeetingList = []
-  let min = Math.min(8, data.length)
+  let min = Math.min(6, data.length)
   for (let i = 0; i < min; i++) {
     state.confessionMeetingList.push({
       ownerId: data[i].ownerId,
@@ -168,7 +173,7 @@ export function ADVICE_GET_LAST_PAGE_NUM(state, data) {
 
 export function ADVICE_GET_CONSULTANT_LIST(state, data) {
   state.adviceConsultantList = []
-  let min = Math.min(8, data.length)
+  let min = Math.min(6, data.length)
   for (let i = 0; i < min; i++) {
     state.adviceConsultantList.push({
       id: data[i].id,
