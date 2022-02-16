@@ -19,7 +19,8 @@ import ProfileHistoryReview from './ProfileHistoryReview.vue'
 import ProfileHistoryCommunity from './ProfileHistoryCommunity.vue'
 import ProfileHistoryComment from './ProfileHistoryComment.vue'
 
-import { reactive, onMounted } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ProfileHistory',
@@ -31,15 +32,14 @@ export default {
     ProfileHistoryCommunity,
     ProfileHistoryComment
   },
-  props: {
-    userInfo: Object,
-  },
-  setup (props) {
+  setup () {
+    const store = useStore()
     const state = reactive({
-      userInfo: props.userInfo,
+      userInfo: computed(() => store.getters['root/userInfo'])
     })
 
     onMounted(async() => {
+      const body = { user_id: state.userInfo.id }
       await store.dispatch('root/profileGetHistoryConfessionMeeting', body)
       await store.dispatch('root/profileGetHistoryAdviceMeeting', body)
       await store.dispatch('root/profileGetHistoryReceivedReview', body)
