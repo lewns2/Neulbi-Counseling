@@ -36,8 +36,8 @@ public class QnaRes {
         res.setRocked(qna.isRocked());
         res.setAnswered(qna.isAnswered());
 
-        LocalDateTime modifiedDate = qna.getModifiedDate().plusHours(9);
-        res.setDate( modifiedDate != null ? modifiedDate : qna.getCreatedDate().plusHours(9) );
+        LocalDateTime modifiedDate = qna.getModifiedDate();
+        res.setDate( modifiedDate != null ? modifiedDate.plusHours(9) : qna.getCreatedDate().plusHours(9) );
 
         return res;
     }
