@@ -119,16 +119,12 @@ export default {
           chatRoomId: chatRoom.chatRoomId,
           userId: data.userId,
           message: data.message 
-        };
-        if (typeof(chatRoom.chatRoomId)=='number') {
-          await state.stompClient.send("/receive", JSON.stringify(body), {});
-          await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })          
-        } else {
-          alert("채팅을 보내지 못합니다.")
-        }
+      };
+      await state.stompClient.send("/receive", JSON.stringify(body), {});
+      await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })          
       }
     }
-
+    
     const clickCreateMeeting = async function () {
       const body = {
         title: 'Advice',
