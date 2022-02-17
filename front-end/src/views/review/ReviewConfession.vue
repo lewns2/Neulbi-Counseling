@@ -173,6 +173,7 @@ export default {
     };
 
     const goToHome = function () {
+      store.dispatch("root/userGetInfo", localStorage.getItem('jwt'))
       router.push({
         name: "Home",
       });
