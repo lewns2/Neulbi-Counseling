@@ -1,6 +1,6 @@
 <template>
   <div class="top"><span>
-    <span class="name"></span></span>
+    <span class="name" v-if="state.chatRoomNickname!=''">{{ state.chatRoomNickname }}과의 대화</span></span>
   </div>
   <div class="chat" data-chat="person1">
     
@@ -28,13 +28,13 @@
     </div>
 
     <div class="d-flex">
-      <button @click="clickSendMessage">전송</button>
+      <button @click="clickSendMessage" class="px-3">전송</button>
       <div v-if="state.userInfo.id === state.chatRoomUserList[1]">
-        <button @click="clickCreateMeeting">화상채팅 생성</button>
+        <button @click="clickCreateMeeting" class="px-3">화상채팅 생성</button>
       </div>
       <div v-else>
         <div v-if="state.meetingIsActive">
-          <button @click="clickEnterMeeting">화상채팅 참가</button>
+          <button @click="clickEnterMeeting" class="px-3">화상채팅 참가</button>
         </div>
       </div>
     </div>
@@ -92,7 +92,8 @@ export default {
         frame => {
           state.socketConnected = TextTrackCue
           state.stompClient.subscribe("/send", res => {
-            store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
+            store.dispatch('root/chatRoomGetList', { userId: state.userInfo.id })
+            // store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
             state.recvList.push(JSON.parse(res.body))
           })
         },
@@ -121,7 +122,8 @@ export default {
           message: data.message 
       };
       await state.stompClient.send("/receive", JSON.stringify(body), {});
-      await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })          
+      await store.dispatch('root/chatRoomGetList', { userId: state.userInfo.id })
+      // await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })        
       }
     }
     
@@ -304,7 +306,7 @@ export default {
   background-position: center;
 }
 .container .right .bubble {
-  font-size: 16px;
+  font-size: 25px;
   position: relative;
   display: inline-block;
   clear: both;
@@ -337,14 +339,14 @@ export default {
 .container .right .bubble.me {
   float: right;
   color: #fff;
-  background-color: #c2d6f8;
+  background-color: #809fd6;
   align-self: flex-end;
   -webkit-animation-name: slideFromRight;
           animation-name: slideFromRight;
 }
 .container .right .bubble.me:before {
   right: -3px;
-  background-color: #c2d6f8;
+  background-color: #809fd6;
 }
 .container .right .conversation-start {
   position: relative;

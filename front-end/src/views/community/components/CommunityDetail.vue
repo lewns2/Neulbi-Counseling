@@ -62,9 +62,9 @@
         </div> -->
         <div class="col-md-4 op-7">
           <div class="row"> 
-            <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">{{state.communityDetail.viewCnt}}</span></div>
-            <div v-if="state.communityDetail.like" class="col px-1"> <i class="ion-ios-heart icon-2x"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
-            <div v-else class="col px-1"> <i class="ion-ios-heart-outline icon-2x"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
+            <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x" style="font-size: 28px;"></i> <span class="d-block text-sm">{{state.communityDetail.viewCnt}}</span></div>
+            <div v-if="state.communityDetail.like" class="col px-1 mt-1"> <i class="ion-ios-heart icon-2x" style="font-size: 23px; margin-top: 5px;"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
+            <div v-else class="col px-1 mt-1"> <i class="ion-ios-heart-outline icon-2x" style="font-size: 23px;"></i> <span class="d-block text-sm">{{state.communityDetail.likeCnt}}</span></div>
           </div>
         </div> 
       </div>
@@ -171,7 +171,7 @@
 <script>
 import MainHeader from "@/views/main/components/MainHeader.vue";
 
-import { computed, reactive } from "vue"
+import { computed, reactive, onMounted } from "vue"
 import { useStore } from "vuex"
 import { useRouter } from "vue-router"
 import CommentView from './CommentView.vue'
@@ -192,6 +192,10 @@ export default {
       reportBool: false,
       reportMsg: "",
     });
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
 
     const clickModifyCommunity = function () {
       router.push({
@@ -235,7 +239,7 @@ export default {
     }
 
     return {
-      state,
+      state, onMounted,
       router,
       clickModifyCommunity,
       clickDeleteCommunity,

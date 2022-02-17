@@ -28,6 +28,7 @@ export default {
       })
 
       onMounted(() => {
+        window.scrollTo(0, 0);
         store.dispatch("root/communityGetCommunityList")
       })
 

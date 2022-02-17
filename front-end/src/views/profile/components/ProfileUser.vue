@@ -2,6 +2,7 @@
   <div style="text-align: left; margin-left: 10px; margin-top: 20px;">
     <h3>닉네임 변경</h3>
     <br>
+    <h5 class="mb-3">현재 닉네임 : {{ state.userInfo.nickname }}</h5>
     <div class="d-flex justify-content-start">
       <div class="searchBox">
         <input class="searchInput" type="text" placeholder="변경할 닉네임을 적어주세요." v-model="state.nickname" @keyup="clickValidateNickname">
@@ -10,9 +11,6 @@
       <button v-if="state.profileNicknameBool == true" class="front__text-hover d-flex justify-content-start" @click="clickmodifyNickname">
         닉네임 변경
       </button>
-      <div v-if="state.nicknameValid===false" class="ms-3 mt-2">
-        <p style="color: red;">{{ state.nicknameMessage }}</p>
-      </div>
       <button type="button" class="front__text-hover_red mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal1">비밀번호 변경</button>
         <!-- modal -->
         <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -49,6 +47,9 @@
         </div>
         <button class="front__text-hover_red" @click="clickresignUser">회원탈퇴</button>
     </div>
+    <div v-if="state.nicknameValid===false" class="ms-3 mt-2">
+      <p style="color: red;">{{ state.nicknameMessage }}</p>
+    </div>
     
     <br><br><br>
     <h3>프로필 이미지 및 마스크 변경</h3>
@@ -74,7 +75,7 @@
           <img class="card__mask" :src="mask.maskUrl">
         </div>
         <br>
-        <div class="d-flex justify-content-start">
+        <div class="d-flex justify-content-start ms-5">
           <button class="front__text-hover d-flex justify-content-start me-4"  data-bs-toggle="modal" data-bs-target="#exampleModal">마스크 선택하기</button>
           <!-- 마스크 모달 -->
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -235,6 +236,7 @@ export default {
     const clickmodifyNickname = async function () {
       await store.dispatch('root/profileModifyNickname', { user_id: state.userInfo.id, nickname: state.nickname})
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
+      state.nickname == ""
     }
 
     const clickSelectMask = async function (num, event) {

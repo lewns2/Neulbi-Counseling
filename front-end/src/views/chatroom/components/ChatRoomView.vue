@@ -1,9 +1,11 @@
 <template>
-  <div class="top"><span>
-    <span class="name"></span></span>
+  <div class="top">
+    <span>
+      <span class="name"></span>
+    </span>
   </div>
   <ul class="people">
-    <li class="person" data-chat="person1" v-for="(chatRoom, idx) in state.chatRoomList" :key=idx @click="chatRoomGetDetail(chatRoom.id, consultantNickName)">
+    <li class="person" data-chat="person1" v-for="(chatRoom, idx) in state.chatRoomList" :key=idx @click="chatRoomGetDetail(chatRoom.id, chatRoom.userNickName, chatRoom.consultantNickName)">
       <img :src="require('@/assets/mask/mask'+chatRoom.maskId+'.png')" alt="" />
       <div class="d-flex row">
         <span class="name row-5" v-if="chatRoom.consultantId == state.userInfo.id">{{ chatRoom.userNickName }}</span>
@@ -39,9 +41,13 @@ export default {
       chatRoomList: computed(() => props.chatRoomList),
       userInfo: store.getters['root/userInfo'],
     })
-    const chatRoomGetDetail = async function (chatRoom_id, consultantNickName) {
-      console.log(chatRoom_id)
-      store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', consultantNickName)
+
+    const chatRoomGetDetail = async function (chatRoom_id, userNickName, consultantNickName) {
+      if (state.userInfo.nickname == userNickName) {
+        store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', consultantNickName)
+      } else {
+        store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', userNickName)
+      }
       await store.dispatch("root/chatRoomGetDetail",
         { user_id: state.userInfo.id, chatRoom_id: chatRoom_id }
       )

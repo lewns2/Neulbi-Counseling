@@ -115,14 +115,15 @@ export async function profileGetNickname({ state, commit }, payload) {
     });
 }
 
-export async function profileModifyNickname({ state }, payload) {
+export async function profileModifyNickname({ state, commit }, payload) {
   const user_id = payload.user_id;
   const body = { nickname: payload.nickname };
   const url = `/profile/${user_id}/modify/nickname`;
   await $axios
     .put(url, body)
     .then((res) => {
-      console.log(res);
+      commit("PROFILE_GET_NICKNAME", false);
+      alert('닉네임이 성공적으로 변경되었습니다.')
     })
     .catch((err) => {
       console.log(err, "프로필 닉네임 수정");
@@ -632,6 +633,7 @@ export async function adviceCreateConsultant({ state, dispatch }, payload) {
     .post(url, payload)
     .then((res) => {
       if (res.status == 200) {
+        console.log(res)
       } else {
         console.log("오류 발생");
       }
@@ -704,6 +706,7 @@ export async function adviceTopicPageSearch({ state, commit }, payload) {
   await $axios
     .get(url)
     .then((res) => {
+      console.log(res)
       commit("ADVICE_GET_CONSULTANT_LIST", res.data.content);
     })
     .catch((err) => {

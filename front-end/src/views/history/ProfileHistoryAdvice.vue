@@ -146,7 +146,7 @@ export default {
   position: relative;
   display: flex;
   width: 80%;
-  height: 35vh;  
+  height: 36vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -229,7 +229,7 @@ export default {
 }
 
 .card__status {
-  font-size: .8em;
+  font-size: 1.2em;
   color: #D7BDCA;
 }
 

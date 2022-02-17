@@ -1,48 +1,95 @@
 <template>
-  <div class="container">
-    <h3 class="py-3" style="text-align: left;">상담가 프로필 변경</h3>
-      <!-- 선택하여 정수를 반환하도록 수정해야함 -->
-    <div>
-      <div class="pagination d-flex justify-content-start my-3 mx-2">
-        <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;" class="me-2">
-          <p>
-            학업
-          </p>
-        </div>
-        <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;" class="mx-2">
-          <p>
-            가정
-          </p>
-        </div>
-        <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;" class="mx-2">
-          <p>
-            취업
-          </p>
-        </div>
-        <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;" class="mx-2">
-          <p>
-            진로
-          </p>
-        </div>
-        <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;" class="mx-2">
-          <p>
-            연애
-          </p>
-        </div>
-        <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;" class="mx-2">
-          <p>
-            결혼
-          </p>
+  <div>
+    <div class="container" v-if="state.profileConsultantProfile.nickname==null">
+      <h3 class="py-3" style="text-align: left;">상담가 프로필 등록</h3>
+        <!-- 선택하여 정수를 반환하도록 수정해야함 -->
+      <div>
+        <div class="pagination d-flex justify-content-start my-3 mx-2">
+          <div id="topic_div_1" @click="clickSelect(1, $event)" style="cursor: pointer;" class="me-2">
+            <p>
+              학업
+            </p>
+          </div>
+          <div id="topic_div_2" @click="clickSelect(2, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              가정
+            </p>
+          </div>
+          <div id="topic_div_3" @click="clickSelect(3, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              취업
+            </p>
+          </div>
+          <div id="topic_div_4" @click="clickSelect(4, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              진로
+            </p>
+          </div>
+          <div id="topic_div_5" @click="clickSelect(5, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              연애
+            </p>
+          </div>
+          <div id="topic_div_6" @click="clickSelect(6, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              결혼
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-start py-3">
-      <div class="searchBox">
-        <input class="searchInput" type="text" placeholder="Description" v-model="consultant.description">
+      <div class="d-flex justify-content-start py-3">
+        <div class="searchBox">
+          <input class="searchInput" type="text" placeholder="Description" v-model="consultant.description">
+        </div>
+        <button class="front__text-hover d-flex justify-content-start mx-3" @click="clickCreateConsultant">상담가 정보 등록</button>
       </div>
-      <button class="front__text-hover d-flex justify-content-start mx-3" @click="clickProfileModifyDescription">상담가 정보 변경</button>
+      <br><br><br><br>
     </div>
-    <br><br><br><br>
+    <div v-else>
+      <h3 class="py-3" style="text-align: left;">상담가 프로필 변경</h3>
+        <!-- 선택하여 정수를 반환하도록 수정해야함 -->
+      <div>
+        <div class="pagination d-flex justify-content-start my-3 mx-2">
+          <div id="topic_div_1" @click="clickSearchList(1, $event)" style="cursor: pointer;" class="me-2">
+            <p>
+              학업
+            </p>
+          </div>
+          <div id="topic_div_2" @click="clickSearchList(2, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              가정
+            </p>
+          </div>
+          <div id="topic_div_3" @click="clickSearchList(3, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              취업
+            </p>
+          </div>
+          <div id="topic_div_4" @click="clickSearchList(4, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              진로
+            </p>
+          </div>
+          <div id="topic_div_5" @click="clickSearchList(5, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              연애
+            </p>
+          </div>
+          <div id="topic_div_6" @click="clickSearchList(6, $event)" style="cursor: pointer;" class="mx-2">
+            <p>
+              결혼
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-start py-3">
+        <div class="searchBox">
+          <input class="searchInput" type="text" placeholder="Description" v-model="consultant.description">
+        </div>
+        <button class="front__text-hover d-flex justify-content-start mx-3" @click="clickProfileModifyDescription">상담가 정보 변경</button>
+      </div>
+      <br><br><br><br>
+    </div>
     <profile-consultant-list :userInfo="state.userInfo">
     </profile-consultant-list>
   </div>
@@ -126,21 +173,72 @@ export default {
       topic_tag.setAttribute('data-state', 'active')
       clickProfileModifyTopicCategory(consultant.topicCategoryId)
     }
+
+    const clickSelect = function (num, event) {
+      consultant.topicCategoryId = num
+      state.categoryName = state.categories[num-1].value
+      let targetId = event.currentTarget.id
+      const topic_tag = document.getElementById(targetId)
+      document.getElementById('topic_div_1').setAttribute('data-state', '')
+      document.getElementById('topic_div_2').setAttribute('data-state', '')
+      document.getElementById('topic_div_3').setAttribute('data-state', '')
+      document.getElementById('topic_div_4').setAttribute('data-state', '')
+      document.getElementById('topic_div_5').setAttribute('data-state', '')
+      document.getElementById('topic_div_6').setAttribute('data-state', '')
+      topic_tag.setAttribute('data-state', 'active')
+    }
+
+    const clickCreateConsultant = async function () {
+      await store.dispatch("root/adviceCreateConsultant", {
+        description: consultant.description,
+        topicCategoryId: consultant.topicCategoryId,
+        userId: state.userInfo.id,
+      })
+      await store.dispatch("root/userGetInfo", localStorage.getItem('jwt'))
+      await store.dispatch('root/profileGetConsultantProfile', state.userInfo.id)
+
+      if(state.profileConsultantProfile.topicCategoryName == '학업'){
+        const targetId = 'topic_div_1'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '가정') {
+        const targetId = 'topic_div_2'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '취업') {
+        const targetId = 'topic_div_3'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '진로') {
+        const targetId = 'topic_div_4'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '연애') {
+        const targetId = 'topic_div_5'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      } else if (state.profileConsultantProfile.topicCategoryName == '결혼') {
+        const targetId = 'topic_div_6'
+        const topic_tag = document.getElementById(targetId)
+        topic_tag.setAttribute('data-state', 'active')
+      }
+    }
     
     const clickProfileModifyTopicCategory = async function (topicCategoryId) {
       await store.dispatch("root/profileModifyTopicCategory", {
         id: props.userInfo.id,
         topicCategoryId: topicCategoryId,
       })
+      await store.dispatch("root/userGetInfo", localStorage.getItem('jwt'))
       await store.dispatch('root/profileGetConsultantProfile', state.userInfo.id)
     }
 
     const clickProfileModifyDescription = async function () {
-      console.log(state.description)
       await store.dispatch("root/profileModifyDescription", {
         user_id: props.userInfo.id,
         description: consultant.description
       })
+      await store.dispatch("root/userGetInfo", localStorage.getItem('jwt'))
       await store.dispatch('root/profileGetConsultantProfile', state.userInfo.id)
     }
 
@@ -149,6 +247,8 @@ export default {
       consultant,
       onMounted,
       clickSearchList,
+      clickSelect,
+      clickCreateConsultant,
       clickProfileModifyTopicCategory,
       clickProfileModifyDescription
     };

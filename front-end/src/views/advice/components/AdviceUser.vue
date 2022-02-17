@@ -12,8 +12,8 @@
           </div>
           <div class="front__text" style="font-family: Binggrae;">
             <h3 class="front__text-header">{{ state.userInfo.nickname }}</h3>
-            <p>이메일: {{ state.userInfo.email }}<br>
-            등급: {{ state.grade }} / 포인트: {{ state.userInfo.pointTot }}</p>
+            <p>{{ state.userInfo.email }}<br>
+            포인트: {{ state.userInfo.pointTot }}</p>
                     
             <button @click="goToConfession" class="front__text-hover mb-4">고해성사 페이지</button><br>
             <button v-if="state.userInfo.consultant==0" class="front__text-hover"  data-bs-toggle="modal" data-bs-target="#exampleModal">상담가 신청</button>
@@ -238,7 +238,7 @@ export default {
 
 .front__bkg-photo {
   position: relative;
-  height: 8vh;
+  height: 13vh;
   width: 100%;
   // background: url("https://images.unsplash.com/photo-1511207538754-e8555f2bc187?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=88672068827eaeeab540f584b883cc66&auto=format&fit=crop&w=1164&q=80")
   //   no-repeat;
