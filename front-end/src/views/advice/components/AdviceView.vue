@@ -27,16 +27,16 @@
       <div class="col-4 d-flex justify-content-end" style="font-family: Binggrae-Taom;">
         <span class="pe-3">  
           <button class="form-control form-control-md dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-            style="border: 2px solid #bbd2f9; box-shadow: none; border-radius: 30px; height: 80%; color: black; font-family: Binggrae-Taom;"
+            style="border: 2px solid #bbd2f9; box-shadow: none; border-radius: 30px; height: 80%; color: black; font-family: Binggrae-Taom; font-weight: bold;"
           >
             {{ state.showKey }}
           </button>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-            style="min-width: 5rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+            style="min-width: 9rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px; float: left;"
           >
-            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(1)">닉네임</button></li>
-            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(2)">설명</button></li>
+            <li class="px-2" style="margin-left: 0px; float: left;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(1)">닉네임</button></li>
+            <li class="px-2" style="margin-left: 0px; float: left;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(2)">설명</button></li>
           </ul>
         </span>
         
@@ -79,11 +79,11 @@
                     <div class="hearth"/>
                   </label>
                 </div>
-                <p class="card__description">
-                  포인트 : {{ adviceConsultant.pointTot }}<br>
-                  상담횟수 : {{ adviceConsultant.consultingCnt }}<br>
-                  한 줄 소개 : <br>
-                  {{ adviceConsultant.description }} <br><br>
+                <p class="card__description" style="text-align: center;">
+                  <span style="font-weight: bold;">{{ adviceConsultant.description }}</span><br><hr>
+                  <span>포인트 : {{ adviceConsultant.pointTot }}</span><br>
+                  <span>상담횟수 : {{ adviceConsultant.consultingCnt }}</span><br>
+                  <br>
                   <button
                     type="button"
                     class="front__text-hover"
@@ -282,7 +282,7 @@ export default {
           size: 6,
           page: state.page,
         })
-      } else if (state.pageSearchTopic === 'topic') {
+      } else if (state.pageSearchTopic === 'category') {
         await store.dispatch("root/adviceTopicPageSearch",{
           user_id: state.userInfo.id,
           topicCategoryId: state.topic,
@@ -796,7 +796,7 @@ button {
   // transform:  translate(-50%,50%);
   background: white;
   height: 80%;
-  width: 50%;
+  width: 60%;
   border-radius: 40px;
   padding: 10px;
   border: 2px solid #bbd2f9;
@@ -826,7 +826,7 @@ button {
 
 .search-btn {
   position: relative;
-  font-size: 15px;
+  font-size: 20px;
   color: #bbd2f9;
   backface-visibility: hidden;
   width: 20%;

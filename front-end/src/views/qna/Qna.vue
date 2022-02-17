@@ -22,6 +22,7 @@ export default {
     });
 
     onMounted(async () => {
+      window.scrollTo(0, 0);
       await store.dispatch("root/qnaGetQuestionList", state.userInfo.id);
     });
 

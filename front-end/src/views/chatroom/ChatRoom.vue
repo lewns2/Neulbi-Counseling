@@ -36,6 +36,7 @@ export default {
     })
 
     onMounted(async() => {
+      window.scrollTo(0, 0);
       await store.dispatch('root/chatRoomGetList', { userId: state.userInfo.id })
       if (state.userInfo.nickname == state.chatRoomList[0].userNickName) {
         store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', state.chatRoomList[0].consultantNickName)

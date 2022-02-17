@@ -102,7 +102,7 @@
 import QnaAnswer from "./QnaAnswer.vue";
 import MainHeader from "@/views/main/components/MainHeader.vue";
 
-import { reactive, computed } from "@vue/reactivity";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
@@ -124,6 +124,10 @@ export default {
       description: state.qnaDetail.description,
       rocked: state.qnaDetail.isRocked,
     });
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
 
     const clickModifyQna = async function () {
       console.log(data.description, data.title);
@@ -153,7 +157,7 @@ export default {
       router.push({ name: "Qna" });
     };
 
-    return { state, data, clickModifyQna, clickDeleteQna, goToQna };
+    return { state, data, onMounted, clickModifyQna, clickDeleteQna, goToQna };
   },
 };
 </script>
