@@ -46,7 +46,6 @@
 
     <!--본문 헤더-->
     <div class="detailheader row-hover pos-relative py-3 px-3 row-lg-4">
-      {{ state.communityDetail}}
       <div class="row align-items-center">
         <div class="col-md-10" id="leftalign">
           <h3>{{state.communityDetail.title}}</h3>
@@ -54,8 +53,7 @@
       </div>
       <div class="row align-items-center">
         <div class="col-md-8 op-7" id="leftalign">
-          <h5>{{state.communityDetail.userNickname}}</h5>
-          <!-- <h5>{{ state.communityDetail.createdDate.substr(0, 10) }}</h5> -->
+          <h5>{{state.communityDetail.userNickname}} | {{ state.communityDetail.createdDate.substr(0, 10) }}</h5>
         </div>
         
         <!-- {{{{ notice.date.substr(0, 10) }}}} -->
