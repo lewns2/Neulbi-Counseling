@@ -81,7 +81,7 @@
             <!-- {{ coComment }} -->
             <div class="col-1">L</div>
             <div class="col-1" id="customimg">
-              <img :src="require('@/assets/mask/mask'+comment.maskId+'.png')">
+              <img :src="require('@/assets/mask/mask'+coComment.maskId+'.png')">
               <!-- <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')"> -->
             </div>
             <div class="col-6" id="leftalign">
