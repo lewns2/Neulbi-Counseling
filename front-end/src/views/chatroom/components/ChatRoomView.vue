@@ -41,9 +41,7 @@ export default {
       chatRoomList: computed(() => props.chatRoomList),
       userInfo: store.getters['root/userInfo'],
     })
-    const other = reactive({
-      person: state.chatRoomList[0]["consultantId"]==state.userInfo.id ? state.chatRoomList[0]["userNickName"] : state.chatRoomList[0]["consultantNickName"],
-    })
+
     const chatRoomGetDetail = async function (chatRoom_id, userNickName, consultantNickName) {
       if (state.userInfo.nickname == userNickName) {
         store.commit('root/CHATROOM_GET_DETAIL_NICKNAME', consultantNickName)
@@ -55,7 +53,7 @@ export default {
       )
     }
 
-    return { state, other, chatRoomGetDetail }
+    return { state, chatRoomGetDetail }
   }
 }
 </script>
