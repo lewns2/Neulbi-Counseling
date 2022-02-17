@@ -306,7 +306,7 @@ export default {
   background-position: center;
 }
 .container .right .bubble {
-  font-size: 16px;
+  font-size: 25px;
   position: relative;
   display: inline-block;
   clear: both;
@@ -339,14 +339,14 @@ export default {
 .container .right .bubble.me {
   float: right;
   color: #fff;
-  background-color: #c2d6f8;
+  background-color: #809fd6;
   align-self: flex-end;
   -webkit-animation-name: slideFromRight;
           animation-name: slideFromRight;
 }
 .container .right .bubble.me:before {
   right: -3px;
-  background-color: #c2d6f8;
+  background-color: #809fd6;
 }
 .container .right .conversation-start {
   position: relative;
