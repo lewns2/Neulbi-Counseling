@@ -7,32 +7,23 @@
     />
 
     <div style="margin-top: 3%">
-      <h2>공지사항</h2>
+      <h2 style="font-size: 350%">공지사항</h2>
     </div>
 
     <div
-      class="column intro row-hover pos-relative py-4 px-4 mt-4 mb-4 row text-center" style="background-color: #eaf1ff;"
+      class="column intro row-hover pos-relative py-4 px-4 mt-4 mb-4 row text-center"
+      style="background-color: #eaf1ff"
     >
-      <h6 style="color: #6c8093">
+      <h5 style="color: #6c8093">
         '공지사항'는 운영자가 사용자들에게 알리고자 하는 내용이 작성된
         공간입니다.
-      </h6>
-    </div>
-
-    <!-- 커뮤니티와 공간 맞추기 용  -->
-    <div class="inner-main-header" style="border-bottom: 0;">
-      <span class="dropdown col-lg-3 row text-center op-7">
-      </span>
-      <span class="col-lg-5"></span>
-      <span class="px-1">  
-      </span>
-      <span class="input-icon input-icon-sm ml-auto col-lg-3 display: flex">
-      </span>
+      </h5>
     </div>
 
     <!-- <div class="col-lg-9 mb-3">  -->
-    <div class="inner-main-header" v-if="state.userInfo.role === 'ADMIN'">
+    <div class="inner-main-header" style="font-size: 120%">
       <button
+        v-if="state.userInfo.role === 'ADMIN'"
         @click="goToCreateNotice"
         class="form-control form-control-md col-lg-2"
         id="input"
@@ -41,19 +32,22 @@
       </button>
     </div>
 
-    <div class="cardheader row-hover pos-relative py-3 px-3" style="background-color: #eaf1ff;">
+    <div
+      class="cardheader row-hover pos-relative py-3 px-3"
+      style="background-color: #eaf1ff"
+    >
       <div class="row align-items-center">
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h5>번호</h5>
+          <h4>번호</h4>
         </div>
         <div class="col-md-6 mb-3 mb-sm-0">
-          <h5>제목</h5>
+          <h4>제목</h4>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h5>작성자</h5>
+          <h4>작성자</h4>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h5>작성일</h5>
+          <h4>작성일</h4>
         </div>
       </div>
     </div>
@@ -63,42 +57,53 @@
       :key="index"
       class="card row-hover pos-relative py-3 px-3"
       id="board-style1"
+      style="font-size: 110%"
     >
       <div class="row align-items-center">
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h6>{{ notice.noticeId }}</h6>
+          <h5>{{ notice.noticeId }}</h5>
         </div>
         <div
           class="col-md-6 mb-3 mb-sm-0"
           @click="goToNoticeDetail(notice.noticeId)"
-          style="text-align: left; cursor: pointer;"
+          style="text-align: left; cursor: pointer"
         >
-          <h6>
+          <h5>
             {{ notice.title }}
-          </h6>
+          </h5>
         </div>
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h6>
+          <h5>
             <p class="text-black">운영자</p>
-          </h6>
+          </h5>
         </div>
 
         <div class="col-md-2 mb-3 mb-sm-0">
-          <h6>
+          <h5>
             {{ notice.date.substr(0, 10) }}
-          </h6>
+          </h5>
         </div>
       </div>
     </div>
 
     <!--페이지-->
-    <div id="app" class="pagecontainer">  
+    <div id="app" class="pagecontainer">
       <ul class="page">
-        <li class="page__btn me-4" @click="checkPage($event)"><span class="material-icons">◀</span></li>
-        <li class="page__numbers" :id="'page'+idx" v-for="(num, idx) in state.noticeLastPageNum" :key="idx" @click="checkPage($event)">
+        <li class="page__btn me-4" @click="checkPage($event)">
+          <span class="material-icons">◀</span>
+        </li>
+        <li
+          class="page__numbers"
+          :id="'page' + idx"
+          v-for="(num, idx) in state.noticeLastPageNum"
+          :key="idx"
+          @click="checkPage($event)"
+        >
           {{ num }}
         </li>
-        <li class="page__btn ms-4"><span class="material-icons" @click="checkPage($event)">▶</span></li>
+        <li class="page__btn ms-4">
+          <span class="material-icons" @click="checkPage($event)">▶</span>
+        </li>
       </ul>
     </div>
   </div>
@@ -123,20 +128,22 @@ export default {
         () => store.getters["root/noticeLastPageNum"]
       ),
       page: 1,
-    })
+    });
 
-    onMounted(() => {
-      let first = document.getElementById('page0')
-      first.classList.add('active')
-    })
+    onMounted(async () => {
+      if (state.noticeLastPageNum != 0) {
+        let first = document.getElementById("page0");
+        first.classList.add("active");
+      }
+    });
 
     const checkPage = async function (event) {
-      for (var i=0; i < state.noticeLastPageNum; i++) {
-        const sub = document.getElementById('page'+i)
-        sub.classList.remove('active')
+      for (var i = 0; i < state.noticeLastPageNum; i++) {
+        const sub = document.getElementById("page" + i);
+        sub.classList.remove("active");
       }
-      event.target.classList.add('active')
-      state.page = Number(event.target.id.substr(4,6))+1
+      event.target.classList.add("active");
+      state.page = Number(event.target.id.substr(4, 6)) + 1;
       await store.dispatch("root/noticePageSearch", {
         size: 10,
         page: state.page,
@@ -241,7 +248,6 @@ a:hover {
 }
 
 /// pagination
-
 
 ul {
   list-style-type: none;
@@ -354,7 +360,19 @@ ul {
   }
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p {
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   font-weight: 500;
@@ -362,9 +380,9 @@ ul {
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    border: none;
-    resize: none;
+  width: 100%;
+  height: 150px;
+  border: none;
+  resize: none;
 }
 </style>

@@ -4,7 +4,7 @@
     <br>
     <div class="d-flex justify-content-start">
       <div class="searchBox">
-        <input class="searchInput" type="text" placeholder="Nickname" v-model="state.nickname" @keyup="clickValidateNickname">
+        <input class="searchInput" type="text" placeholder="변경할 닉네임을 적어주세요." v-model="state.nickname" @keyup="clickValidateNickname">
       </div>
       <button class="front__text-hover mx-3 d-flex justify-content-start" @click="clickgetNickname">중복 확인</button>
       <button v-if="state.profileNicknameBool == true" class="front__text-hover d-flex justify-content-start" @click="clickmodifyNickname">
@@ -28,9 +28,15 @@
                     <label for="message-password" class="col-form-label">현재 비밀번호:</label>
                     <input type="password" class="form-control" id="message-password" v-model="state.password">
                     <label for="message-newPassword" class="col-form-label">새로운 비밀번호:</label>
-                    <input type="password" class="form-control" id="message-newPassword" v-model="state.newPassword">
+                    <input type="password" class="form-control" id="message-newPassword" v-model="state.newPassword" @keyup="clickValidatePassword">
+                    <div v-if="state.passwordValid===false">
+                      <p style="color: red;">{{ state.passwordMessage }}</p>
+                    </div>
                     <label for="message-newPasswordConfirmation" class="col-form-label">새로운 비밀번호 확인:</label>
                     <input type="password" class="form-control" id="message-newPasswordConfirmation" v-model="state.newPasswordConfirmation">
+                    <div v-if="state.newPassword != state.newPasswordConfirmation">
+                      <p style="color: red;">비밀번호가 일치하지 않습니다.</p>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -154,6 +160,8 @@ export default {
       password: null,
       newPassword: null,
       newPasswordConfirmation: null,
+      passwordMessage: "",
+      passwordValid: false,
     })
 
     const profile = reactive({
@@ -194,6 +202,33 @@ export default {
       if (lengthNickname == 0) {
         state.nicknameMessage = ""
         state.nicknameValid = false
+      }
+    }
+
+    const clickValidatePassword = function () {
+      let passwordCheck = state.newPassword
+      let lengthPassword = passwordCheck.toString().length
+      let engPassword = passwordCheck.search(/[a-z]/gi)
+      let numPassword = passwordCheck.search(/[0-9]/g)
+      let specialPassword = passwordCheck.search(
+        /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+      )
+      if (lengthPassword < 8 || lengthPassword > 15) {
+        state.passwordMessage = "8자 이상 15자 이하로 작성해주세요."
+        state.passwordValid = false
+      } else {
+        if (engPassword == -1 || numPassword == -1 || specialPassword == -1) {
+          state.passwordMessage =
+            "영문, 숫자, 특수문자를 하나 이상 포함해야 합니다."
+          state.passwordValid = false
+        } else {
+          state.passwordMessage = "사용할 수 있는 비밀번호입니다."
+          state.passwordValid = true
+        }
+      }
+      if (lengthPassword == 0) {
+        state.passwordMessage = ""
+        state.passwordValid = false
       }
     }
 
@@ -267,6 +302,7 @@ export default {
       onMounted, state, mask, profile,
       clickgetNickname, 
       clickValidateNickname,
+      clickValidatePassword,
       clickSelectMask,
       clickSelectBack,
       clickmodifyNickname, 

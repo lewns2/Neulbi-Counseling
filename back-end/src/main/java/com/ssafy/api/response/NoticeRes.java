@@ -32,7 +32,7 @@ public class NoticeRes {
         res.setDescription(notice.getDescription());
 
         LocalDateTime modifiedDate = notice.getModifiedDate();
-        res.setDate( modifiedDate != null ? modifiedDate : notice.getCreatedDate() );
+        res.setDate( modifiedDate != null ? modifiedDate.plusHours(9) : notice.getCreatedDate().plusHours(9) );
 
         return res;
     }

@@ -49,7 +49,6 @@ public class CommunityViewRes {
         List<CommentListRes> commentListRes = CommentListRes.of(c.getCommentList());
 
         clr.setCommentListRes(commentListRes);
-
         clr.setUserId(user.getId());
         clr.setUserNickname(user.getNickname());
         clr.setId(c.getId());
@@ -58,7 +57,7 @@ public class CommunityViewRes {
         clr.setLikeCnt(c.getLikeCnt());
         clr.setViewCnt(c.getViewCnt());
         clr.setLike(isLike);
-        clr.setCreatedDate(c.getCreatedDate());
+        clr.setCreatedDate(c.getCreatedDate().plusHours(9));
 
         return clr;
     }

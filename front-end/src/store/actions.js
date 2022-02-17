@@ -11,6 +11,7 @@ export async function mainSingUp({ state }, payload) {
     })
     .catch((err) => {
       console.log(err, '회원가입')
+      alert('회원가입에 실패했습니다.')
     })
 }
 
@@ -57,6 +58,7 @@ export async function mainSignIn({ state, commit, dispatch }, payload) {
       }
     })
     .catch((err) => {
+      alert('로그인에 실패했습니다.\n 아이디와 비밀번호를 확인해주세요.')
       console.log(err, "로그인");
     });
 }
@@ -340,7 +342,11 @@ export async function profileGetHistoryReceivedReview({ state, commit }, payload
   await $axios
     .get(url)
     .then((res) => {
-      commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
+      if (res.data == "") {
+        commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data);
+      } else {
+        commit("PROFILE_GET_HISTORY_RECEIVED_REVIEW", res.data.receivedReview);
+      }
     })
     .catch((err) => {
       console.log(err, "프로필 리뷰 정보 조회");

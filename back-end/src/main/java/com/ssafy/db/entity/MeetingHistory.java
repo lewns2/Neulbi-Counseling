@@ -31,6 +31,8 @@ public class MeetingHistory extends BaseEntity {
     @JoinColumn(name = "meeting_id")
     Meeting meeting;
 
+    public LocalDateTime getInsertedTime() { return insertedTime.plusHours(9); }
+
     public void modifyAction(String action) {
         this.action = action;
     }

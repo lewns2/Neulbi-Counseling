@@ -32,7 +32,7 @@
           </button>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-            style="min-width: 12rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+            style="min-width: 5rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
           >
             <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(1)">닉네임</button></li>
             <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방제목</button></li>
@@ -41,7 +41,7 @@
         </span>
 
         <div class="searchBox">
-          <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+          <input class="searchInput" type="text" placeholder="검색할 내용을 적어주세요" v-model="state.word">
         </div>
         <button
           type="button"
@@ -58,7 +58,7 @@
       <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 px-5" style="margin-bottom: 3%;">
+          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-4" style="margin-bottom: 3%; padding-left: 60px; padding-right: 60px;">
             <div class="card">
               <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confessionMeeting.profileImg" class="card__image">
               <div class="card__overlay">
@@ -73,7 +73,7 @@
                 <div class="card__description" style="text-align: center;">
                   <span style="font-weight: bold;">설명 : {{ confessionMeeting.description }}</span><br><hr>
                   <span>방장 : {{ confessionMeeting.ownerNickname }}</span><br>
-                  <span>{{ confessionMeeting.currJoinParticipants+1 }} / {{ confessionMeeting.participants }}</span><br><br>
+                  <span>{{ confessionMeeting.currJoinParticipants }} / {{ confessionMeeting.participants }}</span><br><br>
                   <button
                     type="button"
                     class="front__text-hover"
@@ -91,10 +91,13 @@
 
         <!-- pagination -->
         <br>
-        <div class="d-flex justify-content-center mb-5">
+        <div class="d-flex justify-content-center mb-5" v-if="state.confessionLastPageNum!=0">
           <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
           <div class="counter">{{state.page}}페이지 / {{ state.confessionLastPageNum }}페이지 </div>
           <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+        </div>
+        <div v-else style="text-align: center;">
+          <span style="font-size: 50px;">열려있는 고해성사 채팅방이 없습니다.</span>
         </div>
       </div>
       <div class="col-3">
@@ -144,7 +147,7 @@ export default {
         { value: "방 제목", backValue: "title" },
         { value: "방 설명" , backValue: "description"},
       ],
-      showKey: 'Select',
+      showKey: '선택',
       key: "Select",
       word: null,
       page: 1,
@@ -153,20 +156,22 @@ export default {
     })
 
     onMounted(() => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      if (state.confessionLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
-      if (state.page === state.confessionLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+        pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+        if (state.page===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
+        if (state.page === state.confessionLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -270,20 +275,20 @@ export default {
 
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/confessionPageSearch",{
-          size: 8,
+          size: 6,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'topic') {
         await store.dispatch("root/confessionTopicPageSearch",{
           topicCategoryId: state.topic,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'search') {
         await store.dispatch("root/confessionSearchPageSearch",{
           key: state.key,
           value: state.word,
-          size: 8,
+          size: 6,
           page: state.page,
         })
       }
@@ -470,7 +475,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 32vh;  
+  height: 38vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -618,7 +623,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 67%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -654,7 +659,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 44%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -696,9 +701,9 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
   font-size: 30px;
   font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);

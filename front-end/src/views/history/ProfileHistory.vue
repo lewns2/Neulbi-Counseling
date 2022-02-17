@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="history">
     <main-header></main-header>
     <div class="container">
       <profile-history-confession></profile-history-confession>
@@ -19,7 +19,8 @@ import ProfileHistoryReview from './ProfileHistoryReview.vue'
 import ProfileHistoryCommunity from './ProfileHistoryCommunity.vue'
 import ProfileHistoryComment from './ProfileHistoryComment.vue'
 
-import { reactive } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'ProfileHistory',
@@ -31,19 +32,29 @@ export default {
     ProfileHistoryCommunity,
     ProfileHistoryComment
   },
-  props: {
-    userInfo: Object,
-  },
-  setup (props) {
+  setup () {
+    const store = useStore()
     const state = reactive({
-      userInfo: props.userInfo,
+      userInfo: computed(() => store.getters['root/userInfo'])
     })
 
-    return { state }
+    onMounted(async() => {
+      const body = { user_id: state.userInfo.id }
+      await store.dispatch('root/profileGetHistoryConfessionMeeting', body)
+      await store.dispatch('root/profileGetHistoryAdviceMeeting', body)
+      await store.dispatch('root/profileGetHistoryReceivedReview', body)
+      await store.dispatch('root/profileGetHistoryWrittenReview', body)
+      await store.dispatch('root/profileGetHistoryCommunity', body)
+      await store.dispatch('root/profileGetHistoryComment', body)
+    })
+
+    return { state, onMounted }
   }
 }
 </script>
 
 <style>
-
+#history {
+  font-family: "Binggrae"!important;
+}
 </style>

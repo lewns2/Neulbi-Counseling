@@ -4,11 +4,12 @@
     <h3 style="text-align: left;">내가 작성한 댓글</h3>
     <br>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryComment==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(comment, idx) in state.profileHistoryComment" :key="idx">
         <a href="#" class="data-card">
-          <h3 v-if="comment.communityTitle.length > 8">커뮤니티 : {{ comment.communityTitle.substr(0,8) }}···</h3>
-          <h3 v-else>커뮤니티 : {{ comment.communityTitle }}</h3><br>
+          <!-- <h3 v-if="comment.communityTitle.length > 8">커뮤니티 : {{ comment.communityTitle.substr(0,8) }}···</h3>
+          <h3 v-else>커뮤니티 : {{ comment.communityTitle }}</h3><br> -->
           <h4>작성자 : {{ comment.userNickname }}</h4><br>
           <p>댓글</p>
           <p>{{ comment.description }}</p>
@@ -18,10 +19,14 @@
         </a>
       </div>
     </div>
-    <div class="d-flex justify-content-center mb-5 mt-5">
+    <div class="d-flex justify-content-center mb-5 mt-5" v-if="state.profileHistoryCommentLastPageNum!=0">
       <button id="comment_prev" class="paginatecomment left" @click="checkCommentPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.commentpage}}페이지 / {{ state.profileHistoryCommentLastPageNum }}페이지 </div>
       <button id="comment_next" class="paginatecomment right" @click="checkCommentPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 작성한 댓글이 없습니다.</span>
     </div>
     <br>
     <hr>
@@ -47,20 +52,22 @@ export default {
     })
 
     onMounted(async () => {
-      const prcommunity = document.querySelector('.paginatecomment.left')
-      const plcommunity = document.querySelector('.paginatecomment.right')
-      await prcommunity.setAttribute('data-state', state.commentpage===1 ? 'disabled' : '')
-      if (state.commentpage===1) {
-        prcommunity.disabled = true
-      } else {
-        prcommunity.disabled = false
-      }
-      
-      await plcommunity.setAttribute('data-state', state.commentpage===state.profileHistoryCommentLastPageNum ? 'disabled' : '')
-      if (state.commentpage === state.profileHistoryCommentLastPageNum) {
-        plcommunity.disabled = true
-      } else {
-        plcommunity.disabled = false
+      if (state.profileHistoryCommentLastPageNum != 0) {
+        const prcommunity = document.querySelector('.paginatecomment.left')
+        const plcommunity = document.querySelector('.paginatecomment.right')
+        await prcommunity.setAttribute('data-state', state.commentpage===1 ? 'disabled' : '')
+        if (state.commentpage===1) {
+          prcommunity.disabled = true
+        } else {
+          prcommunity.disabled = false
+        }
+        
+        await plcommunity.setAttribute('data-state', state.commentpage===state.profileHistoryCommentLastPageNum ? 'disabled' : '')
+        if (state.commentpage === state.profileHistoryCommentLastPageNum) {
+          plcommunity.disabled = true
+        } else {
+          plcommunity.disabled = false
+        }
       }
     })
 
@@ -135,7 +142,7 @@ export default {
   display: flex;
   flex-direction: column;
   max-width: 20.75em;
-  min-height: 20.75em;
+  min-height: 15em;
   overflow: hidden;
   border: 1px solid #c2d6f8;
   border-radius: 30px;
@@ -251,7 +258,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecomment.left {
-  right: 55%;
+  position: relative;
 }
 .paginatecomment.left i {
   transform-origin: 0% 50%;
@@ -287,7 +294,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatecomment.right {
-  left: 55%;
+  position: relative;
 }
 .paginatecomment.right i {
   transform-origin: 100% 50%;
@@ -329,15 +336,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
-  font-size: 20px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 </style>

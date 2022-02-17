@@ -38,7 +38,7 @@ public class AdviceController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = ConsultantListRes.class)
     })
-    public ResponseEntity<Page<ConsultantListRes>> consultantList(@PageableDefault(page = 0, size = 8) Pageable pageable, @PathVariable ("user_id") Long userId) {
+    public ResponseEntity<Page<ConsultantListRes>> consultantList(@PageableDefault(page = 0, size = 6) Pageable pageable, @PathVariable ("user_id") Long userId) {
         // 0. 현재 로그인한 유저의 아이디 값 받아와야함
         // 1. getAll 할때 컨설턴트 아이디가 받아온 유저 아이디와 다른것들만 받아오기
         // 2. 받아온 유저 아이디에 해당하는 myFavConsultantList에서 각각 서치하면서 해당 목록에 있는 유저들은 True값 반환 -> ConsultantListRes에서 진행?
@@ -57,7 +57,7 @@ public class AdviceController {
             @ApiResponse(code = 200, message = "성공", response = ConsultantListRes.class)
     })
     public ResponseEntity<Page<ConsultantListRes>> consultantListByCategory(@PathVariable(value = "topic_category_id") Long topicCategoryId,
-                                                                            @PageableDefault(page = 0, size = 8) Pageable pageable,
+                                                                            @PageableDefault(page = 0, size = 6) Pageable pageable,
                                                                             @PathVariable ("user_id") Long userId)
     {
         // consultantProfile 테이블에서 topic_category_id가 매개변수와 같은 데이터
@@ -97,7 +97,7 @@ public class AdviceController {
     public ResponseEntity<Page<ConsultantListRes>> consultantSearch(@PathVariable String key,
                                                                     @PathVariable String value,
                                                                     @PathVariable("user_id") Long userId,
-                                                                    @PageableDefault(page = 0, size = 8) Pageable pageable) {
+                                                                    @PageableDefault(page = 0, size = 6) Pageable pageable) {
         Page<ConsultantProfile> cons = consultantService.getConsultantByValue(key, value, pageable, userId);
         Page<ConsultantListRes> consultantListRes = consultantService.getInfoMyFavoriteConsultant(cons,userId);
 

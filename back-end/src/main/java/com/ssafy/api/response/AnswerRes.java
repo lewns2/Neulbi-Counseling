@@ -29,7 +29,7 @@ public class AnswerRes {
         res.setDescription(answer.getDescription());
 
         LocalDateTime modifiedDate = answer.getModifiedDate();
-        res.setDate( modifiedDate != null ? modifiedDate : answer.getCreatedDate() );
+        res.setDate( modifiedDate != null ? modifiedDate.plusHours(9) : answer.getCreatedDate().plusHours(9) );
 
         return res;
     }

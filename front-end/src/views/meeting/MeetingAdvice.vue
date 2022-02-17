@@ -1,31 +1,27 @@
 <template id="wrapper">
-  <div style="background-color: rgb(225 236 255); height: 800px">
+  <div style="background-color: rgb(225 236 255); height: 100vh">
     <!-- session 연결됐을 때 상담 도구 모음 -->
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">
         <li style="float: left">
-          <img
-            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
-            alt=""
-            style="width: 50px"
-          />
-          <span style="font-size: 15px"> &nbsp;&nbsp;ADVICE</span>
+          <img src="@/assets/icon.png" alt="" style="width: 50px" />
+          <span style="font-size: 25px; font-family: Binggrae">
+            &nbsp;&nbsp;고민상담</span
+          >
         </li>
         <li>
           <i
             @click="leaveSession"
             class="far fa-times-circle"
             style="color: red; margin-left: 50px"
-            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
-              >종료</span
-            ></i
+            >&nbsp;<span style="font-family: Binggrae">종료</span></i
           >
         </li>
         <li>
           <i
             @click="chatroomShow"
             class="far fa-comments"
-            style="color: red; margin-left: 50px"
+            style="color: red; margin-left: 50px; font-family: Binggrae"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title="채팅방"
@@ -128,38 +124,34 @@
         >
           <div
             class="d-flex justify-content-center"
-            style="border-bottom: 3px solid #a6c0fe"
+            style="border-bottom: 3px solid #a6c0fe; padding-bottom: 20px"
           >
-            <i class="fas fa-quote-left" style="font-size: 20px"></i>
-            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+            <h1 style="color: #333333; font-family: Binggrae">
               {{ data.adviceMeetingInfo.ownerNickname }}님의 미팅룸
             </h1>
-            <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
 
           <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
           <br />
-          <div
-            class="form-group"
-            style="color: #333333; font-family: Century Gothic, sans-serif"
-          >
-            <h3 v-if="data.userInfo.id === data.adviceMeetingInfo.ownerId">
-              Owner
+          <div class="form-group" style="color: #333333; font-family: Binggrae">
+            <h3
+              v-if="data.userInfo.id === data.adviceMeetingInfo.ownerId"
+              style="font-family: Binggrae"
+            >
+              상담가
             </h3>
-            <h3 v-else>Guest</h3>
-
+            <h3 v-else style="font-family: Binggrae">상담자</h3>
+            <br />
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
+              <br /><br />
               <div class="d-flex" style="justify-content: center">
                 <button
                   v-if="!state.videoState"
                   class="front__text-hover"
                   type="button"
                   @click="getVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video"
@@ -172,10 +164,7 @@
                   class="front__text-hover"
                   type="button"
                   @click="offVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video-slash"
@@ -190,7 +179,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -207,7 +196,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -222,11 +211,11 @@
                   @click="joinSession()"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
-                  Join!
+                  참가하기
                 </button>
               </div>
             </div>
@@ -274,8 +263,8 @@ import { useRouter } from "vue-router";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 import { computed, reactive } from "vue";
@@ -756,7 +745,7 @@ nav i.fa:hover {
 
 #main-container {
   padding-bottom: 80px;
-  padding-top: 1%;
+  padding-top: 5%;
 }
 
 /*vertical-center {
@@ -957,7 +946,7 @@ video {
 
 .front__text-hover {
   position: relative;
-  /* top: 10px; */
+  top: 3px;
   font-size: 15px;
   backface-visibility: hidden;
 

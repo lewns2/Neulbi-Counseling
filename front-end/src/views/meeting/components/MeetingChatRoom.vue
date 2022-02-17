@@ -22,7 +22,7 @@
         <input
           class="message_input"
           v-model="state.message"
-          placeholder="Type your message"
+          placeholder="메시지를 적어주세요."
         />
       </div>
       <div class="send_message" @click="sendMessage">전송</div>

@@ -26,7 +26,7 @@
 				</div>
 				<div class="field space">
 					<span class="fa fa-lock"></span>
-					<input type="password" class="pass-key" required placeholder="비밀번호" v-model="credentialsIn.password">
+					<input type="password" class="pass-key" required placeholder="비밀번호" v-model="credentialsIn.password" @keyup="enterSignIn">
 					<span class="show" @click="clickShow">숫자보기</span>
 				</div>
 				<div class="pass">
@@ -41,7 +41,8 @@
 			<br>
 			<div class="signup">
 					아직 회원이 아니신가요?&nbsp;&nbsp;
-					<router-link :to="{ name: 'SignUp' }">회원가입으로 이동</router-link>
+				<router-link :to="{ name: 'SignUp' }">회원가입으로 이동</router-link><br><br>
+				<router-link :to="{ name: 'Home' }">뒤로가기</router-link>
 			</div>
 		</div>
 	</div>
@@ -107,6 +108,12 @@ export default {
 				showBtn.color = "#222"
 			}
 		}
+
+		const enterSignIn = function (e) {
+			if (e.keyCode == 13 & credentialsIn.email != null & credentialsIn.password != null) {
+				clickSignIn()
+			}
+		}
 			
 
 		const clickSignIn = async function () {
@@ -119,7 +126,7 @@ export default {
 		}
 
 		const findPassword = async function () {
-			if (state.email == null) {
+			if (credentialsIn.email == null) {
 				alert('이메일 작성란에 이메일을 기입해주세요')
 			} else {
 				await store.dispatch('root/mainFindPassword', { email: state.email })
@@ -127,7 +134,7 @@ export default {
 			}
 		}
 
-    return { credentialsIn, state, clickShow, clickSignIn, findPassword }
+    return { credentialsIn, state, clickShow, enterSignIn, clickSignIn, findPassword }
   }
 }
 </script>

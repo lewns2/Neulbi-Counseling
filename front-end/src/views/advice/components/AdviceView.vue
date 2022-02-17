@@ -33,15 +33,15 @@
           </button>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-            style="min-width: 12rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+            style="min-width: 5rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
           >
-            <li class="px-4" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(1)">닉네임</button></li>
-            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(2)">설명</button></li>
+            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(1)">닉네임</button></li>
+            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickModifyShowCategory(2)">설명</button></li>
           </ul>
         </span>
         
         <div class="searchBox">
-          <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+          <input class="searchInput" type="text" placeholder="검색할 내용을 적어주세요" v-model="state.word">
         </div>
         <button
           type="button"
@@ -59,7 +59,7 @@
       <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-3 px-5" style="margin-bottom: 3%;">
+          <div v-for="(adviceConsultant, index) in state.adviceConsultantList" :key="index" class="col-4" style="margin-bottom: 3%; padding-left: 60px; padding-right: 60px;">
             <div class="card">
               <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+adviceConsultant.profileImg" class="card__image">
               <div class="card__overlay">
@@ -101,10 +101,13 @@
 
         <!-- pagination -->
         <br>
-        <div class="d-flex justify-content-center mb-5">
+        <div class="d-flex justify-content-center mb-5" v-if="state.adviceLastPageNum!=0">
           <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
           <div class="counter">{{state.page}}페이지 / {{ state.adviceLastPageNum }}페이지 </div>
           <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+        </div>
+        <div v-else style="text-align: center;">
+          <span style="font-size: 50px;">등록된 상담가가 없습니다.</span>
         </div>
       </div>
       <div class="col-sm-3">
@@ -158,20 +161,22 @@ export default {
     })
 
     onMounted(() => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      if (state.adviceLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
-      if (state.page === state.adviceLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+        pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
+        if (state.page===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        pl.setAttribute('data-state', state.page===state.adviceLastPageNum ? 'disabled' : '')
+        if (state.page === state.adviceLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -529,7 +534,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 32vh;  
+  height: 38vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -697,7 +702,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 67%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -733,7 +738,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 44%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -775,11 +780,11 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
-  font-size: 20px;
-  font-family: Helvetica, sans-serif;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
+  font-size: 30px;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;

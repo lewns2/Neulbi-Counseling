@@ -2,7 +2,8 @@
   <div>
     <br>
     <h3 style="text-align: left;">고해성사 기록</h3><br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryConfession==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div v-for="(confession, index) in state.profileHistoryConfession" :key="index" class="col-4">
         <div class="card">
           <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confession.userProfileImg" class="card__image">
@@ -11,8 +12,8 @@
               <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
               <img class="card__thumb" :src="require('@/assets/mask/mask'+confession.userMaskId+'.png')" alt="" />
               <div class="card__header-text">
-                <h3 class="card__title">방장 : {{ confession.nickname }}</h3>            
-                <span class="card__status">주제: {{ state.topicCategoryName[confession.topicCategoryId] }}</span>
+                <h3 class="card__title">방장 : {{ confession.nickname }}</h3>
+                <span class="card__status">주제: {{ state.topicCategoryName[confession.topicCategoryId-1]}}</span>
               </div>
             </div>
             <div class="card__description" style="text-align: center;">
@@ -30,10 +31,14 @@
     </div>
     <br>
     <br>
-    <div class="d-flex justify-content-center mb-5 mt-2">
+    <div class="d-flex justify-content-center mb-5 mt-2" v-if="state.profileHistoryConfessionLastPageNum!=0">
       <button id="conf_prev" class="paginate left" @click="checkConfessionPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.confessionpage}}페이지 / {{ state.profileHistoryConfessionLastPageNum }}페이지 </div>
       <button id="conf_next" class="paginate right" @click="checkConfessionPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 고해성사 이력이 없습니다.</span>
     </div>
     <br>
     <hr>
@@ -60,20 +65,22 @@ export default {
     })
 
     onMounted(async () => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
-      await pr.setAttribute('data-state', state.confessionpage===1 ? 'disabled' : '')
-      if (state.confessionpage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      
-      await pl.setAttribute('data-state', state.confessionpage===state.profileHistoryConfessionLastPageNum ? 'disabled' : '')
-      if (state.confessionpage === state.profileHistoryConfessionLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+      if (state.profileHistoryConfessionLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
+        await pr.setAttribute('data-state', state.confessionpage===1 ? 'disabled' : '')
+        if (state.confessionpage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        
+        await pl.setAttribute('data-state', state.confessionpage===state.profileHistoryConfessionLastPageNum ? 'disabled' : '')
+        if (state.confessionpage === state.profileHistoryConfessionLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -198,7 +205,7 @@ export default {
 }
 
 .card__title {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0 0 .3em;
   color: #6A515E;
 }
@@ -212,15 +219,15 @@ export default {
 }
 
 .card__status {
-  font-size: .8em;
+  font-size: 1.1em;
   color: #D7BDCA;
 }
 
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
+  color: #6A515E;
+  font-family: "Binggrae-Taom";   
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
@@ -276,7 +283,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 55%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -312,7 +319,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 55%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -354,15 +361,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
-  font-size: 20px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 </style>

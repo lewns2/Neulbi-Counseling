@@ -2,7 +2,8 @@
   <div>
     <h3 style="text-align: left;">고민상담 기록</h3>
     <br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryAdvice==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
     <div v-for="(advice, index) in state.profileHistoryAdvice" :key="index" class="col-4">
       <div class="card">
         <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+advice.userProfileImg" class="card__image">
@@ -12,30 +13,29 @@
             <img class="card__thumb" :src="require('@/assets/mask/mask'+advice.userMaskId+'.png')" alt="" />
             <div class="card__header-text">
               <h3 class="card__title">상담가 : {{ advice.nickname }}</h3> 
-              <span class="card__status">주제: {{ state.topicCategoryName[advice.topicCategoryId] }}</span>
+              <span class="card__status">주제: {{ state.topicCategoryName[advice.topicCategoryId-1] }}</span>
             </div>
           </div>
           <p class="card__description">
-            <span>{{ advice.createdDate.substr(0, 16) }}</span><br>
-              <span> ~ </span><br>
-            <span>{{ advice.endDate.substr(0, 16) }}</span><br><br>
-            <button
-              type="button"
-              class="front__text-hover"
-              @click="clickCreateChatRoom(advice.id)"
-            >
-              1:1 채팅하기
-            </button>
+            <div v-if="advice.createdDate!=null&advice.endDate!=null">
+              <span>{{ advice.createdDate.substr(0, 16) }}</span><br>
+                <span> ~ </span><br>
+              <span>{{ advice.endDate.substr(0, 16) }}</span><br><br>
+            </div>
           </p>
 
         </div>
       </div>      
     </div>
     <br>
-    <div class="d-flex justify-content-center mt-5 pt-3 mb-3">
+    <div class="d-flex justify-content-center mt-5 pt-3 mb-3" v-if="state.profileHistoryAdviceLastPageNum!=0">
       <button id="adv_prev" class="paginateadv left" @click="checkAdvicePage($event)"><i></i><i></i></button>
       <div class="counter">{{state.advicepage}}페이지 / {{ state.profileHistoryAdviceLastPageNum }}페이지 </div>
       <button id="adv_next" class="paginateadv right" @click="checkAdvicePage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 고민상담 이력이 없습니다.</span>
     </div>
   </div>
     <br>
@@ -64,19 +64,22 @@ export default {
     })
 
     onMounted(async () => {
-      const pr = document.querySelector('.paginateadv.left')
-      const pl = document.querySelector('.paginateadv.right')
-      await pr.setAttribute('data-state', state.advicepage===1 ? 'disabled' : '')
-      if (state.advicepage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      await pl.setAttribute('data-state', state.advicepage===state.profileHistoryAdviceLastPageNum ? 'disabled' : '')
-      if (state.advicepage === state.profileHistoryAdviceLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+      if (state.profileHistoryAdviceLastPageNum != 0) {
+        const pr = document.querySelector('.paginateadv.left')
+        const pl = document.querySelector('.paginateadv.right')
+        console.log(pr, pl)
+        await pr.setAttribute('data-state', state.advicepage===1 ? 'disabled' : '')
+        if (state.advicepage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        await pl.setAttribute('data-state', state.advicepage===state.profileHistoryAdviceLastPageNum ? 'disabled' : '')
+        if (state.advicepage === state.profileHistoryAdviceLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -212,7 +215,7 @@ export default {
 }
 
 .card__title {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0 0 .3em;
   color: #6A515E;
 }
@@ -233,8 +236,8 @@ export default {
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
+  color: #6A515E;
+  font-family: "Binggrae-Taom";   
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
@@ -290,7 +293,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginateadv.left {
-  right: 55%;
+  position: relative;
 }
 .paginateadv.left i {
   transform-origin: 0% 50%;
@@ -326,7 +329,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginateadv.right {
-  left: 55%;
+  position: relative;
 }
 .paginateadv.right i {
   transform-origin: 100% 50%;
@@ -368,15 +371,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
-  font-size: 20px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 4%;
 }
 </style>

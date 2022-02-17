@@ -2,8 +2,10 @@
   <div>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <h3 style="text-align: left;">내가 작성한 게시글</h3>
+    
     <br>
-    <div class="row d-flex justify-content-start ms-3">
+    <div v-if="state.profileHistoryCommunity==[]"></div>
+    <div v-else class="row d-flex justify-content-start ms-3">
       <div class="col-4" v-for="(community, idx) in state.profileHistoryCommunity" :key="idx">
         <a href="#" class="data-card">
           <h3 v-if="community.title.length > 8">{{ community.title.substr(0,8) }}···</h3>
@@ -18,10 +20,14 @@
         </a>
       </div>
     </div>
-    <div class="d-flex justify-content-center mb-5 mt-5">
+    <div class="d-flex justify-content-center mb-5 mt-5" v-if="state.profileHistoryCommunityLastPageNum!=0">
       <button id="community_prev" class="paginatecommunity left" @click="checkCommunityPage($event)"><i></i><i></i></button>
       <div class="counter">{{state.communitypage}}페이지 / {{ state.profileHistoryCommunityLastPageNum }}페이지 </div>
       <button id="community_next" class="paginatecommunity right" @click="checkCommunityPage($event)"><i></i><i></i></button>
+    </div>
+    <div v-else>
+      <br><br>
+      <span style="font-size: 25px;">아직 작성한 게시글이 없습니다.</span>
     </div>
     <br>
     <hr>
@@ -45,21 +51,23 @@ export default {
       communitypage: 1,
     })
 
-    onMounted(async () => {
-      const prcommunity = document.querySelector('.paginatecommunity.left')
-      const plcommunity = document.querySelector('.paginatecommunity.right')
-      await prcommunity.setAttribute('data-state', state.communitypage===1 ? 'disabled' : '')
-      if (state.communitypage===1) {
-        prcommunity.disabled = true
-      } else {
-        prcommunity.disabled = false
-      }
-      
-      await plcommunity.setAttribute('data-state', state.communitypage===state.profileHistoryCommunityLastPageNum ? 'disabled' : '')
-      if (state.communitypage === state.profileHistoryCommunityLastPageNum) {
-        plcommunity.disabled = true
-      } else {
-        plcommunity.disabled = false
+    onMounted(async() => {
+      if (state.profileHistoryCommunityLastPageNum != 0) {
+        const prcommunity = document.querySelector('.paginatecommunity.left')
+        const plcommunity = document.querySelector('.paginatecommunity.right')
+        prcommunity.setAttribute('data-state', state.communitypage===1 ? 'disabled' : '')
+        if (state.communitypage===1) {
+          prcommunity.disabled = true
+        } else {
+          prcommunity.disabled = false
+        }
+        
+        plcommunity.setAttribute('data-state', state.communitypage===state.profileHistoryCommunityLastPageNum ? 'disabled' : '')
+        if (state.communitypage === state.profileHistoryCommunityLastPageNum) {
+          plcommunity.disabled = true
+        } else {
+          plcommunity.disabled = false
+        }
       }
     })
 
@@ -250,7 +258,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginatecommunity.left {
-  right: 55%;
+  position: relative;
 }
 .paginatecommunity.left i {
   transform-origin: 0% 50%;
@@ -286,7 +294,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginatecommunity.right {
-  left: 55%;
+  position: relative;
 }
 .paginatecommunity.right i {
   transform-origin: 100% 50%;
@@ -328,15 +336,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
-  font-size: 20px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 3%;
 }
 </style>

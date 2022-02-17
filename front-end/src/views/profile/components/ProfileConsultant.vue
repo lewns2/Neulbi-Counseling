@@ -85,7 +85,6 @@ export default {
     })
 
     onMounted(() => {
-      console.log(state.profileConsultantProfile.topicCategoryName, 'onmounted')
       if(state.profileConsultantProfile.topicCategoryName == '학업'){
         const targetId = 'topic_div_1'
         const topic_tag = document.getElementById(targetId)

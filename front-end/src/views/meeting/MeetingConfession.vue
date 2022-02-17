@@ -1,23 +1,19 @@
 <template>
-  <div style="background-color: rgb(225 236 255); height: 800px">
+  <div style="background-color: rgb(225 236 255); height: 100vh">
     <div id="meetingheader" v-if="state.session">
       <ul style="text-align: left">
         <li style="float: left">
-          <img
-            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
-            alt=""
-            style="width: 50px"
-          />
-          <span style="font-size: 15px"> &nbsp;&nbsp;CONFESSION</span>
+          <img src="@/assets/icon.png" alt="" style="width: 50px" />
+          <span style="font-size: 25px; font-family: Binggrae">
+            &nbsp;&nbsp;고해성사</span
+          >
         </li>
         <li>
           <i
             @click="leaveSession"
             class="far fa-times-circle"
             style="color: red; margin-left: 50px"
-            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
-              >종료</span
-            ></i
+            >&nbsp;<span style="font-family: Binggrae">종료</span></i
           >
         </li>
         <li>
@@ -32,7 +28,7 @@
             class="front__text-hover"
             type="button"
             @click="clickEmojiView"
-            style="position: relative; margin-left: 50px"
+            style="position: relative; margin-left: 50px; font-family: Binggrae"
           >
             반응
             <div
@@ -41,7 +37,7 @@
               style="
                 position: absolute;
                 display: flex;
-                top: 100%;
+                top: 120%;
                 left: 0px;
                 transform: translateX(calc(-50% + 26px));
                 z-index: 99;
@@ -160,38 +156,31 @@
         >
           <div
             class="d-flex justify-content-center"
-            style="border-bottom: 3px solid #a6c0fe"
+            style="border-bottom: 3px solid #a6c0fe; padding-bottom: 20px"
           >
-            <i class="fas fa-quote-left" style="font-size: 20px"></i>
-            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+            <h1 style="color: #333333; font-family: Binggrae">
               {{ data.confessionMeetingInfo.title }} 미팅룸
             </h1>
-            <i class="fas fa-quote-right" style="font-size: 20px"></i>
           </div>
 
           <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
           <br />
-          <div
-            class="form-group"
-            style="color: #333333; font-family: Century Gothic, sans-serif"
-          >
+          <div class="form-group" style="color: #333333; font-family: Binggrae">
             <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
-              Owner
+              방장
             </h3>
-            <h3 v-else>Guest</h3>
-
+            <h3 v-else>게스트</h3>
+            <br />
             <div>
               <video id="myVideo" style="border: 1px solid #ddd"></video>
+              <br /><br />
               <div class="d-flex" style="justify-content: center">
                 <button
                   v-if="!state.videoState"
                   class="front__text-hover"
                   type="button"
                   @click="getVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video"
@@ -204,10 +193,7 @@
                   class="front__text-hover"
                   type="button"
                   @click="offVideo"
-                  style="
-                    font-family: Century Gothic, sans-serif;
-                    font-weight: lighter;
-                  "
+                  style="font-family: Binggrae; font-weight: lighter"
                 >
                   <i
                     class="fas fa-video-slash"
@@ -222,7 +208,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -239,7 +225,7 @@
                   @click="state.audioState = !state.audioState"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
@@ -254,11 +240,11 @@
                   @click="joinSession()"
                   style="
                     margin-left: 20px;
-                    font-family: Century Gothic, sans-serif;
+                    font-family: Binggrae;
                     font-weight: lighter;
                   "
                 >
-                  Join!
+                  참가하기
                 </button>
               </div>
             </div>
@@ -316,8 +302,8 @@ import { useRouter } from "vue-router";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 import { computed, reactive } from "vue";
@@ -655,9 +641,8 @@ export default {
       state.emojiState ^= 1;
     };
 
-    const handleDisplayFlyingEmoji = function (emoji) {
+    const handleDisplayFlyingEmoji = async function (emoji) {
       console.log(`⭐ Displaying flying emoji: ${emoji}`);
-
       const node = document.createElement("mydiv");
       console.log(node);
       node.appendChild(document.createTextNode(emoji));
@@ -665,20 +650,21 @@ export default {
       node.className =
         Math.random() * 1 > 0.5 ? "emoji wiggle-1" : "emoji wiggle-2";
       // node.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
-      const deg = 10;
-      const leftper = 20;
-      const topper = 60;
-      node.style.transform = `translateX(${deg})`;
+      // const deg = 10;
+      const leftper = 6;
+      const topper = -40;
+      node.style.position = "absolute";
+      // node.style.transform = `translateX(${deg})`;
       // node.style.left = `${Math.random() * 100}%`;
       node.style.right = `${leftper}%`;
-      // node.style.top = `${topper}%`;
+      node.style.top = `${topper}%`;
       node.src = "";
       // + 이게 없으면 화면에 표시가 되지 않는다.
       document.body.appendChild(node);
       // overlayRef.current.appendChild(node);
       node.addEventListener("animationend", () => {
         console.log("지우기 함수 실행 중");
-        if (!document.body.contains) return;
+        // if (!document.body.contains) return;
         document.body.removeChild(node);
       });
     };
@@ -899,7 +885,7 @@ a:hover .demo-logo {
 
 #main-container {
   padding-bottom: 80px;
-  padding-top: 1%;
+  padding-top: 5%;
 }
 video {
   width: 100%;
@@ -1000,62 +986,62 @@ video {
   }
 }
 
-mydiv {
-  position: fixed;
-  top: 20%;
-  bottom: 0px;
-  left: 72%;
-  right: 0px;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  z-index: 99;
-}
+// mydiv {
+//   position: fixed;
+//   top: 20%;
+//   bottom: 0px;
+//   left: 72%;
+//   right: 0px;
+//   overflow: hidden;
+//   pointer-events: none;
+//   user-select: none;
+//   z-index: 99;
+// }
 
-.emoji.wiggle-1 {
-  animation: emerge 2s forwards, wiggle-1 2s ease-in-out infinite alternate;
+// .emoji.wiggle-1 {
+//   animation: emerge 2s forwards, wiggle-1 2s ease-in-out infinite alternate;
+//   font-size: 60px;
+// }
+// .emoji.wiggle-2 {
+//   animation: emerge 2s forwards, wiggle-2 2s ease-in-out infinite alternate;
+//   font-size: 60px;
+// }
+.flying-emojis :global(.emoji.wiggle-1) {
+  animation: emerge 3s forwards, wiggle-1 3s ease-in-out infinite alternate;
   font-size: 60px;
-}
-.emoji.wiggle-2 {
-  animation: emerge 2s forwards, wiggle-2 2s ease-in-out infinite alternate;
-  font-size: 60px;
-}
-/* .flying-emojis :global(.emoji.wiggle-1) {
-  animation: emerge 3s forwards,
-  wiggle-1 1s ease-in-out infinite alternate;
 }
 .flying-emojis :global(.emoji.wiggle-2) {
-  animation: emerge 3s forwards,
-  wiggle-2 1s ease-in-out infinite alternate;
-} */
+  animation: emerge 3s forwards, wiggle-2 3s ease-in-out infinite alternate;
+  font-size: 60px;
+}
 
 @keyframes emerge {
   to {
-    /* left:5%; */
-    /* bottom: 85%; */
+    right: 6%;
+    top: -30%;
     opacity: 0;
   }
 }
 @keyframes wiggle-1 {
   from {
-    margin-top: 600px;
+    margin-top: 450px;
   }
   to {
-    margin-top: 450px;
+    margin-top: 600px;
   }
 }
 @keyframes wiggle-2 {
   from {
-    margin-top: 600px;
+    margin-top: 450px;
   }
   to {
-    margin-top: 450px;
+    margin-top: 600px;
   }
 }
 
 .front__text-hover {
   position: relative;
-  /* top: 10px; */
+  top: 3px;
   font-size: 15px;
   backface-visibility: hidden;
 

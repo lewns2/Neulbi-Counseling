@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 style="text-align: left;">찜한 상담가</h3>
+    <h3 style="text-align: left;">공감한 상담가</h3>
     <br>
     <div v-if="(state.profileConsultantLike)">
       <div class="row d-flex justify-content-start">
@@ -17,7 +17,7 @@
                 </div>
               </div>
               <p class="card__description">
-                {{ consultant.description }}
+                {{ consultant.description }}<br>
                 상담횟수 : {{ consultant.consultingCnt }}
                 <button
                   type="button"
@@ -32,10 +32,14 @@
           </div>      
         </div>
         <br>
-        <div class="d-flex justify-content-center mt-5 pt-3 mb-3">
+        <div class="d-flex justify-content-center mt-5 pt-3 mb-3" v-if="state.profileConsultantLastPageNum!=0">
           <button id="prev" class="paginate left" @click="checkProfilePage($event)"><i></i><i></i></button>
           <div class="counter">{{state.profilepage}}페이지 / {{ state.profileConsultantLastPageNum }}페이지 </div>
           <button id="next" class="paginate right" @click="checkProfilePage($event)"><i></i><i></i></button>
+        </div>
+        <div v-else>
+          <br><br>
+          <span style="font-size: 25px;">아직 공감한 상담가가 없습니다.</span>
         </div>
       </div>
     </div>
@@ -47,6 +51,7 @@
 <script>
 import { useStore } from 'vuex'
 import { reactive, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: "ProfileConsultantList",
@@ -55,6 +60,7 @@ export default {
   },
   setup (props) {
     const store = useStore()
+    const router = useRouter()
     const state = reactive ({
       userInfo: props.userInfo,
       profileConsultantLike: computed(() => store.getters['root/profileConsultantLike']),
@@ -66,19 +72,21 @@ export default {
     })
 
     onMounted(async () => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
-      await pr.setAttribute('data-state', state.profilepage===1 ? 'disabled' : '')
-      if (state.profilepage===1) {
-        pr.disabled = true
-      } else {
-        pr.disabled = false
-      }
-      await pl.setAttribute('data-state', state.profilepage===state.profileConsultantLastPageNum ? 'disabled' : '')
-      if (state.profilepage === state.profileConsultantLastPageNum) {
-        pl.disabled = true
-      } else {
-        pl.disabled = false
+      if (state.profileConsultantLastPageNum != 0) {
+        const pr = document.querySelector('.paginate.left')
+        const pl = document.querySelector('.paginate.right')
+        await pr.setAttribute('data-state', state.profilepage===1 ? 'disabled' : '')
+        if (state.profilepage===1) {
+          pr.disabled = true
+        } else {
+          pr.disabled = false
+        }
+        await pl.setAttribute('data-state', state.profilepage===state.profileConsultantLastPageNum ? 'disabled' : '')
+        if (state.profilepage === state.profileConsultantLastPageNum) {
+          pl.disabled = true
+        } else {
+          pl.disabled = false
+        }
       }
     })
 
@@ -113,11 +121,22 @@ export default {
         size: 4,
       })
     }
+    const clickCreateChatRoom = async function (consultant_id) {
+      const body = { userId: state.userInfo.id, consultantId: consultant_id }
+      await store.dispatch("root/adviceCreateChatRoom", body)
+      await router.push({
+        name: "ChatRoom",
+        params: {
+          user_id: props.userInfo.id,
+        }
+      })
+    }
 
     return { 
       state,
       onMounted,
       checkProfilePage,
+      clickCreateChatRoom
     }
   }
 }
@@ -337,7 +356,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 60%;
+  position: relative;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
@@ -373,7 +392,7 @@ button {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-  left: 51%;
+  position: relative;
 }
 .paginate.right i {
   transform-origin: 100% 50%;
@@ -415,15 +434,14 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
-  width: 100%;
-  margin-top: -15px;
-  font-size: 20px;
+  position: relative;
+  width: 20%;
+  margin-top: -22px;
+  font-size: 30px;
   font-weight: bold;
-  font-family: Helvetica, sans-serif;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
-  margin-right: 4%;
 }
 </style>

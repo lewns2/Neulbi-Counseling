@@ -12,7 +12,7 @@
           <input
             type="text"
             v-model="data.title"
-            style="border: none; font-size: 18px; width: 900px"
+            style="border: none; font-size: 25px; width: 900px"
             :readonly="state.userInfo.role != 'ADMIN'"
           />
         </div>
@@ -57,7 +57,7 @@
           cols="100"
           rows="5"
           v-model="data.description"
-          style="border: none"
+          style="border: none; font-size: 20px"
           :readonly="state.userInfo.role != 'ADMIN'"
         ></textarea>
       </div>
@@ -198,9 +198,9 @@ export default {
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    border: none;
-    resize: none;
+  width: 100%;
+  height: 150px;
+  border: none;
+  resize: none;
 }
 </style>
