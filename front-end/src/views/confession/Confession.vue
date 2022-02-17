@@ -25,6 +25,7 @@ export default {
     })
 
     onMounted(async() => {
+      window.scrollTo(0, 0);
       await store.dispatch('root/confessionGetMeetingList')
     })
     return { state, onMounted }

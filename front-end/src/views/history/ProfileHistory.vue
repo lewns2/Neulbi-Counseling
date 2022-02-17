@@ -39,6 +39,7 @@ export default {
     })
 
     onMounted(async() => {
+      window.scrollTo(0, 0);
       const body = { user_id: state.userInfo.id }
       await store.dispatch('root/profileGetHistoryConfessionMeeting', body)
       await store.dispatch('root/profileGetHistoryAdviceMeeting', body)

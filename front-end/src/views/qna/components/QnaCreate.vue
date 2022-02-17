@@ -101,6 +101,7 @@ export default {
     });
 
     onMounted(() => {
+      window.scrollTo(0, 0);
       const now = new Date();
       const year = now.getFullYear();
       const month =

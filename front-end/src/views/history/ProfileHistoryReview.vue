@@ -246,7 +246,7 @@ export default {
 
   .link-text {
     display: block;
-    color: #c2d6f8;
+    color: #708bef;
     font-size: 1.125em;
     font-weight: 600;
     line-height: 1.2;

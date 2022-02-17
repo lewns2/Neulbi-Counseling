@@ -124,13 +124,12 @@
         </li>
       </ul>
     </div>
-    <div id="main-container" class="container">
+    <div id="main-container" class="container" style="padding-bottom: 0px;">
       <!-- meeting 입장 초기 화면 -->
       <div id="join" v-if="!state.session">
         <div
           id="join-dialog"
           class="jumbotron vertical-center"
-          style="padding-top: 50px"
         >
           <div
             class="d-flex justify-content-center"
@@ -284,7 +283,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
-import { computed, reactive } from "vue";
+import { computed, reactive, onMounted } from "vue";
 import MeetingParticipant from "./components/MeetingParticipant.vue";
 
 export default {
@@ -329,6 +328,10 @@ export default {
 
       localstream: undefined,
     });
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
 
     const joinSession = async function () {
       if (state.videoState) {
@@ -721,7 +724,7 @@ export default {
 
     return {
       data,
-      state,
+      state, onMounted,
       joinSession,
       leaveSession,
       updateMainVideoStreamManager,

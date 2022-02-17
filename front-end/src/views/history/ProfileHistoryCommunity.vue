@@ -121,7 +121,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -135,7 +134,6 @@ export default {
   background: #E7F3F1;
   border: .75em solid white;
   padding: 2em;
-  font-family: 'Open Sans', sans-serif;
 }
 
 .data-card {
@@ -155,7 +153,7 @@ export default {
   
   h3 {
     color: #2E3C40;
-    font-size: 1.3em;
+    font-size: 1.6em;
     font-weight: 600;
     line-height: 1;
     padding-bottom: .5em;
@@ -187,7 +185,7 @@ export default {
 
   .link-text {
     display: block;
-    color: #c2d6f8;
+    color: #708bef;
     font-size: 1.125em;
     font-weight: 600;
     line-height: 1.2;

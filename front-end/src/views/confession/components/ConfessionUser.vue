@@ -12,7 +12,7 @@
           </div>
           <div class="front__text" style="font-family: Binggrae;">
             <h3 class="front__text-header">{{ state.userInfo.nickname }}</h3>
-            <p>이메일: {{ state.userInfo.email }}<br>
+            <p>{{ state.userInfo.email }}<br>
             포인트: {{ state.userInfo.pointTot }}</p>
                     
             <button @click="goToAdvice" class="front__text-hover mb-4">고민상담 페이지</button><br>

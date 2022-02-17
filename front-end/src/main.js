@@ -9,6 +9,13 @@ import axios from "./common/lib/axios";
 // global styles
 // import "./assets/main.css";
 
+// const router = new useRouter({
+//   routes,
+//   scrollBehavior (to, from, savedPosition) {
+//     return { x: 0, y: 0}
+//   }
+// })
+
 const app = createApp({
   render: () => h(App),
 });

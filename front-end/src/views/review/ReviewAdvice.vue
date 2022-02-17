@@ -197,7 +197,7 @@
 </template>
 
 <script>
-import { reactive } from "@vue/reactivity";
+import { reactive, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 export default {
@@ -214,6 +214,10 @@ export default {
       reportBool: false,
       reportMsg: "",
     });
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
 
     const clickSubmitReview = async function () {
       const body = {
@@ -244,7 +248,7 @@ export default {
       });
     };
 
-    return { state, clickSubmitReview, clickReviewReportDetail, goToHome };
+    return { state, onMounted, clickSubmitReview, clickReviewReportDetail, goToHome };
   },
 };
 </script>

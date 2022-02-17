@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import MainHeader from "../main/components/MainHeader.vue";
 import HomeMain from './components/HomeMain.vue'
@@ -30,7 +30,11 @@ export default {
       userInfo: computed(() => store.getters['root/userInfo']),
     })
 
-    return { state }
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
+
+    return { state, onMounted }
   }
 }
 </script>

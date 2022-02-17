@@ -43,7 +43,6 @@
       id="maintext"
       style="
         justify-content: space-between;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.125);
         text-align: left;
       "
     >
@@ -55,9 +54,8 @@
         <br /><br />
         <textarea
           cols="100"
-          rows="5"
           v-model="data.description"
-          style="border: none; font-size: 20px"
+          style="border: none; font-size: 20px; height: 470px;"
           :readonly="state.userInfo.role != 'ADMIN'"
         ></textarea>
       </div>
@@ -93,7 +91,7 @@
 <script>
 import MainHeader from "@/views/main/components/MainHeader.vue";
 
-import { reactive, computed } from "@vue/reactivity";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
@@ -112,6 +110,10 @@ export default {
       title: state.noticeDetail.title,
       description: state.noticeDetail.description,
     });
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
 
     const clickModifyNotice = async function () {
       await store.dispatch("root/noticeModifyNotice", {
@@ -139,7 +141,7 @@ export default {
       router.push({ name: "Notice" });
     };
 
-    return { state, data, clickModifyNotice, clickDeleteNotice, goToNotice };
+    return { state, data, onMounted, clickModifyNotice, clickDeleteNotice, goToNotice };
   },
 };
 </script>

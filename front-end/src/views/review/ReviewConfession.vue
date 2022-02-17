@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { reactive, computed } from "@vue/reactivity";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 
@@ -150,6 +150,10 @@ export default {
       reportNickname: "닉네임",
       reportUserId: "",
     });
+
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
 
     const clickIsReport = async function (idx) {
       if (state.reviewIndex === -1) {
@@ -189,7 +193,7 @@ export default {
     };
 
     return {
-      state,
+      state, onMounted,
       clickIsReport,
       clickReviewReportDetail,
       goToHome,
