@@ -26,7 +26,7 @@
 				</div>
 				<div class="field space">
 					<span class="fa fa-lock"></span>
-					<input type="password" class="pass-key" required placeholder="비밀번호" v-model="credentialsIn.password">
+					<input type="password" class="pass-key" required placeholder="비밀번호" v-model="credentialsIn.password" @keyup="enterSignIn">
 					<span class="show" @click="clickShow">숫자보기</span>
 				</div>
 				<div class="pass">
@@ -108,6 +108,12 @@ export default {
 				showBtn.color = "#222"
 			}
 		}
+
+		const enterSignIn = function (e) {
+			if (e.keyCode == 13 & credentialsIn.email != null & credentialsIn.password != null) {
+				clickSignIn()
+			}
+		}
 			
 
 		const clickSignIn = async function () {
@@ -128,7 +134,7 @@ export default {
 			}
 		}
 
-    return { credentialsIn, state, clickShow, clickSignIn, findPassword }
+    return { credentialsIn, state, clickShow, enterSignIn, clickSignIn, findPassword }
   }
 }
 </script>

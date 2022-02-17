@@ -82,7 +82,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">종료</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickCreateConsultant">생성</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickCreateConsultant">신청</button>
           </div>
         </div>
       </div>
