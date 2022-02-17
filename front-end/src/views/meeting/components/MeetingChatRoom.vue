@@ -23,6 +23,7 @@
           class="message_input"
           v-model="state.message"
           placeholder="메시지를 적어주세요."
+          @keyup="entermessage"
         />
       </div>
       <div class="send_message" @click="sendMessage">전송</div>
@@ -60,6 +61,12 @@ export default {
       objMessage.scrollTop = objMessage.scrollHeight;
     });
 
+    const entermessage = function (e) {
+      if (e.keyCode==13 & state.message!= null) {
+        sendMessage()
+      }
+    }
+
     const sendMessage = function () {
       if (state.message.trim() == "") return;
       props.session
@@ -76,7 +83,7 @@ export default {
           console.error(error);
         });
     };
-    return { state, sendMessage };
+    return { state, sendMessage, entermessage };
   },
 };
 </script>

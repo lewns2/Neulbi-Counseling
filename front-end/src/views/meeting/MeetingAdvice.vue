@@ -21,7 +21,7 @@
           <i
             @click="chatroomShow"
             class="far fa-comments"
-            style="color: red; margin-left: 50px; font-family: Binggrae"
+            style="color: red; margin-left: 50px;"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title="채팅방"

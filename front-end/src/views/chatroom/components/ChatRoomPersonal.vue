@@ -1,6 +1,6 @@
 <template>
   <div class="top"><span>
-    <span class="name"></span></span>
+    <span class="name">{{ state.chatRoomNickname }}과의 대화</span></span>
   </div>
   <div class="chat" data-chat="person1">
     
@@ -28,13 +28,13 @@
     </div>
 
     <div class="d-flex">
-      <button @click="clickSendMessage">전송</button>
+      <button @click="clickSendMessage" class="px-3">전송</button>
       <div v-if="state.userInfo.id === state.chatRoomUserList[1]">
-        <button @click="clickCreateMeeting">화상채팅 생성</button>
+        <button @click="clickCreateMeeting" class="px-3">화상채팅 생성</button>
       </div>
       <div v-else>
         <div v-if="state.meetingIsActive">
-          <button @click="clickEnterMeeting">화상채팅 참가</button>
+          <button @click="clickEnterMeeting" class="px-3">화상채팅 참가</button>
         </div>
       </div>
     </div>
