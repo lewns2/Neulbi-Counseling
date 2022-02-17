@@ -83,28 +83,6 @@
         </li>
         <li>
           <i
-            v-if="!state.maskState"
-            type="button"
-            @click="addMask"
-            class="fas fa-theater-masks"
-            style="color: red"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title="모자씌우기"
-          ></i>
-          <i
-            v-else
-            type="button"
-            @click="addMask"
-            class="fas fa-theater-masks"
-            style="color: green"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title="모자씌우기"
-          ></i>
-        </li>
-        <li>
-          <i
             v-if="state.audioState"
             @click="hideMyAudio(state.audioState)"
             class="fas fa-microphone"
@@ -584,32 +562,32 @@ export default {
       });
     };
 
-    const addMask = function () {
-      if (state.maskState) {
-        state.publisher.stream
-          .removeFilter()
-          .then(() => {
-            console.log("Filter removed");
-            state.maskState = false;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else {
-        state.publisher.stream
-          .applyFilter("FaceOverlayFilter")
-          .then((filter) => {
-            filter.execMethod("setOverlayedImage", {
-              uri: "https://cdn.pixabay.com/photo/2013/07/12/14/14/derby-148046_960_720.png",
-              offsetXPercent: "-0.2F",
-              offsetYPercent: "-0.8F",
-              widthPercent: "1.3F",
-              heightPercent: "1.0F",
-            });
-            state.maskState = true;
-          });
-      }
-    };
+    // const addMask = function () {
+    //   if (state.maskState) {
+    //     state.publisher.stream
+    //       .removeFilter()
+    //       .then(() => {
+    //         console.log("Filter removed");
+    //         state.maskState = false;
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   } else {
+    //     state.publisher.stream
+    //       .applyFilter("FaceOverlayFilter")
+    //       .then((filter) => {
+    //         filter.execMethod("setOverlayedImage", {
+    //           uri: "https://cdn.pixabay.com/photo/2013/07/12/14/14/derby-148046_960_720.png",
+    //           offsetXPercent: "-0.2F",
+    //           offsetYPercent: "-0.8F",
+    //           widthPercent: "1.3F",
+    //           heightPercent: "1.0F",
+    //         });
+    //         state.maskState = true;
+    //       });
+    //   }
+    // };
 
     const clickFilter = function () {
       if (state.audioEcho) {
@@ -625,7 +603,7 @@ export default {
       } else {
         state.publisher.stream
           .applyFilter("GStreamerFilter", {
-            command: "rippletv",
+            command: "audioecho delay=50000000 intensity=0.6 feedback=0.4",
           })
           .then(() => {
             console.log("Video rotated!");
@@ -753,7 +731,6 @@ export default {
       hideMyVideo,
       hideMainVideo,
       hideMyAudio,
-      addMask,
       clickFilter,
       sendEmoji,
       handleSendFlyingEmoji,
