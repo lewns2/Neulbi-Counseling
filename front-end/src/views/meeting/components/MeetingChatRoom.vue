@@ -103,7 +103,7 @@ body {
 }
 
 #right .text_wrapper {
-  background-color: #c2d6f8;
+  background-color: #809fd6;
 }
 
 #right .text {
