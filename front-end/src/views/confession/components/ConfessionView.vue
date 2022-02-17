@@ -26,17 +26,17 @@
       <div class="col-4 d-flex justify-content-end" style="font-family: Binggrae-Taom;">
         <span class="pe-3">  
           <button class="form-control form-control-md dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-            style="border: 2px solid #bbd2f9; box-shadow: none; border-radius: 30px; height: 80%; color: black; font-family: Binggrae-Taom;"
+            style="border: 2px solid #bbd2f9; box-shadow: none; border-radius: 30px; height: 80%; color: black; font-family: Binggrae-Taom; font-weight: bold;"
           >
             {{ state.showKey }}
           </button>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-            style="min-width: 5rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+            style="min-width: 15rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px; float: left;"
           >
-            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(1)">닉네임</button></li>
-            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방제목</button></li>
-            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방설명</button></li>
+            <li class="px-2" style="margin-left: 0px; float: left;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(1)">닉네임</button></li>
+            <li class="px-2" style="margin-left: 0px; float: left;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방제목</button></li>
+            <li class="px-2" style="margin-left: 0px; float: left;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(3)">방설명</button></li>
           </ul>
         </span>
 
@@ -71,7 +71,7 @@
                   </div>
                 </div>
                 <div class="card__description" style="text-align: center;">
-                  <span style="font-weight: bold;">설명 : {{ confessionMeeting.description }}</span><br><hr>
+                  <span style="font-weight: bold;">{{ confessionMeeting.description }}</span><br><hr>
                   <span>방장 : {{ confessionMeeting.ownerNickname }}</span><br>
                   <span>{{ confessionMeeting.currJoinParticipants }} / {{ confessionMeeting.participants }}</span><br><br>
                   <button
@@ -307,7 +307,6 @@ export default {
     const clickConfessionList = function(num) {
       state.key = state.searchCategories[num-1].backValue
       state.showKey = state.searchCategories[num-1].value
-      console.log(state.key, state.showKey)
     }
 
     return {state, onMounted, getConfessionView, clickConfessionSearch, checkPage, clickConfessionCategory, clickEnterMeeting, clickConfessionList }
@@ -747,7 +746,7 @@ button {
 
 .search-btn {
   position: relative;
-  font-size: 15px;
+  font-size: 20px;
   color: #bbd2f9;
   backface-visibility: hidden;
   width: 20%;

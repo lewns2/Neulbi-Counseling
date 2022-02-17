@@ -27,6 +27,7 @@ export default {
     })
 
     onMounted(async() => {
+      window.scrollTo(0, 0);
       await store.dispatch("root/adviceGetConsultantList", state.userInfo.id)
       await store.dispatch("root/adviceGetRankList")
     })

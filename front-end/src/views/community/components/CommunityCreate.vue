@@ -57,6 +57,8 @@
           <div class="col-8">
             <textarea
               class="form-control"
+              rows="1"
+              style="font-size: 30px; resize: none; width: 140%;"
               id="message"
               v-model="community.title"
               :model="community"
@@ -90,6 +92,7 @@
           <textarea
             id="customtextarea"
             class="form-control"
+            style="font-size: 25px;"
             v-model="community.description"
             :model="community"
           >
@@ -138,7 +141,7 @@
 <script>
 import MainHeader from "@/views/main/components/MainHeader.vue";
 
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
@@ -157,6 +160,10 @@ export default {
       description: null,
     });
 
+    onMounted(() => {
+      window.scrollTo(0, 0);
+    })
+
     const clickCreateArticle = async function () {
       const body = {
         title: community.title,
@@ -171,7 +178,7 @@ export default {
       router.push({ name: "Community" });
     };
 
-    return { state, community, clickCreateArticle, goToCommunity };
+    return { state, onMounted, community, clickCreateArticle, goToCommunity };
   },
 };
 </script>

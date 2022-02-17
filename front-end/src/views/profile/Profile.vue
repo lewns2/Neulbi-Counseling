@@ -49,6 +49,7 @@ export default {
     }
 
     onMounted(async() => {
+      window.scrollTo(0, 0);
       if(route.query.value==='AdviceUser') {
         state.select = 'Consultant'
       } 

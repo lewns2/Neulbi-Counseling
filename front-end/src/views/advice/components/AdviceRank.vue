@@ -4,7 +4,7 @@
       <header>
         <h1 class="leaderboard__title">
           <span class="mb-3 leaderboard__title--top" style="font-family: Binggrae-Taom;">오늘의 상담가</span>
-          <span class="leaderboard__title--bottom">RankingBoard</span>
+          <span class="leaderboard__title--bottom">Today's Consultant</span>
         </h1>
       </header>
       
@@ -50,7 +50,7 @@ export default {
   header {
     --start: 15%;
     
-    height: 130px;
+    height: 120px;
     background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, #c2d6f8, #c2d6f8), linear-gradient(to right, #c2d6f8, #c2d6f8);
     color: #fff;
     position: relative;
