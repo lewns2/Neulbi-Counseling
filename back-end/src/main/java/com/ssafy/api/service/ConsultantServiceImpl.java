@@ -107,8 +107,8 @@ public class ConsultantServiceImpl implements ConsultantService {
         List<ConsultantProfile> consultantProfileList = new ArrayList<>();
 
         for (User u : users) {
-            Optional<ConsultantProfile> consultantProfile = consultantRepositorySupport.findByUserId(u.getId());
-            consultantProfileList.add(consultantProfile.get());
+            ConsultantProfile consultantProfile = consultantRepositorySupport.findByUserId(u.getId()).orElse(null);
+            consultantProfileList.add(consultantProfile);
         }
         return consultantProfileList;
     }
