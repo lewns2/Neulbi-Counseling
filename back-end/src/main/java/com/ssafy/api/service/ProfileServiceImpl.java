@@ -25,7 +25,7 @@ import java.util.UUID;
 import org.springframework.data.domain.PageImpl;
 
 /**
- *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ * 유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
 @Service("profileService")
 public class ProfileServiceImpl implements ProfileService {
@@ -33,14 +33,14 @@ public class ProfileServiceImpl implements ProfileService {
 	ProfileRepository profileRepository;
 
 	@Autowired
-	UserRepository	userRepository;
+	UserRepository userRepository;
 
 	@Autowired
 	ConsultantRepository consultantRepository;
 
 	@Autowired
 	ConsultantRepositorySupport consultantRepositorySupport;
-	
+
 	@Autowired
 	ProfileRepositorySupport profileRepositorySupport;
 
@@ -62,15 +62,13 @@ public class ProfileServiceImpl implements ProfileService {
 	@Autowired
 	S3FileUploadService s3FileUploadService;
 
-
 	@Override
 	public Integer getUserByNickname(String nickname) {
 
-		//User profile = profileRepositorySupport.findByNickname(nickname);
+		// User profile = profileRepositorySupport.findByNickname(nickname);
 		int cnt = profileRepositorySupport.findByNickname(nickname);
 		return cnt;
 	}
-
 
 	@Override
 	public Optional<User> findByUserId(Long UserId) {
@@ -83,12 +81,12 @@ public class ProfileServiceImpl implements ProfileService {
 		User user = userRepository.findUserById(userId).orElse(null);
 
 		// 사용자 없음
-		if(user == null) return 500;
-
+		if (user == null)
+			return 500;
 
 		// 사용자 이미지가 존재하면
-		if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
-			if(!user.getProfileImg().equals("default-profile-image.jpg")){
+		if (user.getProfileImg() != null && !user.getProfileImg().equals("")) {
+			if (!user.getProfileImg().equals("default-profile-image.jpg")) {
 				s3FileUploadService.deleteFile(user.getProfileImg());
 			}
 		}
@@ -126,15 +124,17 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public Page<ConsultantProfile> getMyConsultantList(Long userId, Pageable pageable) {
 
-		Page<MyConsultant> myConsultantList = myConsultantRepositorySupport.findMyConsultantListByUserId(userId, pageable);
+		Page<MyConsultant> myConsultantList = myConsultantRepositorySupport.findMyConsultantListByUserId(userId,
+				pageable);
 
 		List<ConsultantProfile> temp = new ArrayList<>();
 
-		for(MyConsultant myConsultant : myConsultantList.getContent()) {
+		for (MyConsultant myConsultant : myConsultantList.getContent()) {
 			temp.add(consultantRepositorySupport.findByUserIdOne(myConsultant.getConsultant().getId()));
 		}
 
-		return  new PageImpl<ConsultantProfile>(temp,myConsultantList.getPageable(),myConsultantList.getTotalElements());
+		return new PageImpl<ConsultantProfile>(temp, myConsultantList.getPageable(),
+				myConsultantList.getTotalElements());
 	}
 
 	@Override
@@ -144,12 +144,16 @@ public class ProfileServiceImpl implements ProfileService {
 		User consultant = userRepository.findUserById(consultantId).get();
 
 		boolean hasConsultant;
-//		= myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId(userId,consultantId);;
-		MyConsultant myConsultantCheck = myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId(userId,consultantId).orElse(null);
-		if(myConsultantCheck == null) hasConsultant = false;
-		else hasConsultant = true;
+		// =
+		// myConsultantRepositorySupport.findMyConsultantByUserIdAndConsultantId(userId,consultantId);;
+		MyConsultant myConsultantCheck = myConsultantRepositorySupport
+				.findMyConsultantByUserIdAndConsultantId(userId, consultantId).orElse(null);
+		if (myConsultantCheck == null)
+			hasConsultant = false;
+		else
+			hasConsultant = true;
 		// 해당 컨설턴트가 목록에 없음 hasConsultant 가 false 이면 추가
-		if(!hasConsultant) {
+		if (!hasConsultant) {
 			MyConsultant myConsultant = MyConsultant.builder()
 					.user(user)
 					.consultant(consultant)
@@ -159,7 +163,7 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		// hasConsultant가 true이면 삭제.
 		else {
-			myConsultantRepositorySupport.deleteMyConsultantByUserIdAndConsultantId(userId,consultantId);
+			myConsultantRepositorySupport.deleteMyConsultantByUserIdAndConsultantId(userId, consultantId);
 		}
 	}
 
@@ -200,7 +204,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public Page<Community> getCommunityList(Pageable pageable, Long userId) {
-		Page<Community> communityList = communityRepositorySupport.findAllByUserId(pageable,userId);
+		Page<Community> communityList = communityRepositorySupport.findAllByUserId(pageable, userId);
 
 		return communityList;
 	}

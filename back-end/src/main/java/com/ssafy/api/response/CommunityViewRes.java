@@ -57,7 +57,7 @@ public class CommunityViewRes {
         clr.setLikeCnt(c.getLikeCnt());
         clr.setViewCnt(c.getViewCnt());
         clr.setLike(isLike);
-        clr.setCreatedDate(c.getCreatedDate());
+        clr.setCreatedDate(c.getCreatedDate().plusHours(9));
 
         return clr;
     }

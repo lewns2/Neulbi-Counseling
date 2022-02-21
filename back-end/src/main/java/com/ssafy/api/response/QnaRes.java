@@ -37,7 +37,7 @@ public class QnaRes {
         res.setAnswered(qna.isAnswered());
 
         LocalDateTime modifiedDate = qna.getModifiedDate();
-        res.setDate( modifiedDate != null ? modifiedDate : qna.getCreatedDate() );
+        res.setDate( modifiedDate != null ? modifiedDate.plusHours(9) : qna.getCreatedDate().plusHours(9) );
 
         return res;
     }
@@ -52,7 +52,7 @@ public class QnaRes {
         res.setAnswered(qna.isAnswered());
 
         LocalDateTime modifiedDate = qna.getModifiedDate();
-        res.setDate( modifiedDate != null ? modifiedDate : qna.getCreatedDate() );
+        res.setDate( modifiedDate != null ? modifiedDate.plusHours(9) : qna.getCreatedDate().plusHours(9) );
 
         return res;
     }
