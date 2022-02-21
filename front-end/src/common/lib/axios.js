@@ -1,8 +1,7 @@
 import VueAxios from "vue-axios";
 import axios from "axios";
-// import config from '../config'
 
-const BASE_URL = "https://i6e202.p.ssafy.io:8443/";
+const BASE_URL = "https:localhost:8080/";
 const DEFAULT_ACCEPT_TYPE = "application/json";
 
 axios.defaults.baseURL = BASE_URL;

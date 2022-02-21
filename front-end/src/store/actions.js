@@ -1,6 +1,4 @@
 import $axios from "axios";
-// import { useRouter } from 'vue-router'
-// import jwt_decode from "jwt-decode"
 
 export async function mainSingUp({ state }, payload) {
   const url = "/user/signup";

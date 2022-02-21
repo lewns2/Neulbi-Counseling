@@ -2,11 +2,11 @@
 module.exports = {
   devServer: {
     https: false,
-    port: 8083,
+    port: 8080,
     open: true,
     proxy: {
       "/": {
-        target: "https://i6e202.p.ssafy.io:8443/",
+        target: "http://localhost:8080",
       },
     },
     historyApiFallback: true,
