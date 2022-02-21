@@ -40,15 +40,15 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public Page<Community> getAllCommunity(Pageable pageable) {
 
-        return  communityRepositorySupport.findAllByDeletedIsFalse(pageable);
+        return communityRepositorySupport.findAllByDeletedIsFalse(pageable);
     }
 
     @Override
     public Page<Community> getAllSortedCommunity(Pageable pageable, String key) {
 
-        if("like".equals(key))
+        if ("like".equals(key))
             return communityRepositorySupport.findAllByDeletedIsFalseAndSortedLike(pageable);
-        else if("view".equals(key))
+        else if ("view".equals(key))
             return communityRepositorySupport.findAllByDeletedIsFalseAndSortedView(pageable);
 
         return null;
@@ -57,12 +57,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public Page<Community> searchCommunity(Pageable pageable, String key, String value) {
 
-        if("description".equals(key))
+        if ("description".equals(key))
             return communityRepositorySupport.findAllByDeletedIsFalseAndDescriptionContains(pageable, value);
-        else if("title".equals(key))
+        else if ("title".equals(key))
             return communityRepositorySupport.findAllByDeletedIsFalseAndTitleContains(pageable, value);
-        else if("nickname".equals(key))
-            return communityRepositorySupport.findAllByDeletedIsFalseAndUserNicknameContains(pageable,value);
+        else if ("nickname".equals(key))
+            return communityRepositorySupport.findAllByDeletedIsFalseAndUserNicknameContains(pageable, value);
 
         return null;
     }
@@ -102,7 +102,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public boolean getLikeCheck(Long communityId, Long userId) {
         LikeCheck likeCheck = likeCheckRepositorySupport.findLikeCheckByUserIdAndCommunityId(communityId, userId).orElse(null);
-        if(likeCheck != null) return true;
+        if (likeCheck != null) return true;
         else return false;
     }
 
@@ -113,15 +113,15 @@ public class CommunityServiceImpl implements CommunityService {
         int cnt = community.getLikeCnt();
 
         LikeCheck likeCheck = likeCheckRepositorySupport.findLikeCheckByUserIdAndCommunityId(communityId, userId).orElse(null);
-        if(likeCheck != null){
-            community.likeCntChange(cnt-1);
+        if (likeCheck != null) {
+            community.likeCntChange(cnt - 1);
             communityRepository.save(community);
 
             likeCheckRepository.delete(likeCheck);
 
-        }else{
+        } else {
             User user = userService.getUserById(userId);
-            community.likeCntChange(cnt+1);
+            community.likeCntChange(cnt + 1);
             communityRepository.save(community);
 
             likeCheck = LikeCheck.builder().community(community).user(user).build();
@@ -138,11 +138,11 @@ public class CommunityServiceImpl implements CommunityService {
         Long userId = community.getUser().getId();
         Long reqId = req.getUserId();
 
-        if(userId == reqId){
+        if (userId == reqId) {
             community.setDeleted(true);
             return communityRepository.save(community);
 
-        }else{
+        } else {
 
             return null;
         }
@@ -156,11 +156,11 @@ public class CommunityServiceImpl implements CommunityService {
         Long userId = community.getUser().getId();
         Long reqId = req.getUserId();
 
-        if(userId == reqId){
+        if (userId == reqId) {
             community.modifyCommunity(req.getDescription(), req.getTitle());
             return communityRepository.save(community);
 
-        }else{
+        } else {
             return null;
         }
     }
